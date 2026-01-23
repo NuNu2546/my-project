@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/frontend/assets/globals.css" />
+    <link rel="stylesheet" href="/frontend/assets/css/contact.css" />
+  </head>
+  <body>
+    <div class="contact">
+        <header class="header">
+            <img class="logo" src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
+
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="/frontend/assets/pages/home.html" class="nav-link">Home</a></li>
+                    <li><a href="/frontend/assets/pages/shop.html" class="nav-link">Shopee</a></li>
+                    <li><a href="/frontend/assets/pages/Veggie Plots.html" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="/frontend/assets/pages/about.html" class="nav-link">About</a></li>
+                    <li><a href="/frontend/assets/pages/contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                
+                <div class="profile-container">
+                    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
+                        <div class="icon-inner">
+                            <img class="icon-img" src="/frontend/assets/images/profile.png" alt="Profile" />
+                        </div>
+                    </button>
+
+                    <div class="dropdown-menu" id="profileMenu">
+                        <div class="menu-header">
+                            <img src="/frontend/assets/images/v41_78.png" alt="User" class="menu-user-img">
+                            <span class="menu-username">ชื่อผู้ใช้</span>
+                        </div>
+                        <hr>
+                        <a href="#" class="menu-item">การซื้อของฉัน</a>
+                        <a href="#" class="menu-item logout">ออกจากระบบ</a>
+                    </div>
+                </div>
+
+                <button type="button" class="icon-btn" aria-label="Shop">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="/frontend/assets/images/shop.png" alt="Shop" />
+                    </div>
+                </button>
+            </div>
+        </header>
+      <div class="main">
+        <div class="heading-how-can-we">How Can We Help?</div>
+        <p class="find-the-right-team">
+          Find the right team to answer your questions below, or start a chat with us for<br />immediate assistance.
+        </p>
+        <div class="overlay-shadow">
+          <div class="overlay">
+            <div class="img-wrapper"><img class="vector-2" src="img/vector-8.svg" /></div>
+          </div>
+          <div class="heading-product">Product &amp; Order Support</div>
+          <p class="help-with-existing">
+            Help with existing orders, product<br />questions, shipping, and returns. Available<br />9am-5pm Mon-Fri.
+          </p>
+          <button class="button-2">
+            <div class="icon-2"><img class="vector-3" src="img/vector-3.svg" /></div>
+            <div class="text-wrapper-5">Email Us</div>
+          </button>
+          <button class="button-3">
+            <div class="icon-3"><img class="vector-4" src="img/vector-2.svg" /></div>
+            <div class="text-wrapper-6">Call Us</div>
+          </button>
+        </div>
+        <div class="overlay-shadow-2">
+          <div class="overlay">
+            <div class="img-wrapper"><img class="vector-5" src="img/vector-4.svg" /></div>
+          </div>
+          <div class="heading-sales">Sales &amp; Partnership<br />Inquiries</div>
+          <p class="for-bulk-orders">
+            For bulk orders, corporate partnerships,<br />and general sales questions. We&#39;ll<br />respond within 24
+            hours.
+          </p>
+          <button class="button-4">
+            <div class="icon-4"><img class="vector-3" src="img/vector-10.svg" /></div>
+            <div class="text-wrapper-7">Email Sales</div>
+          </button>
+          <button class="button-3">
+            <div class="icon-5"><img class="vector-2" src="img/vector.svg" /></div>
+            <div class="text-wrapper-8">Request a Quote</div>
+          </button>
+        </div>
+        <div class="overlay-shadow-3">
+          <div class="overlay">
+            <div class="img-wrapper"><img class="vector-6" src="img/vector-9.svg" /></div>
+          </div>
+          <div class="heading-vegetable">Vegetable Plot Support</div>
+          <p class="assistance-with-plot">
+            Assistance with plot availability, booking<br />issues, and membership questions.<br />Available 9am-5pm
+            Mon-Fri.
+          </p>
+          <button class="button-2">
+            <div class="icon-6"><img class="vector-3" src="img/vector-5.svg" /></div>
+            <div class="text-wrapper-9">Email Support</div>
+          </button>
+          <button class="button-3">
+            <div class="icon-3"><img class="vector-4" src="img/vector-12.svg" /></div>
+            <div class="text-wrapper-6">Call Us</div>
+          </button>
+        </div>
+        <div class="horizontal-border">
+          <p class="heading-looking">Looking for a quick answer?</p>
+          <p class="p">Have a common question? Check out our FAQ page for quick answers before reaching out.</p>
+          <button class="button-5">
+            <div class="text-wrapper-10">Visit Our FAQ</div>
+            <div class="icon-7"><img class="vector-7" src="img/vector-7.svg" /></div>
+          </button>
+        </div>
+      </div>
+      <img class="frame" src="img/frame-3.svg" />
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+
+                    <div class="footer-column footer-brand">
+                        <div class="footer-logo">
+                            <img src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
+                        </div>
+                        <p class="slogan">
+                            Connecting you back to nature, one plant and product at a time.
+                        </p>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Explore</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">Shop Products</a></li>
+                            <li><a href="#">Book a Plot</a></li>
+                            <li><a href="#">Our Story</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="#">Shipping & Returns</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Stay Connected</h4>
+                        <p class="newsletter-text">
+                            Join our newsletter for updates and tips.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2024 Digital Garden. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
+            <div id="chatIconContainer">
+                <img src="/frontend/assets/images/Group.png" alt="Chat Icon" id="chatIconMain" />
+            </div>
+        </button>
+
+        <div class="chat-popup" id="chatPopup">
+            <div class="chat-header">
+                <div class="admin-info">
+                    <div class="admin-avatar"></div>
+                    <div>
+                        <p class="admin-name">Greenhearth Admin</p>
+                        <p class="admin-status">ออนไลน์</p>
+                    </div>
+                </div>
+                <button class="close-chat-header" id="closeChatHeader">&times;</button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message admin-msg">
+                    สวัสดีค่ะ! ยินดีต้อนรับสู่ Digital Garden มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
+                </div>
+            </div>
+
+            <div class="chat-footer">
+                <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
+                <button id="sendBtn">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <script src="/frontend/assets/js/script.js"></script>
+    </div>
+  </body>
+</html>

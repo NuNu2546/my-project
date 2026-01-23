@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/frontend/assets/globals.css" />
+    <link rel="stylesheet" href="/frontend/assets/css/Veggie_Plots.css" />
+  </head>
+  <body>
+    <div class="veggie-plots">
+        <header class="header">
+            <img class="logo" src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
+
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="/frontend/assets/pages/home.html" class="nav-link">Home</a></li>
+                    <li><a href="/frontend/assets/pages/shop.html" class="nav-link">Shopee</a></li>
+                    <li><a href="/frontend/assets/pages/Veggie Plots.html" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="/frontend/assets/pages/about.html" class="nav-link">About</a></li>
+                    <li><a href="/frontend/assets/pages/contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                
+                <div class="profile-container">
+                    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
+                        <div class="icon-inner">
+                            <img class="icon-img" src="/frontend/assets/images/profile.png" alt="Profile" />
+                        </div>
+                    </button>
+
+                    <div class="dropdown-menu" id="profileMenu">
+                        <div class="menu-header">
+                            <img src="/frontend/assets/images/v41_78.png" alt="User" class="menu-user-img">
+                            <span class="menu-username">ชื่อผู้ใช้</span>
+                        </div>
+                        <hr>
+                        <a href="#" class="menu-item">การซื้อของฉัน</a>
+                        <a href="#" class="menu-item logout">ออกจากระบบ</a>
+                    </div>
+                </div>
+
+                <button type="button" class="icon-btn" aria-label="Shop">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="/frontend/assets/images/shop.png" alt="Shop" />
+                    </div>
+                </button>
+            </div>
+        </header>
+      <div class="main">
+        <div class="paragraph"><div class="heading-find-your">หาพื้นที่ปลูกที่ใช่สำหรับคุณ</div></div>
+        <div class="background-border">
+          <div class="heading-sunny">มุมแดดสบาย #A12</div>
+          <div class="text-wrapper-5">แปลงมุมที่โดนแดดเต็มวัน เหมาะสำหรับผักและดอกไม้ที่ชอบแดด</div>
+          <div class="background">
+            <div class="img-wrapper"><img class="vector-2" src="img/image.svg" /></div>
+            <div class="text-wrapper-6">10x10m</div>
+          </div>
+          <div class="background-2">
+            <div class="img-wrapper"><img class="vector-3" src="img/vector-13.svg" /></div>
+            <div class="text-wrapper-7">แดดจัดเต็มวัน</div>
+          </div>
+          <div class="text-wrapper-8">$45</div>
+          <div class="text-wrapper-9">/month</div>
+          <button class="view-book-wrapper"><div class="view-book">View &amp; Book</div></button>
+          <div class="abaxucuxlyqvoaz"></div>
+          <div class="background-3"><div class="text-wrapper-10">มีพื้นที่ว่างตอนนี้</div></div>
+        </div>
+        <div class="background-border-2">
+          <div class="heading-the">มุมน่ารัก #B04</div>
+          <div class="text-wrapper-11">แปลงขนาดเล็ก อบอุ่น เหมาะสำหรับปลูกผักหรือสมุนไพร</div>
+          <div class="background-4">
+            <div class="img-wrapper"><img class="vector-2" src="img/vector-12.svg" /></div>
+            <div class="text-wrapper-12">8x12m</div>
+          </div>
+          <div class="background-5">
+            <div class="icon-2"><img class="vector-4" src="img/vector-8.svg" /></div>
+            <div class="text-wrapper-13">ดินปลอดสารเคมี</div>
+          </div>
+          <div class="text-wrapper-8">$55</div>
+          <div class="text-wrapper-14">/month</div>
+          <button class="view-book-wrapper"><div class="view-book">View &amp; Book</div></button>
+          <div class="abaxuaxkcoqmdnhv"></div>
+          <div class="background-3"><div class="text-wrapper-10">มีพื้นที่ว่างตอนนี้</div></div>
+        </div>
+        <div class="background-border-3">
+          <div class="heading-herb-haven">เนินดอกไม้ #C21</div>
+          <div class="text-wrapper-15">แปลงบนเนินเล็ก ดอกไม้บานสะพรั่ง เหมาะสำหรับทำสวนประดับ</div>
+          <div class="background-6">
+            <div class="img-wrapper"><img class="vector-2" src="img/vector-6.svg" /></div>
+            <div class="text-wrapper-16">5x5m</div>
+          </div>
+          <div class="background-7">
+            <div class="img-wrapper"><img class="vector-5" src="img/vector-5.svg" /></div>
+            <div class="text-wrapper-17">ร่มบางส่วน</div>
+          </div>
+          <div class="text-wrapper-18">$30</div>
+          <div class="text-wrapper-19">/month</div>
+          <button class="view-book-wrapper"><div class="view-book">View &amp; Book</div></button>
+          <div class="background-wrapper">
+            <div class="background-8"><div class="text-wrapper-10">มีพื้นที่ว่างตอนนี้</div></div>
+          </div>
+        </div>
+        <div class="background-border-4">
+          <div class="heading-raised-bed">ทุ่งเล็ก #D08</div>
+          <div class="text-wrapper-20">แปลงพื้นที่เปิด โล่ง ๆ ปลูกผักหรือดอกไม้ได้หลากหลาย</div>
+          <div class="background-9">
+            <div class="img-wrapper"><img class="vector-2" src="img/vector-3.svg" /></div>
+            <div class="text-wrapper-12">12x8m</div>
+          </div>
+          <div class="background-10">
+            <div class="icon-2"><img class="vector-3" src="img/vector.svg" /></div>
+            <div class="text-wrapper-7">แดดจัดเต็มวัน</div>
+          </div>
+          <div class="text-wrapper-21">$60</div>
+          <div class="text-wrapper-19">/month</div>
+          <button class="view-book-wrapper"><div class="view-book">View &amp; Book</div></button>
+          <div class="div-2"></div>
+          <div class="background-3"><div class="text-wrapper-10">มีพื้นที่ว่างตอนนี้</div></div>
+        </div>
+        <div class="background-border-5">
+          <div class="heading-community">แปลงสดชื่น #E15</div>
+          <div class="text-wrapper-22">แปลงที่ดูแลง่าย เหมาะสำหรับผู้เริ่มต้นและปลูกผักเร็วโต</div>
+          <div class="background">
+            <div class="img-wrapper"><img class="vector-2" src="img/vector-2.svg" /></div>
+            <div class="text-wrapper-6">10x10m</div>
+          </div>
+          <div class="background-2">
+            <div class="img-wrapper"><img class="vector-3" src="img/vector-9.svg" /></div>
+            <div class="text-wrapper-7">แดดจัดเต็มวัน</div>
+          </div>
+          <div class="text-wrapper-18">$40</div>
+          <div class="text-wrapper-19">/month</div>
+          <button class="button-2"><div class="text-wrapper-23">Booked</div></button>
+          <div class="div-3"></div>
+          <div class="background-11"><div class="text-wrapper-24">ถูกจองครบแล้ว</div></div>
+        </div>
+        <div class="background-border-6">
+          <div class="heading-the-2">โอเอซิสเขียว #F01</div>
+          <div class="text-wrapper-25">แปลงร่มรื่น สีเขียวสบายตา เหมาะสำหรับพักสายตาและปลูกผักใบ</div>
+          <div class="background-12">
+            <div class="img-wrapper"><img class="vector-2" src="img/vector-10.svg" /></div>
+            <div class="text-wrapper-26">20x15m</div>
+          </div>
+          <div class="background-13">
+            <div class="icon-2"><img class="vector-3" src="img/vector-11.svg" /></div>
+            <div class="text-wrapper-7">แดดจัดเต็มวัน</div>
+          </div>
+          <div class="text-wrapper-8">$85</div>
+          <div class="text-wrapper-9">/month</div>
+          <button class="view-book-wrapper"><div class="view-book">View &amp; Book</div></button>
+          <div class="div-4"></div>
+          <div class="background-3"><div class="text-wrapper-10">มีพื้นที่ว่างตอนนี้</div></div>
+        </div>
+      </div>
+      <img class="frame" src="img/frame-3.svg" />
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+
+                    <div class="footer-column footer-brand">
+                        <div class="footer-logo">
+                            <img src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
+                        </div>
+                        <p class="slogan">
+                            Connecting you back to nature, one plant and product at a time.
+                        </p>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Explore</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">Shop Products</a></li>
+                            <li><a href="#">Book a Plot</a></li>
+                            <li><a href="#">Our Story</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="#">Shipping & Returns</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Stay Connected</h4>
+                        <p class="newsletter-text">
+                            Join our newsletter for updates and tips.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2024 Digital Garden. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
+            <div id="chatIconContainer">
+                <img src="/frontend/assets/images/Group.png" alt="Chat Icon" id="chatIconMain" />
+            </div>
+        </button>
+
+        <div class="chat-popup" id="chatPopup">
+            <div class="chat-header">
+                <div class="admin-info">
+                    <div class="admin-avatar"></div>
+                    <div>
+                        <p class="admin-name">Greenhearth Admin</p>
+                        <p class="admin-status">ออนไลน์</p>
+                    </div>
+                </div>
+                <button class="close-chat-header" id="closeChatHeader">&times;</button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message admin-msg">
+                    สวัสดีค่ะ! ยินดีต้อนรับสู่ Digital Garden มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
+                </div>
+            </div>
+
+            <div class="chat-footer">
+                <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
+                <button id="sendBtn">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <script src="/frontend/assets/js/script.js"></script>
+    </div>
+  </body>
+</html>

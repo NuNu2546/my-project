@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Digital Garden - Greenhearth</title>
+
+    <link rel="stylesheet" href="/frontend/assets/globals.css" />
+    <link rel="stylesheet" href="/frontend/assets/css/home.css" />
+</head>
+
+<body>
+    <div class="home">
+
+        <header class="header">
+            <img class="logo" src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
+
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="/frontend/assets/pages/home.html" class="nav-link">Home</a></li>
+                    <li><a href="/frontend/assets/pages/shop.html" class="nav-link">Shopee</a></li>
+                    <li><a href="/frontend/assets/pages/Veggie Plots.html" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="/frontend/assets/pages/about.html" class="nav-link">About</a></li>
+                    <li><a href="/frontend/assets/pages/contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                
+                <div class="profile-container">
+                    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
+                        <div class="icon-inner">
+                            <img class="icon-img" src="/frontend/assets/images/profile.png" alt="Profile" />
+                        </div>
+                    </button>
+
+                    <div class="dropdown-menu" id="profileMenu">
+                        <div class="menu-header">
+                            <img src="/frontend/assets/images/v41_78.png" alt="User" class="menu-user-img">
+                            <span class="menu-username">ชื่อผู้ใช้</span>
+                        </div>
+                        <hr>
+                        <a href="#" class="menu-item">การซื้อของฉัน</a>
+                        <a href="#" class="menu-item logout">ออกจากระบบ</a>
+                    </div>
+                </div>
+
+                <button type="button" class="icon-btn" aria-label="Shop">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="/frontend/assets/images/shop.png" alt="Shop" />
+                    </div>
+                </button>
+            </div>
+        </header>
+
+        <section class="hero-section">
+            <img src="/frontend/assets/images/v41_5.png" alt="Planting Trees" class="bg-image" />
+
+            <h1 class="hero-title">
+                ปลูกต้นไม้หนึ่งต้น… เปลี่ยนโลกได้หนึ่งครั้ง
+            </h1>
+
+            <p class="hero-description">
+                ต้นไม้เพียงหนึ่งต้นอาจดูเล็กน้อย แต่ทุกต้นที่ปลูกคือจุดเริ่มต้นของอากาศที่ดี น้ำที่สะอาด<br />
+                และโลกที่น่าอยู่ขึ้น เราทุกคนสามารถเป็นส่วนหนึ่งของการเปลี่ยนแปลงครั้งใหญ่ได้<br />
+                เพียงแค่ลงมือปลูกต้นไม้ทีละต้น จากมือเรา… สู่โลกใบใหญ่ของทุกคน
+            </p>
+
+            <button type="button" class="cta-button-primary">
+                <div class="btn-container">
+                    <div class="btn-text">เข้าร่วม</div>
+                </div>
+            </button>
+        </section>
+
+        <section class="products-section">
+            <div class="products-wrapper">
+                <div class="products-content">
+                    <h2 class="section-heading">สินค้าขายดี</h2>
+
+                    <div class="product-grid">
+
+                        <div class="product-card">
+                            <img class="image" src="/frontend/assets/images/v41_18.png" />
+                            <div class="product-name">Organic Dried Lavender</div>
+                            <div class="product-price">$12.00</div>
+                            <button class="btn-add-cart">
+                                <div class="btn-text">Add to Cart</div>
+                            </button>
+                        </div>
+
+                        <div class="product-card">
+                            <img class="image" src="/frontend/assets/images/v41_25.png" />
+                            <div class="product-name">Eucalyptus Diffuser Oil</div>
+                            <div class="product-price">$18.50</div>
+                            <button class="btn-add-cart">
+                                <div class="btn-text">Add to Cart</div>
+                            </button>
+                        </div>
+                        
+                        <div class="product-card">
+                            <img class="image" src="/frontend/assets/images/v41_25.png" />
+                            <div class="product-name">Eucalyptus Diffuser Oil</div>
+                            <div class="product-price">$18.50</div>
+                            <button class="btn-add-cart">
+                                <div class="btn-text">Add to Cart</div>
+                            </button>
+                        </div>
+
+                        <div class="product-card">
+                            <img class="image" src="/frontend/assets/images/v41_25.png" />
+                            <div class="product-name">Eucalyptus Diffuser Oil</div>
+                            <div class="product-price">$18.50</div>
+                            <button class="btn-add-cart">
+                                <div class="btn-text">Add to Cart</div>
+                            </button>
+                        </div>
+
+                        <div class="product-card">
+                            <img class="image" src="/frontend/assets/images/v41_25.png" />
+                            <div class="product-name">Eucalyptus Diffuser Oil</div>
+                            <div class="product-price">$18.50</div>
+                            <button class="btn-add-cart">
+                                <div class="btn-text">Add to Cart</div>
+                            </button>
+                        </div>
+
+                        <div class="product-card">
+                            <img class="image" src="/frontend/assets/images/v41_25.png" />
+                            <div class="product-name">Eucalyptus Diffuser Oil</div>
+                            <div class="product-price">$18.50</div>
+                            <button class="btn-add-cart">
+                                <div class="btn-text">Add to Cart</div>
+                            </button>
+                        </div>
+
+                        <div class="product-card">
+                            <img class="image" src="/frontend/assets/images/v41_25.png" />
+                            <div class="product-name">Eucalyptus Diffuser Oil</div>
+                            <div class="product-price">$18.50</div>
+                            <button class="btn-add-cart">
+                                <div class="btn-text">Add to Cart</div>
+                            </button>
+                        </div>
+
+                        <div class="product-card">
+                            <img class="image" src="/frontend/assets/images/v41_25.png" />
+                            <div class="product-name">Eucalyptus Diffuser Oil</div>
+                            <div class="product-price">$18.50</div>
+                            <button class="btn-add-cart">
+                                <div class="btn-text">Add to Cart</div>
+                            </button>
+                        </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="rental-section">
+            <img src="/frontend/assets/images/v46_251.png" alt="Planting Trees" class="bg-image" />
+
+            <div class="rental-content">
+                <h2 class="rental-title">
+                    จองแปลงผักเล็ก ๆ ของคุณ ที่เราจะช่วยดูแลจนวันเก็บเกี่ยว
+                </h2>
+                <div class="rental-description">
+                    ทุกแปลงคือความรักที่เราดูแล และผลผลิตคือความสดที่ส่งตรงถึงบ้านของคุณ
+                </div>
+            </div>
+
+            <button type="button" class="cta-button-secondary">
+                <div class="btn-container">
+                    <div class="btn-text">เช่าแปลงผัก</div>
+                </div>
+            </button>
+        </section>
+
+        <section class="process-section">
+            <div class="process-header">
+                <h2 class="section-heading">วิธีการทำงาน</h2>
+                <p class="section-subheading">
+                    เส้นทางง่าย ๆ สู่วิถีการเก็บเกี่ยวผลผลิตสดของคุณเอง
+                </p>
+            </div>
+
+            <div class="step-item">
+                <div class="step-icon-bg">
+                    <div class="img-wrapper">
+                        <img class="step-icon" src="/frontend/assets/images/Icon.png" alt="step 1" />
+                    </div>
+                </div>
+                <h3 class="step-title">1. เลือกแปลงผักของคุณ</h3>
+                <p class="step-description">
+                    เลือกขนาดและตำแหน่งแปลงผักที่เหมาะกับการปลูกผักในแบบที่คุณต้องการ จากแปลงที่เราจัดเตรียมไว้ให้
+                </p>
+            </div>
+
+            <div class="step-item">
+                <div class="step-icon-bg">
+                    <div class="img-wrapper">
+                        <img class="step-icon" src="/frontend/assets/images/Icon (1).png" alt="step 2" />
+                    </div>
+                </div>
+                <h3 class="step-title">2. เราช่วยดูแลการปลูกให้คุณ</h3>
+                <p class="step-description">
+                    เรามีอุปกรณ์ ดินปลอดสาร และคำแนะนำจากผู้เชี่ยวชาญ เพื่อให้ผักของคุณเติบโตได้ดีตลอดฤดูกาล
+                </p>
+            </div>
+
+            <div class="step-item">
+                <div class="step-icon-bg">
+                    <div class="img-wrapper">
+                        <img class="step-icon" src="/frontend/assets/images/Icon (2).png" alt="step 3" />
+                    </div>
+                </div>
+                <h3 class="step-title">3. เก็บเกี่ยว &amp; อร่อยได้เลย</h3>
+                <p class="step-description">
+                    รับผลผลิตสด ๆ จากแปลงของคุณเอง และเพลิดเพลินกับผักปลอดสารที่คุณมีส่วนร่วมปลูกด้วยตัวเอง
+                </p>
+            </div>
+        </section>
+
+        <section class="testimonial-section">
+            <div class="testimonial-container">
+                <div class="quote-icon">
+                    <img src="/frontend/assets/images/Icon (3).png" alt="quote icon" />
+                </div>
+
+                <figure class="testimonial-content">
+                    <blockquote class="quote-text">
+                        “การจองแปลงผักกับ GREENHEARTH คือการตัดสินใจที่ดีที่สุดของฉันในปีนี้ ความสุขตอนเก็บมะเขือเทศด้วยตัวเองมันบอกไม่ถูกเลย...”
+                    </blockquote>
+
+                    <figcaption class="author-info">
+                        <img class="author-avatar" src="/frontend/assets/images/v41_78.png" alt="quote icon" />
+                        <p class="author-name">
+                            <span class="name">Jane D.</span>
+                            <span class="title">- Happy Gardener</span>
+                        </p>
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+
+                    <div class="footer-column footer-brand">
+                        <div class="footer-logo">
+                            <img src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
+                        </div>
+                        <p class="slogan">
+                            Connecting you back to nature, one plant and product at a time.
+                        </p>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Explore</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">Shop Products</a></li>
+                            <li><a href="#">Book a Plot</a></li>
+                            <li><a href="#">Our Story</a></li>
+                            <li><a href="#">Blog</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="#">Shipping & Returns</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Stay Connected</h4>
+                        <p class="newsletter-text">
+                            Join our newsletter for updates and tips.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2024 Digital Garden. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
+            <div id="chatIconContainer">
+                <img src="/frontend/assets/images/Group.png" alt="Chat Icon" id="chatIconMain" />
+            </div>
+        </button>
+
+        <div class="chat-popup" id="chatPopup">
+            <div class="chat-header">
+                <div class="admin-info">
+                    <div class="admin-avatar"></div>
+                    <div>
+                        <p class="admin-name">Greenhearth Admin</p>
+                        <p class="admin-status">ออนไลน์</p>
+                    </div>
+                </div>
+                <button class="close-chat-header" id="closeChatHeader">&times;</button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message admin-msg">
+                    สวัสดีค่ะ! ยินดีต้อนรับสู่ Digital Garden มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
+                </div>
+            </div>
+
+            <div class="chat-footer">
+                <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
+                <button id="sendBtn">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <script src="/frontend/assets/js/script.js"></script>
+    </div>
+</body>
+</html>
