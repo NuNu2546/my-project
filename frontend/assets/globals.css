@@ -3,39 +3,44 @@
 .footer {
   background-color: var(--light-bg);
   border-top: 1px solid rgba(19, 236, 55, 0.2);
-  padding: 60px 0 20px 0;
+  
+  /* Padding บนล่าง: ยืดหดตามจอ */
+  padding: clamp(30px, 5vw, 60px) 0 clamp(10px, 2vw, 20px) 0;
+  
   margin-top: auto;
   font-family: var(--font-main);
+  width: 100%;
 }
-
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 clamp(20px, 4vw, 40px); /* ขอบซ้ายขวาก็ย่อได้ */
 }
 
 .footer-content {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 40px;
-  margin-bottom: 60px;
+  /* ระยะห่างระหว่างคอลัมน์: ย่อตามจอ */
+  gap: clamp(20px, 4vw, 40px); 
+  margin-bottom: clamp(30px, 5vw, 60px);
 }
 
 .footer-column {
   flex: 1;
-  min-width: 200px;
+  min-width: 160px; /* ลด min-width ลงหน่อยเพื่อให้บีบได้มากขึ้นก่อนจะปัดบรรทัด */
 }
 
+/* โลโก้ Footer: ย่อตามจอ */
 .footer-logo img {
-  width: 150px;
+  width: clamp(100px, 15vw, 150px);
   height: auto;
   margin-bottom: 20px;
   display: block;
 }
 
 .slogan {
-  font-size: 14px;
+  font-size: clamp(12px, 1.2vw, 14px);
   line-height: 1.6;
   max-width: 280px;
   color: var(--text-gray);
@@ -43,11 +48,10 @@
 
 .footer-title {
   color: #111827;
-  font-size: 16px;
+  font-size: clamp(14px, 1.5vw, 16px);
   font-weight: 700;
   margin-bottom: 20px;
 }
-
 .footer-list {
   list-style: none;
   padding: 0;
@@ -59,10 +63,7 @@
 }
 
 .footer-list a {
-  text-decoration: none;
-  color: #4b5563;
-  font-size: 14px;
-  transition: color 0.3s;
+  font-size: clamp(12px, 1.2vw, 14px);
 }
 
 .footer-list a:hover {
@@ -229,34 +230,36 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: 65px;
+  height: clamp(55px , 8vh , 65px);
+  padding: 0 clamp(15px, 4vw, 40px);
   display: flex;
   align-items: center;
   justify-content: space-between; /* จัดซ้ายขวา */
-  padding: 0 40px;
   background-color: rgba(255, 255, 255, 0.9);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+  flex-wrap: nowrap;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
 }
 
 .logo {
-  height: 37px;
+  height: clamp(28px, 4vw, 37px);
   width: auto;
   object-fit: contain;
+  transition: height 0.1s;
 }
 
 /* --- Nav (แก้ margin-left: 800px เป็น auto เพื่อไม่ให้ตกจอ) --- */
 .nav {
   margin-left: auto; /* ดันไปทางขวาแทนการ fix 800px */
-  margin-right: 20px; /* เว้นระยะห่างจากปุ่ม */
+  margin-right: clamp(10px, 2vw, 20px); /* เว้นระยะห่างจากปุ่ม */
 }
 
 .nav-list {
   display: flex;
   list-style: none;
-  gap: 32px;
+  gap: clamp(15px, 3vw, 32px);
   margin: 0;
   padding: 0;
 }
@@ -264,10 +267,12 @@
 .nav-link {
   text-decoration: none;
   font-family: var(--font-main, sans-serif);
-  font-weight: 500;
-  font-size: 14px;
-  color: #333; /* ใส่สีสำรอง */
+  font-weight: 600;
+  /* ขนาดตัวหนังสือ: เล็กสุด 12px, ใหญ่สุด 14px */
+  font-size: clamp(12px, 1.2vw, 14px); 
+  color: #333;
   transition: color 0.3s;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -276,24 +281,24 @@
 
 /* --- Container สำหรับกลุ่มปุ่มด้านขวา --- */
 .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.5vw, 12px);
 }
 
 /* --- ปุ่ม Icon ทั่วไป (รวมปุ่ม Shop และ Profile) --- */
 .icon-btn {
-  width: 44px;
-  height: 40px;
-  background-color: #16a34a; /* สีพื้นหลังปุ่ม */
+  /* ขนาดปุ่ม: เล็กสุด 36px, ใหญ่สุด 44px */
+  width: clamp(36px, 5vw, 44px);
+  height: clamp(36px, 5vw, 40px);
+  background-color: #16a34a;
   border-radius: 8px;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.2s;
-  padding: 0; /* รีเซ็ต padding */
+  padding: 0;
 }
 
 .icon-btn:hover {
@@ -305,8 +310,9 @@
 }
 
 .icon-inner {
-  width: 24px; /* ปรับขนาด icon ข้างใน */
-  height: 24px;
+  /* ไอคอนข้างในก็ย่อตาม */
+  width: clamp(20px, 3vw, 24px);
+  height: clamp(20px, 3vw, 24px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -400,4 +406,24 @@ hr {
 
 .menu-item.logout:hover {
     background-color: #fef2f2;
+}
+
+/* Media Query: เมื่อจอเล็กจัดๆ (มือถือ) ให้ซ่อนเมนูตัวหนังสือ */
+@media screen and (max-width: 768px) {
+  .nav { display: none; }
+}
+
+/* Media Query มือถือ (ให้เรียง 2 คอลัมน์) */
+@media screen and (max-width: 600px) {
+  .footer-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .footer-brand {
+     grid-column: 1 / -1;
+     text-align: center;
+  }
+  .footer-logo img { margin: 0 auto 10px auto; }
+  .slogan { margin: 0 auto; }
 }

@@ -1,1459 +1,205 @@
+/* --- 1. Base Setup --- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #f6f8f6;
+  font-family: "Manrope", Helvetica, sans-serif;
+}
+
 .veggie-plots {
-  background-color: #f6f8f6;
-  overflow: hidden;
   width: 100%;
-  min-width: 1440px;
-  min-height: 1464px;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.veggie-plots .header {
-  z-index: 2;
+/* --- 2. MAIN CONTENT (พระเอกอยู่ตรงนี้) --- */
+.main {
+  width: 100%;
+  max-width: 1440px; 
+  margin: 0 auto;
+  padding: 40px 20px;
   flex: 1;
-  max-height: 65px;
-  display: flex;
-  background-color: #f6f8f6cc;
-  border-top-style: none;
-  border-right-style: none;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-left-style: none;
-  border-color: #13ec3733;
-  backdrop-filter: blur(2px) brightness(100%);
-  -webkit-backdrop-filter: blur(2px) brightness(100%);
 }
 
-.veggie-plots .fulllogo-transparent {
-  margin-top: 14px;
-  width: 278px;
-  height: 37px;
-  margin-left: 29px;
-  aspect-ratio: 7.49;
-  object-fit: cover;
-}
-
-.veggie-plots .nav {
-  margin-top: -1px;
-  width: 395.73px;
-  align-self: center;
-  margin-left: 571px;
-  display: flex;
-  align-items: center;
-}
-
-.veggie-plots .link {
-  height: 21px;
-  width: 34.09px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.5px;
-  width: 41px;
-  height: 19px;
-  margin-left: 0.3px;
-  font-family: "Manrope-Medium", Helvetica;
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 21px;
-  white-space: nowrap;
-}
-
-.veggie-plots .div-wrapper {
-  margin-top: 1px;
-  width: 54px;
-  margin-left: 35.9px;
-  height: 21px;
-  display: flex;
-}
-
-.veggie-plots .div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1px;
-  width: 72.69px;
-  height: 19px;
-  font-family: "Manrope-Medium", Helvetica;
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 21px;
-  white-space: nowrap;
-}
-
-.veggie-plots .link-2 {
-  width: 62.05px;
-  margin-left: 54.5px;
-  height: 21px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper-2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.5px;
-  width: 83px;
-  height: 19px;
-  margin-left: -20.1px;
-  font-family: "Manrope-Medium", Helvetica;
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 21px;
-  white-space: nowrap;
-}
-
-.veggie-plots .link-3 {
-  width: 28.97px;
-  margin-left: 36.0px;
-  height: 21px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper-3 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 0.5px;
-  width: 42px;
-  height: 19px;
-  margin-left: -12.2px;
-  font-family: "Manrope-Medium", Helvetica;
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 21px;
-  white-space: nowrap;
-}
-
-.veggie-plots .link-4 {
-  width: 54.25px;
-  margin-left: 36.0px;
-  height: 21px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper-4 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1px;
-  width: 54.62px;
-  height: 19px;
-  font-family: "Manrope-Medium", Helvetica;
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 21px;
-  white-space: nowrap;
-}
-
-.veggie-plots .button {
-  margin-top: 13px;
-  width: 44.02px;
-  margin-left: 37.3px;
-  background-color: #16a34a;
-  border-radius: 8px;
-  overflow: hidden;
-  height: 40px;
-  display: flex;
-}
-
-.veggie-plots .icon {
-  margin-top: 6.0px;
-  width: 24.01px;
-  height: 27.99px;
-  margin-left: 10px;
-  position: relative;
-}
-
-.veggie-plots .vector {
-  position: absolute;
-  width: 64.76%;
-  height: 55.56%;
-  top: 22.22%;
-  left: 17.62%;
-}
-
-.veggie-plots .icon-wrapper {
-  margin-top: 13px;
-  width: 44.02px;
-  margin-left: 8.0px;
-  background-color: #16a34a;
-  border-radius: 8px;
-  overflow: hidden;
-  height: 40px;
-  display: flex;
-}
-
-.veggie-plots .vector-wrapper {
-  margin-top: 6px;
-  width: 24.02px;
-  height: 28px;
-  margin-left: 10px;
-  position: relative;
-}
-
-.veggie-plots .img {
-  position: absolute;
-  width: 64.76%;
-  height: 69.44%;
-  top: 15.28%;
-  left: 17.62%;
-}
-
-.veggie-plots .main {
-  z-index: 3;
-  margin-left: 80px;
-  margin-right: 80px;
-  flex: 1;
-  max-height: 937px;
-  position: relative;
-  margin-top: 9px;
-}
-
-.veggie-plots .paragraph {
-  position: absolute;
-  left: 457px;
-  bottom: 869px;
-  width: 362px;
-  height: 49px;
-  display: flex;
-}
-
-.veggie-plots .heading-find-your {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 367px;
-  height: 40px;
-  margin-left: -11px;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111811;
-  font-size: 35.7px;
-  letter-spacing: -1.00px;
-  line-height: 40px;
-  white-space: nowrap;
-}
-
-.veggie-plots .background-border {
-  position: absolute;
-  width: calc(100% - 976px);
-  top: 68px;
-  left: 160px;
-  height: 452px;
-  background-color: #ffffff;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: #dbe6db;
-}
-
-.veggie-plots .heading-sunny {
-  position: absolute;
-  top: 244px;
-  left: 17px;
-  width: 187px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111811;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
-}
-
-.veggie-plots .text-wrapper-5 {
-  position: absolute;
-  top: 268px;
-  left: 17px;
-  width: 238px;
-  height: 39px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-}
-
-.veggie-plots .background {
-  position: absolute;
-  height: calc(100% - 424px);
-  top: 320px;
-  left: 17px;
-  width: 75px;
-  display: flex;
-  gap: 4px;
-  background-color: #f0f4f0;
-  border-radius: 9999px;
-}
-
-.veggie-plots .img-wrapper {
-  margin-top: 6px;
-  width: 14.02px;
-  height: 16px;
-  position: relative;
-  margin-left: 8px;
-}
-
-.veggie-plots .vector-2 {
-  position: absolute;
-  width: 79.25%;
-  height: 41.67%;
-  top: 29.16%;
-  left: 10.38%;
-}
-
-.veggie-plots .text-wrapper-6 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -1px;
-  height: 17px;
-  width: 40.84px;
-  align-self: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 12px;
-  letter-spacing: 0;
-  line-height: 16px;
-  white-space: nowrap;
-}
-
-.veggie-plots .background-2 {
-  position: absolute;
-  height: calc(100% - 424px);
-  top: 320px;
-  left: 100px;
-  width: 101px;
-  display: flex;
-  gap: 4px;
-  background-color: #f0f4f0;
-  border-radius: 9999px;
-}
-
-.veggie-plots .vector-3 {
-  position: absolute;
-  width: 87.18%;
-  height: 76.39%;
-  top: 11.80%;
-  left: 6.41%;
-}
-
-.veggie-plots .text-wrapper-7 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -2px;
-  height: 16px;
-  width: 67px;
-  align-self: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 12px;
-  letter-spacing: 0;
-  line-height: 16px;
-  white-space: nowrap;
-}
-
-.veggie-plots .text-wrapper-8 {
-  position: absolute;
-  top: 408px;
-  left: 17px;
-  width: 33px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111811;
-  font-size: 18px;
-  letter-spacing: 0;
-  line-height: 28px;
-  white-space: nowrap;
-}
-
-.veggie-plots .text-wrapper-9 {
-  position: absolute;
-  top: 414px;
-  left: 50px;
-  width: 48px;
-  height: 19px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.veggie-plots .view-book-wrapper {
-  all: unset;
-  box-sizing: border-box;
-  position: absolute;
-  left: 174px;
-  bottom: 17px;
-  width: 113px;
-  align-items: center;
-  justify-content: center;
-  background-color: #16a34a;
-  border-radius: 16px;
-  height: 40px;
-  display: flex;
-}
-
-.veggie-plots .view-book {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -1px;
-  height: 19px;
-  margin-left: 0.3px;
-  width: 80.96px;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #ffffff;
-  font-size: 14px;
+.page-title {
+  margin-bottom: 40px;
   text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
 }
 
-.veggie-plots .abaxucuxlyqvoaz {
-  position: absolute;
-  width: calc(100% - 2px);
-  top: 1px;
-  left: 1px;
-  height: 226px;
-  aspect-ratio: 1.33;
-  background-image: url(./img/ab6axucuxlyqvoaz-pnl8h5osnbw1pu93gqt44tmvnansgehtaau8vq0a3thcy13as1mdy2izqcpzp1tulpoxs-ozjp983s0dzhzxrakvb8q1mdqzapzgrxecxkl0koqntwbufcbbojrtepepawvjt-u1k63psz-clho3ag0zyp129zolbusj6clzqzbiwfjkyjfut3vmtwjutqujq33b2rkfoz6ixun8uvivrppzxfwlps-j9hp-wgsh6bgeicvnuudcmegq3axysfkbj4.png);
-  background-size: cover;
-  background-position: 50% 50%;
-}
-
-.veggie-plots .background-3 {
-  position: absolute;
-  right: 9px;
-  bottom: 233px;
-  width: 103px;
-  height: 24px;
-  display: flex;
-  background-color: #dcfce7;
-  border-radius: 9999px;
-}
-
-.veggie-plots .text-wrapper-10 {
-  margin-top: 3px;
-  width: 80px;
-  height: 16px;
-  margin-left: 12px;
-  font-family: "Manrope-SemiBold", Helvetica;
-  font-weight: 600;
-  color: #166534;
-  font-size: 12px;
-  line-height: 16px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 0;
-}
-
-.veggie-plots .background-border-2 {
-  top: 68px;
-  left: 488px;
-  position: absolute;
-  width: calc(100% - 976px);
-  height: 452px;
-  background-color: #ffffff;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: #dbe6db;
-}
-
-.veggie-plots .heading-the {
-  position: absolute;
-  top: 244px;
-  left: 17px;
-  width: 228px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
+.heading-find-your {
+  font-family: "Manrope-Bold", Helvetica, sans-serif;
   font-weight: 700;
   color: #111811;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
+  font-size: 36px;
+  line-height: 1.2;
 }
 
-.veggie-plots .text-wrapper-11 {
-  position: absolute;
-  top: 268px;
-  left: 17px;
-  width: 266px;
-  height: 20px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 14px;
-  line-height: 20px;
-  white-space: nowrap;
+/* --- 3. ระบบ Flexbox Wrap (สูตรลับความเนียน) --- */
+.plots-grid {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 0;
+  flex-wrap: wrap;       /* อนุญาตให้ปัดตกบรรทัดได้ถ้ารูปเบียดกัน */
+  justify-content: center; /* จัดให้อยู่กึ่งกลางเสมอเวลาเหลือเศษ */
+  gap: 24px;             /* ระยะห่างระหว่างการ์ด */
+  width: 100%;
 }
 
-.veggie-plots .background-4 {
-  position: absolute;
-  height: calc(100% - 424px);
-  top: 300px;
-  left: 17px;
-  width: 69px;
-  display: flex;
-  gap: 4px;
-  background-color: #f0f4f0;
-  border-radius: 9999px;
-}
-
-.veggie-plots .text-wrapper-12 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -1px;
-  height: 17px;
-  width: 35.31px;
-  align-self: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 12px;
-  letter-spacing: 0;
-  line-height: 16px;
-  white-space: nowrap;
-}
-
-.veggie-plots .background-5 {
-  position: absolute;
-  height: calc(100% - 424px);
-  top: 300px;
-  left: 94px;
-  width: 113px;
-  display: flex;
-  gap: 4px;
-  background-color: #f0f4f0;
-  border-radius: 9999px;
-}
-
-.veggie-plots .icon-2 {
-  margin-top: 6.0px;
-  width: 14.01px;
-  height: 15.99px;
+/* --- 4. Card Design (ปรับให้ยืดหดแบบมีขอบเขต) --- */
+.plot-card {
+  background-color: #ffffff;
+  border-radius: 24px;
+  border: 1px solid #dbe6db;
+  overflow: hidden;
   position: relative;
-  margin-left: 8px;
-}
-
-.veggie-plots .vector-4 {
-  position: absolute;
-  width: 63.40%;
-  height: 55.56%;
-  top: 22.22%;
-  left: 18.30%;
-}
-
-.veggie-plots .text-wrapper-13 {
-  margin-top: -2px;
-  height: 16px;
-  width: 79px;
-  align-self: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 12px;
-  line-height: 16px;
-  white-space: nowrap;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 0;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  /* หัวใจสำคัญ: */
+  /* flex: 1 1 300px แปลว่า: ยืดได้ (1), หดได้ (1), แต่ขอขนาดพื้นฐานที่ 300px */
+  flex: 1 1 340px; 
+  
+  /* ห้ามกว้างเกินไป (เดี๋ยวการ์ดจะบานเป็นแผ่นกระดาน) */
+  max-width: 400px; 
+  
+  /* ห้ามเล็กเกินไป (เดี๋ยวรูปเบี้ยว) */
+  min-width: 280px; 
 }
 
-.veggie-plots .text-wrapper-14 {
-  left: 49px;
-  position: absolute;
-  top: 414px;
-  width: 48px;
-  height: 19px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
+.plot-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
 }
 
-.veggie-plots .abaxuaxkcoqmdnhv {
-  position: absolute;
-  width: calc(100% - 2px);
-  top: 1px;
-  left: 1px;
-  height: 226px;
-  aspect-ratio: 1.33;
-  background-image: url(./img/ab6axuaxkcoqm5dnhv4-zsuljflunkyxxidibfnmkq8x1s7cgwp6yyh6esacik-mr8tm6zv-qel8xhf4abw69jphwbpdp6t3f7rthp-0etcvogjivkhvvvvnhcswjlx7clana8bjulgk5itrxhj9ryw1rs751y8rqd6iwfjhpu9fxlffp7bewgxrh9is9ijihabhujry7tcgqvr4hiy3id-mtvwasbbrzzyuy4lkxqajtvz7eih1z2qsiryfdwnrkpp5jalnqnbit5yhnwa.png);
+/* รูปภาพ */
+.card-image {
+  width: 100%;
+  aspect-ratio: 4/3; /* ล็อกสัดส่วนภาพไว้เสมอ ไม่ว่าจอจะย่อแค่ไหน */
   background-size: cover;
-  background-position: 50% 50%;
+  background-position: center;
+  background-color: #f0f0f0;
 }
 
-.veggie-plots .background-border-3 {
-  top: 68px;
-  left: 816px;
-  position: absolute;
-  width: calc(100% - 976px);
-  height: 452px;
-  background-color: #ffffff;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: #dbe6db;
-}
+/* Mapping รูปภาพ */
+.abaxucuxlyqvoaz { background-image: url('../images/your-image-1.png'); } 
+.abaxuaxkcoqmdnhv { background-image: url('../images/your-image-2.png'); } 
+.background-wrapper { background-image: url('../images/your-image-3.png'); }
+.div-2 { background-image: url('../images/your-image-4.png'); }
+.div-3 { background-image: url('../images/your-image-5.png'); }
+.div-4 { background-image: url('../images/your-image-6.png'); }
 
-.veggie-plots .heading-herb-haven {
-  position: absolute;
-  top: 244px;
-  left: 17px;
-  width: 136px;
-  height: 24px;
+/* เนื้อหา */
+.card-content {
+  padding: 20px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.heading-text {
   font-weight: 700;
-  color: #111811;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
-}
-
-.veggie-plots .text-wrapper-15 {
-  position: absolute;
-  top: 268px;
-  left: 17px;
-  width: 246px;
-  height: 39px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 14px;
-  line-height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 0;
-}
-
-.veggie-plots .background-6 {
-  position: absolute;
-  height: calc(100% - 424px);
-  top: 320px;
-  left: 17px;
-  width: 64px;
-  display: flex;
-  gap: 4px;
-  background-color: #f0f4f0;
-  border-radius: 9999px;
-}
-
-.veggie-plots .text-wrapper-16 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -1px;
-  height: 17px;
-  width: 30.76px;
-  align-self: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 12px;
-  letter-spacing: 0;
-  line-height: 16px;
-  white-space: nowrap;
-}
-
-.veggie-plots .background-7 {
-  position: absolute;
-  height: calc(100% - 424px);
-  top: 320px;
-  left: 89px;
-  width: 86px;
-  display: flex;
-  gap: 4px;
-  background-color: #f0f4f0;
-  border-radius: 9999px;
-}
-
-.veggie-plots .vector-5 {
-  position: absolute;
-  width: 79.25%;
-  height: 55.56%;
-  top: 22.22%;
-  left: 10.38%;
-}
-
-.veggie-plots .text-wrapper-17 {
-  margin-top: -2px;
-  height: 16px;
-  width: 52px;
-  align-self: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 12px;
-  line-height: 16px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 0;
-}
-
-.veggie-plots .text-wrapper-18 {
-  width: 34px;
-  position: absolute;
-  top: 408px;
-  left: 17px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111811;
   font-size: 18px;
-  letter-spacing: 0;
-  line-height: 28px;
-  white-space: nowrap;
-}
-
-.veggie-plots .text-wrapper-19 {
-  left: 51px;
-  position: absolute;
-  top: 414px;
-  width: 48px;
-  height: 19px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.veggie-plots .background-wrapper {
-  position: absolute;
-  width: calc(100% - 2px);
-  top: 1px;
-  left: 1px;
-  height: 226px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-  aspect-ratio: 1.33;
-  background-image: url(./img/ab6axucpnaegsdfrlxatirhd4he62t8xdhwbw-oil6dckx8q4h9zs65rmvamkhhi72j4i3y8gknb8ysoxkdvneyjwg3mhtvvlfdslectvsj-btfxj5hbrzmngd-ibrmrtbobedinmxerfur2frl0uigrqyu-lzrdykgwyd3ebk9n1tzx4mudqiwvknnp8a2jfzacadyhxsieif-arclysotgeww8evbh-0jdaxrg-tdl4qxpnjmsq3vogmdly1s7ziudhddcqx3rlcuuvsi.png);
-  background-size: cover;
-  background-position: 50% 50%;
-}
-
-.veggie-plots .background-8 {
-  margin-bottom: 7px;
-  width: 102.61px;
-  height: 24px;
-  margin-right: 7.0px;
-  display: flex;
-  background-color: #dcfce7;
-  border-radius: 9999px;
-}
-
-.veggie-plots .background-border-4 {
-  top: 544px;
-  left: 160px;
-  position: absolute;
-  width: calc(100% - 976px);
-  height: 452px;
-  background-color: #ffffff;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: #dbe6db;
-}
-
-.veggie-plots .heading-raised-bed {
-  position: absolute;
-  top: 244px;
-  left: 17px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
   color: #111811;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
+  font-family: "Manrope-Bold", sans-serif;
 }
 
-.veggie-plots .text-wrapper-20 {
-  position: absolute;
-  top: 268px;
-  left: 17px;
-  width: 216px;
-  height: 39px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
+.desc-text {
   font-size: 14px;
-  line-height: 20px;
+  color: #618961;
+  line-height: 1.5;
+  font-family: "Manrope-Regular", sans-serif;
+}
+
+.specs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.spec-tag {
+  background-color: #f0f4f0;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  color: #618961;
   display: flex;
   align-items: center;
-  justify-content: center;
-  letter-spacing: 0;
-}
-
-.veggie-plots .background-9 {
-  position: absolute;
-  height: calc(100% - 424px);
-  top: 320px;
-  left: 17px;
-  width: 69px;
-  display: flex;
   gap: 4px;
-  background-color: #f0f4f0;
-  border-radius: 9999px;
 }
 
-.veggie-plots .background-10 {
-  position: absolute;
-  height: calc(100% - 424px);
-  top: 320px;
-  left: 94px;
-  width: 101px;
+.spec-tag img {
+  width: 14px;
+  height: 14px;
+}
+
+.price-row {
+  margin-top: auto;
   display: flex;
+  align-items: baseline;
   gap: 4px;
-  background-color: #f0f4f0;
-  border-radius: 9999px;
 }
 
-.veggie-plots .text-wrapper-21 {
-  width: 35px;
-  position: absolute;
-  top: 408px;
-  left: 17px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
+.price {
   font-weight: 700;
-  color: #111811;
   font-size: 18px;
-  letter-spacing: 0;
-  line-height: 28px;
-  white-space: nowrap;
-}
-
-.veggie-plots .div-2 {
-  position: absolute;
-  width: calc(100% - 2px);
-  top: 1px;
-  left: 1px;
-  height: 226px;
-  aspect-ratio: 1.33;
-  background-image: url(./img/ab6axuadxpsjfiflwsxl5e0lsezzhbdhiziuzv1pc5vaumd55osmalzzggwro0-xe09-rg3frvs0df1stp-4mytzf-l7nn-RR-qcmpwpqrkvnawofpgcb-honndmvaqmytrgriq92vkr442rbe0fmojqb0jjreb7bp4g7zyytkyvmsjqwqyp-4yz-koyqnermv4freqngcmnv497r6-dievhow0uxscdgl0hd3csbiyrnh6ircxu26qwie36jynntckwwcufr7jhtxp4c.png);
-  background-size: cover;
-  background-position: 50% 50%;
-}
-
-.veggie-plots .background-border-5 {
-  top: 544px;
-  left: 488px;
-  position: absolute;
-  width: calc(100% - 976px);
-  height: 452px;
-  background-color: #ffffff;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: #dbe6db;
-}
-
-.veggie-plots .heading-community {
-  position: absolute;
-  top: 244px;
-  left: 17px;
-  width: 193px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
   color: #111811;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
 }
 
-.veggie-plots .text-wrapper-22 {
-  position: absolute;
-  top: 268px;
-  left: 17px;
-  width: 252px;
-  height: 39px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
+.unit {
   font-size: 14px;
-  line-height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 0;
+  color: #618961;
 }
 
-.veggie-plots .button-2 {
-  all: unset;
-  box-sizing: border-box;
-  position: absolute;
-  left: 204px;
-  bottom: 17px;
-  width: 83px;
-  align-items: center;
-  justify-content: center;
+/* ปุ่ม */
+.action-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: "Manrope-Bold", sans-serif;
+}
+
+.action-btn:hover {
+  background-color: #15803d;
+}
+
+.action-btn.booked {
   background-color: #dbe6db;
-  border-radius: 16px;
-  height: 40px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper-23 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -1px;
-  height: 19px;
-  margin-left: 0.4px;
-  width: 50.97px;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
   color: #737373;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
+  cursor: not-allowed;
 }
 
-.veggie-plots .div-3 {
+/* ป้ายสถานะ */
+.status-badge {
   position: absolute;
-  width: calc(100% - 2px);
-  top: 1px;
-  left: 1px;
-  height: 226px;
-  aspect-ratio: 1.33;
-  background-image: url(./img/ab6axuauqyjgdimn8vbchheogtqcdt22o0gkuuaen-etgabwwkggdx9b6kottlfrlt851o94amukapwag-sjpaqesshcuz-2xkeusb1vkx38qzeyt9edpe-4mk4je8l6tsrdd38mq7ycib4nxo-ejehliqbbkigmv7rtoulioijrptb4begjozs-mjljqddb5wrsoseqvnoykugjhbxjxiip0saq3dntob3znkotlta1jmfuuwakub5xlgvgaqjvuv72g4e-xny1ais5za.png);
-  background-size: cover;
-  background-position: 50% 50%;
-}
-
-.veggie-plots .background-11 {
-  position: absolute;
-  right: 9px;
-  bottom: 233px;
-  width: 96px;
-  height: 24px;
-  display: flex;
-  background-color: #fee2e2;
-  border-radius: 9999px;
-}
-
-.veggie-plots .text-wrapper-24 {
-  margin-top: 3px;
-  width: 77px;
-  height: 16px;
-  margin-left: 12px;
-  font-family: "Manrope-SemiBold", Helvetica;
+  top: 12px;
+  right: 12px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
   font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  z-index: 2;
+}
+
+.status-badge.available {
+  color: #166534;
+  border: 1px solid #dcfce7;
+}
+
+.status-badge.full {
   color: #991b1b;
-  font-size: 12px;
-  line-height: 16px;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 0;
-}
-
-.veggie-plots .background-border-6 {
-  top: 544px;
-  left: 816px;
-  position: absolute;
-  width: calc(100% - 976px);
-  height: 452px;
-  background-color: #ffffff;
-  border-radius: 24px;
-  overflow: hidden;
-  border: 1px solid;
-  border-color: #dbe6db;
-}
-
-.veggie-plots .heading-the-2 {
-  position: absolute;
-  top: 244px;
-  left: 17px;
-  width: 182px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111811;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
-}
-
-.veggie-plots .text-wrapper-25 {
-  position: absolute;
-  top: 268px;
-  left: 17px;
-  width: 267px;
-  height: 39px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 14px;
-  line-height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: 0;
-}
-
-.veggie-plots .background-12 {
-  position: absolute;
-  height: calc(100% - 424px);
-  top: 320px;
-  left: 17px;
-  width: 76px;
-  display: flex;
-  gap: 4px;
-  background-color: #f0f4f0;
-  border-radius: 9999px;
-}
-
-.veggie-plots .text-wrapper-26 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: -1px;
-  height: 17px;
-  width: 42.61px;
-  align-self: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #618961;
-  font-size: 12px;
-  letter-spacing: 0;
-  line-height: 16px;
-  white-space: nowrap;
-}
-
-.veggie-plots .background-13 {
-  position: absolute;
-  height: calc(100% - 424px);
-  top: 320px;
-  left: 101px;
-  width: 101px;
-  display: flex;
-  gap: 4px;
-  background-color: #f0f4f0;
-  border-radius: 9999px;
-}
-
-.veggie-plots .div-4 {
-  position: absolute;
-  width: calc(100% - 2px);
-  top: 1px;
-  left: 1px;
-  height: 226px;
-  aspect-ratio: 1.33;
-  background-image: url(./img/ab6axubzyshqv0nvp6lc94zfklhzcf-y15ovt-tuzkdg3fhlc9kq67yhzfbs7pcmisieyzgtm0pjcdoouui5rna6um8wlwucsupb6zbj0uv-hsbmla69gjbrvt9lgebitf8ixb-m3rv6dmuad5mbnlxr3-shqyog7kedikezumbru-hw-awll8py-izrw6n6hivdt0pidfzf-qs3-r5-r6sfepfrhsdln39pflxlmk0aqvvxjwmlrf4g3nggjvbiqx6-9yqgyodukqxxg3k.png);
-  background-size: cover;
-  background-position: 50% 50%;
-}
-
-.veggie-plots .frame {
-  position: fixed;
-  top: 785px;
-  left: 1359px;
-  width: 77px;
-  z-index: 4;
-}
-
-.veggie-plots .footer {
-  z-index: 1;
-  margin-left: 0;
-  margin-right: 0;
-  flex: 1;
-  max-height: 326px;
-  margin-top: 127px;
-  display: flex;
-  background-color: #f6f8f6;
-}
-
-.veggie-plots .horizontal-border {
-  height: 326px;
-  flex: 1;
-  position: relative;
-  border-top-width: 1px;
-  border-top-style: solid;
-  border-color: #13ec3733;
-}
-
-.veggie-plots .connecting-you-back {
-  position: absolute;
-  top: 93px;
-  left: 54px;
-  width: 293px;
-  height: 39px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-}
-
-.veggie-plots .text-wrapper-27 {
-  position: absolute;
-  top: 49px;
-  left: 541px;
-  width: 59px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111827;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
-}
-
-.veggie-plots .list {
-  position: absolute;
-  width: calc(100% - 1035px);
-  top: 89px;
-  left: 541px;
-  height: 104px;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.veggie-plots .item-link {
-  width: 95.28px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper-28 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 95.63px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.veggie-plots .item-link-2 {
-  width: 71.08px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper-29 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 71.39px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.veggie-plots .item-link-3 {
-  width: 60.88px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper-30 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 61.27px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.veggie-plots .item-link-4 {
-  width: 28.42px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper-31 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28.79px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.veggie-plots .text-wrapper-32 {
-  position: absolute;
-  top: 49px;
-  left: 818px;
-  width: 64px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111827;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
-}
-
-.veggie-plots .list-2 {
-  position: absolute;
-  width: calc(100% - 1035px);
-  top: 89px;
-  left: 818px;
-  height: 76px;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.veggie-plots .item-link-5 {
-  width: 73.34px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper-33 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 73.65px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.veggie-plots .item-link-6 {
-  width: 32.98px;
-  display: flex;
-}
-
-.veggie-plots .text-wrapper-34 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 33.38px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.veggie-plots .shipping-returns-wrapper {
-  width: 123.05px;
-  display: flex;
-}
-
-.veggie-plots .shipping-returns {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 123.44px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.veggie-plots .text-wrapper-35 {
-  position: absolute;
-  top: 49px;
-  left: 1096px;
-  width: 125px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111827;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
-}
-
-.veggie-plots .join-our-newsletter {
-  position: absolute;
-  top: 89px;
-  left: 1096px;
-  width: 227px;
-  height: 39px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-}
-
-.veggie-plots .horizontal-border-2 {
-  position: absolute;
-  width: calc(100% - 64px);
-  top: 225px;
-  left: 32px;
-  height: 53px;
-  display: flex;
-  justify-content: center;
-  border-top-width: 1px;
-  border-top-style: solid;
-  border-color: #13ec3733;
-}
-
-.veggie-plots .p {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 33px;
-  width: 266.21px;
-  height: 20px;
-  margin-left: 0.3px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #6b7280;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.veggie-plots .fulllogo-transparent-2 {
-  position: absolute;
-  top: 55px;
-  left: 54px;
-  width: 172px;
-  height: 23px;
-  aspect-ratio: 7.49;
-  object-fit: cover;
+  border: 1px solid #fee2e2;
+  background-color: #fee2e2;
 }
