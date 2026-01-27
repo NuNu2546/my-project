@@ -1,1083 +1,239 @@
-.contact {
-  background-color: #f6f8f6;
-  overflow: hidden;
+/* contact.css - Refactored */
+
+/* --- 0. Variables & Global --- */
+:root {
+  /* Global Variables from home.css */
+  --primary-green: #13ec37;
+  --dark-green: #10d131;
+  --light-bg: #f6f8f6;
+  --text-dark: #1f2937;
+  --text-gray: #4b5563;
+  --font-main: "Manrope", sans-serif;
+  --transition-speed: 0.3s;
+
+  /* Contact Page Specific Colors (Extracted from old CSS) */
+  --contact-dark: #344e41;    /* สีเขียวเข้มมาก สำหรับหัวข้อ */
+  --contact-medium: #588157;  /* สีเขียวกลาง สำหรับคำบรรยาย */
+  --card-bg: rgba(247, 245, 230, 0.5); /* สีครีมจางๆ สำหรับการ์ด (#f7f5e680) */
+  --card-bg-hover: #f7f5e6;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--light-bg);
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* --- Common Utility --- */
+.container {
+  /* ใช้โครงสร้างเดียวกับ about.css ที่แก้ไปล่าสุด */
   width: 100%;
-  min-width: 1440px;
-  min-height: 1326px;
-  display: flex;
-  flex-direction: column;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 50px;
+  box-sizing: border-box;
 }
 
-.contact .header {
-  z-index: 2;
-  flex: 1;
-  max-height: 65px;
-  display: flex;
-  background-color: #f6f8f6cc;
-  border-top-style: none;
-  border-right-style: none;
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-left-style: none;
-  border-color: #13ec3733;
-  backdrop-filter: blur(2px) brightness(100%);
-  -webkit-backdrop-filter: blur(2px) brightness(100%);
+/* --- 1. Heading Section --- */
+.contact-heading {
+  text-align: center;
+  margin-top: 80px; /* ระยะห่างจาก Header */
+  margin-bottom: 60px;
 }
 
-.contact .fulllogo-transparent {
-  margin-top: 14px;
-  width: 278px;
-  height: 37px;
-  margin-left: 29px;
-  aspect-ratio: 7.49;
-  object-fit: cover;
-}
-
-.contact .nav {
-  margin-top: -1px;
-  width: 395.73px;
-  align-self: center;
-  margin-left: 571px;
-  display: flex;
-  align-items: center;
-}
-
-.contact .link {
-  width: 34.09px;
-  height: 21px;
-  display: flex;
-}
-
-.contact .text-wrapper {
-  margin-top: 1.5px;
-  width: 41px;
-  margin-left: 0.3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 19px;
-  font-family: "Manrope-Medium", Helvetica;
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 21px;
-  white-space: nowrap;
-}
-
-.contact .div-wrapper {
-  margin-top: 1px;
-  width: 54px;
-  margin-left: 35.9px;
-  height: 21px;
-  display: flex;
-}
-
-.contact .div {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1px;
-  width: 72.69px;
-  height: 19px;
-  font-family: "Manrope-Medium", Helvetica;
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 21px;
-  white-space: nowrap;
-}
-
-.contact .link-2 {
-  width: 62.05px;
-  margin-left: 54.5px;
-  height: 21px;
-  display: flex;
-}
-
-.contact .text-wrapper-2 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.5px;
-  width: 83px;
-  height: 19px;
-  margin-left: -20.1px;
-  font-family: "Manrope-Medium", Helvetica;
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 21px;
-  white-space: nowrap;
-}
-
-.contact .link-3 {
-  width: 28.97px;
-  margin-left: 36.0px;
-  height: 21px;
-  display: flex;
-}
-
-.contact .text-wrapper-3 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 0.5px;
-  width: 42px;
-  height: 19px;
-  margin-left: -12.2px;
-  font-family: "Manrope-Medium", Helvetica;
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 21px;
-  white-space: nowrap;
-}
-
-.contact .link-4 {
-  width: 54.25px;
-  margin-left: 36.0px;
-  height: 21px;
-  display: flex;
-}
-
-.contact .text-wrapper-4 {
-  margin-top: 1px;
-  width: 54.62px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 19px;
-  font-family: "Manrope-Medium", Helvetica;
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 21px;
-  white-space: nowrap;
-}
-
-.contact .button {
-  margin-top: 13px;
-  width: 44.02px;
-  height: 40px;
-  margin-left: 37.3px;
-  display: flex;
-  background-color: #16a34a;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.contact .icon {
-  margin-top: 6.0px;
-  width: 24.01px;
-  height: 27.99px;
-  margin-left: 10px;
-  position: relative;
-}
-
-.contact .vector {
-  position: absolute;
-  width: 64.76%;
-  height: 55.56%;
-  top: 22.22%;
-  left: 17.62%;
-}
-
-.contact .icon-wrapper {
-  margin-top: 13px;
-  width: 44.02px;
-  height: 40px;
-  margin-left: 8.0px;
-  display: flex;
-  background-color: #16a34a;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.contact .vector-wrapper {
-  margin-top: 6px;
-  width: 24.02px;
-  height: 28px;
-  margin-left: 10px;
-  position: relative;
-}
-
-.contact .img {
-  position: absolute;
-  width: 64.76%;
-  height: 69.44%;
-  top: 15.28%;
-  left: 17.61%;
-}
-
-.contact .main {
-  z-index: 3;
-  margin-left: 168px;
-  margin-right: 248px;
-  flex: 1;
-  max-height: 793px;
-  position: relative;
-  margin-top: 78px;
-}
-
-.contact .heading-how-can-we {
-  position: absolute;
-  top: 0;
-  left: calc(50.00% - 199px);
-  width: 398px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-ExtraBold", Helvetica;
+.main-title {
+  font-family: "Manrope-ExtraBold", sans-serif;
   font-weight: 800;
-  color: #344e41;
-  font-size: 47.6px;
-  text-align: center;
-  letter-spacing: -2.40px;
-  line-height: 48px;
-  white-space: nowrap;
+  font-size: 48px;
+  color: var(--contact-dark);
+  margin-bottom: 16px;
+  letter-spacing: -1px;
 }
 
-.contact .find-the-right-team {
-  position: absolute;
-  top: 66px;
-  left: calc(50.00% - 317px);
-  width: 635px;
-  height: 52px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Regular", Helvetica;
+.sub-title {
+  font-family: var(--font-main);
   font-weight: 400;
-  color: #588157;
   font-size: 18px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 28px;
+  color: var(--contact-medium);
+  margin: 0;
 }
 
-.contact .overlay-shadow {
-  position: absolute;
-  width: calc(100% - 704px);
-  height: calc(100% - 409px);
-  top: 184px;
-  left: 0;
+/* --- 2. Support Cards Grid --- */
+.support-section {
+  margin-bottom: 80px;
+}
+
+.support-grid {
+  display: grid;
+  /* Auto-fit: สร้างคอลัมน์อัตโนมัติ ขนาดต่ำสุด 300px */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+  justify-content: center;
+}
+
+.support-card {
+  background-color: var(--card-bg);
+  border-radius: 24px; /* ความมนของการ์ดตามดีไซน์เดิม */
+  padding: 40px 32px;
   display: flex;
   flex-direction: column;
-  background-color: #f7f5e680;
-  border-radius: 24px;
-  box-shadow: 0px 1px 2px #0000000d;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  transition: var(--transition-speed);
+  border: 1px solid transparent;
 }
 
-.contact .overlay {
+.support-card:hover {
+  background-color: var(--card-bg-hover);
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
+  border-color: rgba(52, 78, 65, 0.1);
+}
+
+/* Icon Styles */
+.card-icon-bg {
+  width: 64px;
   height: 64px;
-  width: 64px;
-  align-self: center;
-  margin-top: 24px;
-  display: flex;
-  background-color: #344e411a;
-  border-radius: 9999px;
-}
-
-.contact .img-wrapper {
-  margin-top: 10px;
-  width: 36px;
-  height: 44px;
-  margin-left: 14px;
-  position: relative;
-}
-
-.contact .vector-2 {
-  position: absolute;
-  width: 66.67%;
-  height: 68.18%;
-  top: 15.91%;
-  left: 16.67%;
-}
-
-.contact .heading-product {
+  background-color: rgba(52, 78, 65, 0.1); /* วงกลมสีเขียวจาง */
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 0.4px;
-  height: 28px;
-  width: 238.11px;
-  align-self: center;
-  margin-top: 24px;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #344e41;
+  margin-bottom: 24px;
+}
+
+.card-icon {
+  width: 30px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Text Styles */
+.card-title {
+  font-family: "Manrope-Bold", sans-serif;
   font-size: 20px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 28px;
-  white-space: nowrap;
+  color: var(--contact-dark);
+  margin-bottom: 8px;
 }
 
-.contact .help-with-existing {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0.2px;
-  height: 59px;
-  width: 271.64px;
-  align-self: center;
-  margin-top: 8px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #588157;
+.card-desc {
   font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
+  color: var(--contact-medium);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 260px; /* บีบข้อความไม่ให้ยาวเกินไป */
 }
 
-.contact .button-2 {
-  all: unset;
-  box-sizing: border-box;
-  margin-left: 24px;
-  margin-right: 24px;
-  flex: 1;
-  max-height: 44px;
-  position: relative;
-  margin-top: 53px;
-  background-color: #344e41;
-  border-radius: 16px;
-}
-
-.contact .icon-2 {
-  position: absolute;
-  top: 11px;
-  left: 94px;
-  width: 18px;
-  height: 22px;
-}
-
-.contact .vector-3 {
-  position: absolute;
-  width: 83.33%;
-  height: 54.55%;
-  top: 22.73%;
-  left: 8.33%;
-}
-
-.contact .text-wrapper-5 {
-  left: calc(50.00% - 16px);
-  width: 58px;
-  position: absolute;
-  top: 12px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #ffffff;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .button-3 {
-  all: unset;
-  box-sizing: border-box;
-  margin-left: 24px;
-  margin-right: 24px;
-  flex: 1;
-  max-height: 44px;
-  position: relative;
-  margin-top: 12px;
-  border-radius: 16px;
-  border: 1px solid;
-  border-color: #344e4133;
-}
-
-.contact .icon-3 {
-  position: absolute;
-  top: 11px;
-  left: 100px;
-  width: 18px;
-  height: 22px;
-}
-
-.contact .vector-4 {
-  position: absolute;
-  width: 75.00%;
-  height: 61.36%;
-  top: 19.32%;
-  left: 12.50%;
-}
-
-.contact .text-wrapper-6 {
-  position: absolute;
-  top: 12px;
-  left: calc(50.00% - 10px);
-  width: 47px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #344e41;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .overlay-shadow-2 {
-  left: 352px;
-  position: absolute;
-  width: calc(100% - 704px);
-  height: calc(100% - 409px);
-  top: 184px;
-  display: flex;
-  flex-direction: column;
-  background-color: #f7f5e680;
-  border-radius: 24px;
-  box-shadow: 0px 1px 2px #0000000d;
-}
-
-.contact .vector-5 {
-  position: absolute;
-  width: 91.71%;
-  height: 68.18%;
-  top: 15.91%;
-  left: 4.12%;
-}
-
-.contact .heading-sales {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0.2px;
-  height: 55px;
-  width: 188.62px;
-  align-self: center;
-  margin-top: 24px;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #344e41;
-  font-size: 20px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 28px;
-}
-
-.contact .for-bulk-orders {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0.2px;
-  height: 59px;
-  width: 253.54px;
-  align-self: center;
-  margin-top: 9px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #588157;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-}
-
-.contact .button-4 {
-  all: unset;
-  box-sizing: border-box;
-  margin-left: 24px;
-  margin-right: 24px;
-  flex: 1;
-  max-height: 44px;
-  position: relative;
-  margin-top: 25px;
-  background-color: #344e41;
-  border-radius: 16px;
-}
-
-.contact .icon-4 {
-  position: absolute;
-  top: 11px;
-  left: 85px;
-  width: 18px;
-  height: 22px;
-}
-
-.contact .text-wrapper-7 {
-  left: calc(50.00% - 25px);
-  width: 77px;
-  position: absolute;
-  top: 12px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #ffffff;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .icon-5 {
-  position: absolute;
-  top: 11px;
-  left: 67px;
-  width: 18px;
-  height: 22px;
-}
-
-.contact .text-wrapper-8 {
-  position: absolute;
-  top: 12px;
-  left: calc(50.00% - 43px);
-  width: 113px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #344e41;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .overlay-shadow-3 {
-  left: 704px;
-  position: absolute;
-  width: calc(100% - 704px);
-  height: calc(100% - 409px);
-  top: 184px;
-  display: flex;
-  flex-direction: column;
-  background-color: #f7f5e680;
-  border-radius: 24px;
-  box-shadow: 0px 1px 2px #0000000d;
-}
-
-.contact .vector-6 {
-  position: absolute;
-  width: 75.00%;
-  height: 68.18%;
-  top: 15.91%;
-  left: 12.50%;
-}
-
-.contact .heading-vegetable {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0.4px;
-  height: 28px;
-  width: 225.25px;
-  align-self: center;
-  margin-top: 24px;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #344e41;
-  font-size: 20px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 28px;
-  white-space: nowrap;
-}
-
-.contact .assistance-with-plot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0.2px;
-  height: 59px;
-  width: 257.78px;
-  align-self: center;
-  margin-top: 8px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #588157;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-}
-
-.contact .icon-6 {
-  position: absolute;
-  top: 11px;
-  left: 75px;
-  width: 18px;
-  height: 22px;
-}
-
-.contact .text-wrapper-9 {
-  left: calc(50.00% - 35px);
-  width: 95px;
-  position: absolute;
-  top: 12px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #ffffff;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .horizontal-border {
-  position: absolute;
+/* Buttons inside Card */
+.card-buttons {
   width: 100%;
-  top: 632px;
-  left: 0;
-  height: 161px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  border-top-width: 1px;
-  border-top-style: solid;
-  border-color: #344e411a;
+  gap: 12px;
 }
 
-.contact .heading-looking {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0.4px;
-  height: 28px;
-  width: 239.37px;
-  margin-top: 41px;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #344e41;
-  font-size: 18px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 28px;
-  white-space: nowrap;
-}
-
-.contact .p {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0.3px;
-  height: 24px;
-  width: 657.25px;
-  margin-top: 8px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #588157;
-  font-size: 16px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
-}
-
-.contact .button-5 {
-  all: unset;
-  box-sizing: border-box;
-  margin-left: 0;
+.btn-card-primary {
+  width: 100%;
   height: 44px;
-  width: 163.42px;
-  position: relative;
-  margin-top: 16px;
+  background-color: var(--contact-dark); /* สีเขียวเข้ม */
+  color: #ffffff;
+  border: none;
   border-radius: 16px;
-  border: 1px solid;
-  border-color: #344e41;
-}
-
-.contact .text-wrapper-10 {
-  position: absolute;
-  top: 12px;
-  left: calc(50.00% - 57px);
-  width: 88px;
-  height: 20px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
+  transition: 0.2s;
+}
+
+.btn-card-primary:hover {
+  background-color: #263a30;
+  transform: scale(1.02);
+}
+
+.btn-card-outline {
+  width: 100%;
+  height: 44px;
+  background-color: transparent;
+  color: var(--contact-dark);
+  border: 1px solid rgba(52, 78, 65, 0.2);
+  border-radius: 16px;
   font-weight: 700;
-  color: #344e41;
   font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.btn-card-outline:hover {
+  border-color: var(--contact-dark);
+  background-color: rgba(52, 78, 65, 0.05);
+}
+
+/* --- 3. Bottom CTA Section --- */
+.bottom-cta {
   text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .icon-7 {
-  position: absolute;
-  top: 11px;
-  left: 120px;
-  width: 18px;
-  height: 22px;
-}
-
-.contact .vector-7 {
-  position: absolute;
-  width: 66.67%;
-  height: 54.55%;
-  top: 22.73%;
-  left: 16.67%;
-}
-
-.contact .frame {
-  position: fixed;
-  top: 785px;
-  left: 1354px;
-  width: 77px;
-  z-index: 4;
-}
-
-.contact .footer {
-  z-index: 1;
-  margin-left: -6px;
-  width: 1440px;
-  margin-top: 64px;
-  display: flex;
-  background-color: #f6f8f6;
-}
-
-.contact .horizontal-border-2 {
-  height: 326px;
-  flex: 1;
-  position: relative;
-  border-top-width: 1px;
-  border-top-style: solid;
-  border-color: #13ec3733;
-}
-
-.contact .SVG {
-  position: absolute;
-  top: 51px;
-  left: 54px;
-  width: 24px;
-  height: 24px;
-}
-
-.contact .vector-8 {
-  position: absolute;
-  width: 75.00%;
-  height: 83.33%;
-  top: 8.33%;
-  left: 12.50%;
-}
-
-.contact .heading-digital {
-  position: absolute;
-  top: 49px;
-  left: 90px;
-  width: 138px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111827;
-  font-size: 20px;
-  letter-spacing: 0;
-  line-height: 28px;
-  white-space: nowrap;
-}
-
-.contact .connecting-you-back {
-  position: absolute;
-  top: 93px;
-  left: 54px;
-  width: 293px;
-  height: 39px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-}
-
-.contact .text-wrapper-11 {
-  position: absolute;
-  top: 49px;
-  left: 541px;
-  width: 59px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111827;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
-}
-
-.contact .list {
-  left: 541px;
-  height: 104px;
-  position: absolute;
-  width: calc(100% - 1035px);
-  top: 89px;
+  margin-bottom: 100px;
   display: flex;
   flex-direction: column;
-  gap: 9px;
-}
-
-.contact .item-link {
-  width: 95.28px;
-  display: flex;
-}
-
-.contact .text-wrapper-12 {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 95.63px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
 }
 
-.contact .item-link-2 {
-  width: 71.08px;
-  display: flex;
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(52, 78, 65, 0.1);
+  margin-bottom: 60px;
 }
 
-.contact .text-wrapper-13 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 71.39px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
+.bottom-title {
+  font-family: "Manrope-Bold", sans-serif;
+  font-size: 18px;
+  color: var(--contact-dark);
+  margin-bottom: 8px;
 }
 
-.contact .item-link-3 {
-  width: 60.88px;
-  display: flex;
-}
-
-.contact .text-wrapper-14 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 61.27px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .item-link-4 {
-  width: 28.42px;
-  display: flex;
-}
-
-.contact .text-wrapper-15 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28.79px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .text-wrapper-16 {
-  position: absolute;
-  top: 49px;
-  left: 818px;
-  width: 64px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
-  font-weight: 700;
-  color: #111827;
+.bottom-desc {
   font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
+  color: var(--contact-medium);
+  margin-bottom: 24px;
 }
 
-.contact .list-2 {
-  left: 818px;
-  height: 76px;
-  position: absolute;
-  width: calc(100% - 1035px);
-  top: 89px;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.contact .item-link-5 {
-  width: 73.34px;
-  display: flex;
-}
-
-.contact .text-wrapper-17 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 73.65px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .item-link-6 {
-  width: 32.98px;
-  display: flex;
-}
-
-.contact .text-wrapper-18 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 33.38px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .shipping-returns-wrapper {
-  width: 123.05px;
-  display: flex;
-}
-
-.contact .shipping-returns {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 123.44px;
-  height: 19px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
-  font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.contact .text-wrapper-19 {
-  position: absolute;
-  top: 49px;
-  left: 1096px;
-  width: 125px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Bold", Helvetica;
+.btn-outline-large {
+  height: 44px;
+  padding: 0 40px;
+  background-color: transparent;
+  color: var(--contact-dark);
+  border: 1px solid var(--contact-dark);
+  border-radius: 16px;
   font-weight: 700;
-  color: #111827;
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  white-space: nowrap;
-}
-
-.contact .join-our-newsletter {
-  position: absolute;
-  top: 89px;
-  left: 1096px;
-  width: 227px;
-  height: 39px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #4b5563;
   font-size: 14px;
-  letter-spacing: 0;
-  line-height: 20px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.contact .horizontal-border-3 {
-  position: absolute;
-  width: calc(100% - 64px);
-  top: 225px;
-  left: 32px;
-  height: 53px;
-  display: flex;
-  justify-content: center;
-  border-top-width: 1px;
-  border-top-style: solid;
-  border-color: #13ec3733;
+.btn-outline-large:hover {
+  background-color: var(--contact-dark);
+  color: #ffffff;
 }
 
-.contact .text-wrapper-20 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 33px;
-  width: 266.21px;
-  height: 20px;
-  margin-left: 0.3px;
-  font-family: "Manrope-Regular", Helvetica;
-  font-weight: 400;
-  color: #6b7280;
-  font-size: 14px;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: 20px;
-  white-space: nowrap;
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .main-title {
+    font-size: 32px;
+  }
+  
+  .sub-title {
+    font-size: 16px;
+  }
+  
+  .container {
+    padding: 0 20px; /* ลด Padding ในมือถือ */
+  }
 }

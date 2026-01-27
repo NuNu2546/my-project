@@ -1,14 +1,32 @@
-/* --- 1. Base Setup --- */
-* {
-  box-sizing: border-box;
+/* Veggie_Plots.css - Refactored Grid System */
+
+/* --- 0. Variables & Global --- */
+:root {
+  /* Global Variables consistent with Home/Shop */
+  --primary-green: #13ec37;
+  --dark-green: #10d131;
+  --light-bg: #f6f8f6;
+  --text-dark: #1f2937;
+  --text-gray: #4b5563;
+  --font-main: "Manrope", sans-serif;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  --transition-speed: 0.3s;
+  
+  /* Badge Colors */
+  --status-available-bg: #dcfce7;
+  --status-available-text: #166534;
+  --status-full-bg: #fee2e2;
+  --status-full-text: #991b1b;
 }
 
 body {
+  font-family: var(--font-main);
+  background-color: var(--light-bg);
+  color: var(--text-dark);
   margin: 0;
-  background-color: #f6f8f6;
-  font-family: "Manrope", Helvetica, sans-serif;
 }
 
+/* --- 1. Layout & Container --- */
 .veggie-plots {
   width: 100%;
   min-height: 100vh;
@@ -16,190 +34,227 @@ body {
   flex-direction: column;
 }
 
-/* --- 2. MAIN CONTENT (พระเอกอยู่ตรงนี้) --- */
 .main {
+  /* ใช้โครงสร้างเดียวกับหน้า Shop เพื่อความกว้างที่เท่ากัน */
   width: 100%;
-  max-width: 1440px; 
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 40px 20px;
-  flex: 1;
+  padding: 40px 50px 80px 50px; /* Top Right Bottom Left */
+  box-sizing: border-box;
 }
 
+/* --- 2. Page Title --- */
 .page-title {
-  margin-bottom: 40px;
   text-align: center;
+  margin-bottom: 60px;
 }
 
 .heading-find-your {
-  font-family: "Manrope-Bold", Helvetica, sans-serif;
-  font-weight: 700;
-  color: #111811;
+  font-family: "Manrope-ExtraBold", sans-serif;
+  font-weight: 800;
   font-size: 36px;
-  line-height: 1.2;
+  color: #0f172a;
+  letter-spacing: -0.5px;
 }
 
-/* --- 3. ระบบ Flexbox Wrap (สูตรลับความเนียน) --- */
+/* --- 3. Grid System (หัวใจหลักของการจัดหน้า) --- */
 .plots-grid {
-  display: flex;
-  flex-wrap: wrap;       /* อนุญาตให้ปัดตกบรรทัดได้ถ้ารูปเบียดกัน */
-  justify-content: center; /* จัดให้อยู่กึ่งกลางเสมอเวลาเหลือเศษ */
-  gap: 24px;             /* ระยะห่างระหว่างการ์ด */
-  width: 100%;
+  display: grid;
+  /* Auto-fit: สร้างคอลัมน์อัตโนมัติ ขนาดต่ำสุดการ์ด 320px */
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+  justify-content: center;
 }
 
-/* --- 4. Card Design (ปรับให้ยืดหดแบบมีขอบเขต) --- */
+/* --- 4. Plot Card Styling --- */
 .plot-card {
   background-color: #ffffff;
-  border-radius: 24px;
-  border: 1px solid #dbe6db;
+  border-radius: 16px;
   overflow: hidden;
-  position: relative;
+  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative; /* เพื่อให้ Badge อิงตำแหน่งได้ */
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s, box-shadow 0.2s;
-  
-  /* หัวใจสำคัญ: */
-  /* flex: 1 1 300px แปลว่า: ยืดได้ (1), หดได้ (1), แต่ขอขนาดพื้นฐานที่ 300px */
-  flex: 1 1 340px; 
-  
-  /* ห้ามกว้างเกินไป (เดี๋ยวการ์ดจะบานเป็นแผ่นกระดาน) */
-  max-width: 400px; 
-  
-  /* ห้ามเล็กเกินไป (เดี๋ยวรูปเบี้ยว) */
-  min-width: 280px; 
 }
 
 .plot-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  border-color: rgba(19, 236, 55, 0.3);
 }
 
-/* รูปภาพ */
+/* Card Image Area */
 .card-image {
   width: 100%;
-  aspect-ratio: 4/3; /* ล็อกสัดส่วนภาพไว้เสมอ ไม่ว่าจอจะย่อแค่ไหน */
+  height: 240px;
+  background-color: #e2e8f0; /* สีพื้นหลังกันพลาด */
   background-size: cover;
   background-position: center;
-  background-color: #f0f0f0;
+  position: relative;
 }
 
-/* Mapping รูปภาพ */
-.abaxucuxlyqvoaz { background-image: url('../images/your-image-1.png'); } 
-.abaxuaxkcoqmdnhv { background-image: url('../images/your-image-2.png'); } 
-.background-wrapper { background-image: url('../images/your-image-3.png'); }
-.div-2 { background-image: url('../images/your-image-4.png'); }
-.div-3 { background-image: url('../images/your-image-5.png'); }
-.div-4 { background-image: url('../images/your-image-6.png'); }
+/* Fallback images (ในกรณีที่คุณยังไม่ได้ใส่รูปจริงใน class เดิม) */
+/* คุณสามารถลบส่วนนี้ได้ถ้า CSS เดิมมีรูปอยู่แล้ว */
+.card-image.abaxucuxlyqvoaz { background-image: url('../images/plot-1.jpg'); } 
+.card-image.abaxuaxkcoqmdnhv { background-image: url('../images/plot-2.jpg'); }
+/* (เพิ่มรูป Placeholder ชั่วคราวเพื่อให้เห็นภาพ) */
+.card-image:empty {
+    background-image: linear-gradient(45deg, #f3f4f6 25%, #e5e7eb 25%, #e5e7eb 50%, #f3f4f6 50%, #f3f4f6 75%, #e5e7eb 75%, #e5e7eb 100%);
+    background-size: 20px 20px;
+}
 
-/* เนื้อหา */
+/* Status Badge (ป้ายสถานะ) */
+.status-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 10;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.status-badge.available {
+  background-color: var(--status-available-bg);
+  color: var(--status-available-text);
+}
+
+.status-badge.full {
+  background-color: var(--status-full-bg);
+  color: var(--status-full-text);
+}
+
+/* Card Content */
 .card-content {
-  padding: 20px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  flex-grow: 1;
+  flex: 1; /* ยืดให้เต็มพื้นที่ */
 }
 
 .heading-text {
-  font-weight: 700;
-  font-size: 18px;
-  color: #111811;
   font-family: "Manrope-Bold", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
 }
 
 .desc-text {
   font-size: 14px;
-  color: #618961;
-  line-height: 1.5;
-  font-family: "Manrope-Regular", sans-serif;
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1; /* ดันเนื้อหาด้านล่างลงไป */
 }
 
+/* Specifications Row (Icons) */
 .specs-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .spec-tag {
-  background-color: #f0f4f0;
-  border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 12px;
-  color: #618961;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 600;
+  background-color: #f8fafc;
+  padding: 4px 8px;
+  border-radius: 6px;
 }
 
 .spec-tag img {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
 }
 
+/* Price & Button Row */
 .price-row {
-  margin-top: auto;
   display: flex;
   align-items: baseline;
-  gap: 4px;
+  margin-bottom: 16px;
 }
 
 .price {
-  font-weight: 700;
-  font-size: 18px;
-  color: #111811;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--dark-green);
 }
 
 .unit {
   font-size: 14px;
-  color: #618961;
+  color: var(--text-gray);
+  margin-left: 4px;
 }
 
-/* ปุ่ม */
 .action-btn {
   width: 100%;
   padding: 12px;
-  background-color: #16a34a;
-  color: white;
+  border-radius: 10px;
   border: none;
-  border-radius: 12px;
+  font-family: var(--font-main);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
-  transition: background-color 0.2s;
-  font-family: "Manrope-Bold", sans-serif;
+  transition: all 0.2s;
+  background-color: var(--primary-green);
+  color: white;
+  text-align: center;
 }
 
 .action-btn:hover {
-  background-color: #15803d;
+  background-color: var(--dark-green);
+  transform: scale(1.02);
 }
 
+/* Booked Button State */
 .action-btn.booked {
-  background-color: #dbe6db;
-  color: #737373;
+  background-color: #e2e8f0;
+  color: #94a3b8;
   cursor: not-allowed;
 }
 
-/* ป้ายสถานะ */
-.status-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  background-color: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(4px);
-  z-index: 2;
+.action-btn.booked:hover {
+  background-color: #e2e8f0;
+  transform: none;
 }
 
-.status-badge.available {
-  color: #166534;
-  border: 1px solid #dcfce7;
+/* --- Responsive Adjustments --- */
+@media (max-width: 1024px) {
+  .plots-grid {
+     /* แท็บเล็ต 2 คอลัมน์ */
+     grid-template-columns: repeat(2, 1fr); 
+  }
 }
 
-.status-badge.full {
-  color: #991b1b;
-  border: 1px solid #fee2e2;
-  background-color: #fee2e2;
+@media (max-width: 640px) {
+  .main {
+    padding: 30px 20px;
+  }
+  
+  .heading-find-your {
+    font-size: 28px;
+  }
+
+  .plots-grid {
+     /* มือถือ 1 คอลัมน์ */
+     grid-template-columns: 1fr; 
+  }
+  
+  .card-image {
+    height: 200px;
+  }
 }

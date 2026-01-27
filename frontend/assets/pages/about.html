@@ -1,206 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
+    <title>About Us - Digital Garden</title>
     <link rel="stylesheet" href="/frontend/assets/globals.css" />
     <link rel="stylesheet" href="/frontend/assets/css/about.css" />
   </head>
   <body>
-    <div class="about">
-        <footer class="footer">
-            <div class="footer-container">
-                <div class="footer-content">
+    <header class="header">
+      <img class="logo" src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
+      
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="/frontend/assets/pages/home.html" class="nav-link">Home</a></li>
+          <li><a href="/frontend/assets/pages/shop.html" class="nav-link">Shopee</a></li>
+          <li><a href="/frontend/assets/pages/Veggie Plots.html" class="nav-link">Veggie Plots</a></li>
+          <li><a href="/frontend/assets/pages/about.html" class="nav-link">About</a></li>
+          <li><a href="/frontend/assets/pages/contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
 
-                    <div class="footer-column footer-brand">
-                        <div class="footer-logo">
-                            <img src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
-                        </div>
-                        <p class="slogan">
-                            Connecting you back to nature, one plant and product at a time.
-                        </p>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Explore</h4>
-                        <ul class="footer-list">
-                            <li><a href="#">Shop Products</a></li>
-                            <li><a href="#">Book a Plot</a></li>
-                            <li><a href="#">Our Story</a></li>
-                            <li><a href="#">Blog</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Support</h4>
-                        <ul class="footer-list">
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">FAQs</a></li>
-                            <li><a href="#">Shipping & Returns</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Stay Connected</h4>
-                        <p class="newsletter-text">
-                            Join our newsletter for updates and tips.
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="footer-bottom">
-                    <p>© 2024 Digital Garden. All rights reserved.</p>
-                </div>
+      <div class="header-actions">
+        <div class="profile-container">
+          <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
+            <div class="icon-inner">
+              <img class="icon-img" src="/frontend/assets/images/profile.png" alt="Profile" />
             </div>
-        </footer>
-
-        <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
-            <div id="chatIconContainer">
-                <img src="/frontend/assets/images/Group.png" alt="Chat Icon" id="chatIconMain" />
+          </button>
+          <div class="dropdown-menu" id="profileMenu">
+            <div class="menu-header">
+              <img src="/frontend/assets/images/v41_78.png" alt="User" class="menu-user-img">
+              <span class="menu-username">ชื่อผู้ใช้</span>
             </div>
-        </button>
-
-        <div class="chat-popup" id="chatPopup">
-            <div class="chat-header">
-                <div class="admin-info">
-                    <div class="admin-avatar"></div>
-                    <div>
-                        <p class="admin-name">Greenhearth Admin</p>
-                        <p class="admin-status">ออนไลน์</p>
-                    </div>
-                </div>
-                <button class="close-chat-header" id="closeChatHeader">&times;</button>
-            </div>
-
-            <div class="chat-messages" id="chatMessages">
-                <div class="message admin-msg">
-                    สวัสดีค่ะ! ยินดีต้อนรับสู่ Digital Garden มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
-                </div>
-            </div>
-
-            <div class="chat-footer">
-                <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
-                <button id="sendBtn">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-                    </svg>
-                </button>
-            </div>
+            <hr>
+            <a href="#" class="menu-item">การซื้อของฉัน</a>
+            <a href="#" class="menu-item logout">ออกจากระบบ</a>
+          </div>
         </div>
-        <script src="/frontend/assets/js/script.js"></script>
-        <header class="header">
-            <img class="logo" src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
 
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li><a href="/frontend/assets/pages/home.html" class="nav-link">Home</a></li>
-                    <li><a href="/frontend/assets/pages/shop.html" class="nav-link">Shopee</a></li>
-                    <li><a href="/frontend/assets/pages/Veggie Plots.html" class="nav-link">Veggie Plots</a></li>
-                    <li><a href="/frontend/assets/pages/about.html" class="nav-link">About</a></li>
-                    <li><a href="/frontend/assets/pages/contact.html" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
+        <button type="button" class="icon-btn" aria-label="Shop">
+          <div class="icon-inner">
+            <img class="icon-img" src="/frontend/assets/images/shop.png" alt="Shop" />
+          </div>
+        </button>
+      </div>
+    </header>
 
-            <div class="header-actions">
+    <main class="about-page">
+      
+      <section class="hero-section">
+        <div class="hero-content">
+          <h1 class="hero-title">จากธรรมชาติสู่สวนของคุณ ด้วยใจรักในการปลูก</h1>
+          <p class="hero-subtitle">
+            “เชื่อมโยงผู้คนกับอาหารที่ยั่งยืน และความสุขในการปลูกผักด้วยตัวเอง ทีละแปลง”
+          </p>
+        </div>
+      </section>
+
+      <section class="story-section container">
+        <h2 class="section-title text-green">เรื่องราวของเรา</h2>
+        <div class="story-content">
+            <div class="story-image">
+                <img src="img/image.png" alt="Our Story Image" />
+            </div>
+            <div class="story-text">
+                <p>
+                  ก่อตั้งขึ้นบนความเชื่อที่ว่า ทุกคนควรมีโอกาสใกล้ชิดกับอาหารและผืนดินของตัวเอง 
+                  เราจึงเริ่มต้นด้วยภารกิจง่าย ๆ คือ ทำให้การใช้ชีวิตอย่างยั่งยืนเป็นเรื่องเข้าถึงได้ 
+                  จากจุดเริ่มต้นเล็ก ๆ ในชุมชนสวนสาธารณะ เราเติบโตจนกลายเป็นระบบนิเวศสำหรับคนรักธรรมชาติ 
+                  ที่นี่เรานำเสนอทั้ง ผลิตภัณฑ์ออร์แกนิกคุณภาพเยี่ยม และ พื้นที่ให้คุณได้ปลูกผักและพืชสวนของตัวเอง
+                </p>
                 
-                <div class="profile-container">
-                    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
-                        <div class="icon-inner">
-                            <img class="icon-img" src="/frontend/assets/images/profile.png" alt="Profile" />
-                        </div>
-                    </button>
-
-                    <div class="dropdown-menu" id="profileMenu">
-                        <div class="menu-header">
-                            <img src="/frontend/assets/images/v41_78.png" alt="User" class="menu-user-img">
-                            <span class="menu-username">ชื่อผู้ใช้</span>
-                        </div>
-                        <hr>
-                        <a href="#" class="menu-item">การซื้อของฉัน</a>
-                        <a href="#" class="menu-item logout">ออกจากระบบ</a>
-                    </div>
+                <div class="value-box">
+                    <h3>เป้าหมาย</h3>
+                    <p>เรามุ่งสร้างพลังให้ชุมชนในการปลูกและบริโภคอาหารสดจากท้องถิ่น พร้อมสร้างความสัมพันธ์ที่แน่นแฟ้นกับธรรมชาติ</p>
                 </div>
 
-                <button type="button" class="icon-btn" aria-label="Shop">
-                    <div class="icon-inner">
-                        <img class="icon-img" src="/frontend/assets/images/shop.png" alt="Shop" />
-                    </div>
-                </button>
+                <div class="value-box">
+                    <h3>ค่านิยม</h3>
+                    <p>เรามุ่งมั่นในเรื่อง ความยั่งยืน ชุมชน และการเรียนรู้ ในทุกกิจกรรมของเรา เพื่อสร้างอนาคตที่เขียวขจีและยั่งยืนสำหรับทุกคน</p>
+                </div>
             </div>
-        </header>
-      <div class="paragraph-background">
-        <div class="heading-rooted-in">จากธรรมชาติสู่สวนของคุณ ด้วยใจรักในการปลูก</div>
-        <div class="heading-connecting">
-          “เชื่อมโยงผู้คนกับอาหารที่ยั่งยืน และความสุขในการปลูกผักด้วยตัวเอง ทีละแปลง”
         </div>
-      </div>
-      <div class="heading-our-story">เรื่องราวของเรา</div>
-      <img class="image" src="img/image.png" />
-      <p class="text-wrapper-14">
-        ก่อตั้งขึ้นบนความเชื่อที่ว่า ทุกคนควรมีโอกาสใกล้ชิดกับอาหารและผืนดินของตัวเอง เราจึงเริ่มต้นด้วยภารกิจง่าย ๆ คือ
-        ทำให้การใช้ชีวิตอย่างยั่งยืนเป็นเรื่องเข้าถึงได้ จากจุดเริ่มต้นเล็ก ๆ ในชุมชนสวนสาธารณะ
-        เราเติบโตจนกลายเป็นระบบนิเวศสำหรับคนรักธรรมชาติ ที่นี่เรานำเสนอทั้ง ผลิตภัณฑ์ออร์แกนิกคุณภาพเยี่ยม และ
-        พื้นที่ให้คุณได้ปลูกผักและพืชสวนของตัวเอง
-      </p>
-      <div class="text-wrapper-15">เป้าหมาย</div>
-      <div class="text-wrapper-16">
-        เรามุ่งสร้างพลังให้ชุมชนในการปลูกและบริโภคอาหารสดจากท้องถิ่น พร้อมสร้างความสัมพันธ์ที่แน่นแฟ้นกับธรรมชาติ
-      </div>
-      <div class="text-wrapper-17">ค่านิยม</div>
-      <p class="text-wrapper-18">
-        เรามุ่งมั่นในเรื่อง ความยั่งยืน ชุมชน และการเรียนรู้ ในทุกกิจกรรมของเรา
-        เพื่อสร้างอนาคตที่เขียวขจีและยั่งยืนสำหรับทุกคน
-      </p>
-      <div class="background"></div>
-      <div class="container">
-        <p class="heading-the-people">The People Behind the Plots</p>
-        <p class="meet-the-passionate">
-          Meet the passionate individuals dedicated to bringing our vision to life. Our team&#39;s<br />expertise and
-          love for nature are the roots of our community.
-        </p>
-        <div class="background-shadow">
-          <div class="div-2"></div>
-          <div class="heading-jane-doe">Jane Doe</div>
-          <div class="founder-chief">Founder &amp; Chief Cultivator</div>
-          <p class="watching-a-seed-grow">
-            &#34;Watching a seed grow into<br />something that can nourish a family<br />is pure magic. That&#39;s the
-            feeling I<br />want to share with everyone.&#34;
+      </section>
+
+      <section class="team-section">
+        <div class="container">
+          <h2 class="section-title text-green">The People Behind the Plots</h2>
+          <p class="section-desc">
+            Meet the passionate individuals dedicated to bringing our vision to life. 
+            Our team's expertise and love for nature are the roots of our community.
           </p>
+
+          <div class="team-grid">
+            <div class="team-card">
+              <div class="avatar" style="background-image: url(./img/jane-doe.png);"></div> <h3 class="member-name">Jane Doe</h3>
+              <span class="member-role">Founder & Chief Cultivator</span>
+              <p class="member-quote">
+                "Watching a seed grow into something that can nourish a family is pure magic. 
+                That's the feeling I want to share with everyone."
+              </p>
+            </div>
+
+            <div class="team-card">
+              <div class="avatar" style="background-image: url(./img/john-smith.png);"></div>
+              <h3 class="member-name">John Smith</h3>
+              <span class="member-role">Community Manager</span>
+              <p class="member-quote">
+                "Our community is our most valuable crop. Connecting people through a shared love for the earth is what I live for."
+              </p>
+            </div>
+
+            <div class="team-card">
+              <div class="avatar" style="background-image: url(./img/emily-white.png);"></div>
+              <h3 class="member-name">Emily White</h3>
+              <span class="member-role">Lead Gardener</span>
+              <p class="member-quote">
+                "My hands might be covered in dirt, but my soul is clean. Nature is the best teacher, and I'm a lifelong student."
+              </p>
+            </div>
+          </div>
         </div>
-        <div class="background-shadow-2">
-          <div class="div-3"></div>
-          <div class="heading-john-smith">John Smith</div>
-          <div class="text-wrapper-19">Community Manager</div>
-          <p class="our-community-is-our">
-            &#34;Our community is our most valuable<br />crop. Connecting people through a<br />shared love for the
-            earth is what I live<br />for.&#34;
+      </section>
+
+      <section class="cta-section">
+        <div class="container">
+          <h2 class="section-title">Become Part of Our Community</h2>
+          <p class="section-desc">
+            Whether you're looking to grow your own food or want fresh, organic produce delivered to your door, there's a place for you here.
           </p>
+          <div class="cta-buttons">
+            <button class="btn btn-primary">Book a Plot</button>
+            <button class="btn btn-secondary">Shop Now</button>
+          </div>
         </div>
-        <div class="background-shadow-3">
-          <div class="div-4"></div>
-          <div class="heading-emily">Emily White</div>
-          <div class="text-wrapper-20">Lead Gardener</div>
-          <p class="my-hands-might-be">
-            &#34;My hands might be covered in dirt,<br />but my soul is clean. Nature is the<br />best teacher, and
-            I&#39;m a lifelong<br />student.&#34;
-          </p>
+      </section>
+
+    </main>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-column footer-brand">
+                    <div class="footer-logo">
+                        <img src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
+                    </div>
+                    <p class="slogan">Connecting you back to nature, one plant and product at a time.</p>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Explore</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">Shop Products</a></li>
+                        <li><a href="#">Book a Plot</a></li>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Stay Connected</h4>
+                    <p class="newsletter-text">Join our newsletter for updates and tips.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 Digital Garden. All rights reserved.</p>
+            </div>
         </div>
-      </div>
-      <div class="container-2">
-        <p class="heading-become">Become Part of Our Community</p>
-        <p class="whether-you-re">
-          Whether you&#39;re looking to grow your own food or want fresh, organic produce<br />delivered to your door,
-          there&#39;s a place for you here.
-        </p>
-        <button class="container-wrapper">
-          <div class="container-3"><div class="text-wrapper-21">Book a Plot</div></div>
-        </button>
-        <button class="button-2">
-          <div class="container-4"><div class="text-wrapper-22">Shop Now</div></div>
-        </button>
-      </div>
-      <img class="frame" src="img/frame-3.svg" />
+    </footer>
+
+    <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
+        <div id="chatIconContainer">
+            <img src="/frontend/assets/images/Group.png" alt="Chat Icon" id="chatIconMain" />
+        </div>
+    </button>
+    <div class="chat-popup" id="chatPopup">
+         <div class="chat-header">
+             <div class="admin-info">
+                 <div class="admin-avatar"></div>
+                 <div>
+                     <p class="admin-name">Greenhearth Admin</p>
+                     <p class="admin-status">ออนไลน์</p>
+                 </div>
+             </div>
+             <button class="close-chat-header" id="closeChatHeader">&times;</button>
+         </div>
+         <div class="chat-messages" id="chatMessages">
+             <div class="message admin-msg">
+                 สวัสดีค่ะ! ยินดีต้อนรับสู่ Digital Garden มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
+             </div>
+         </div>
+         <div class="chat-footer">
+             <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
+             <button id="sendBtn"><svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path></svg></button>
+         </div>
     </div>
+
+    <script src="/frontend/assets/js/script.js"></script>
   </body>
 </html>

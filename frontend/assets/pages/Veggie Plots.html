@@ -1,214 +1,159 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
+    <title>Veggie Plots - Digital Garden</title>
     <link rel="stylesheet" href="/frontend/assets/globals.css" />
-    <link rel="stylesheet" href="../css/Veggie_Plots.css">
-    <title>Veggie Plots</title>
+    <link rel="stylesheet" href="/frontend/assets/css/Veggie_Plots.css" />
   </head>
   <body>
     <div class="veggie-plots">
         
         <header class="header">
             <img class="logo" src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
-
             <nav class="nav">
                 <ul class="nav-list">
                     <li><a href="/frontend/assets/pages/home.html" class="nav-link">Home</a></li>
                     <li><a href="/frontend/assets/pages/shop.html" class="nav-link">Shopee</a></li>
-                    <li><a href="/frontend/assets/pages/Veggie Plots.html" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="/frontend/assets/pages/Veggie Plots.html" class="nav-link active">Veggie Plots</a></li>
                     <li><a href="/frontend/assets/pages/about.html" class="nav-link">About</a></li>
                     <li><a href="/frontend/assets/pages/contact.html" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
-
             <div class="header-actions">
                 <div class="profile-container">
-                    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
-                        <div class="icon-inner">
-                            <img class="icon-img" src="/frontend/assets/images/profile.png" alt="Profile" />
-                        </div>
+                    <button type="button" class="icon-btn profile-trigger" onclick="toggleProfileMenu()">
+                        <div class="icon-inner"><img class="icon-img" src="/frontend/assets/images/profile.png" alt="Profile" /></div>
                     </button>
-                    <div class="dropdown-menu" id="profileMenu">
-                        <div class="menu-header">
-                            <img src="/frontend/assets/images/v41_78.png" alt="User" class="menu-user-img">
-                            <span class="menu-username">ชื่อผู้ใช้</span>
-                        </div>
-                        <hr>
-                        <a href="#" class="menu-item">การซื้อของฉัน</a>
-                        <a href="#" class="menu-item logout">ออกจากระบบ</a>
-                    </div>
-                </div>
-
-                <button type="button" class="icon-btn" aria-label="Shop">
-                    <div class="icon-inner">
-                        <img class="icon-img" src="/frontend/assets/images/shop.png" alt="Shop" />
-                    </div>
+                     </div>
+                <button type="button" class="icon-btn">
+                    <div class="icon-inner"><img class="icon-img" src="/frontend/assets/images/shop.png" alt="Shop" /></div>
                 </button>
             </div>
         </header>
 
-        <div class="main">
+        <main class="main">
             <div class="page-title">
-                <div class="heading-find-your">หาพื้นที่ปลูกที่ใช่สำหรับคุณ</div>
+                <h1 class="heading-find-your">หาพื้นที่ปลูกที่ใช่สำหรับคุณ</h1>
+                <p style="color: var(--text-gray); margin-top: 10px;">เลือกจองแปลงผักที่เหมาะกับไลฟ์สไตล์ของคุณ พร้อมเริ่มปลูกได้ทันที</p>
             </div>
 
             <div class="plots-grid">
                 
                 <div class="plot-card">
-                    <div class="card-image abaxucuxlyqvoaz"></div>
-                    <div class="status-badge available">มีพื้นที่ว่างตอนนี้</div>
+                    <div class="card-image" style="background-image: url('img/plot-sunny.jpg');"></div> 
+                    <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
-                        <div class="heading-text">มุมแดดสบาย #A12</div>
-                        <div class="desc-text">แปลงมุมที่โดนแดดเต็มวัน เหมาะสำหรับผักและดอกไม้ที่ชอบแดด</div>
+                        <h3 class="heading-text">มุมแดดสบาย #A12</h3>
+                        <p class="desc-text">แปลงมุมที่โดนแดดเต็มวัน เหมาะสำหรับผักและดอกไม้ที่ชอบแดด</p>
                         <div class="specs-row">
-                            <div class="spec-tag"><img src="img/image.svg"> 10x10m</div>
-                            <div class="spec-tag"><img src="img/vector-13.svg"> แดดจัดเต็มวัน</div>
+                            <div class="spec-tag">📏 10x10m</div>
+                            <div class="spec-tag">☀️ แดดจัดเต็มวัน</div>
                         </div>
                         <div class="price-row">
-                            <span class="price">$45</span><span class="unit">/month</span>
+                            <span class="price">$45</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn">View & Book</button>
+                        <button class="action-btn">จองแปลงนี้</button>
                     </div>
                 </div>
 
                 <div class="plot-card">
-                    <div class="card-image abaxuaxkcoqmdnhv"></div>
-                    <div class="status-badge available">มีพื้นที่ว่างตอนนี้</div>
+                    <div class="card-image" style="background-image: url('img/plot-cozy.jpg');"></div>
+                    <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
-                        <div class="heading-text">มุมน่ารัก #B04</div>
-                        <div class="desc-text">แปลงขนาดเล็ก อบอุ่น เหมาะสำหรับปลูกผักหรือสมุนไพร</div>
+                        <h3 class="heading-text">มุมน่ารัก #B04</h3>
+                        <p class="desc-text">แปลงขนาดเล็ก อบอุ่น เหมาะสำหรับปลูกผักสวนครัวหรือสมุนไพร</p>
                         <div class="specs-row">
-                            <div class="spec-tag"><img src="img/vector-12.svg"> 8x12m</div>
-                            <div class="spec-tag"><img src="img/vector-8.svg"> ดินปลอดสารเคมี</div>
+                            <div class="spec-tag">📏 8x12m</div>
+                            <div class="spec-tag">🌱 ดินปลอดสาร</div>
                         </div>
                         <div class="price-row">
-                            <span class="price">$55</span><span class="unit">/month</span>
+                            <span class="price">$55</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn">View & Book</button>
+                        <button class="action-btn">จองแปลงนี้</button>
                     </div>
                 </div>
 
                 <div class="plot-card">
-                    <div class="card-image background-wrapper"></div>
-                    <div class="status-badge available">มีพื้นที่ว่างตอนนี้</div>
+                    <div class="card-image" style="background-image: url('img/plot-flower.jpg');"></div>
+                    <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
-                        <div class="heading-text">เนินดอกไม้ #C21</div>
-                        <div class="desc-text">แปลงบนเนินเล็ก ดอกไม้บานสะพรั่ง เหมาะสำหรับทำสวนประดับ</div>
+                        <h3 class="heading-text">เนินดอกไม้ #C21</h3>
+                        <p class="desc-text">แปลงบนเนินเล็ก ดอกไม้บานสะพรั่ง เหมาะสำหรับทำสวนประดับ</p>
                         <div class="specs-row">
-                            <div class="spec-tag"><img src="img/vector-6.svg"> 5x5m</div>
-                            <div class="spec-tag"><img src="img/vector-5.svg"> ร่มบางส่วน</div>
+                            <div class="spec-tag">📏 5x5m</div>
+                            <div class="spec-tag">⛅ ร่มบางเวลา</div>
                         </div>
                         <div class="price-row">
-                            <span class="price">$30</span><span class="unit">/month</span>
+                            <span class="price">$30</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn">View & Book</button>
+                        <button class="action-btn">จองแปลงนี้</button>
                     </div>
                 </div>
 
                 <div class="plot-card">
-                    <div class="card-image div-2"></div>
-                    <div class="status-badge available">มีพื้นที่ว่างตอนนี้</div>
+                    <div class="card-image" style="background-image: url('img/plot-open.jpg');"></div>
+                    <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
-                        <div class="heading-text">ทุ่งเล็ก #D08</div>
-                        <div class="desc-text">แปลงพื้นที่เปิด โล่ง ๆ ปลูกผักหรือดอกไม้ได้หลากหลาย</div>
+                        <h3 class="heading-text">ทุ่งเล็ก #D08</h3>
+                        <p class="desc-text">แปลงพื้นที่เปิด โล่งโปร่งสบาย ปลูกผักได้หลากหลายชนิด</p>
                         <div class="specs-row">
-                            <div class="spec-tag"><img src="img/vector-3.svg"> 12x8m</div>
-                            <div class="spec-tag"><img src="img/vector.svg"> แดดจัดเต็มวัน</div>
+                            <div class="spec-tag">📏 12x8m</div>
+                            <div class="spec-tag">☀️ แดดจัดเต็มวัน</div>
                         </div>
                         <div class="price-row">
-                            <span class="price">$60</span><span class="unit">/month</span>
+                            <span class="price">$60</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn">View & Book</button>
+                        <button class="action-btn">จองแปลงนี้</button>
                     </div>
                 </div>
 
                 <div class="plot-card">
-                    <div class="card-image div-3"></div>
-                    <div class="status-badge full">ถูกจองครบแล้ว</div>
+                    <div class="card-image" style="background-image: url('img/plot-fresh.jpg');"></div>
+                    <div class="status-badge full">ไม่ว่าง</div>
                     <div class="card-content">
-                        <div class="heading-text">แปลงสดชื่น #E15</div>
-                        <div class="desc-text">แปลงที่ดูแลง่าย เหมาะสำหรับผู้เริ่มต้นและปลูกผักเร็วโต</div>
+                        <h3 class="heading-text">แปลงสดชื่น #E15</h3>
+                        <p class="desc-text">แปลงที่ดูแลง่าย ใกล้แหล่งน้ำ เหมาะสำหรับผู้เริ่มต้น</p>
                         <div class="specs-row">
-                            <div class="spec-tag"><img src="img/vector-2.svg"> 10x10m</div>
-                            <div class="spec-tag"><img src="img/vector-9.svg"> แดดจัดเต็มวัน</div>
+                            <div class="spec-tag">📏 10x10m</div>
+                            <div class="spec-tag">💧 ใกล้น้ำ</div>
                         </div>
                         <div class="price-row">
-                            <span class="price">$40</span><span class="unit">/month</span>
+                            <span class="price">$40</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn booked">Booked</button>
+                        <button class="action-btn booked" disabled>ถูกจองแล้ว</button>
                     </div>
                 </div>
 
                 <div class="plot-card">
-                    <div class="card-image div-4"></div>
-                    <div class="status-badge available">มีพื้นที่ว่างตอนนี้</div>
+                    <div class="card-image" style="background-image: url('img/plot-oasis.jpg');"></div>
+                    <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
-                        <div class="heading-text">โอเอซิสเขียว #F01</div>
-                        <div class="desc-text">แปลงร่มรื่น สีเขียวสบายตา เหมาะสำหรับพักสายตาและปลูกผักใบ</div>
+                        <h3 class="heading-text">โอเอซิสเขียว #F01</h3>
+                        <p class="desc-text">แปลงขนาดใหญ่ ร่มรื่น เหมาะสำหรับกลุ่มเพื่อนหรือครอบครัว</p>
                         <div class="specs-row">
-                            <div class="spec-tag"><img src="img/vector-10.svg"> 20x15m</div>
-                            <div class="spec-tag"><img src="img/vector-11.svg"> แดดจัดเต็มวัน</div>
+                            <div class="spec-tag">📏 20x15m</div>
+                            <div class="spec-tag">🌳 ร่มรื่น</div>
                         </div>
                         <div class="price-row">
-                            <span class="price">$85</span><span class="unit">/month</span>
+                            <span class="price">$85</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn">View & Book</button>
+                        <button class="action-btn">จองแปลงนี้</button>
                     </div>
                 </div>
 
-            </div> </div> <footer class="footer">
-            <div class="footer-container">
-                <div class="footer-content">
-
-                    <div class="footer-column footer-brand">
-                        <div class="footer-logo">
-                            <img src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
-                        </div>
-                        <p class="slogan">
-                            Connecting you back to nature, one plant and product at a time.
-                        </p>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Explore</h4>
-                        <ul class="footer-list">
-                            <li><a href="#">Shop Products</a></li>
-                            <li><a href="#">Book a Plot</a></li>
-                            <li><a href="#">Our Story</a></li>
-                            <li><a href="#">Blog</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Support</h4>
-                        <ul class="footer-list">
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">FAQs</a></li>
-                            <li><a href="#">Shipping & Returns</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Stay Connected</h4>
-                        <p class="newsletter-text">
-                            Join our newsletter for updates and tips.
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="footer-bottom">
-                    <p>© 2024 Digital Garden. All rights reserved.</p>
-                </div>
             </div>
+        </main>
+
+        <footer class="footer">
+             <div class="footer-container">
+                <div class="footer-bottom"><p>© 2024 Digital Garden. All rights reserved.</p></div>
+             </div>
         </footer>
 
-        <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
-            <div id="chatIconContainer">
-                <img src="/frontend/assets/images/Group.png" alt="Chat Icon" id="chatIconMain" />
-            </div>
+        <button class="chat-button" id="chatButton">
+            <div id="chatIconContainer"><img src="/frontend/assets/images/Group.png" alt="Chat" id="chatIconMain" /></div>
         </button>
 
         <script src="/frontend/assets/js/script.js"></script>
