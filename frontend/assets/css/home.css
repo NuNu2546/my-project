@@ -289,7 +289,7 @@ body {
 .rental-title {
   font-family: var(--font-main);
   font-weight: 700;
-  font-size: 36px;
+  font-size: 32px;
   line-height: 1.2;
   margin-bottom: 16px;
   white-space: nowrap;
