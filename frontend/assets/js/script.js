@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    /* =========================================
+       1. ระบบ CHAT WIDGET
+       ========================================= */
     const chatButton = document.getElementById('chatButton');
     const chatPopup = document.getElementById('chatPopup');
     const closeChatHeader = document.getElementById('closeChatHeader');
@@ -6,73 +9,101 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendBtn = document.getElementById('sendBtn');
     const chatMessages = document.getElementById('chatMessages');
 
-    // ฟังก์ชัน เปิด-ปิด แชท (แบบไม่เปลี่ยนไอคอน)
+    // ฟังก์ชันเปิด-ปิดแชท
     function toggleChat() {
-        const isOpen = chatPopup.classList.contains('show');
-
-        if (isOpen) {
-            // ปิดแชท
-            chatPopup.classList.remove('show');
-            chatButton.classList.remove('active-btn');
-        } else {
-            // เปิดแชท
-            chatPopup.classList.add('show');
-            chatButton.classList.add('active-btn');
-            
-            // Focus ที่ช่อง input ทันทีเมื่อเปิด
-            setTimeout(() => chatInput.focus(), 400);
+        chatPopup.classList.toggle('show');
+        
+        // ถ้าเปิดอยู่ ให้โฟกัสที่ช่องพิมพ์
+        if (chatPopup.classList.contains('show')) {
+            setTimeout(() => chatInput.focus(), 300);
         }
     }
 
-    // คลิกปุ่มกลม
+    // Event Listeners สำหรับ Chat
     chatButton.addEventListener('click', toggleChat);
-
-    // คลิกปุ่ม X ในหัวแชท
     closeChatHeader.addEventListener('click', (e) => {
-        e.stopPropagation(); 
+        e.stopPropagation();
         toggleChat();
     });
 
-    // ฟังก์ชันส่งข้อความ (เหมือนเดิม)
+    // ฟังก์ชันส่งข้อความ
     function sendMessage() {
         const text = chatInput.value.trim();
+        
         if (text !== "") {
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'message user-msg';
-            msgDiv.innerText = text;
-            chatMessages.appendChild(msgDiv);
+            // 1. เพิ่มข้อความฝั่งผู้ใช้ (User)
+            addMessage(text, 'user-msg');
+            chatInput.value = ""; // เคลียร์ช่องพิมพ์
 
-            chatInput.value = "";
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            // 2. จำลอง Admin กำลังพิมพ์...
+            showTypingIndicator();
 
+            // 3. Admin ตอบกลับอัตโนมัติ (Delay 1.5 วินาที)
             setTimeout(() => {
-                const adminDiv = document.createElement('div');
-                adminDiv.className = 'message admin-msg';
-                adminDiv.innerText = "รับทราบค่ะ แอดมินกำลังตรวจสอบข้อมูลให้นะคะ";
-                chatMessages.appendChild(adminDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 1000);
+                removeTypingIndicator();
+                addMessage("รับทราบค่ะ แอดมินกำลังตรวจสอบข้อมูลให้นะคะ 🌿", 'admin-msg');
+            }, 1500);
         }
     }
 
+    // ฟังก์ชันสร้าง HTML ข้อความ
+    function addMessage(text, className) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${className}`;
+        msgDiv.innerText = text;
+        chatMessages.appendChild(msgDiv);
+        scrollToBottom();
+    }
+
+    // ฟังก์ชันเลื่อนแชทลงล่างสุด
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // ฟังก์ชันแสดงสถานะ "กำลังพิมพ์..."
+    function showTypingIndicator() {
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'typingIndicator';
+        typingDiv.className = 'message admin-msg typing';
+        typingDiv.innerHTML = '<span>.</span><span>.</span><span>.</span>';
+        chatMessages.appendChild(typingDiv);
+        scrollToBottom();
+    }
+
+    // ฟังก์ชันลบสถานะ "กำลังพิมพ์..."
+    function removeTypingIndicator() {
+        const typingDiv = document.getElementById('typingIndicator');
+        if (typingDiv) {
+            typingDiv.remove();
+        }
+    }
+
+    // กดปุ่มส่ง หรือ กด Enter
     sendBtn.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
-});
 
-function toggleProfileMenu() {
-        const menu = document.getElementById("profileMenu");
-        menu.classList.toggle("active");
+
+    /* =========================================
+       2. ระบบ PROFILE MENU (Dropdown)
+       ========================================= */
+    const profileBtn = document.querySelector('.profile-trigger');
+    const profileMenu = document.getElementById('profileMenu');
+
+    // ฟังก์ชันสลับเมนู (ใช้ร่วมกับ onclick ใน HTML หรือใช้ Event Listener ตรงนี้ก็ได้)
+    // เพื่อความชัวร์ เราจะผูก Event Listener ใหม่เลย
+    if (profileBtn && profileMenu) {
+        // ลบ onclick เดิมออกจาก HTML (ถ้ามี) หรือปล่อยไว้ก็ได้ แต่ JS นี้จะทำงาน
+        window.toggleProfileMenu = function() { // เผื่อ HTML เรียกใช้
+            profileMenu.classList.toggle('active');
+        };
+
+        // คลิกที่อื่นเพื่อปิดเมนู
+        window.addEventListener('click', function(e) {
+            if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.remove('active');
+            }
+        });
     }
-
-    // คลิกที่อื่นเพื่อปิดเมนู
-    window.addEventListener('click', function(e) {
-        const menu = document.getElementById("profileMenu");
-        const btn = document.querySelector('.profile-trigger');
-
-        // ถ้าคลิกไม่ได้อยู่ที่ปุ่ม และไม่ได้อยู่ในเมนู ให้ปิดเมนู
-        if (!btn.contains(e.target) && !menu.contains(e.target)) {
-            menu.classList.remove('active');
-        }
-    });
+});

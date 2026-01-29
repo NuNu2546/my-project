@@ -1,57 +1,61 @@
+/* --- CSS Variables & Global Reset --- */
+:root {
+  --primary-green: #4a7c59;      /* เขียวธรรมชาติ ดูแพง */
+  --dark-green: #365c42;         /* เขียวเข้มสำหรับ Hover */
+  --light-bg: #f9fbf9;           /* พื้นหลังสีเทาเขียวจางๆ */
+  --text-main: #1f2937;
+  --text-gray: #6b7280;
+  --white: #ffffff;
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --font-main: 'Manrope', sans-serif;
+}
 
-/* --- 8. Footer --- */
+/* --- 8. Footer (Redesigned) --- */
 .footer {
   background-color: var(--light-bg);
-  border-top: 1px solid rgba(19, 236, 55, 0.2);
-  
-  /* Padding บนล่าง: ยืดหดตามจอ */
-  padding: clamp(30px, 5vw, 60px) 0 clamp(10px, 2vw, 20px) 0;
-  
-  margin-top: auto;
+  border-top: 1px solid rgba(74, 124, 89, 0.1);
+  padding-top: 60px;
+  padding-bottom: 20px;
   font-family: var(--font-main);
-  width: 100%;
+  color: var(--text-main);
 }
+
 .footer-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 clamp(20px, 4vw, 40px); /* ขอบซ้ายขวาก็ย่อได้ */
+  padding: 0 24px;
 }
 
 .footer-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  /* ระยะห่างระหว่างคอลัมน์: ย่อตามจอ */
-  gap: clamp(20px, 4vw, 40px); 
-  margin-bottom: clamp(30px, 5vw, 60px);
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr; /* แบ่งคอลัมน์แบบ Grid */
+  gap: 40px;
+  margin-bottom: 50px;
 }
 
-.footer-column {
-  flex: 1;
-  min-width: 160px; /* ลด min-width ลงหน่อยเพื่อให้บีบได้มากขึ้นก่อนจะปัดบรรทัด */
-}
-
-/* โลโก้ Footer: ย่อตามจอ */
 .footer-logo img {
-  width: clamp(100px, 15vw, 150px);
-  height: auto;
-  margin-bottom: 20px;
-  display: block;
+  height: 40px;
+  width: auto;
+  margin-bottom: 16px;
 }
 
 .slogan {
-  font-size: clamp(12px, 1.2vw, 14px);
+  font-size: 14px;
   line-height: 1.6;
-  max-width: 280px;
   color: var(--text-gray);
+  max-width: 300px;
 }
 
 .footer-title {
-  color: #111827;
-  font-size: clamp(14px, 1.5vw, 16px);
+  font-size: 16px;
   font-weight: 700;
   margin-bottom: 20px;
+  color: var(--primary-green);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
+
 .footer-list {
   list-style: none;
   padding: 0;
@@ -63,93 +67,117 @@
 }
 
 .footer-list a {
-  font-size: clamp(12px, 1.2vw, 14px);
+  text-decoration: none;
+  color: var(--text-gray);
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: inline-block;
 }
 
 .footer-list a:hover {
   color: var(--primary-green);
+  transform: translateX(5px); /* ขยับขวาเล็กน้อยเมื่อชี้ */
 }
 
 .newsletter-text {
   font-size: 14px;
-  line-height: 1.6;
   color: var(--text-gray);
+  line-height: 1.6;
+  margin-bottom: 16px;
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(19, 236, 55, 0.2);
-  padding-top: 30px;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  padding-top: 24px;
   text-align: center;
 }
 
 .footer-bottom p {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0;
+  font-size: 13px;
+  color: #9ca3af;
 }
 
-/* --- 9. Chat Widget --- */
+/* Responsive Footer */
+@media screen and (max-width: 900px) {
+  .footer-content {
+    grid-template-columns: 1fr 1fr; /* แท็บเล็ตเหลือ 2 คอลัมน์ */
+  }
+}
+@media screen and (max-width: 600px) {
+  .footer-content {
+    grid-template-columns: 1fr; /* มือถือเหลือ 1 คอลัมน์ */
+    text-align: center;
+  }
+  .footer-brand, .slogan { margin: 0 auto; }
+}
+
+/* --- 9. Chat Widget (Modern Style) --- */
 .chat-button {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 60px;
-  height: 60px;
-  background-color: var(--primary-green);
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
   border-radius: 50%;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(74, 124, 89, 0.4);
   z-index: 1002;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: floatChat 3s ease-in-out infinite; /* ปุ่มลอยเบาๆ */
+}
+
+@keyframes floatChat {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
 }
 
 .chat-button:hover {
-  transform: scale(1.1);
-  background-color: var(--dark-green);
+  transform: scale(1.1) translateY(-5px);
 }
 
 .chat-button img {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   filter: brightness(0) invert(1);
-  transition: transform 0.3s ease;
 }
 
+/* Popup Box */
 .chat-popup {
   position: fixed;
-  bottom: 105px;
+  bottom: 110px;
   right: 30px;
-  width: 350px;
-  height: 450px;
-  background-color: white;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 360px;
+  height: 500px;
+  background-color: var(--white);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
   z-index: 1001;
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(30px) scale(0.95);
-  transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #f0f0f0;
 }
 
 .chat-popup.show {
   opacity: 1;
   visibility: visible;
   transform: translateY(0) scale(1);
-  pointer-events: all;
 }
 
 .chat-header {
-  background-color: var(--primary-green);
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
   color: white;
-  padding: 15px;
+  padding: 18px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -158,272 +186,339 @@
 .admin-info {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .admin-avatar {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   background-color: white;
   border-radius: 50%;
-  /* background-image... */
+  border: 2px solid rgba(255,255,255,0.3);
+  /* ใส่รูป admin ตรงนี้ */
+  background-image: url('/frontend/assets/images/logo.png'); /* ตัวอย่าง */
+  background-size: cover;
 }
 
-.close-chat-header {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-  opacity: 0.7;
+.admin-name { font-weight: 700; font-size: 15px; margin: 0; }
+.admin-status { font-size: 12px; opacity: 0.9; margin: 0; display: flex; align-items: center; gap: 4px; }
+.admin-status::before {
+  content: ''; width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: block;
 }
 
 .chat-messages {
   flex: 1;
-  padding: 15px;
+  padding: 20px;
   overflow-y: auto;
-  background-color: var(--light-bg);
+  background-color: #f8fafc;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
+/* Chat Bubbles */
 .message {
-  padding: 10px 14px;
-  border-radius: 12px;
+  padding: 12px 16px;
+  border-radius: 18px;
   font-size: 14px;
-  max-width: 80%;
-  line-height: 1.4;
+  line-height: 1.5;
+  max-width: 85%;
+  position: relative;
 }
 
 .admin-msg {
   background-color: white;
-  color: #333;
+  color: var(--text-main);
   align-self: flex-start;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  border: 1px solid #eee;
 }
 
+/* Chat Input Area */
 .chat-footer {
-  padding: 15px;
+  padding: 15px 20px;
+  background: white;
   border-top: 1px solid #eee;
   display: flex;
-  gap: 10px;
+  align-items: center;
+  gap: 12px;
 }
 
 .chat-footer input {
   flex: 1;
-  border: 1px solid #ddd;
-  padding: 8px 15px;
-  border-radius: 20px;
+  background: #f1f5f9;
+  border: 1px solid transparent;
+  padding: 12px 16px;
+  border-radius: 25px;
+  font-size: 14px;
   outline: none;
+  transition: all 0.2s;
+}
+
+.chat-footer input:focus {
+  background: white;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
 }
 
 #sendBtn {
-  background: none;
+  background: var(--primary-green);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
-  color: var(--primary-green);
   cursor: pointer;
+  transition: background 0.2s;
 }
 
-/* --- Header Layout --- */
+#sendBtn:hover {
+  background: var(--dark-green);
+}
+
+/* --- Header Layout (Glassmorphism) --- */
 .header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  height: clamp(55px , 8vh , 65px);
-  padding: 0 clamp(15px, 4vw, 40px);
+  height: 70px;
+  padding: 0 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* จัดซ้ายขวา */
-  background-color: rgba(255, 255, 255, 0.9);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  flex-wrap: nowrap;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+  justify-content: space-between;
+  /* Glass Effect */
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
-.logo {
-  height: clamp(28px, 4vw, 37px);
-  width: auto;
-  object-fit: contain;
-  transition: height 0.1s;
-}
+.logo { height: 38px; width: auto; }
 
-/* --- Nav (แก้ margin-left: 800px เป็น auto เพื่อไม่ให้ตกจอ) --- */
-.nav {
-  margin-left: auto; /* ดันไปทางขวาแทนการ fix 800px */
-  margin-right: clamp(10px, 2vw, 20px); /* เว้นระยะห่างจากปุ่ม */
-}
+.nav { margin-left: auto; margin-right: 32px; }
 
 .nav-list {
   display: flex;
+  gap: 32px;
   list-style: none;
-  gap: clamp(15px, 3vw, 32px);
-  margin: 0;
-  padding: 0;
+  margin: 0; padding: 0;
 }
 
 .nav-link {
   text-decoration: none;
-  font-family: var(--font-main, sans-serif);
-  font-weight: 600;
-  /* ขนาดตัวหนังสือ: เล็กสุด 12px, ใหญ่สุด 14px */
-  font-size: clamp(12px, 1.2vw, 14px); 
-  color: #333;
-  transition: color 0.3s;
-  white-space: nowrap;
+  font-weight: 10;
+  font-size: 15px;
+  color: var(--text-main);
+  position: relative;
+  padding: 5px 0;
 }
 
-.nav-link:hover {
-  color: #16a34a; /* สีเขียว */
+/* Menu Hover Animation */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--primary-green);
+  transition: width 0.3s ease;
 }
 
-/* --- Container สำหรับกลุ่มปุ่มด้านขวา --- */
+.nav-link:hover { color: var(--primary-green); }
+.nav-link:hover::after { width: 100%; }
+
+/* --- Header Actions --- */
 .header-actions {
   display: flex;
   align-items: center;
-  gap: clamp(8px, 1.5vw, 12px);
+  gap: 16px;
 }
 
-/* --- ปุ่ม Icon ทั่วไป (รวมปุ่ม Shop และ Profile) --- */
+/* ปุ่ม Icon ทั่วไป (สถานะปกติ) */
 .icon-btn {
-  /* ขนาดปุ่ม: เล็กสุด 36px, ใหญ่สุด 44px */
-  width: clamp(36px, 5vw, 44px);
-  height: clamp(36px, 5vw, 40px);
-  background-color: #16a34a;
-  border-radius: 8px;
-  border: none;
+  width: 42px;
+  height: 42px;
+  background-color: #10d131; /* พื้นหลังขาว */
+  border: 1px solid #e5e7eb; /* ขอบสีเทาจาง */
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
+  transition: all 0.2s ease;
 }
 
+/* สถานะเมื่อเอาเมาส์ชี้ (Hover) */
 .icon-btn:hover {
-  background-color: #15803d;
+  background-color: var(--primary-green); /* เปลี่ยนพื้นเป็นสีเขียว */
+  border-color: var(--primary-green);
+  transform: translateY(-2px); /* ลอยขึ้นเล็กน้อย */
+  box-shadow: 0 4px 10px rgba(74, 124, 89, 0.2); /* เงา */
 }
 
-.icon-btn:active {
-  transform: scale(0.95);
+/* เปลี่ยนสีไอคอนข้างในเป็นสีขาวเมื่อ Hover */
+.icon-btn:hover .icon-img {
+  filter: brightness(0) invert(1); 
 }
 
-.icon-inner {
-  /* ไอคอนข้างในก็ย่อตาม */
-  width: clamp(20px, 3vw, 24px);
-  height: clamp(20px, 3vw, 24px);
+/* ขนาดไอคอน */
+.icon-inner { 
+  width: 22px; 
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.profile-trigger .icon-img {
+.icon-img {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
+  transition: filter 0.2s ease;
 }
 
-/* --- Profile Container & Popup --- */
-.profile-container {
-    position: relative;
-    display: inline-block;
+/* --- Profile Dropdown --- */
+.profile-container { 
+  position: relative; 
 }
 
 .dropdown-menu {
-    position: absolute;
-    top: 55px; /* ระยะห่างจากปุ่ม */
-    right: 0;
-    width: 250px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15); /* เงาชัดขึ้นนิดนึง */
-    padding: 15px;
-    z-index: 2000; /* สูงกว่า Header */
-    
-    /* Animation Properties */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); /* สมูทแบบเด้งนิดๆ */
+  position: absolute;
+  top: 55px; /* ปรับระยะห่างจากปุ่ม */
+  right: 0;
+  width: 260px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  padding: 20px;
+  z-index: 2000;
+  
+  /* เริ่มต้นซ่อนไว้ */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+  border: 1px solid #f3f4f6;
 }
 
+/* คลาสที่จะถูก JS เติมเข้ามาเพื่อแสดงเมนู */
 .dropdown-menu.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
-/* รายละเอียดใน Popup */
+/* --- Profile Menu Content (ส่วนเนื้อหาข้างในเมนู) --- */
+
+/* 1. จัดระเบียบส่วนหัว (รูป + ชื่อ) */
 .menu-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 12px;
+    margin-bottom: 16px; /* เว้นระยะห่างจากเส้นขีด */
 }
 
+/* 2. แก้รูปใหญ่เกิน -> บังคับขนาดให้พอดี */
 .menu-user-img {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #eee;
+    width: 50px;       /* กำหนดความกว้าง */
+    height: 50px;      /* กำหนดความสูง */
+    border-radius: 50%; /* ทำเป็นวงกลม */
+    object-fit: cover; /* ป้องกันภาพบีบ */
+    border: 2px solid #e5e7eb;
 }
 
+/* 3. จัดตัวหนังสือชื่อผู้ใช้ */
 .menu-username {
-    font-weight: bold;
-    color: #333;
+    font-weight: 700;
+    color: #1f2937;
     font-size: 16px;
 }
 
-hr {
+/* 4. เส้นคั่น */
+.dropdown-menu hr {
     border: 0;
     height: 1px;
-    background: #f0f0f0;
-    margin: 10px 0;
+    background: #f3f4f6;
+    margin: 8px 0;
 }
 
+/* 5. ตกแต่งปุ่มเมนู (การซื้อของฉัน / ออกจากระบบ) */
 .menu-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+    display: block;    /* ให้เต็มบรรทัด */
     padding: 10px 12px;
-    text-decoration: none;
-    color: #555;
+    text-decoration: none; /* เอาขีดเส้นใต้ออก */
+    color: #4b5563;    /* สีตัวอักษรเทาเข้ม */
     border-radius: 8px;
-    transition: background 0.2s;
     font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    margin-bottom: 4px;
 }
 
+/* เอฟเฟกต์ตอนเอาเมาส์ชี้เมนู */
 .menu-item:hover {
-    background-color: #f7f7f7;
-    color: #16a34a;
+    background-color: #f9fafb; /* พื้นหลังเทาอ่อนๆ */
+    color: var(--primary-green); /* ตัวหนังสือสีเขียว */
+    transform: translateX(3px); /* ขยับนิดนึง */
 }
 
+/* ปุ่มออกจากระบบ (สีแดง) */
 .menu-item.logout {
     color: #ef4444;
+    margin-top: 4px;
 }
 
 .menu-item.logout:hover {
-    background-color: #fef2f2;
+    background-color: #fef2f2; /* พื้นหลังแดงจางๆ */
+    color: #dc2626;
 }
 
-/* Media Query: เมื่อจอเล็กจัดๆ (มือถือ) ให้ซ่อนเมนูตัวหนังสือ */
+/* Mobile */
 @media screen and (max-width: 768px) {
-  .nav { display: none; }
+  .header { padding: 0 20px; height: 60px; }
+  .nav { display: none; } /* ซ่อนเมนูชั่วคราว */
 }
 
-/* Media Query มือถือ (ให้เรียง 2 คอลัมน์) */
-@media screen and (max-width: 600px) {
-  .footer-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  .footer-brand {
-     grid-column: 1 / -1;
-     text-align: center;
-  }
-  .footer-logo img { margin: 0 auto 10px auto; }
-  .slogan { margin: 0 auto; }
+/* --- Chat Message Styles (Add to style.css) --- */
+
+/* ข้อความฝั่งลูกค้า (สีเขียว ชิดขวา) */
+.user-msg {
+    background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+    color: white;
+    align-self: flex-end; /* ชิดขวา */
+    border-bottom-right-radius: 4px; /* มุมขวาล่างแหลม */
+    box-shadow: 0 4px 6px rgba(74, 124, 89, 0.2);
+    text-align: right;
+}
+
+/* ข้อความฝั่ง Admin (สีขาว ชิดซ้าย) - ทวนของเดิมให้ */
+.admin-msg {
+    background-color: white;
+    color: var(--text-main);
+    align-self: flex-start; /* ชิดซ้าย */
+    border-bottom-left-radius: 4px;
+    border: 1px solid #eee;
+}
+
+/* Animation จุดไข่ปลา (Typing Indicator) */
+.typing span {
+    animation: blink 1.4s infinite both;
+    font-size: 20px;
+    line-height: 10px;
+    margin: 0 1px;
+}
+
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes blink {
+    0% { opacity: 0.2; }
+    20% { opacity: 1; }
+    100% { opacity: 0.2; }
 }

@@ -11,25 +11,44 @@
     <div class="veggie-plots">
         
         <header class="header">
-                  <a href="/frontend/assets/pages/home.html"><img class="logo"  src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" /> </a>
+            <a href="/frontend/assets/pages/home.html">
+                <img class="logo" src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
+            </a>
+            
             <nav class="nav">
                 <ul class="nav-list">
                     <li><a href="/frontend/assets/pages/home.html" class="nav-link">Home</a></li>
                     <li><a href="/frontend/assets/pages/shop.html" class="nav-link">Shop</a></li>
-                    <li><a href="/frontend/assets/pages/Veggie Plots.html" class="nav-link active">Veggie Plots</a></li>
+                    <li><a href="/frontend/assets/pages/Veggie Plots.html" class="nav-link">Veggie Plots</a></li>
                     <li><a href="/frontend/assets/pages/about.html" class="nav-link">About</a></li>
                     <li><a href="/frontend/assets/pages/contact.html" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
+
             <div class="header-actions">
-                <div class="profile-container">
-                    <button type="button" class="icon-btn profile-trigger" onclick="toggleProfileMenu()">
-                        <div class="icon-inner"><img class="icon-img" src="/frontend/assets/images/profile.png" alt="Profile" /></div>
-                    </button>
-                     </div>
-                <button type="button" class="icon-btn">
-                    <div class="icon-inner"><img class="icon-img" src="/frontend/assets/images/shop.png" alt="Shop" /></div>
+                <button type="button" class="icon-btn" aria-label="Shop">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="/frontend/assets/images/shop.png" alt="Shop" />
+                    </div>
                 </button>
+
+                <div class="profile-container">
+                    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
+                        <div class="icon-inner">
+                            <img class="icon-img" src="/frontend/assets/images/profile.png" alt="Profile" />
+                        </div>
+                    </button>
+
+                    <div class="dropdown-menu" id="profileMenu">
+                        <div class="menu-header">
+                            <img src="/frontend/assets/images/v41_78.png" alt="User" class="menu-user-img">
+                            <span class="menu-username">ชื่อผู้ใช้</span>
+                        </div>
+                        <hr>
+                        <a href="#" class="menu-item">การซื้อของฉัน</a>
+                        <a href="#" class="menu-item logout">ออกจากระบบ</a>
+                    </div>
+                </div>
             </div>
         </header>
 
@@ -147,15 +166,89 @@
         </main>
 
         <footer class="footer">
-             <div class="footer-container">
-                <div class="footer-bottom"><p>© 2024 Digital Garden. All rights reserved.</p></div>
-             </div>
+            <div class="footer-container">
+                <div class="footer-content">
+
+                    <div class="footer-column footer-brand">
+                        <div class="footer-logo">
+                            <img src="/frontend/assets/images/logo.png" alt="Digital Garden Logo" />
+                        </div>
+                        <p class="slogan">
+                            เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
+                        </p>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Explore</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">สินค้าทั้งหมด</a></li>
+                            <li><a href="#">จองแปลงผัก</a></li>
+                            <li><a href="#">เรื่องราวของเรา</a></li>
+                            <li><a href="#">บทความ</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">ติดต่อเรา</a></li>
+                            <li><a href="#">คำถามที่พบบ่อย</a></li>
+                            <li><a href="#">การจัดส่ง & คืนสินค้า</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Stay Connected</h4>
+                        <p class="newsletter-text">
+                            ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
+                        </p>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
+                            <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2024 Digital Garden. All rights reserved.</p>
+                </div>
+            </div>
         </footer>
 
-        <button class="chat-button" id="chatButton">
-            <div id="chatIconContainer"><img src="/frontend/assets/images/Group.png" alt="Chat" id="chatIconMain" /></div>
+        <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
+            <div id="chatIconContainer">
+                <img src="/frontend/assets/images/Group.png" alt="Chat Icon" id="chatIconMain" />
+            </div>
         </button>
 
+        <div class="chat-popup" id="chatPopup">
+            <div class="chat-header">
+                <div class="admin-info">
+                    <div class="admin-avatar"></div>
+                    <div>
+                        <p class="admin-name">Greenhearth Admin</p>
+                        <p class="admin-status">ออนไลน์ พร้อมให้บริการ</p>
+                    </div>
+                </div>
+                <button class="close-chat-header" id="closeChatHeader" style="font-size: 20px;">&times;</button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message admin-msg">
+                    สวัสดีค่ะ! 🌿 ยินดีต้อนรับสู่ Digital Garden <br>มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
+                </div>
+            </div>
+
+            <div class="chat-footer">
+                <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
+                <button id="sendBtn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
         <script src="/frontend/assets/js/script.js"></script>
     </div>
   </body>
