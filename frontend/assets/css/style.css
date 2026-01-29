@@ -1,0 +1,493 @@
+/* --- Reset & Base Styles --- */
+:root {
+    --primary-color: #4a7c59;
+    --secondary-color: #16a34a;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --bg-light: #f6f8f6;
+    --border-color: #e5e7eb;
+    --font-main: "Manrope", sans-serif;
+    --font-display: "Plus Jakarta Sans", sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+}
+
+/* --- Header --- */
+.header {
+    background-color: rgba(246, 248, 246, 0.8);
+    backdrop-filter: blur(2px);
+    border-bottom: 1px solid rgba(19, 236, 55, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo img {
+    height: 37px;
+}
+
+.nav {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #1f2937;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-icon {
+    width: 44px;
+    height: 40px;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-icon img {
+    width: 24px;
+}
+
+/* --- Product Hero --- */
+.product-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+
+.product-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.main-image {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.thumbnail-list {
+    display: flex;
+    gap: 12px;
+}
+
+.thumb {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border: 1px solid transparent;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.thumb.active {
+    border-color: var(--primary-color);
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    font-family: var(--font-main);
+    font-weight: 800;
+    font-size: 36px;
+    margin-bottom: 16px;
+}
+
+.product-desc {
+    color: rgba(51, 51, 51, 0.8);
+    margin-bottom: 24px;
+}
+
+.product-price-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.price-current {
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.price-old {
+    font-size: 18px;
+    color: #999;
+    text-decoration: line-through;
+}
+
+.product-meta {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.quantity-input {
+    display: flex;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.quantity-input button {
+    width: 32px;
+    height: 40px;
+    background: #fff;
+    font-size: 18px;
+}
+
+.quantity-input input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    font-size: 16px;
+}
+
+.stock-status {
+    color: var(--primary-color);
+    font-size: 14px;
+}
+
+.product-actions {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.btn {
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    flex: 1;
+}
+
+.btn-primary:hover {
+    background-color: #3d664a;
+}
+
+.btn-outline {
+    width: 54px;
+    border: 1px solid #d1d5db;
+    background: transparent;
+}
+
+.product-tabs {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.tab {
+    padding-bottom: 12px;
+    color: #999;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.tab.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* --- Reviews Section --- */
+.reviews-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 40px;
+    margin-bottom: 80px;
+}
+
+.rating-summary {
+    background: white;
+    padding: 24px;
+    border-radius: 24px;
+}
+
+.rating-header {
+    margin-bottom: 20px;
+}
+
+.big-score {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stars {
+    color: #333; /* หรือสีทองตามต้องการ */
+    letter-spacing: 2px;
+}
+
+.rating-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.bar-bg {
+    flex: 1;
+    height: 8px;
+    background-color: rgba(61, 85, 12, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background-color: #d9794c;
+    border-radius: 10px;
+}
+
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.review-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 24px;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.reviewer-info h3 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.review-date {
+    margin-left: auto;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* --- Related Products --- */
+.related-products {
+    margin-bottom: 80px;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 24px;
+}
+
+.product-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-img {
+    aspect-ratio: 1;
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    background-color: #eee;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.card-desc {
+    font-size: 14px;
+    color: var(--text-light);
+    margin-bottom: 8px;
+}
+
+.card-price {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* --- Footer --- */
+.footer {
+    border-top: 1px solid rgba(19, 236, 55, 0.2);
+    padding-top: 60px;
+    padding-bottom: 30px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.footer-brand {
+    max-width: 300px;
+}
+
+.footer-logo {
+    margin-bottom: 20px;
+    height: 30px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.link-group h4 {
+    font-size: 16px;
+    margin-bottom: 16px;
+    color: #111827;
+}
+
+.link-group a {
+    display: block;
+    color: var(--text-light);
+    text-decoration: none;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    border-top: 1px solid rgba(19, 236, 55, 0.2);
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* --- FAB --- */
+.fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .header-content {
+        height: auto;
+        padding: 10px 20px;
+    }
+    
+    .nav {
+        display: none; /* ซ่อนเมนูชั่วคราวสำหรับมือถือ หรือทำ Hamburger Menu */
+    }
+
+    .product-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .reviews-section {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        flex-direction: column;
+    }
+    
+    .footer-links {
+        gap: 30px;
+    }
+}

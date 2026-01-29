@@ -64,7 +64,7 @@
                     </div>
                 </div>
 
-                <div class="product-grid" id="productGrid">
+                <div class="product-grid" id="productGrid" onclick="window.location.href='product-detail.html?id=watering_can'">
                     
                     <div class="product-card" data-category="tools">
                         <div class="card-img-wrapper">
@@ -73,7 +73,7 @@
                         <div class="card-body">
                             <h3 class="product-title">บัวรดน้ำ</h3>
                             <p class="product-price">$6.00</p>
-                            <button class="btn-add">Add to Cart</button>
+                            <button class="btn-add" onclick="event.stopPropagation(); alert('Added!');">Add to Cart</button>
                         </div>
                     </div>
 
@@ -462,14 +462,14 @@
                         </div>
                     </div>
 
-                    <div class="product-card" data-category="aroma">
+                    <div class="product-card" data-category="aroma" onclick="window.location.href='product-detail.html?id=aroma_machine'">
                         <div class="card-img-wrapper">
                             <img src="/frontend/assets/images/aroma/aroma_diffuser_1.png" alt="aroma_diffuser_1" />
                         </div>
                         <div class="card-body">
                             <h3 class="product-title">เมล็ดมะเขือเทศ</h3>
                             <p class="product-price">$20.00</p>
-                            <button class="btn-add">Add to Cart</button>
+                            <button class="btn-add" onclick="window.location.href='product-detail.html?id=aroma_machine'">Add to Cart</button>
                         </div>
                     </div>
 
