@@ -5,44 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta charset="utf-8" />
     <title>Veggie Plots - Digital Garden</title>
-    <link rel="stylesheet" href="/My-project/static/css/globals.css" />
-    <link rel="stylesheet" href="/My-project/static/css/Veggie_Plots.css" />
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Veggie_Plots.css' %}">
   </head>
   <body>
     <div class="veggie-plots">
         
         <header class="header">
-            <a href="/frontend/assets/pages/home.html">
-                <img class="logo" src="/My-project/static/images/logo.png" alt="Digital Garden Logo" />
+            <a href="{% url 'home' %}">
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
             </a>
             
             <nav class="nav">
                 <ul class="nav-list">
-                    <li><a href="/My-project/templates/home.html" class="nav-link">Home</a></li>
-                    <li><a href="/My-project/templates/shop.html" class="nav-link">Shop</a></li>
-                    <li><a href="/My-project/templates/Veggie Plots.html" class="nav-link">Veggie Plots</a></li>
-                    <li><a href="/My-project/templates/about.html" class="nav-link">About</a></li>
-                    <li><a href="/My-project/templates/contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    
+                    <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                    
+                    <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                    
+                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    
+                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
 
             <div class="header-actions">
                 <button type="button" class="icon-btn" aria-label="Shop">
                     <div class="icon-inner">
-                        <img class="icon-img" src="/My-project/static/images/shop.png" alt="Shop" />
+                        <img class="icon-img" src="{% static 'images/shop.png' %}" alt="Shop" />
                     </div>
                 </button>
 
                 <div class="profile-container">
                     <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
                         <div class="icon-inner">
-                            <img class="icon-img" src="/My-project/static/images/profile.png" alt="Profile" />
+                            <img class="icon-img" src="{% static 'images/profile.png' %}" alt="Profile" />
                         </div>
                     </button>
 
                     <div class="dropdown-menu" id="profileMenu">
                         <div class="menu-header">
-                            <img src="/My-project/static/images/v41_78.png" alt="User" class="menu-user-img">
+                            <img src="{% static 'images/v41_78.png' %}" alt="User" class="menu-user-img">
                             <span class="menu-username">ชื่อผู้ใช้</span>
                         </div>
                         <hr>

@@ -10,17 +10,21 @@
   </head>
   <body>
             <header class="header">
-                <a href="/frontend/assets/pages/home.html">
-                    <img class="logo" src="/My-project/static/images/logo.png" alt="Digital Garden Logo" />
+                <a href="{% url 'home' %}">
+                    <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
                 </a>
                 
                 <nav class="nav">
                     <ul class="nav-list">
-                        <li><a href="/My-project/templates/home.html" class="nav-link">Home</a></li>
-                        <li><a href="/My-project/templates/shop.html" class="nav-link">Shop</a></li>
-                        <li><a href="/My-project/templates/Veggie Plots.html" class="nav-link">Veggie Plots</a></li>
-                        <li><a href="/My-project/templates/about.html" class="nav-link">About</a></li>
-                        <li><a href="/My-project/templates/contact.html" class="nav-link">Contact</a></li>
+                        <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                        
+                        <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                        
+                        <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                        
+                        <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                        
+                        <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
                     </ul>
                 </nav>
 
