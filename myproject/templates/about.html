@@ -11,19 +11,15 @@
   <body>
         <header class="header">
             <a href="{% url 'home' %}">
-                <img class="logo" src="/My-project/static/images/logo.png" alt="Digital Garden Logo" />
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
             </a>
             
             <nav class="nav">
                 <ul class="nav-list">
                     <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-                    
                     <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
-                    
                     <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
-                    
                     <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
-                    
                     <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
@@ -31,20 +27,20 @@
             <div class="header-actions">
                 <button type="button" class="icon-btn" aria-label="Shop">
                     <div class="icon-inner">
-                        <img class="icon-img" src="/My-project/static/images/shop.png" alt="Shop" />
+                        <img class="icon-img" src="{% static 'images/shop.png' %}" alt="Shop" />
                     </div>
                 </button>
 
                 <div class="profile-container">
                     <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
                         <div class="icon-inner">
-                            <img class="icon-img" src="/My-project/static/images/profile.png" alt="Profile" />
+                            <img class="icon-img" src="{% static 'images/profile.png' %}" alt="Profile" />
                         </div>
                     </button>
 
                     <div class="dropdown-menu" id="profileMenu">
                         <div class="menu-header">
-                            <img src="/My-project/static/images/v41_78.png" alt="User" class="menu-user-img">
+                            <img src="{% static 'images/v41_78.png' %}" alt="User" class="menu-user-img">
                             <span class="menu-username">ชื่อผู้ใช้</span>
                         </div>
                         <hr>
@@ -58,6 +54,7 @@
     <main class="about-page">
       
       <section class="hero-section">
+        <img src="{% static 'images/contact/vegetable.png' %}" alt="Our Story Image" class="hero-bg-img" />
         <div class="hero-content">
           <h1 class="hero-title">จากธรรมชาติสู่สวนของคุณ ด้วยใจรักในการปลูก</h1>
           <p class="hero-subtitle">
@@ -70,7 +67,7 @@
         <h2 class="section-title text-green">เรื่องราวของเรา</h2>
         <div class="story-content">
             <div class="story-image">
-                <img src="img/image.png" alt="Our Story Image" />
+                <img src="{% static 'images/contact/soil-plant.png' %}" alt="Our Story Image" />
             </div>
             <div class="story-text">
                 <p>
@@ -103,7 +100,8 @@
 
           <div class="team-grid">
             <div class="team-card">
-              <div class="avatar" style="background-image: url(./img/jane-doe.png);"></div> <h3 class="member-name">Jane Doe</h3>
+              <div class="avatar" style="background-image: url('{% static 'images/contact/profile-3.png' %}');"></div> 
+              <h3 class="member-name">Jane Doe</h3>
               <span class="member-role">Founder & Chief Cultivator</span>
               <p class="member-quote">
                 "Watching a seed grow into something that can nourish a family is pure magic. 
@@ -112,7 +110,7 @@
             </div>
 
             <div class="team-card">
-              <div class="avatar" style="background-image: url(./img/john-smith.png);"></div>
+              <div class="avatar" style="background-image: url('{% static 'images/contact/profile-2.png' %}');"></div>
               <h3 class="member-name">John Smith</h3>
               <span class="member-role">Community Manager</span>
               <p class="member-quote">
@@ -121,7 +119,7 @@
             </div>
 
             <div class="team-card">
-              <div class="avatar" style="background-image: url(./img/emily-white.png);"></div>
+              <div class="avatar" style="background-image: url('{% static 'images/contact/profile-1.png' %}');"></div>
               <h3 class="member-name">Emily White</h3>
               <span class="member-role">Lead Gardener</span>
               <p class="member-quote">
@@ -146,13 +144,14 @@
       </section>
 
     </main>
+
         <footer class="footer">
             <div class="footer-container">
                 <div class="footer-content">
 
                     <div class="footer-column footer-brand">
                         <div class="footer-logo">
-                            <img src="/My-project/static/images/logo.png" alt="Digital Garden Logo" />
+                            <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
                         </div>
                         <p class="slogan">
                             เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
@@ -199,7 +198,7 @@
 
         <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
             <div id="chatIconContainer">
-                <img src="/My-project/static/images/Group.png" alt="Chat Icon" id="chatIconMain" />
+                <img src="{% static 'images/Group.png' %}" alt="Chat Icon" id="chatIconMain" />
             </div>
         </button>
 
@@ -230,6 +229,7 @@
                 </button>
             </div>
         </div>
-        <script src="/My-project/static/js/script.js"></script>
+        
+        <script src="{% static 'js/script.js' %}"></script>
   </body>
 </html>

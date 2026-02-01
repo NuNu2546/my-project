@@ -51,26 +51,32 @@ body {
   line-height: 1.6;
 }
 
-/* --- 1. Hero Section (Copy Structure from home.css) --- */
+/* --- 1. Hero Section --- */
 .hero-section {
-  /* แก้ไข: ใช้ Margin และ Height แบบเดียวกับ home.css เป๊ะๆ */
   margin: 93px 112px 0 112px;
   height: 480px;
-  position: relative;
+  position: relative; /* สำคัญ: เพื่อให้รูปภาพและ overlay อิงตามพื้นที่นี้ */
   border-radius: 12px;
   overflow: hidden;
-  
-  /* Background Setting */
-  background-image: url('../images/hero-bg.jpg'); /* ใส่รูป Background */
-  background-size: cover;
-  background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
+  background-color: #000; /* กันเหนียวถ้ารูปโหลดช้า */
 }
 
-/* Overlay เหมือน home.css */
+/* ปรับแต่งแท็ก img ที่เราเพิ่มเข้าไป */
+.hero-bg-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ให้รูปยืดเต็มพื้นที่เหมือน background-size: cover */
+  z-index: -1; /* ส่งรูปไปอยู่หลังข้อความ */
+}
+
+/* Overlay ไล่เฉดสีดำเพื่อให้ข้อความอ่านง่ายขึ้น */
 .hero-section::after {
   content: "";
   position: absolute;
@@ -84,27 +90,25 @@ body {
 
 .hero-content {
   position: relative;
-  z-index: 2;
+  z-index: 2; /* ให้ข้อความอยู่หน้าสุด */
   text-align: center;
   color: #fff;
   padding: 20px;
   width: 100%;
-  max-width: 1020px; /* ตรงกับ hero-title max-width ใน home */
+  max-width: 1020px;
 }
 
 .hero-title {
-  /* สไตล์เดียวกับ .hero-title ใน home.css */
   font-family: var(--font-main);
   font-weight: 800;
   color: #ffffff;
-  font-size: 60px; /* เท่ากับ home */
+  font-size: 60px;
   letter-spacing: -2px;
-  line-height: 1;
+  line-height: 1.1; /* ปรับเพิ่มเล็กน้อยเผื่อภาษาไทยสระซ้อน */
   margin-bottom: 24px;
 }
 
 .hero-subtitle {
-  /* สไตล์คล้าย .hero-description ใน home.css */
   font-family: var(--font-main);
   font-weight: 400;
   color: rgba(255, 255, 255, 0.9);

@@ -11,19 +11,15 @@
   <body>
         <header class="header">
             <a href="{% url 'home' %}">
-                <img class="logo" src="/My-project/static/images/logo.png" alt="Digital Garden Logo" />
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
             </a>
             
             <nav class="nav">
                 <ul class="nav-list">
                     <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-                    
                     <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
-                    
                     <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
-                    
                     <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
-                    
                     <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
@@ -31,20 +27,20 @@
             <div class="header-actions">
                 <button type="button" class="icon-btn" aria-label="Shop">
                     <div class="icon-inner">
-                        <img class="icon-img" src="/My-project/static/images/shop.png" alt="Shop" />
+                        <img class="icon-img" src="{% static 'images/shop.png' %}" alt="Shop" />
                     </div>
                 </button>
 
                 <div class="profile-container">
                     <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
                         <div class="icon-inner">
-                            <img class="icon-img" src="/My-project/static/images/profile.png" alt="Profile" />
+                            <img class="icon-img" src="{% static 'images/profile.png' %}" alt="Profile" />
                         </div>
                     </button>
 
                     <div class="dropdown-menu" id="profileMenu">
                         <div class="menu-header">
-                            <img src="/My-project/static/images/v41_78.png" alt="User" class="menu-user-img">
+                            <img src="{% static 'images/v41_78.png' %}" alt="User" class="menu-user-img">
                             <span class="menu-username">ชื่อผู้ใช้</span>
                         </div>
                         <hr>
@@ -67,7 +63,7 @@
           
           <div class="support-card">
             <div class="card-icon-bg">
-              <img src="/My-project/static/images/icon-product.png" alt="Product Icon" class="card-icon" /> </div>
+              <img src="{% static 'images/' %}" alt="Product Icon" class="card-icon" /> </div>
             <h3 class="card-title">Product Support</h3>
             <p class="card-desc">Help with existing products, orders, and shipping.</p>
             <div class="card-buttons">
@@ -78,7 +74,7 @@
 
           <div class="support-card">
             <div class="card-icon-bg">
-              <img src="/My-project/static/images/icon-sales.png" alt="Sales Icon" class="card-icon" />
+              <img src="{% static 'images/contact/profile-1.png' %}" alt="Sales Icon" class="card-icon" />
             </div>
             <h3 class="card-title">Sales</h3>
             <p class="card-desc">For bulk orders, partnerships, and business inquiries.</p>
@@ -89,7 +85,7 @@
 
           <div class="support-card">
             <div class="card-icon-bg">
-              <img src="/My-project/static/images/icon-plot.png" alt="Plot Icon" class="card-icon" />
+              <img src="{% static 'images/icon-plot.png' %}" alt="Plot Icon" class="card-icon" />
             </div>
             <h3 class="card-title">Vegetable Plot</h3>
             <p class="card-desc">Assistance with plot booking and gardening tools.</p>
@@ -116,7 +112,7 @@
 
                     <div class="footer-column footer-brand">
                         <div class="footer-logo">
-                            <img src="/My-project/static/images/logo.png" alt="Digital Garden Logo" />
+                            <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
                         </div>
                         <p class="slogan">
                             เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
@@ -163,7 +159,7 @@
 
         <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
             <div id="chatIconContainer">
-                <img src="/My-project/static/images/Group.png" alt="Chat Icon" id="chatIconMain" />
+                <img src="{% static 'images/Group.png' %}" alt="Chat Icon" id="chatIconMain" />
             </div>
         </button>
 
@@ -194,7 +190,8 @@
                 </button>
             </div>
         </div>
-        <script src="/My-project/static/js/script.js"></script>
+        
+        <script src="{% static 'js/script.js' %}"></script>
     
     </body>
 </html>
