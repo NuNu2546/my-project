@@ -1,37 +1,26 @@
-"""
-URL configuration for myshop project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
+from store import views # เรียกใช้ views จากแอป store
+from django.conf import settings # สำหรับตั้งค่ารูปภาพ
+from django.conf.urls.static import static # สำหรับตั้งค่ารูปภาพ
 
 urlpatterns = [
+    # Admin
     path('admin/', admin.site.urls),
-]
-
-from django.contrib import admin
-from django.urls import path
-from store import views
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
+    
+    # หน้าหลัก
     path('', views.home, name='home'),
     
-    # --- เพิ่มด้านล่างนี้ครับ ---
+    # เมนูต่างๆ
     path('shop/', views.shop, name='shop'),
     path('veggie-plots/', views.veggie_plots, name='veggie_plots'),
     path('about/', views.about, name='about'),
     path('contact/', views.contact, name='contact'),
+
+    # หน้ารายละเอียดสินค้า (รับ ID)
+    path('product/<int:product_id>/', views.product_detail, name='product_detail'),
 ]
+
+# เพิ่มส่วนนี้เพื่อให้โชว์รูปที่อัปโหลดได้ (เฉพาะตอน Debug)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

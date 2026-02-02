@@ -124,3 +124,7 @@ import os # ถ้าบรรทัดบนสุดมี import os แล้
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+# Media files (สำหรับเก็บรูปที่อัปโหลด)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

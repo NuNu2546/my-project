@@ -178,21 +178,51 @@ body {
   background-color: #ffffff; /* ตัดสลับกับพื้นหลัง light-bg */
 }
 
+/* --- Team Grid ปรับปรุงใหม่ --- */
 .team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px; /* ใกล้เคียง gap 24px ของ product grid */
+  display: flex;             /* เปลี่ยนจาก Grid เป็น Flex */
+  flex-wrap: wrap;           /* อนุญาตให้ปัดตกบรรทัดใหม่ */
+  justify-content: center;   /* จัดกึ่งกลางเสมอ (ทำให้แถวล่าง 2 คนอยู่กลาง) */
+  gap: 30px;                 /* ช่องว่างระหว่างการ์ด */
   margin-top: 50px;
+  max-width: 1200px;         /* จำกัดความกว้างรวมไม่ให้กระจายเกินไป */
+  margin-left: auto;         /* จัดกล่องรวมให้อยู่กลางหน้าจอ */
+  margin-right: auto;
 }
 
 .team-card {
+  /* ปรับขนาดการ์ด */
+  flex: 0 1 350px;          /* 0=ไม่ขยาย, 1=หดได้, 350px=ความกว้างฐาน */
   background: var(--light-bg);
-  border-radius: 12px; /* เท่ากับ product-card */
+  border-radius: 12px;
   padding: 40px 30px;
   text-align: center;
-  border: 1px solid rgba(19, 236, 55, 0.1); /* ขอบเหมือน product-card */
+  border: 1px solid rgba(19, 236, 55, 0.1);
   transition: var(--transition-speed);
+  
+  /* ป้องกันการ์ดเล็กเกินไปในมือถือ */
+  min-width: 280px; 
 }
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  border-color: var(--primary-green);
+}
+
+/* ส่วน Avatar และ Text ใช้เหมือนเดิม */
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin: 0 auto 24px auto;
+  border: 4px solid #fff;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  background-size: cover;
+  background-position: center;
+  background-color: #ddd;
+}
+/* ... (CSS ส่วน member-name, role, quote ใช้ของเดิมได้เลยครับ) ... */
 
 .team-card:hover {
   transform: translateY(-5px);

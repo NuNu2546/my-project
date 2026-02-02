@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ product.name }} - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="page-wrapper">
+
+        <header class="header">
+            <a href="{% url 'home' %}">
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+            </a>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                    <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="profile-container">
+                    <button type="button" class="icon-btn" aria-label="Shop">
+                        <div class="icon-inner">
+                            <img class="icon-img" src="{% static 'images/shop.png' %}" alt="Shop" />
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content container">
+
+            <section class="product-hero">
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img id="detailImage" src="{% static product.image %}" alt="{{ product.name }}" style="width:100%; height:100%; object-fit:cover;" />
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <h1 class="product-title">{{ product.name }}</h1>
+
+                    <p class="product-desc">
+                        {{ product.description|truncatewords:30 }}
+                    </p>
+
+                    <div class="product-price-wrapper">
+                        <span class="price-current">${{ product.price }}</span>
+                    </div>
+
+                    <div class="product-meta">
+                        <div class="quantity-control">
+                            <span class="label">จำนวน:</span>
+                            <div class="quantity-input">
+                                <button type="button" onclick="updateQty(-1)">-</button>
+                                <input type="number" id="qtyInput" value="1" readonly>
+                                <button type="button" onclick="updateQty(1)">+</button>
+                            </div>
+                        </div>
+                        <p class="stock-status">In Stock - Ships in 24 hours</p>
+                    </div>
+
+                    <div class="product-actions">
+                        <button class="btn btn-primary add-to-cart">
+                            <img src="{% static 'images/vector-7.svg' %}" alt="Cart Icon" />
+                            Add to Cart
+                        </button>
+                    </div>
+
+                    <div class="product-tabs">
+                        <div class="tab active" onclick="switchTab('desc')">รายละเอียดสินค้า</div>
+                        <div class="tab" onclick="switchTab('reviews')">รีวิว (Mockup)</div>
+                    </div>
+
+                    <div id="content-desc" class="tab-content active">
+                        <p class="product-desc-full">{{ product.description }}</p>
+                    </div>
+
+                    <div id="content-reviews" class="tab-content" style="display: none;">
+                        <p><em>(ส่วนรีวิวยังเป็นแบบจำลอง JS อยู่นะครับ ในอนาคตเราจะทำ Database เก็บรีวิวจริง)</em></p>
+                        <div class="reviews-container">
+                            <div class="review-list" id="reviewList">
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="related-products">
+                <h2 class="section-title">สินค้าอื่นๆ ที่น่าสนใจ</h2>
+                <div class="product-grid">
+                    {% for item in related_products %}
+                    <a href="{% url 'product_detail' item.id %}" class="product-card">
+                        <div class="product-img" style="background-image: url('{% if item.image %}{{ item.image.url }}{% endif %}');"></div>
+                        <h3 class="card-title">{{ item.name }}</h3>
+                        <p class="card-price">${{ item.price }}</p>
+                    </a>
+                    {% empty %}
+                        <p>ไม่มีสินค้าแนะนำในขณะนี้</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="footer">
+             <div class="footer-container">
+                 <p style="text-align:center;">© 2024 Digital Garden</p>
+             </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // 1. ฟังก์ชันจัดการจำนวน
+        function updateQty(change) {
+            const input = document.getElementById('qtyInput');
+            let val = parseInt(input.value);
+            if (val + change >= 1) {
+                input.value = val + change;
+            }
+        }
+
+        // 2. ฟังก์ชันสลับ Tab
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+
+            if (tabName === 'desc') {
+                document.getElementById('content-desc').style.display = 'block';
+                document.querySelector('.tab:nth-child(1)').classList.add('active');
+            } else {
+                document.getElementById('content-reviews').style.display = 'block';
+                document.querySelector('.tab:nth-child(2)').classList.add('active');
+                renderMockReviews();
+            }
+        }
+
+        // 3. Mockup Reviews (ของเก่า)
+        // เก็บไว้ก่อนเพื่อให้หน้าไม่โล่ง แต่ไม่ได้บันทึกลง Database
+        let isReviewsLoaded = false;
+        function renderMockReviews() {
+            if (isReviewsLoaded) return;
+            
+            const list = document.getElementById('reviewList');
+            const mockData = [
+                { name: "Somsak", comment: "สินค้าดีมากครับ", rating: 5 },
+                { name: "Jane", comment: "ส่งไว แพ็คดี", rating: 4 }
+            ];
+
+            let html = "";
+            mockData.forEach(rev => {
+                const stars = "★".repeat(rev.rating) + "☆".repeat(5 - rev.rating);
+                html += `
+                    <div class="review-item">
+                        <div class="review-avatar">👤</div>
+                        <div class="review-content">
+                            <h4>${rev.name}</h4>
+                            <div class="review-stars" style="color:#FFC107">${stars}</div>
+                            <p>${rev.comment}</p>
+                        </div>
+                    </div>`;
+            });
+            list.innerHTML = html;
+            isReviewsLoaded = true;
+        }
+    </script>
+</body>
+</html>
