@@ -19,6 +19,7 @@ urlpatterns = [
 
     # หน้ารายละเอียดสินค้า (รับ ID)
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
+    path('cart/', views.cart, name='cart'),
 ]
 
 # เพิ่มส่วนนี้เพื่อให้โชว์รูปที่อัปโหลดได้ (เฉพาะตอน Debug)

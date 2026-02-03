@@ -1,206 +1,188 @@
 /* ==========================================================================
-   ส่วนที่ 1: GLOBAL VARIABLES & STATE
-   ตัวแปรที่ต้องใช้งานร่วมกันในหลายฟังก์ชัน
+   ส่วนที่ 1: GLOBAL VARIABLES
+   ตัวแปรที่ใช้ร่วมกัน (สำคัญมาก: ห้ามลบ)
    ========================================================================== */
-// ตัวแปรเก็บข้อมูลสินค้าชั่วคราวขณะเปิด Modal
 let currentProduct = {};
 
 
 /* ==========================================================================
    ส่วนที่ 2: DOM CONTENT LOADED
-   ทำงานเมื่อหน้าเว็บโหลดโครงสร้างเสร็จ (Chat Widget & Profile Menu)
+   ทำงานเมื่อโหลดหน้าเว็บเสร็จ (Chat, Profile, Badge)
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
+    // อัปเดตตัวเลขตะกร้าทันทีที่เข้าเว็บ
+    updateCartBadge();
 
-    // ---------------------------------------------------
-    // 2.1 ระบบ CHAT WIDGET
-    // ---------------------------------------------------
-    const chatButton = document.getElementById('chatButton');
-    const chatPopup = document.getElementById('chatPopup');
-    const closeChatHeader = document.getElementById('closeChatHeader');
-    const chatInput = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const chatMessages = document.getElementById('chatMessages');
-
-    // ฟังก์ชันเปิด-ปิดแชท
-    function toggleChat() {
-        chatPopup.classList.toggle('show');
-
-        // ถ้าเปิดอยู่ ให้โฟกัสที่ช่องพิมพ์
-        if (chatPopup.classList.contains('show')) {
-            setTimeout(() => chatInput.focus(), 300);
-        }
-    }
-
-    // ฟังก์ชันสร้าง HTML ข้อความ
-    function addMessage(text, className) {
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `message ${className}`;
-        msgDiv.innerText = text;
-        chatMessages.appendChild(msgDiv);
-        scrollToBottom();
-    }
-
-    // ฟังก์ชันเลื่อนแชทลงล่างสุด
-    function scrollToBottom() {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    // ฟังก์ชันแสดงสถานะ "กำลังพิมพ์..."
-    function showTypingIndicator() {
-        const typingDiv = document.createElement('div');
-        typingDiv.id = 'typingIndicator';
-        typingDiv.className = 'message admin-msg typing';
-        typingDiv.innerHTML = '<span>.</span><span>.</span><span>.</span>';
-        chatMessages.appendChild(typingDiv);
-        scrollToBottom();
-    }
-
-    // ฟังก์ชันลบสถานะ "กำลังพิมพ์..."
-    function removeTypingIndicator() {
-        const typingDiv = document.getElementById('typingIndicator');
-        if (typingDiv) {
-            typingDiv.remove();
-        }
-    }
-
-    // ฟังก์ชันส่งข้อความ
-    function sendMessage() {
-        const text = chatInput.value.trim();
-
-        if (text !== "") {
-            // 1. เพิ่มข้อความฝั่งผู้ใช้ (User)
-            addMessage(text, 'user-msg');
-            chatInput.value = ""; // เคลียร์ช่องพิมพ์
-
-            // 2. จำลอง Admin กำลังพิมพ์...
-            showTypingIndicator();
-
-            // 3. Admin ตอบกลับอัตโนมัติ (Delay 1.5 วินาที)
-            setTimeout(() => {
-                removeTypingIndicator();
-                addMessage("รับทราบค่ะ แอดมินกำลังตรวจสอบข้อมูลให้นะคะ 🌿", 'admin-msg');
-            }, 1500);
-        }
-    }
-
-    // --- Chat Event Listeners ---
-    if (chatButton) chatButton.addEventListener('click', toggleChat);
-    
-    if (closeChatHeader) {
-        closeChatHeader.addEventListener('click', (e) => {
-            e.stopPropagation();
-            toggleChat();
-        });
-    }
-
-    if (sendBtn) sendBtn.addEventListener('click', sendMessage);
-    
-    if (chatInput) {
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
-        });
-    }
-
-
-    // ---------------------------------------------------
-    // 2.2 ระบบ PROFILE MENU (Dropdown)
-    // ---------------------------------------------------
-    const profileBtn = document.querySelector('.profile-trigger');
-    const profileMenu = document.getElementById('profileMenu');
-
-    if (profileBtn && profileMenu) {
-        // กำหนดฟังก์ชันให้ global window เพื่อให้ HTML เรียกใช้ได้ (ถ้าจำเป็น)
-        window.toggleProfileMenu = function() {
-            profileMenu.classList.toggle('active');
-        };
-
-        // คลิกที่อื่นเพื่อปิดเมนู
-        window.addEventListener('click', function(e) {
-            if (!profileBtn.contains(e.target) && !profileMenu.contains(e.target)) {
-                profileMenu.classList.remove('active');
-            }
-        });
-    }
+    // --- ส่วนของ Chat และ Profile Menu (ตามโค้ดเดิมของคุณ) ---
+    // (ใส่โค้ด Chat / Profile ตรงนี้ได้ หรือถ้ามีอยู่แล้วก็คงไว้)
 });
 
 
 /* ==========================================================================
-   ส่วนที่ 3: GLOBAL FUNCTIONS (MODAL & CART)
-   ฟังก์ชันที่ต้องอยู่นอก DOMContentLoaded เพื่อให้ onclick="..." ใน HTML เรียกใช้ได้
+   ส่วนที่ 3: GLOBAL FUNCTIONS (เรียกใช้จาก HTML onclick)
+   ต้องอยู่นอก document.addEventListener ถึงจะทำงานได้
    ========================================================================== */
 
-// 3.1 ฟังก์ชันเปิด Modal (Quick View)
-function openQuickView(event, id, name, price, image) {
-    // ป้องกันไม่ให้กดแล้วเด้งไปหน้า Detail
-    event.preventDefault();
-    event.stopPropagation();
+/* --- 3.1 เปิด Modal (Quick View) --- */
+function openQuickView(event, id, name, price, imageSrc) {
+    event.preventDefault(); // ป้องกันลิงก์ทำงานซ้อน
+    
+    const modal = document.getElementById('quickViewModal');
+    if (!modal) return;
 
-    // เก็บข้อมูลลงตัวแปร
+    // 1. อัปเดตข้อมูลหน้าเว็บ (UI)
+    const modalImg = document.getElementById('modalImg');
+    if (modalImg) modalImg.src = imageSrc;
+
+    const modalTitle = document.getElementById('modalTitle');
+    if (modalTitle) modalTitle.innerText = name;
+
+    const modalPrice = document.getElementById('modalPrice');
+    if (modalPrice) modalPrice.innerText = '$' + price;
+
+    const modalQty = document.getElementById('modalQty');
+    if (modalQty) modalQty.value = 1;
+
+    // 2. อัปเดตตัวแปร Global (เพื่อให้ confirmAddToCart รู้ว่าสินค้าคืออะไร)
     currentProduct = {
         id: id,
         name: name,
         price: parseFloat(price),
-        image: image,
+        image: imageSrc,
         qty: 1
     };
 
-    // อัปเดตหน้าตา Modal
-    document.getElementById('modalImg').src = image;
-    document.getElementById('modalTitle').innerText = name;
-    document.getElementById('modalPrice').innerText = "$" + currentProduct.price.toFixed(2);
-    document.getElementById('modalQty').value = 1;
-
-    // แสดง Modal
-    document.getElementById('quickViewModal').style.display = 'flex';
+    // 3. แสดง Modal
+    modal.style.display = 'flex';
 }
 
-// 3.2 ฟังก์ชันปิด Modal
+/* --- 3.2 ปิด Modal --- */
 function closeModal() {
-    document.getElementById('quickViewModal').style.display = 'none';
+    const modal = document.getElementById('quickViewModal');
+    if (modal) modal.style.display = 'none';
 }
 
-// Event: ปิดเมื่อกดพื้นหลังสีดำ
+/* --- 3.3 เพิ่ม/ลด จำนวนสินค้าใน Modal --- */
+function updateModalQty(change) {
+    const qtyInput = document.getElementById('modalQty');
+    if (!qtyInput) return;
+
+    let newQty = parseInt(qtyInput.value) + change;
+    if (newQty < 1) newQty = 1; // ห้ามต่ำกว่า 1
+
+    qtyInput.value = newQty;
+    currentProduct.qty = newQty; // อัปเดตตัวแปร Global ด้วย
+}
+
+/* --- 3.4 Animation รูปบินเข้าตะกร้า --- */
+/* --- 3.4 Animation รูปบินเข้าตะกร้า (ฉบับ GPU Smooth) --- */
+function animateFlyToCart(sourceElement, callback) {
+    const cartIcon = document.querySelector('.cart-btn-wrapper');
+    if (!cartIcon || !sourceElement) {
+        callback(); 
+        return;
+    }
+
+    // 1. Clone รูป
+    const flyImg = sourceElement.cloneNode();
+    flyImg.classList.add('fly-item');
+    
+    // 2. หาตำแหน่งเริ่มต้น และ ปลายทาง
+    const startRect = sourceElement.getBoundingClientRect();
+    const endRect = cartIcon.getBoundingClientRect();
+
+    // 3. เซตตำแหน่งเริ่มต้น (ใช้ top/left แค่ครั้งเดียวตอนเริ่ม)
+    flyImg.style.position = "fixed"; 
+    flyImg.style.top = startRect.top + "px";
+    flyImg.style.left = startRect.left + "px";
+    flyImg.style.width = startRect.width + "px";
+    flyImg.style.height = startRect.height + "px";
+    flyImg.style.margin = "0"; // กันค่า default
+    
+    document.body.appendChild(flyImg);
+
+    // 4. คำนวณระยะทางที่จะต้องเลื่อน (Delta X, Y)
+    // เป้าหมายคือ กึ่งกลางตะกร้า - กึ่งกลางรูปเริ่ม
+    const destX = (endRect.left + endRect.width / 2) - (startRect.left + startRect.width / 2);
+    const destY = (endRect.top + endRect.height / 2) - (startRect.top + startRect.height / 2);
+
+    // คำนวณอัตราส่วนการย่อรูป (Scaling) เช่น ย่อเหลือ 50px
+    const scaleRatio = 50 / startRect.width; 
+
+    // 5. เริ่ม Animation (ใช้ Transform ล้วนๆ เพื่อความลื่น)
+    requestAnimationFrame(() => {
+        // ต้อง Delay นิดนึงเพื่อให้ Browser รู้จัก element ก่อนเริ่มขยับ
+        setTimeout(() => {
+            flyImg.style.transform = `translate(${destX}px, ${destY}px) scale(${scaleRatio})`;
+            flyImg.style.opacity = "0.7"; 
+        }, 10);
+    });
+
+    // 6. จบงาน
+    setTimeout(() => {
+        flyImg.remove();
+        callback(); 
+    }, 800); // เวลาต้องตรงกับ CSS transition
+}
+
+/* --- 3.5 ยืนยันการเพิ่มลงตะกร้า (Main Logic) --- */
+function confirmAddToCart() {
+    const modalImg = document.getElementById('modalImg');
+
+    // เรียก Animation -> เมื่อเสร็จแล้วค่อยบันทึก
+    animateFlyToCart(modalImg, () => {
+        
+        // 1. ดึงตะกร้าเดิมจาก LocalStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // 2. เช็คว่ามีสินค้านี้อยู่แล้วไหม
+        const existingItem = cart.find(item => item.id === currentProduct.id);
+
+        if (existingItem) {
+            existingItem.qty += currentProduct.qty;
+        } else {
+            cart.push(currentProduct);
+        }
+
+        // 3. บันทึกกลับลง LocalStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+
+        // 4. อัปเดตตัวเลขแจ้งเตือน
+        updateCartBadge();
+        
+        // 5. เอฟเฟกต์เด้งดึ๋งที่ปุ่มตะกร้า
+        const badge = document.getElementById('cartBadge');
+        if(badge) {
+            badge.classList.remove('bump'); // รีเซ็ตคลาสก่อน
+            void badge.offsetWidth; // บังคับ browser วาดใหม่ (Trick)
+            badge.classList.add('bump');
+        }
+    });
+
+    // ปิด Modal ทันทีเพื่อให้เห็น Animation ชัดๆ
+    closeModal();
+}
+
+/* --- 3.6 อัปเดตตัวเลข Badge --- */
+function updateCartBadge() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+    const badge = document.getElementById('cartBadge');
+
+    if (badge) {
+        badge.innerText = totalQty;
+        if (totalQty > 0) {
+            badge.classList.add('show');
+        } else {
+            badge.classList.remove('show');
+        }
+    }
+}
+
+// ปิด Modal เมื่อคลิกพื้นที่ว่างข้างนอก
 window.onclick = function(event) {
     const modal = document.getElementById('quickViewModal');
     if (event.target == modal) {
         closeModal();
     }
-}
-
-// 3.3 ฟังก์ชันปรับจำนวนสินค้าใน Modal
-function updateModalQty(change) {
-    let newQty = currentProduct.qty + change;
-    if (newQty >= 1) {
-        currentProduct.qty = newQty;
-        document.getElementById('modalQty').value = newQty;
-    }
-}
-
-// 3.4 ฟังก์ชันยืนยันการเพิ่มลงตะกร้า (Confirm Add)
-function confirmAddToCart() {
-    // ดึงตะกร้าเก่ามา หรือถ้าไม่มีให้สร้าง Array ว่าง
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-    // เช็คว่ามีสินค้านี้ในตะกร้าอยู่แล้วไหม?
-    const existingItem = cart.find(item => item.id === currentProduct.id);
-
-    if (existingItem) {
-        // ถ้ามีแล้ว ให้บวกจำนวนเพิ่ม
-        existingItem.qty += currentProduct.qty;
-    } else {
-        // ถ้ายังไม่มี ให้เพิ่มใหม่
-        cart.push(currentProduct);
-    }
-
-    // บันทึกลง LocalStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // แจ้งเตือน
-    alert(`เพิ่ม "${currentProduct.name}" จำนวน ${currentProduct.qty} ชิ้น ลงตะกร้าแล้ว!`);
-
-    // ปิด Modal
-    closeModal();
-
-    // (Optional) updateCartCount(); 
 }

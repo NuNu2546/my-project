@@ -25,11 +25,13 @@
             </nav>
 
             <div class="header-actions">
-                <button type="button" class="icon-btn" aria-label="Shop">
+                <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
                     <div class="icon-inner">
-                        <img class="icon-img" src="{% static 'images/shop.png' %}" alt="Shop" />
+                        <img class="icon-img" src="{% static 'images/shop.png' %}" alt="Cart" />
+                        
+                        <span id="cartBadge" class="cart-badge">0</span>
                     </div>
-                </button>
+                </a>
 
                 <div class="profile-container">
                     <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
@@ -100,10 +102,10 @@
                         </a>
 
                         <div style="padding: 0 16px 16px 16px;">
-                            <button class="btn-add" 
-                                onclick="openQuickView(event, '{{ product.id }}', '{{ product.name }}', '{{ product.price }}', '{% static product.image %}')">
-                                Add to Cart
-                            </button>
+                                <button class="btn-add" 
+                                    onclick="openQuickView(event, '{{ product.id }}', '{{ product.name|escapejs }}', '{{ product.price }}', '{% static product.image %}')">
+                                    Add to Cart
+                                </button>
                         </div>
 
                     </div>

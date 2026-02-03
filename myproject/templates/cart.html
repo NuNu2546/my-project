@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop.css' %}">
+    <style>
+        /* CSS เฉพาะหน้าตะกร้า */
+        .cart-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: white; border-radius: 12px; overflow: hidden; }
+        .cart-table th, .cart-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .cart-table th { background-color: #f9f9f9; font-weight: 700; }
+        .cart-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
+        .btn-remove { color: red; cursor: pointer; background: none; border: none; font-weight: bold; }
+        .cart-summary { background: white; padding: 20px; border-radius: 12px; text-align: right; }
+        .total-price { font-size: 24px; font-weight: 800; color: var(--primary-green); }
+        .btn-checkout { background: var(--primary-green); color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}" alt="Logo" /></a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'shop' %}" class="nav-link">Back to Shop</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container" style="padding-top: 40px;">
+        <h1>ตะกร้าสินค้าของคุณ</h1>
+        
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>สินค้า</th>
+                    <th>ราคา</th>
+                    <th>จำนวน</th>
+                    <th>รวม</th>
+                    <th>ลบ</th>
+                </tr>
+            </thead>
+            <tbody id="cartTableBody">
+                </tbody>
+        </table>
+
+        <div class="cart-summary">
+            <h3>ยอดรวมทั้งสิ้น: <span id="cartTotal" class="total-price">$0.00</span></h3>
+            <button class="btn-checkout" onclick="alert('ไปหน้าชำระเงิน (ยังไม่ทำ)')">ชำระเงิน</button>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartBody = document.getElementById('cartTableBody');
+            const cartTotalElement = document.getElementById('cartTotal');
+            
+            // 1. ดึงข้อมูลจาก LocalStorage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            if (cart.length === 0) {
+                cartBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 30px;">ยังไม่มีสินค้าในตะกร้า</td></tr>';
+                cartTotalElement.innerText = "$0.00";
+                return;
+            }
+
+            let grandTotal = 0;
+
+            // 2. วนลูปสร้างแถวในตาราง
+            cart.forEach((item, index) => {
+                let itemTotal = item.price * item.qty;
+                grandTotal += itemTotal;
+
+                // แก้ไข path รูป: ถ้าเป็น path เต็มอยู่แล้วก็ใช้เลย
+                let imgSrc = item.image; 
+                // เช็คว่าต้องเติม /static/ หรือไม่ (ขึ้นอยู่กับว่าตอน save เก็บค่ามายังไง)
+                if (!imgSrc.startsWith('/static/') && !imgSrc.startsWith('http')) {
+                     // ถ้าใน JS เก็บมาแค่ 'images/...' ให้เติม /static/ ข้างหน้า
+                     imgSrc = '/static/' + imgSrc;
+                }
+
+                let row = `
+                    <tr>
+                        <td style="display:flex; align-items:center; gap:10px;">
+                            <img src="${imgSrc}" class="cart-img" onerror="this.src='/static/images/placeholder.png'">
+                            <span>${item.name}</span>
+                        </td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td>${item.qty}</td>
+                        <td>$${itemTotal.toFixed(2)}</td>
+                        <td>
+                            <button class="btn-remove" onclick="removeItem(${index})">ลบ</button>
+                        </td>
+                    </tr>
+                `;
+                cartBody.innerHTML += row;
+            });
+
+            // 3. แสดงยอดรวม
+            cartTotalElement.innerText = "$" + grandTotal.toFixed(2);
+        });
+
+        // ฟังก์ชันลบสินค้า
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1); // ลบออกจาก Array
+            localStorage.setItem('cart', JSON.stringify(cart)); // บันทึกทับลงไปใหม่
+            location.reload(); // รีเฟรชหน้าเพื่อแสดงผลใหม่
+        }
+    </script>
+
+</body>
+</html>

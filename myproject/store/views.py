@@ -391,7 +391,10 @@ ALL_PRODUCTS = [
     },
 ]
 
+# ใน store/views.py
 
+def cart(request):
+    return render(request, 'cart.html')
 
 def home(request):
     return render(request, 'home.html')
