@@ -85,26 +85,31 @@
                 </div>
 
                 <div class="product-grid" id="productGrid">
-                    
                     {% for product in products %}
                     <div class="product-card" data-category="{{ product.category }}">
-                        <a href="{% url 'product_detail' product.id %}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
-                            
+                        
+                        <a href="{% url 'product_detail' product.id %}" class="card-link">
                             <div class="card-img-wrapper">
                                 <img src="{% static product.image %}" alt="{{ product.name }}">
                             </div>
-
+                            
                             <div class="card-body">
                                 <h3 class="product-title">{{ product.name }}</h3>
                                 <p class="product-price">${{ product.price }}</p>
-                                <div class="btn-add" style="text-align: center;">View Details</div>
                             </div>
                         </a>
+
+                        <div style="padding: 0 16px 16px 16px;">
+                            <button class="btn-add" 
+                                onclick="openQuickView(event, '{{ product.id }}', '{{ product.name }}', '{{ product.price }}', '{% static product.image %}')">
+                                Add to Cart
+                            </button>
+                        </div>
+
                     </div>
                     {% empty %}
                         <p style="grid-column: 1/-1; text-align: center;">ยังไม่มีสินค้าในระบบ</p>
                     {% endfor %}
-
                 </div>
             </section>
         </div>
@@ -160,7 +165,32 @@
                 </div>
             </div>
         </footer>
+        <div id="quickViewModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                
+                <div class="modal-body">
+                    <div class="modal-img-wrapper">
+                        <img id="modalImg" src="" alt="Product Image">
+                    </div>
 
+                    <div class="modal-info">
+                        <h3 id="modalTitle">ชื่อสินค้า</h3>
+                        <p id="modalPrice" class="modal-price">$0.00</p>
+                        
+                        <div class="quantity-control">
+                            <button onclick="updateModalQty(-1)">-</button>
+                            <input type="number" id="modalQty" value="1" readonly>
+                            <button onclick="updateModalQty(1)">+</button>
+                        </div>
+
+                        <button class="btn-confirm-add" onclick="confirmAddToCart()">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="{% static 'js/script.js' %}"></script>
         
         <script>

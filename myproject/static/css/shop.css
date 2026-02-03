@@ -262,3 +262,125 @@ body {
       height: 160px;
   }
 }
+
+/* --- Modal (Popup) Styles --- */
+.modal {
+    display: none; /* ซ่อนไว้ก่อน */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* ฉากหลังสีดำจางๆ */
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.close-modal:hover { color: #000; }
+
+.modal-body {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.modal-img-wrapper img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.modal-info {
+    flex: 1;
+}
+
+.modal-price {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--dark-green);
+    margin: 10px 0;
+}
+
+/* ปุ่มเพิ่มลดจำนวน */
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.quantity-control button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.quantity-control input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.btn-confirm-add {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-confirm-add:hover {
+    background-color: var(--dark-green);
+}
+
+/* ปรับ Link ใน Card ให้เต็มพื้นที่ */
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* Responsive มือถือ */
+@media (max-width: 500px) {
+    .modal-body { flex-direction: column; text-align: center; }
+}
