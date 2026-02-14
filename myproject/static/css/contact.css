@@ -1,29 +1,4 @@
-/* contact.css - Refactored */
 
-/* --- 0. Variables & Global --- */
-:root {
-  /* Global Variables from home.css */
-  --primary-green: #13ec37;
-  --dark-green: #10d131;
-  --light-bg: #f6f8f6;
-  --text-dark: #1f2937;
-  --text-gray: #4b5563;
-  --font-main: "Manrope", sans-serif;
-  --transition-speed: 0.3s;
-
-  /* Contact Page Specific Colors (Extracted from old CSS) */
-  --contact-dark: #344e41;    /* สีเขียวเข้มมาก สำหรับหัวข้อ */
-  --contact-medium: #588157;  /* สีเขียวกลาง สำหรับคำบรรยาย */
-  --card-bg: rgba(247, 245, 230, 0.5); /* สีครีมจางๆ สำหรับการ์ด (#f7f5e680) */
-  --card-bg-hover: #f7f5e6;
-}
-
-body {
-  font-family: var(--font-main);
-  background-color: var(--light-bg);
-  color: var(--text-dark);
-  margin: 0;
-}
 
 /* --- Common Utility --- */
 .container {

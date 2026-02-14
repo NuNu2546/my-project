@@ -1,18 +1,4 @@
-/* --- 0. Global & Variables --- */
-:root {
-  --primary-green: #13ec37;
-  --dark-green: #10d131;
-  --light-bg: #f6f8f6;
-  --text-dark: #1f2937;
-  --text-gray: #4b5563;
-  --font-main: "Manrope", sans-serif;
-  --transition-speed: 0.3s;
-}
 
-body {
-  margin: 0;
-  font-family: var(--font-main);
-}
 
 /* --- 1. โครงสร้างหลัก --- */
 .home {

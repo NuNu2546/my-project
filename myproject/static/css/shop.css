@@ -1,22 +1,4 @@
-/* shop.css */
 
-/* --- Variables --- */
-:root {
-  --primary-green: #13ec37;
-  --dark-green: #10d131;
-  --light-bg: #f6f8f6;
-  --text-dark: #1f2937;
-  --text-gray: #4b5563;
-  --font-main: "Manrope", sans-serif;
-  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-body {
-  background-color: var(--light-bg);
-  color: var(--text-dark);
-  font-family: var(--font-main);
-  margin: 0;
-}
 
 .container {
   max-width: 1440px;

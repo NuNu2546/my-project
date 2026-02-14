@@ -1,15 +1,27 @@
-/* --- CSS Variables & Global Reset --- */
+/* globals.css */
+
+/* --- 1. CSS Variables (คลังเก็บค่าสีและฟอนต์ - ห้ามลบ!) --- */
 :root {
-  --primary-green: #4a7c59;      /* เขียวธรรมชาติ ดูแพง */
-  --dark-green: #365c42;         /* เขียวเข้มสำหรับ Hover */
-  --light-bg: #f9fbf9;           /* พื้นหลังสีเทาเขียวจางๆ */
-  --text-main: #1f2937;
-  --text-gray: #6b7280;
-  --white: #ffffff;
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --font-main: 'Manrope', sans-serif;
+  --primary-green: #13ec37;
+  --dark-green: #10d131;
+  --light-bg: #f6f8f6;
+  --text-dark: #1f2937;
+  --text-gray: #4b5563;
+  --font-main: "Manrope", sans-serif;
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
+
+/* --- 2. Global Reset --- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--light-bg); /* ใช้สีจากคลัง */
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+/* ... (โค้ด Footer และอื่นๆ ที่คุณมีอยู่แล้ว ต่อจากตรงนี้ได้เลย) ... */
 
 /* --- 8. Footer (Redesigned) --- */
 .footer {

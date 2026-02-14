@@ -127,4 +127,5 @@ STATICFILES_DIRS = [
 
 # Media files (สำหรับเก็บรูปที่อัปโหลด)
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = BASE_DIR / 'media'

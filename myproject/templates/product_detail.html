@@ -7,7 +7,6 @@
     <title>{{ product.name }} - Digital Garden</title>
     <link rel="stylesheet" href="{% static 'css/globals.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="page-wrapper">
@@ -16,95 +15,129 @@
             <a href="{% url 'home' %}">
                 <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
             </a>
+            
             <nav class="nav">
                 <ul class="nav-list">
                     <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    
                     <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                    
                     <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                    
                     <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    
                     <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
+
             <div class="header-actions">
+                <button type="button" class="icon-btn" aria-label="Shop">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="{% static 'images/shop.png' %}" alt="Shop" />
+                    </div>
+                </button>
+
                 <div class="profile-container">
-                    <button type="button" class="icon-btn" aria-label="Shop">
+                    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
                         <div class="icon-inner">
-                            <img class="icon-img" src="{% static 'images/shop.png' %}" alt="Shop" />
+                            <img class="icon-img" src="{% static 'images/profile.png' %}" alt="Profile" />
                         </div>
                     </button>
+
+                    <div class="dropdown-menu" id="profileMenu">
+                        <div class="menu-header">
+                            <img src="{% static 'images/v41_78.png' %}" alt="User" class="menu-user-img">
+                            <span class="menu-username">ชื่อผู้ใช้</span>
+                        </div>
+                        <hr>
+                        <a href="#" class="menu-item">การซื้อของฉัน</a>
+                        <a href="#" class="menu-item logout">ออกจากระบบ</a>
+                    </div>
                 </div>
             </div>
         </header>
 
         <main class="main-content container">
 
+            <nav class="breadcrumbs">
+                <a href="{% url 'home' %}">หน้าแรก</a>
+                <span class="sep">/</span>
+                <a href="{% url 'shop' %}">ร้านค้า</a>
+                <span class="sep">/</span>
+                <span class="current">{{ product.name }}</span>
+            </nav>
+
             <section class="product-hero">
                 <div class="product-gallery">
-                    <div class="main-image">
-                        <img id="detailImage" src="{% static product.image %}" alt="{{ product.name }}" style="width:100%; height:100%; object-fit:cover;" />
+                    <div class="main-image-frame">
+                        <img id="detailImage" src="/static/{{ product.image }}" alt="{{ product.name }}" />
                     </div>
                 </div>
 
                 <div class="product-info">
                     <h1 class="product-title">{{ product.name }}</h1>
 
-                    <p class="product-desc">
-                        {{ product.description|truncatewords:30 }}
-                    </p>
-
                     <div class="product-price-wrapper">
                         <span class="price-current">${{ product.price }}</span>
+                        <span class="stock-status">In Stock</span>
                     </div>
 
-                    <div class="product-meta">
+                    <p class="product-desc">
+                        {{ product.description|truncatewords:40 }}
+                    </p>
+
+                    <div class="action-area">
                         <div class="quantity-control">
-                            <span class="label">จำนวน:</span>
-                            <div class="quantity-input">
-                                <button type="button" onclick="updateQty(-1)">-</button>
-                                <input type="number" id="qtyInput" value="1" readonly>
-                                <button type="button" onclick="updateQty(1)">+</button>
-                            </div>
+                            <button type="button" onclick="updateQty(-1)">-</button>
+                            <input type="number" id="qtyInput" value="1" readonly>
+                            <button type="button" onclick="updateQty(1)">+</button>
                         </div>
-                        <p class="stock-status">In Stock - Ships in 24 hours</p>
-                    </div>
-
-                    <div class="product-actions">
+                        
                         <button class="btn btn-primary add-to-cart">
-                            <img src="{% static 'images/vector-7.svg' %}" alt="Cart Icon" />
+                            <img src="{% static 'images/vector-7.svg' %}" alt="" style="width:20px; height:20px; filter: brightness(0) invert(1);" />
                             Add to Cart
                         </button>
                     </div>
 
-                    <div class="product-tabs">
-                        <div class="tab active" onclick="switchTab('desc')">รายละเอียดสินค้า</div>
-                        <div class="tab" onclick="switchTab('reviews')">รีวิว (Mockup)</div>
-                    </div>
+                    <div class="product-tabs-wrapper">
+                        <div class="tabs-header">
+                            <div class="tab active" onclick="switchTab('desc')">รายละเอียด</div>
+                            <div class="tab" onclick="switchTab('reviews')">รีวิว (Mockup)</div>
+                        </div>
 
-                    <div id="content-desc" class="tab-content active">
-                        <p class="product-desc-full">{{ product.description }}</p>
-                    </div>
-
-                    <div id="content-reviews" class="tab-content" style="display: none;">
-                        <p><em>(ส่วนรีวิวยังเป็นแบบจำลอง JS อยู่นะครับ ในอนาคตเราจะทำ Database เก็บรีวิวจริง)</em></p>
-                        <div class="reviews-container">
-                            <div class="review-list" id="reviewList">
-                                </div>
+                        <div id="content-desc" class="tab-content active">
+                            <div class="prose">
+                                {{ product.description|linebreaks }}
                             </div>
+                        </div>
+
+                        <div id="content-reviews" class="tab-content" style="display: none;">
+                            <div class="reviews-container">
+                                <div id="reviewList"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <section class="related-products">
-                <h2 class="section-title">สินค้าอื่นๆ ที่น่าสนใจ</h2>
+                <div class="section-header">
+                    <h2 class="section-title">สินค้าอื่นๆ ที่น่าสนใจ</h2>
+                </div>
+                
                 <div class="product-grid">
                     {% for item in related_products %}
                     <a href="{% url 'product_detail' item.id %}" class="product-card">
-                        <div class="product-img" style="background-image: url('{% if item.image %}{{ item.image.url }}{% endif %}');"></div>
-                        <h3 class="card-title">{{ item.name }}</h3>
-                        <p class="card-price">${{ item.price }}</p>
+                            <div class="card-image-wrapper">
+                                <img src="{% static '' %}{{ item.image }}" alt="{{ item.name }}" loading="lazy">
+                            </div>
+                        <div class="card-details">
+                            <h3 class="card-title">{{ item.name }}</h3>
+                            <p class="card-price">${{ item.price }}</p>
+                        </div>
                     </a>
                     {% empty %}
-                        <p>ไม่มีสินค้าแนะนำในขณะนี้</p>
+                        <p class="no-data">ยังไม่มีสินค้าแนะนำในขณะนี้</p>
                     {% endfor %}
                 </div>
             </section>
@@ -112,24 +145,100 @@
         </main>
 
         <footer class="footer">
-             <div class="footer-container">
-                 <p style="text-align:center;">© 2024 Digital Garden</p>
-             </div>
+            <div class="footer-container">
+                <div class="footer-content">
+
+                    <div class="footer-column footer-brand">
+                        <div class="footer-logo">
+                            <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+                        </div>
+                        <p class="slogan">
+                            เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
+                        </p>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Explore</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">สินค้าทั้งหมด</a></li>
+                            <li><a href="#">จองแปลงผัก</a></li>
+                            <li><a href="#">เรื่องราวของเรา</a></li>
+                            <li><a href="#">บทความ</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="#">ติดต่อเรา</a></li>
+                            <li><a href="#">คำถามที่พบบ่อย</a></li>
+                            <li><a href="#">การจัดส่ง & คืนสินค้า</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Stay Connected</h4>
+                        <p class="newsletter-text">
+                            ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
+                        </p>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
+                            <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2024 Digital Garden. All rights reserved.</p>
+                </div>
+            </div>
         </footer>
+
+        <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
+            <div id="chatIconContainer">
+                <img src="{% static 'images/Group.png' %}" alt="Chat Icon" id="chatIconMain" />
+            </div>
+        </button>
+
+        <div class="chat-popup" id="chatPopup">
+            <div class="chat-header">
+                <div class="admin-info">
+                    <div class="admin-avatar"></div>
+                    <div>
+                        <p class="admin-name">Greenhearth Admin</p>
+                        <p class="admin-status">ออนไลน์ พร้อมให้บริการ</p>
+                    </div>
+                </div>
+                <button class="close-chat-header" id="closeChatHeader" style="font-size: 20px;">&times;</button>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="message admin-msg">
+                    สวัสดีค่ะ! 🌿 ยินดีต้อนรับสู่ Digital Garden <br>มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
+                </div>
+            </div>
+
+            <div class="chat-footer">
+                <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
+                <button id="sendBtn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <script src="{% static 'js/script.js' %}"></script>
 
     </div>
 
     <script>
-        // 1. ฟังก์ชันจัดการจำนวน
         function updateQty(change) {
             const input = document.getElementById('qtyInput');
             let val = parseInt(input.value);
-            if (val + change >= 1) {
-                input.value = val + change;
-            }
+            if (val + change >= 1) input.value = val + change;
         }
 
-        // 2. ฟังก์ชันสลับ Tab
         function switchTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
             document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
@@ -144,27 +253,22 @@
             }
         }
 
-        // 3. Mockup Reviews (ของเก่า)
-        // เก็บไว้ก่อนเพื่อให้หน้าไม่โล่ง แต่ไม่ได้บันทึกลง Database
         let isReviewsLoaded = false;
         function renderMockReviews() {
             if (isReviewsLoaded) return;
-            
             const list = document.getElementById('reviewList');
             const mockData = [
-                { name: "Somsak", comment: "สินค้าดีมากครับ", rating: 5 },
-                { name: "Jane", comment: "ส่งไว แพ็คดี", rating: 4 }
+                { name: "Somsak", comment: "สินค้าดีมากครับ ส่งไว", rating: 5 },
+                { name: "Jane", comment: "แพ็คของมาดีมาก ต้นไม้ไม่ช้ำเลย", rating: 4 }
             ];
-
             let html = "";
             mockData.forEach(rev => {
-                const stars = "★".repeat(rev.rating) + "☆".repeat(5 - rev.rating);
+                const stars = "★".repeat(rev.rating);
                 html += `
                     <div class="review-item">
-                        <div class="review-avatar">👤</div>
-                        <div class="review-content">
-                            <h4>${rev.name}</h4>
-                            <div class="review-stars" style="color:#FFC107">${stars}</div>
+                        <div class="review-avatar">${rev.name.charAt(0)}</div>
+                        <div class="review-text">
+                            <div class="r-head"><strong>${rev.name}</strong> <span class="stars-yellow">${stars}</span></div>
                             <p>${rev.comment}</p>
                         </div>
                     </div>`;

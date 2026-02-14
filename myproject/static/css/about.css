@@ -1,22 +1,3 @@
-/* about.css - Match Home Dimensions */
-
-/* --- 0. Variables (Copy from home.css for consistency) --- */
-:root {
-  --primary-green: #13ec37;
-  --dark-green: #10d131;
-  --light-bg: #f6f8f6;
-  --text-dark: #1f2937;
-  --text-gray: #4b5563;
-  --font-main: "Manrope", sans-serif;
-  --transition-speed: 0.3s;
-}
-
-body {
-  font-family: var(--font-main);
-  background-color: var(--light-bg);
-  color: var(--text-dark);
-  margin: 0;
-}
 
 /* --- Common Utility --- */
 .container {
