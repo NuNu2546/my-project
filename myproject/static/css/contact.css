@@ -1,214 +1,223 @@
+/* contact.css */
 
+/* --- 0. Variables สำหรับหน้านี้ --- */
+:root {
+    --contact-dark: #1f2937;
+    --contact-medium: #6b7280;
+    --card-bg: #ffffff;
+    --card-bg-hover: #f9fafb;
+    --transition-speed: 0.3s;
+}
 
 /* --- Common Utility --- */
 .container {
-  /* ใช้โครงสร้างเดียวกับ about.css ที่แก้ไปล่าสุด */
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 0 50px;
-  box-sizing: border-box;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 50px;
+    box-sizing: border-box;
 }
 
 /* --- 1. Heading Section --- */
 .contact-heading {
-  text-align: center;
-  margin-top: 80px; /* ระยะห่างจาก Header */
-  margin-bottom: 60px;
+    text-align: center;
+    margin-top: 80px; 
+    margin-bottom: 60px;
 }
 
 .main-title {
-  font-family: "Manrope-ExtraBold", sans-serif;
-  font-weight: 800;
-  font-size: 48px;
-  color: var(--contact-dark);
-  margin-bottom: 16px;
-  letter-spacing: -1px;
+    font-family: var(--font-main);
+    font-weight: 800;
+    font-size: 48px;
+    color: var(--contact-dark);
+    margin-bottom: 16px;
+    letter-spacing: -1px;
 }
 
 .sub-title {
-  font-family: var(--font-main);
-  font-weight: 400;
-  font-size: 18px;
-  color: var(--contact-medium);
-  margin: 0;
+    font-family: var(--font-main);
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--contact-medium);
+    margin: 0;
 }
 
 /* --- 2. Support Cards Grid --- */
 .support-section {
-  margin-bottom: 80px;
+    margin-bottom: 80px;
 }
 
 .support-grid {
-  display: grid;
-  /* Auto-fit: สร้างคอลัมน์อัตโนมัติ ขนาดต่ำสุด 300px */
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 32px;
-  justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+    justify-content: center;
 }
 
 .support-card {
-  background-color: var(--card-bg);
-  border-radius: 24px; /* ความมนของการ์ดตามดีไซน์เดิม */
-  padding: 40px 32px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-  transition: var(--transition-speed);
-  border: 1px solid transparent;
+    background-color: var(--card-bg);
+    border-radius: 24px;
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    transition: var(--transition-speed);
+    border: 1px solid transparent;
 }
 
 .support-card:hover {
-  background-color: var(--card-bg-hover);
-  transform: translateY(-5px);
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
-  border-color: rgba(52, 78, 65, 0.1);
+    background-color: var(--card-bg-hover);
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
+    border-color: rgba(52, 78, 65, 0.1);
 }
 
 /* Icon Styles */
 .card-icon-bg {
-  width: 64px;
-  height: 64px;
-  background-color: rgba(52, 78, 65, 0.1); /* วงกลมสีเขียวจาง */
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
+    width: 64px;
+    height: 64px;
+    background-color: rgba(52, 78, 65, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
 }
 
 .card-icon {
-  width: 30px;
-  height: auto;
-  object-fit: contain;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 /* Text Styles */
 .card-title {
-  font-family: "Manrope-Bold", sans-serif;
-  font-size: 20px;
-  color: var(--contact-dark);
-  margin-bottom: 8px;
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--contact-dark);
+    margin-bottom: 8px;
 }
 
 .card-desc {
-  font-size: 14px;
-  color: var(--contact-medium);
-  line-height: 1.6;
-  margin-bottom: 32px;
-  max-width: 260px; /* บีบข้อความไม่ให้ยาวเกินไป */
+    font-size: 14px;
+    color: var(--contact-medium);
+    line-height: 1.6;
+    margin-bottom: 32px;
+    max-width: 260px;
 }
 
 /* Buttons inside Card */
 .card-buttons {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .btn-card-primary {
-  width: 100%;
-  height: 44px;
-  background-color: var(--contact-dark); /* สีเขียวเข้ม */
-  color: #ffffff;
-  border: none;
-  border-radius: 16px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.2s;
+    width: 100%;
+    height: 44px;
+    background-color: var(--primary-green);
+    color: #ffffff;
+    border: none;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
 }
 
 .btn-card-primary:hover {
-  background-color: #263a30;
-  transform: scale(1.02);
+    background-color: var(--dark-green);
+    transform: scale(1.02);
 }
 
 .btn-card-outline {
-  width: 100%;
-  height: 44px;
-  background-color: transparent;
-  color: var(--contact-dark);
-  border: 1px solid rgba(52, 78, 65, 0.2);
-  border-radius: 16px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.2s;
+    width: 100%;
+    height: 44px;
+    background-color: transparent;
+    color: var(--contact-dark);
+    border: 1px solid rgba(52, 78, 65, 0.2);
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
 }
 
 .btn-card-outline:hover {
-  border-color: var(--contact-dark);
-  background-color: rgba(52, 78, 65, 0.05);
+    border-color: var(--contact-dark);
+    background-color: rgba(52, 78, 65, 0.05);
 }
 
 /* --- 3. Bottom CTA Section --- */
 .bottom-cta {
-  text-align: center;
-  margin-bottom: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    text-align: center;
+    margin-bottom: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .divider {
-  width: 100%;
-  height: 1px;
-  background-color: rgba(52, 78, 65, 0.1);
-  margin-bottom: 60px;
+    width: 100%;
+    height: 1px;
+    background-color: rgba(52, 78, 65, 0.1);
+    margin-bottom: 60px;
 }
 
 .bottom-title {
-  font-family: "Manrope-Bold", sans-serif;
-  font-size: 18px;
-  color: var(--contact-dark);
-  margin-bottom: 8px;
+    font-family: var(--font-main);
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--contact-dark);
+    margin-bottom: 8px;
 }
 
 .bottom-desc {
-  font-size: 16px;
-  color: var(--contact-medium);
-  margin-bottom: 24px;
+    font-size: 16px;
+    color: var(--contact-medium);
+    margin-bottom: 24px;
 }
 
 .btn-outline-large {
-  height: 44px;
-  padding: 0 40px;
-  background-color: transparent;
-  color: var(--contact-dark);
-  border: 1px solid var(--contact-dark);
-  border-radius: 16px;
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.2s;
+    height: 44px;
+    padding: 0 40px;
+    background-color: transparent;
+    color: var(--contact-dark);
+    border: 1px solid var(--contact-dark);
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .btn-outline-large:hover {
-  background-color: var(--contact-dark);
-  color: #ffffff;
+    background-color: var(--contact-dark);
+    color: #ffffff;
 }
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
-  .main-title {
-    font-size: 32px;
-  }
-  
-  .sub-title {
-    font-size: 16px;
-  }
-  
-  .container {
-    padding: 0 20px; /* ลด Padding ในมือถือ */
-  }
+    .main-title {
+        font-size: 32px;
+    }
+    
+    .sub-title {
+        font-size: 16px;
+    }
+    
+    .container {
+        padding: 0 20px;
+    }
 }
