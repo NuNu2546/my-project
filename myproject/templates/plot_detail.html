@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>มุมแดดสบาย #A12 - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/plot_detail.css' %}">
+</head>
+<body>
+
+    <header class="header">
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+        </a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <button class="icon-btn">
+                <img class="icon-img" src="{% static 'images/shop.png' %}" alt="Shop">
+            </button>
+            <div class="profile-container">
+                <button class="icon-btn">
+                    <img class="icon-img" src="{% static 'images/profile.png' %}" alt="Profile">
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="plot-detail-page container">
+        
+        <a href="{% url 'veggie_plots' %}" class="back-link">
+            <img src="{% static 'images/vector-3.svg' %}" alt="Back"> Back to Listings
+        </a>
+
+        <div class="plot-grid">
+            <div class="plot-gallery">
+                <img class="main-image" src="{% static 'images/image-4.png' %}" alt="มุมแดดสบาย A12" />
+                <div class="thumbnail-list">
+                    <img class="thumbnail" src="{% static 'images/image-border.png' %}" alt="Thumb 1" />
+                    <img class="thumbnail" src="{% static 'images/image-3.png' %}" alt="Thumb 2" />
+                    <img class="thumbnail" src="{% static 'images/image-2.png' %}" alt="Thumb 3" />
+                    <img class="thumbnail" src="{% static 'images/image-5.png' %}" alt="Thumb 4" />
+                </div>
+            </div>
+
+            <div class="plot-info">
+                <h1 class="plot-title">มุมแดดสบาย #A12</h1>
+                <p class="plot-desc">
+                    แปลงมุมที่โดนแดดเต็มวัน เหมาะสำหรับผักและดอกไม้ที่ชอบแสงแดดจัด เช่น มะเขือเทศ พริก หรือดอกทานตะวัน ดินเป็นดินออร์แกนิกคุณภาพดี ช่วยให้ต้นไม้เจริญเติบโตอย่างแข็งแรง มีจุดให้น้ำพร้อมใช้งาน (Water Access) และใกล้โรงเก็บอุปกรณ์ทำสวน (Tool Shed) สะดวกต่อการดูแลแปลง เหมาะสำหรับทั้งผู้เริ่มต้นและผู้ที่ปลูกผักเป็นประจำ
+                </p>
+
+                <div class="suitable-plants">
+                    <div class="plant-card active">
+                        <img src="{% static 'images/image.png' %}" alt="มะเขือเทศ">
+                        <span>มะเขือเทศ</span>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{% static 'images/tomato-emoji-3.png' %}" alt="แครอท">
+                        <span>แครอท</span>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{% static 'images/tomato-emoji.png' %}" alt="ผักกาดหอม">
+                        <span>ผักกาดหอม</span>
+                    </div>
+                    <div class="plant-card">
+                        <img src="{% static 'images/tomato-emoji-2.png' %}" alt="พริกหวาน">
+                        <span>พริกหวาน</span>
+                    </div>
+                </div>
+
+                <div class="plot-specs">
+                    <div class="spec-item">
+                        <span class="spec-label">Plot Size</span>
+                        <span class="spec-value">10m² (5m x 2m)</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Soil Type</span>
+                        <span class="spec-value">Loamy, well-drained</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Sun Exposure</span>
+                        <span class="spec-value">Full Sun</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">Water Access</span>
+                        <span class="spec-value">Shared tap nearby</span>
+                    </div>
+                </div>
+
+                <div class="booking-widget">
+                    <div class="booking-header">
+                        <h3>เลือกช่วงเวลาในการจอง</h3>
+                        <a href="#" class="more-link">เพิ่มเติม <img src="{% static 'images/image.svg' %}" alt="More"></a>
+                    </div>
+                    
+                    <div class="calendar-container">
+                        <div class="cal-header">
+                            <button class="cal-nav">&lt;</button>
+                            <span class="cal-month">October 2024</span>
+                            <button class="cal-nav">&gt;</button>
+                        </div>
+                        <div class="cal-weekdays">
+                            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                        </div>
+                        <div class="cal-days">
+                            <span class="inactive">29</span><span class="inactive">30</span>
+                            <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span>
+                            <span class="selected">8</span><span class="selected">9</span><span class="selected">10</span><span class="selected">11</span><span class="selected">12</span>
+                            <span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span>
+                            <span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span class="booked">25</span><span>26</span>
+                            <span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
+                            <span class="inactive">1</span><span class="inactive">2</span>
+                        </div>
+                    </div>
+
+                    <div class="booking-summary">
+                        <p class="price-label">Booking Price (Oct 8 - 12)</p>
+                        <p class="price-total">$125.00</p>
+                        <button class="btn-book">Book Plot</button>
+                        
+                        <div class="booking-actions">
+                            <a href="#"><img src="{% static 'images/vector-4.svg' %}" alt="Wishlist"> Add to Wishlist</a>
+                            <a href="#"><img src="{% static 'images/vector-7.svg' %}" alt="Question"> Ask a Question</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <p style="text-align:center; padding: 20px;">© 2024 Digital Garden. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

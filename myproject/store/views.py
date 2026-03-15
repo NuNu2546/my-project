@@ -496,6 +496,9 @@ def product_detail(request, product_id):
     }
     return render(request, 'product_detail.html', context)
 
+
+def plot_detail(request):
+    return render(request, 'plot_detail.html')
 # --- Views อื่นๆ คงเดิม ---
 def veggie_plots(request):
     return render(request, 'veggie_plots.html')

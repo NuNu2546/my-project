@@ -20,6 +20,10 @@ urlpatterns = [
     # หน้ารายละเอียดสินค้า (รับ ID)
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
     path('cart/', views.cart, name='cart'),
+    path('veggie-plots/', views.veggie_plots, name='veggie_plots'),
+    
+    # เพิ่มบรรทัดนี้เข้าไปครับ สังเกตตรง name='plot_detail' ตรงนี้แหละที่ HTML ถามหา
+    path('plot-detail/', views.plot_detail, name='plot_detail'),
 ]
 
 # เพิ่มส่วนนี้เพื่อให้โชว์รูปที่อัปโหลดได้ (เฉพาะตอน Debug)

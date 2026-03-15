@@ -1,234 +1,256 @@
-
+/* --- Veggie_Plots.css (Modern Premium Design) --- */
 
 /* --- 1. Layout & Container --- */
 .veggie-plots {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .main {
-  /* ใช้โครงสร้างเดียวกับหน้า Shop เพื่อความกว้างที่เท่ากัน */
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 40px 50px 80px 50px; /* Top Right Bottom Left */
-  box-sizing: border-box;
+    width: 100%;
+    max-width: 1240px; /* ปรับให้กะทัดรัดขึ้นนิดนึงเพื่อให้การ์ดดูสมส่วน */
+    margin: 0 auto;
+    padding: 40px 24px 100px 24px; 
+    box-sizing: border-box;
 }
+
+/* --- Override: แก้ไขปุ่ม Icon บน Header ให้ดูเป็นธรรมชาติ (เผื่อหน้านี้ยังไม่ได้ดึงไป) --- */
+.icon-btn {
+    background-color: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+}
+.icon-btn:hover {
+    background-color: var(--primary-green) !important;
+    border-color: var(--primary-green) !important;
+}
+.icon-btn .icon-img { filter: none !important; }
+.icon-btn:hover .icon-img { filter: brightness(0) invert(1) !important; }
 
 /* --- 2. Page Title --- */
 .page-title {
-  text-align: center;
-  margin-bottom: 60px;
+    text-align: center;
+    margin-bottom: 70px;
+    padding-top: 20px;
 }
 
 .heading-find-your {
-  font-family: "Manrope-ExtraBold", sans-serif;
-  font-weight: 800;
-  font-size: 36px;
-  color: #0f172a;
-  letter-spacing: -0.5px;
+    font-weight: 800;
+    font-size: 42px;
+    color: var(--text-dark);
+    letter-spacing: -1px;
+    margin-bottom: 12px;
 }
 
-/* --- 3. Grid System (หัวใจหลักของการจัดหน้า) --- */
+.page-title p {
+    font-size: 16px;
+    color: var(--text-gray);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* --- 3. Grid System --- */
 .plots-grid {
-  display: grid;
-  /* Auto-fit: สร้างคอลัมน์อัตโนมัติ ขนาดต่ำสุดการ์ด 320px */
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 32px;
-  justify-content: center;
+    display: grid;
+    /* ขยายขนาดการ์ดขั้นต่ำให้ใหญ่ขึ้นดูพรีเมียม */
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 32px;
 }
 
 /* --- 4. Plot Card Styling --- */
 .plot-card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--card-shadow);
-  border: 1px solid rgba(0,0,0,0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative; /* เพื่อให้ Badge อิงตำแหน่งได้ */
-  display: flex;
-  flex-direction: column;
+    background-color: #ffffff;
+    border-radius: 24px; /* โค้งมนขึ้น */
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); /* เงาฟุ้งๆ นุ่มๆ */
+    border: 1px solid #f3f4f6;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .plot-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-  border-color: rgba(19, 236, 55, 0.3);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border-color: #e5e7eb;
 }
 
 /* Card Image Area */
 .card-image {
-  width: 100%;
-  height: 240px;
-  background-color: #e2e8f0; /* สีพื้นหลังกันพลาด */
-  background-size: cover;
-  background-position: center;
-  position: relative;
+    width: 100%;
+    height: 240px;
+    background-color: #f9fafb;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-bottom: 1px solid #f3f4f6;
+    transition: transform 0.6s ease;
+    background-repeat: no-repeat;
+    background-size: cover;      /* บังคับรูปให้ขยายเต็มกรอบ */
+    background-position: center; /* จัดให้อยู่กึ่งกลางเสมอ */
 }
 
-/* Fallback images (ในกรณีที่คุณยังไม่ได้ใส่รูปจริงใน class เดิม) */
-/* คุณสามารถลบส่วนนี้ได้ถ้า CSS เดิมมีรูปอยู่แล้ว */
-.card-image.abaxucuxlyqvoaz { background-image: url('../images/plot-1.jpg'); } 
-.card-image.abaxuaxkcoqmdnhv { background-image: url('../images/plot-2.jpg'); }
-/* (เพิ่มรูป Placeholder ชั่วคราวเพื่อให้เห็นภาพ) */
+/* ให้รูปซูมเข้าเล็กน้อยตอน Hover การ์ด */
+.plot-card:hover .card-image {
+    transform: scale(1.05);
+}
+
+/* Placeholder กรณีไม่มีรูป */
 .card-image:empty {
     background-image: linear-gradient(45deg, #f3f4f6 25%, #e5e7eb 25%, #e5e7eb 50%, #f3f4f6 50%, #f3f4f6 75%, #e5e7eb 75%, #e5e7eb 100%);
     background-size: 20px 20px;
 }
 
-/* Status Badge (ป้ายสถานะ) */
+/* Status Badge (ป้ายสถานะ) - ทำเป็น Glassmorphism นิดๆ */
 .status-badge {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  z-index: 10;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    border-radius: 50px; /* ป้ายทรงแคปซูล */
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    z-index: 10;
+    backdrop-filter: blur(8px); /* เอฟเฟกต์กระจกเบลอพื้นหลัง */
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .status-badge.available {
-  background-color: var(--status-available-bg);
-  color: var(--status-available-text);
+    background-color: rgba(209, 250, 229, 0.9); /* เขียวอ่อนโปร่งแสง */
+    color: #059669;
+    border: 1px solid rgba(167, 243, 208, 0.5);
 }
 
 .status-badge.full {
-  background-color: var(--status-full-bg);
-  color: var(--status-full-text);
+    background-color: rgba(254, 226, 226, 0.9); /* แดงอ่อนโปร่งแสง */
+    color: #dc2626;
+    border: 1px solid rgba(254, 202, 202, 0.5);
 }
 
 /* Card Content */
 .card-content {
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  flex: 1; /* ยืดให้เต็มพื้นที่ */
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: #ffffff;
+    position: relative;
+    z-index: 2; /* บังส่วนรูปที่ซูมล้นลงมา */
 }
 
 .heading-text {
-  font-family: "Manrope-Bold", sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 8px;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
 }
 
 .desc-text {
-  font-size: 14px;
-  color: var(--text-gray);
-  line-height: 1.6;
-  margin-bottom: 20px;
-  flex-grow: 1; /* ดันเนื้อหาด้านล่างลงไป */
+    font-size: 15px;
+    color: var(--text-gray);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    flex-grow: 1;
 }
 
 /* Specifications Row (Icons) */
 .specs-row {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px dashed #e5e7eb; /* เปลี่ยนเป็นเส้นประให้ดูน่ารักขึ้น */
 }
 
 .spec-tag {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: #64748b;
-  font-weight: 600;
-  background-color: #f8fafc;
-  padding: 4px 8px;
-  border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-gray);
+    font-weight: 600;
+    background-color: #f3f4f6;
+    padding: 6px 14px;
+    border-radius: 50px; /* ทรงแคปซูล */
+    transition: background 0.2s;
 }
 
-.spec-tag img {
-  width: 16px;
-  height: 16px;
-  opacity: 0.7;
+.plot-card:hover .spec-tag {
+    background-color: #f1f5f9;
 }
 
 /* Price & Button Row */
 .price-row {
-  display: flex;
-  align-items: baseline;
-  margin-bottom: 16px;
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 20px;
 }
 
 .price {
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--dark-green);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary-green);
+    letter-spacing: -0.5px;
 }
 
 .unit {
-  font-size: 14px;
-  color: var(--text-gray);
-  margin-left: 4px;
+    font-size: 14px;
+    color: #9ca3af;
+    margin-left: 6px;
+    font-weight: 500;
 }
 
 .action-btn {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: none;
-  font-family: var(--font-main);
-  font-weight: 700;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.2s;
-  background-color: var(--primary-green);
-  color: white;
-  text-align: center;
+    width: 100%;
+    height: 52px;
+    border-radius: 50px; /* ปุ่มทรงแคปซูล */
+    border: none;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(19, 236, 55, 0.25);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .action-btn:hover {
-  background-color: var(--dark-green);
-  transform: scale(1.02);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(19, 236, 55, 0.35);
 }
 
-/* Booked Button State */
+/* Booked Button State (ปุ่มที่ถูกจองแล้ว) */
 .action-btn.booked {
-  background-color: #e2e8f0;
-  color: #94a3b8;
-  cursor: not-allowed;
+    background: #f3f4f6;
+    color: #9ca3af;
+    box-shadow: none;
+    cursor: not-allowed;
+    border: 1px solid #e5e7eb;
 }
 
 .action-btn.booked:hover {
-  background-color: #e2e8f0;
-  transform: none;
+    transform: none;
+    box-shadow: none;
 }
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 1024px) {
-  .plots-grid {
-     /* แท็บเล็ต 2 คอลัมน์ */
-     grid-template-columns: repeat(2, 1fr); 
-  }
+    .plots-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 640px) {
-  .main {
-    padding: 30px 20px;
-  }
-  
-  .heading-find-your {
-    font-size: 28px;
-  }
-
-  .plots-grid {
-     /* มือถือ 1 คอลัมน์ */
-     grid-template-columns: 1fr; 
-  }
-  
-  .card-image {
-    height: 200px;
-  }
+@media (max-width: 768px) {
+    .heading-find-your { font-size: 32px; }
+    .page-title { margin-bottom: 40px; }
+    .plots-grid { grid-template-columns: 1fr; gap: 24px; }
+    .card-image { height: 220px; }
 }

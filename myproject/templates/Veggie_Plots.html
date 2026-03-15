@@ -63,8 +63,10 @@
 
             <div class="plots-grid">
                 
-                <div class="plot-card">
-                    <div class="card-image" style="background-image: url('img/plot-sunny.jpg');"></div> 
+                <div class="plot-card" onclick="window.location.href='{% url 'plot_detail' %}'" style="cursor: pointer;">
+                    <div class="card-image">
+                        <img src="{% static 'images/Veggie_Plots/Veggie_Plots_A12.png' %}" alt="มุมแดดสบาย #A12" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    </div>
                     <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
                         <h3 class="heading-text">มุมแดดสบาย #A12</h3>
@@ -76,12 +78,14 @@
                         <div class="price-row">
                             <span class="price">$45</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn">จองแปลงนี้</button>
+                        <a href="{% url 'plot_detail' %}" class="action-btn" style="display: flex; justify-content: center; align-items: center; text-decoration: none;">จองแปลงนี้</a>
                     </div>
                 </div>
 
-                <div class="plot-card">
-                    <div class="card-image" style="background-image: url('img/plot-cozy.jpg');"></div>
+                <div class="plot-card" onclick="window.location.href='{% url 'plot_detail' %}'" style="cursor: pointer;">
+                    <div class="card-image">
+                        <img src="{% static 'images/Veggie_Plots/Veggie_Plots_B04.png' %}" alt="มุมน่ารัก #B04" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    </div>
                     <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
                         <h3 class="heading-text">มุมน่ารัก #B04</h3>
@@ -93,12 +97,14 @@
                         <div class="price-row">
                             <span class="price">$55</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn">จองแปลงนี้</button>
+                        <a href="{% url 'plot_detail' %}" class="action-btn" style="display: flex; justify-content: center; align-items: center; text-decoration: none;">จองแปลงนี้</a>
                     </div>
                 </div>
 
-                <div class="plot-card">
-                    <div class="card-image" style="background-image: url('img/plot-flower.jpg');"></div>
+                <div class="plot-card" onclick="window.location.href='{% url 'plot_detail' %}'" style="cursor: pointer;">
+                    <div class="card-image">
+                        <img src="{% static 'images/Veggie_Plots/Veggie_Plots_C21.png' %}" alt="เนินดอกไม้ #C21" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    </div>
                     <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
                         <h3 class="heading-text">เนินดอกไม้ #C21</h3>
@@ -110,12 +116,14 @@
                         <div class="price-row">
                             <span class="price">$30</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn">จองแปลงนี้</button>
+                        <a href="{% url 'plot_detail' %}" class="action-btn" style="display: flex; justify-content: center; align-items: center; text-decoration: none;">จองแปลงนี้</a>
                     </div>
                 </div>
 
-                <div class="plot-card">
-                    <div class="card-image" style="background-image: url('img/plot-open.jpg');"></div>
+                <div class="plot-card" onclick="window.location.href='{% url 'plot_detail' %}'" style="cursor: pointer;">
+                    <div class="card-image">
+                        <img src="{% static 'images/Veggie_Plots/Veggie_Plots_D08.png' %}" alt="ทุ่งเล็ก #D08" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    </div>
                     <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
                         <h3 class="heading-text">ทุ่งเล็ก #D08</h3>
@@ -127,13 +135,15 @@
                         <div class="price-row">
                             <span class="price">$60</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn">จองแปลงนี้</button>
+                        <a href="{% url 'plot_detail' %}" class="action-btn" style="display: flex; justify-content: center; align-items: center; text-decoration: none;">จองแปลงนี้</a>
                     </div>
                 </div>
 
-                <div class="plot-card">
-                    <div class="card-image" style="background-image: url('img/plot-fresh.jpg');"></div>
-                    <div class="status-badge full">ไม่ว่าง</div>
+                <div class="plot-card" onclick="window.location.href='{% url 'plot_detail' %}'" style="cursor: pointer;">
+                    <div class="card-image">
+                        <img src="{% static 'images/Veggie_Plots/Veggie_Plots_E15.png' %}" alt="แปลงสดชื่น #E15" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    </div>
+                    <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
                         <h3 class="heading-text">แปลงสดชื่น #E15</h3>
                         <p class="desc-text">แปลงที่ดูแลง่าย ใกล้แหล่งน้ำ เหมาะสำหรับผู้เริ่มต้น</p>
@@ -144,12 +154,14 @@
                         <div class="price-row">
                             <span class="price">$40</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn booked" disabled>ถูกจองแล้ว</button>
+                        <a href="{% url 'plot_detail' %}" class="action-btn" style="display: flex; justify-content: center; align-items: center; text-decoration: none;">จองแปลงนี้</a>
                     </div>
                 </div>
 
-                <div class="plot-card">
-                    <div class="card-image" style="background-image: url('img/plot-oasis.jpg');"></div>
+                <div class="plot-card" onclick="window.location.href='{% url 'plot_detail' %}'" style="cursor: pointer;">
+                    <div class="card-image">
+                        <img src="{% static 'images/Veggie_Plots/Veggie_Plots_F01.png' %}" alt="โอเอซิสเขียว #F01" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    </div>
                     <div class="status-badge available">ว่าง</div>
                     <div class="card-content">
                         <h3 class="heading-text">โอเอซิสเขียว #F01</h3>
@@ -161,7 +173,7 @@
                         <div class="price-row">
                             <span class="price">$85</span><span class="unit">/เดือน</span>
                         </div>
-                        <button class="action-btn">จองแปลงนี้</button>
+                        <a href="{% url 'plot_detail' %}" class="action-btn" style="display: flex; justify-content: center; align-items: center; text-decoration: none;">จองแปลงนี้</a>
                     </div>
                 </div>
 

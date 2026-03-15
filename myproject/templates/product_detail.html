@@ -94,7 +94,7 @@
                         </div>
                         
                         <button class="btn btn-primary add-to-cart">
-                            <img src="{% static 'images/vector-7.svg' %}" alt="" style="width:20px; height:20px; filter: brightness(0) invert(1);" />
+                            <img src="{% static 'images/Product.png' %}" alt="" style="filter: brightness(0) invert(1);" />
                             Add to Cart
                         </button>
                     </div>
@@ -121,23 +121,32 @@
             </section>
 
             <section class="related-products">
-                <div class="section-header">
+                <div class="section-header" style="display: flex; justify-content: space-between; align-items: center;">
                     <h2 class="section-title">สินค้าอื่นๆ ที่น่าสนใจ</h2>
+                    
+                    <div class="slider-nav">
+                        <button class="slider-btn prev-btn" onclick="scrollSlider(-1)" aria-label="Previous">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button class="slider-btn next-btn" onclick="scrollSlider(1)" aria-label="Next">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
                 </div>
                 
-                <div class="product-grid">
+                <div class="product-slider-container" id="relatedSlider">
                     {% for item in related_products %}
-                    <a href="{% url 'product_detail' item.id %}" class="product-card">
-                            <div class="card-image-wrapper">
-                                <img src="{% static '' %}{{ item.image }}" alt="{{ item.name }}" loading="lazy">
-                            </div>
+                    <a href="{% url 'product_detail' item.id %}" class="product-card slider-card">
+                        <div class="card-image-wrapper">
+                            <img src="{% static '' %}{{ item.image }}" alt="{{ item.name }}" loading="lazy">
+                        </div>
                         <div class="card-details">
                             <h3 class="card-title">{{ item.name }}</h3>
                             <p class="card-price">${{ item.price }}</p>
                         </div>
                     </a>
                     {% empty %}
-                        <p class="no-data">ยังไม่มีสินค้าแนะนำในขณะนี้</p>
+                        <p class="no-data" style="min-width: 100%;">ยังไม่มีสินค้าแนะนำในขณะนี้</p>
                     {% endfor %}
                 </div>
             </section>
@@ -275,6 +284,16 @@
             });
             list.innerHTML = html;
             isReviewsLoaded = true;
+        }
+        // ฟังก์ชันสำหรับเลื่อน Slider สินค้าแนะนำ
+        function scrollSlider(direction) {
+            const slider = document.getElementById('relatedSlider');
+            // กำหนดระยะเลื่อน: เลื่อนทีละ 300px (ขนาดการ์ด + ช่องว่าง)
+            const scrollAmount = 300 * direction; 
+            slider.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth' // ให้เลื่อนแบบนุ่มนวล
+            });
         }
     </script>
 </body>

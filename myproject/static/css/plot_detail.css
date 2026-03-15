@@ -1,0 +1,300 @@
+/* plot_detail.css */
+
+/* --- Layout หลัก --- */
+.plot-detail-page {
+    padding-top: 40px;
+    padding-bottom: 80px;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.plot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+/* --- แกลลอรี่รูปภาพ --- */
+.plot-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.main-image {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.thumbnail-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.thumbnail {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.thumbnail:hover {
+    border-color: var(--primary-green);
+}
+
+/* --- ข้อมูลแปลง --- */
+.plot-title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #111811;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.plot-desc {
+    font-size: 15px;
+    color: #618961;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* พืชที่แนะนำ */
+.suitable-plants {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.plant-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background-color: rgba(245, 240, 230, 0.4);
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111811;
+}
+
+.plant-card.active {
+    background-color: rgba(58, 95, 75, 0.1);
+    border-color: #3a5f4b;
+}
+
+.plant-card img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+/* สเปคของแปลง */
+.plot-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background-color: rgba(245, 240, 230, 0.4);
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 40px;
+}
+
+.spec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.spec-label {
+    font-size: 12px;
+    color: #618961;
+}
+
+.spec-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111811;
+}
+
+/* --- Widget การจอง (Calendar) --- */
+.booking-widget {
+    background-color: rgba(245, 240, 230, 0.4);
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.booking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.booking-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111811;
+    margin: 0;
+}
+
+.more-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #3a5f4b;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.more-link img {
+    width: 16px;
+    transform: rotate(-90deg);
+}
+
+.calendar-container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+}
+
+.cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.cal-month {
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.cal-nav {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #618961;
+}
+
+.cal-weekdays, .cal-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    gap: 8px 0;
+}
+
+.cal-weekdays span {
+    font-size: 12px;
+    color: #618961;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.cal-days span {
+    font-size: 14px;
+    color: #111811;
+    padding: 6px 0;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.cal-days span.inactive {
+    color: #9ca3af;
+}
+
+.cal-days span.booked {
+    color: #b91c1c;
+    background-color: rgba(254, 202, 202, 0.5);
+    border-radius: 50%;
+}
+
+.cal-days span.selected {
+    background-color: rgba(255, 199, 44, 0.4);
+}
+
+/* เลือกหัวและท้ายของช่วงวันที่ (ให้โค้งสวยๆ) */
+.cal-days span.selected:first-of-type { border-radius: 20px 0 0 20px; }
+.cal-days span.selected:last-of-type { border-radius: 0 20px 20px 0; }
+
+/* --- สรุปราคาและปุ่มจอง --- */
+.booking-summary {
+    border-top: 1px solid #d1d5db;
+    padding-top: 20px;
+}
+
+.price-label {
+    font-size: 15px;
+    color: #618961;
+    margin-bottom: 4px;
+}
+
+.price-total {
+    font-size: 28px;
+    font-weight: 800;
+    color: #3a5f4b;
+    margin-bottom: 20px;
+}
+
+.btn-book {
+    width: 100%;
+    height: 52px;
+    background-color: #3a5f4b;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    margin-bottom: 20px;
+}
+
+.btn-book:hover {
+    background-color: #274133;
+}
+
+.booking-actions {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.booking-actions a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #3a5f4b;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* --- Responsive ให้อ่านบนมือถือได้ --- */
+@media (max-width: 992px) {
+    .plot-grid {
+        grid-template-columns: 1fr; /* บนมือถือให้เรียงบนลงล่าง */
+        gap: 30px;
+    }
+}
