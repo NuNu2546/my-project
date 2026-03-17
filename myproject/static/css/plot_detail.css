@@ -1,13 +1,20 @@
 /* plot_detail.css */
 
-/* --- Layout หลัก --- */
+/* --- Layout & Container --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
 .plot-detail-page {
     padding-top: 40px;
     padding-bottom: 80px;
 }
 
+/* --- Back Link --- */
 .back-link {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
     color: var(--primary-green);
@@ -15,8 +22,14 @@
     font-weight: 600;
     margin-bottom: 30px;
     font-size: 15px;
+    transition: transform 0.2s ease;
 }
 
+.back-link:hover {
+    transform: translateX(-5px);
+}
+
+/* --- Grid Layout --- */
 .plot-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -35,6 +48,8 @@
     aspect-ratio: 4/3;
     object-fit: cover;
     border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 1s ease-in-out;
 }
 
 .thumbnail-list {
@@ -47,35 +62,42 @@
     width: 100%;
     aspect-ratio: 1;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
-    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    opacity: 0.8;
 }
 
-.thumbnail:hover {
+.thumbnail:hover, .thumbnail.active {
     border-color: var(--primary-green);
+    transform: translateY(-2px);
 }
 
 /* --- ข้อมูลแปลง --- */
+.plot-info {
+    display: flex;
+    flex-direction: column;
+}
+
 .plot-title {
     font-size: 36px;
     font-weight: 800;
-    color: #111811;
+    color: var(--text-dark);
     margin-bottom: 16px;
     letter-spacing: -0.5px;
 }
 
 .plot-desc {
     font-size: 15px;
-    color: #618961;
+    color: var(--text-gray);
     line-height: 1.6;
     margin-bottom: 30px;
 }
 
-/* พืชที่แนะนำ */
+/* --- พืชที่แนะนำ --- */
 .suitable-plants {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     margin-bottom: 30px;
     flex-wrap: wrap;
 }
@@ -85,35 +107,45 @@
     align-items: center;
     gap: 10px;
     padding: 10px 16px;
-    background-color: rgba(245, 240, 230, 0.4);
+    background-color: #fff;
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
-    color: #111811;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.plant-card:hover {
+    border-color: var(--primary-green);
+    transform: translateY(-2px);
 }
 
 .plant-card.active {
-    background-color: rgba(58, 95, 75, 0.1);
-    border-color: #3a5f4b;
+    background-color: rgba(19, 236, 55, 0.1);
+    border-color: var(--primary-green);
+    color: var(--dark-green);
 }
 
 .plant-card img {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
 }
 
-/* สเปคของแปลง */
+/* --- สเปคของแปลง --- */
 .plot-specs {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    background-color: rgba(245, 240, 230, 0.4);
+    background-color: #fff;
     padding: 24px;
-    border-radius: 12px;
+    border-radius: 16px;
     border: 1px solid #e5e7eb;
     margin-bottom: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 }
 
 .spec-item {
@@ -124,21 +156,23 @@
 
 .spec-label {
     font-size: 12px;
-    color: #618961;
+    color: var(--text-gray);
+    font-weight: 500;
 }
 
 .spec-value {
     font-size: 14px;
-    font-weight: 600;
-    color: #111811;
+    font-weight: 700;
+    color: var(--text-dark);
 }
 
 /* --- Widget การจอง (Calendar) --- */
 .booking-widget {
-    background-color: rgba(245, 240, 230, 0.4);
+    background-color: #fff;
     border: 1px solid #e5e7eb;
     border-radius: 16px;
     padding: 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
 }
 
 .booking-header {
@@ -151,7 +185,7 @@
 .booking-header h3 {
     font-size: 18px;
     font-weight: 700;
-    color: #111811;
+    color: var(--text-dark);
     margin: 0;
 }
 
@@ -160,9 +194,14 @@
     align-items: center;
     gap: 6px;
     font-size: 14px;
-    color: #3a5f4b;
+    color: var(--dark-green);
     text-decoration: none;
     font-weight: 600;
+    transition: opacity 0.2s ease;
+}
+
+.more-link:hover {
+    opacity: 0.7;
 }
 
 .more-link img {
@@ -170,11 +209,13 @@
     transform: rotate(-90deg);
 }
 
+/* ปฏิทิน */
 .calendar-container {
-    background: #fff;
+    background: #fcfcfc;
     border-radius: 12px;
-    padding: 20px;
+    padding: 16px;
     margin-bottom: 24px;
+    border: 1px solid #f3f4f6;
 }
 
 .cal-header {
@@ -187,6 +228,7 @@
 .cal-month {
     font-weight: 700;
     font-size: 15px;
+    color: var(--text-dark);
 }
 
 .cal-nav {
@@ -195,84 +237,107 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    color: #618961;
+    color: var(--text-gray);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    transition: 0.2s;
+}
+
+.cal-nav:hover {
+    background-color: #e5e7eb;
+    color: var(--text-dark);
 }
 
 .cal-weekdays, .cal-days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    gap: 8px 0;
+    gap: 4px;
 }
 
 .cal-weekdays span {
     font-size: 12px;
-    color: #618961;
+    color: var(--text-gray);
     font-weight: 600;
     margin-bottom: 8px;
 }
 
 .cal-days span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
     font-size: 14px;
-    color: #111811;
-    padding: 6px 0;
+    font-weight: 500;
+    color: var(--text-dark);
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.cal-days span:hover:not(.inactive):not(.selected):not(.booked) {
+    background-color: #f1f5f9;
 }
 
 .cal-days span.inactive {
     color: #9ca3af;
+    cursor: default;
 }
 
 .cal-days span.booked {
     color: #b91c1c;
-    background-color: rgba(254, 202, 202, 0.5);
+    background-color: #fecaca;
     border-radius: 50%;
+    cursor: not-allowed;
 }
 
 .cal-days span.selected {
     background-color: rgba(255, 199, 44, 0.4);
+    border-radius: 0;
 }
 
-/* เลือกหัวและท้ายของช่วงวันที่ (ให้โค้งสวยๆ) */
-.cal-days span.selected:first-of-type { border-radius: 20px 0 0 20px; }
-.cal-days span.selected:last-of-type { border-radius: 0 20px 20px 0; }
+.cal-days span.selected:first-of-type { border-radius: 8px 0 0 8px; }
+.cal-days span.selected:last-of-type { border-radius: 0 8px 8px 0; }
 
 /* --- สรุปราคาและปุ่มจอง --- */
 .booking-summary {
-    border-top: 1px solid #d1d5db;
+    border-top: 1px solid #e5e7eb;
     padding-top: 20px;
 }
 
 .price-label {
-    font-size: 15px;
-    color: #618961;
+    font-size: 14px;
+    color: var(--text-gray);
     margin-bottom: 4px;
 }
 
 .price-total {
     font-size: 28px;
     font-weight: 800;
-    color: #3a5f4b;
+    color: var(--dark-green);
     margin-bottom: 20px;
 }
 
 .btn-book {
     width: 100%;
     height: 52px;
-    background-color: #3a5f4b;
+    background-color: var(--dark-green);
     color: #fff;
     border: none;
     border-radius: 12px;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.2s ease;
     margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(16, 209, 49, 0.2);
 }
 
 .btn-book:hover {
-    background-color: #274133;
+    background-color: #0ea827;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(16, 209, 49, 0.3);
 }
 
 .booking-actions {
@@ -281,20 +346,156 @@
     gap: 24px;
 }
 
-.booking-actions a {
+.action-link {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #3a5f4b;
+    color: var(--dark-green);
     text-decoration: none;
     font-size: 14px;
     font-weight: 600;
+    transition: opacity 0.2s ease;
 }
 
-/* --- Responsive ให้อ่านบนมือถือได้ --- */
+.action-link:hover {
+    opacity: 0.7;
+}
+
+/* --- Responsive Layout --- */
 @media (max-width: 992px) {
     .plot-grid {
-        grid-template-columns: 1fr; /* บนมือถือให้เรียงบนลงล่าง */
+        grid-template-columns: 1fr;
         gap: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .plot-title {
+        font-size: 28px;
+    }
+    
+    .thumbnail-list {
+        gap: 8px;
+    }
+    
+    .plot-specs {
+        grid-template-columns: 1fr;
+    }
+    
+    .booking-actions {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+}
+
+
+/* --- ปุ่มเพิ่มเติม --- */
+.plant-more-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    background-color: #f3f4f6;
+    border: 1px dashed #9ca3af;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.plant-more-btn:hover {
+    background-color: #e5e7eb;
+    color: var(--primary-green);
+    border-color: var(--primary-green);
+    transform: translateY(-2px);
+}
+
+/* --- Popup (Modal) Overlay --- */
+.plant-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* พื้นหลังสีดำโปร่งแสง */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* ให้อยู่หน้าสุด */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* คลาสที่จะถูก JS สั่งให้แสดงผล */
+.plant-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- กล่องเนื้อหา Popup --- */
+.plant-modal-content {
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 650px; /* จำกัดความกว้างไม่ให้ใหญ่เกินไป */
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.plant-modal-overlay.show .plant-modal-content {
+    transform: translateY(0);
+}
+
+/* --- ส่วนหัว Popup --- */
+.plant-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.plant-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--text-dark);
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: color 0.2s;
+}
+
+.close-modal-btn:hover {
+    color: #ef4444; /* สีแดงตอนชี้ */
+}
+
+/* --- จัดเรียง Grid ใน Popup (4 คอลัมน์) --- */
+.plant-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 รูป ต่อ 1 แถว */
+    gap: 12px;
+    max-height: 60vh; /* เผื่อกรณีจอมือถือเล็ก จะสามารถเลื่อนขึ้นลงได้ */
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* สำหรับมือถือ ให้แสดงแถวละ 2 ชนิดแทน เพื่อให้อ่านง่าย */
+@media (max-width: 576px) {
+    .plant-modal-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

@@ -43,12 +43,12 @@
 
         <div class="plot-grid">
             <div class="plot-gallery">
-                <img class="main-image" src="{% static 'images/image-4.png' %}" alt="มุมแดดสบาย A12" />
+                <img class="main-image" src="{% static 'images/Veggie_Plots/plot_detail/vegetable.png' %}" alt="มุมแดดสบาย A12" />
                 <div class="thumbnail-list">
-                    <img class="thumbnail" src="{% static 'images/image-border.png' %}" alt="Thumb 1" />
-                    <img class="thumbnail" src="{% static 'images/image-3.png' %}" alt="Thumb 2" />
-                    <img class="thumbnail" src="{% static 'images/image-2.png' %}" alt="Thumb 3" />
-                    <img class="thumbnail" src="{% static 'images/image-5.png' %}" alt="Thumb 4" />
+                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/grass.png' %}" alt="Thumb 1" />
+                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/soil.png' %}" alt="Thumb 2" />
+                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/tree.png' %}" alt="Thumb 3" />
+                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/vegetable_garden.png' %}" alt="Thumb 4" />
                 </div>
             </div>
 
@@ -60,20 +60,47 @@
 
                 <div class="suitable-plants">
                     <div class="plant-card active">
-                        <img src="{% static 'images/image.png' %}" alt="มะเขือเทศ">
+                        <img src="{% static 'images/Veggie_Plots/plot_detail/Tomato.png' %}" alt="มะเขือเทศ">
                         <span>มะเขือเทศ</span>
                     </div>
                     <div class="plant-card">
-                        <img src="{% static 'images/tomato-emoji-3.png' %}" alt="แครอท">
+                        <img src="{% static 'images/Veggie_Plots/plot_detail/Carrot.png' %}" alt="แครอท">
                         <span>แครอท</span>
                     </div>
                     <div class="plant-card">
-                        <img src="{% static 'images/tomato-emoji.png' %}" alt="ผักกาดหอม">
+                        <img src="{% static 'images/Veggie_Plots/plot_detail/Lettuce.png' %}" alt="ผักกาดหอม">
                         <span>ผักกาดหอม</span>
                     </div>
                     <div class="plant-card">
-                        <img src="{% static 'images/tomato-emoji-2.png' %}" alt="พริกหวาน">
+                        <img src="{% static 'images/Veggie_Plots/plot_detail/Bell_pepper.png' %}" alt="พริกหวาน">
                         <span>พริกหวาน</span>
+                    </div>
+                    <button class="plant-more-btn" id="openPlantModal">เพิ่มเติม +8</button>
+                </div>
+
+                <div class="plant-modal-overlay" id="plantModal">
+                    <div class="plant-modal-content">
+                        <div class="plant-modal-header">
+                            <h3>พืชที่ปลูกได้ทั้งหมด (12 ชนิด)</h3>
+                            <button class="close-modal-btn" id="closePlantModal">&times;</button>
+                        </div>
+                        
+                        <div class="plant-modal-grid">
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Tomato.png' %}" alt="มะเขือเทศ"><span>มะเขือเทศ</span></div>
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Carrot.png' %}" alt="แครอท"><span>แครอท</span></div>
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Lettuce.png' %}" alt="ผักกาดหอม"><span>ผักกาดหอม</span></div>
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Bell_pepper.png' %}" alt="พริกหวาน"><span>พริกหวาน</span></div>
+                            
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Cucumber.png' %}" alt="แตงกวา"><span>แตงกวา</span></div>
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Corn.png' %}" alt="คะน้า"><span>ข้าวโพด</span></div>
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Sunflower.png' %}" alt="กวางตุ้ง"><span>ทานตะวัน</span></div>
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Potato.png' %}" alt="ผักบุ้ง"><span>มันฝรั่ง</span></div>
+                            
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Thai_basil.png' %}" alt="กะเพรา"><span>โหระพาไทย</span></div>
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Strawberry.png' %}" alt="โหระพา"><span>สตรอว์เบอร์รี</span></div>
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Blueberry.png' %}" alt="ฟักทอง"><span>บลูเบอร์รี่</span></div>
+                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Raspberry.png' %}" alt="มะนาว"><span>ราสป์เบอร์รี่</span></div>
+                        </div>
                     </div>
                 </div>
 
@@ -128,8 +155,8 @@
                         <button class="btn-book">Book Plot</button>
                         
                         <div class="booking-actions">
-                            <a href="#"><img src="{% static 'images/vector-4.svg' %}" alt="Wishlist"> Add to Wishlist</a>
-                            <a href="#"><img src="{% static 'images/vector-7.svg' %}" alt="Question"> Ask a Question</a>
+                            <a href="#" class="action-link"><img src="{% static 'images/vector-4.svg' %}" alt="Wishlist"> Add to Wishlist</a>
+                            <a href="#" class="action-link"><img src="{% static 'images/vector-7.svg' %}" alt="Question"> Ask a Question</a>
                         </div>
                     </div>
                 </div>
@@ -138,10 +165,67 @@
     </main>
 
     <footer class="footer">
-        <div class="footer-container">
-            <p style="text-align:center; padding: 20px;">© 2024 Digital Garden. All rights reserved.</p>
+        <div class="footer-container footer-bottom">
+            <p>© 2024 Digital Garden. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ดึงตัวแปรกล่องรูปใหญ่ และรูปเล็กทั้งหมดมาใช้งาน
+            const mainImage = document.querySelector('.main-image');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+
+            // วนลูปใส่คำสั่ง "เมื่อถูกคลิก" ให้กับรูปเล็กทุกรูป
+            thumbnails.forEach(function(thumb) {
+                thumb.addEventListener('click', function() {
+                    // 1. จำค่า src และ alt ของรูปเล็กที่เราเพิ่งคลิกไว้ก่อน
+                    const clickedSrc = this.src;
+                    const clickedAlt = this.alt;
+
+                    // 2. ดึงรูปจากกล่องใหญ่ (ค่าเดิม) ลงมาใส่ในรูปเล็กที่เราคลิก
+                    this.src = mainImage.src;
+                    this.alt = mainImage.alt;
+
+                    // 3. เอารูปเล็กที่เราจำค่าไว้ในข้อ 1 ขึ้นไปใส่แสดงเป็นรูปใหญ่
+                    mainImage.src = clickedSrc;
+                    mainImage.alt = clickedAlt;
+
+                    // 4. จัดการกรอบสีเขียว (Class: active) ให้ย้ายมาอยู่ที่รูปที่เพิ่งถูกสลับลงมา
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // โค้ดส่วนเปิด-ปิด Popup พืชที่แนะนำ
+            const openPlantModal = document.getElementById('openPlantModal');
+            const closePlantModal = document.getElementById('closePlantModal');
+            const plantModal = document.getElementById('plantModal');
+
+            // ถ้ามีปุ่มและกล่อง Popup อยู่ในหน้าเว็บ
+            if (openPlantModal && closePlantModal && plantModal) {
+                
+                // กดปุ่ม "เพิ่มเติม" เพื่อเปิด
+                openPlantModal.addEventListener('click', function() {
+                    plantModal.classList.add('show');
+                });
+
+                // กากบาทปิด
+                closePlantModal.addEventListener('click', function() {
+                    plantModal.classList.remove('show');
+                });
+
+                // คลิกพื้นที่สีดำด้านนอกเพื่อปิด
+                window.addEventListener('click', function(event) {
+                    if (event.target === plantModal) {
+                        plantModal.classList.remove('show');
+                    }
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
