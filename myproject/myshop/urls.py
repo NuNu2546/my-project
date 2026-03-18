@@ -24,6 +24,8 @@ urlpatterns = [
     
     # เพิ่มบรรทัดนี้เข้าไปครับ สังเกตตรง name='plot_detail' ตรงนี้แหละที่ HTML ถามหา
     path('plot-detail/', views.plot_detail, name='plot_detail'),
+
+    path('process-booking/', views.process_booking, name='process_booking'),
 ]
 
 # เพิ่มส่วนนี้เพื่อให้โชว์รูปที่อัปโหลดได้ (เฉพาะตอน Debug)

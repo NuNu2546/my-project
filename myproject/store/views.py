@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import Http404
+from datetime import datetime, timedelta
 
 ALL_PRODUCTS = [
     {
@@ -508,3 +509,40 @@ def about(request):
 
 def contact(request):
     return render(request, 'contact.html')
+
+def process_booking(request):
+    if request.method == 'POST':
+        # 1. รับค่าที่ส่งมาจาก Hidden Input
+        plant_name = request.POST.get('selected_plant')
+        start_date_str = request.POST.get('start_date') # จะได้เป็นข้อความเช่น '2026-03-18'
+        
+        if plant_name and start_date_str:
+            # 2. แปลงข้อความวันที่ให้เป็น Object Date ของ Python
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+            
+            # 3. คำนวณวันเก็บเกี่ยวและราคาใหม่ที่ฝั่ง Backend (ทำ Dictionary เก็บจำนวนวันไว้ฝั่งนี้ด้วย)
+            plant_grow_times = {
+                "มะเขือเทศ": 75,
+                "แครอท": 75,
+                # ... ใส่ให้ครบเหมือนใน JS ...
+            }
+            
+            days_needed = plant_grow_times.get(plant_name, 0)
+            price_per_day = 5
+            total_price = days_needed * price_per_day
+            
+            harvest_date = start_date + timedelta(days=days_needed)
+            
+            # 4. นำข้อมูลไปบันทึกลง Database (Models) 
+            # Booking.objects.create(plant=plant_name, start_date=start_date, end_date=harvest_date, price=total_price)
+            
+            # 5. ส่งกลับไปหน้ายืนยันการจอง หรือหน้าสำเร็จ
+            return render(request, 'booking_success.html', {
+                'plant': plant_name,
+                'start_date': start_date,
+                'harvest_date': harvest_date,
+                'price': total_price
+            })
+            
+    # ถ้าไม่ใช่ POST วิ่งกลับไปหน้าเดิม
+    return redirect('your_booking_page')
