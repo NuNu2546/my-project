@@ -81,24 +81,18 @@
 
         <section class="products-section">
             <div class="products-wrapper">
+
                 <div class="products-content">
                     <h2 class="section-heading">สินค้าขายดี</h2>
 
-                    <div class="product-grid">
+                    <button class="scroll-btn left-btn" id="scrollLeftBtn" aria-label="เลื่อนซ้าย">&#10094;</button>
+                    <button class="scroll-btn right-btn" id="scrollRightBtn" aria-label="เลื่อนขวา">&#10095;</button>
 
+                    <div class="product-grid" id="productGrid">
                         <div class="product-card">
                             <img class="image" src="{% static 'images/v41_18.png' %}" />
                             <div class="product-name">Organic Dried Lavender</div>
                             <div class="product-price">$12.00</div>
-                            <button class="btn-add-cart">
-                                <div class="btn-text">Add to Cart</div>
-                            </button>
-                        </div>
-
-                        <div class="product-card">
-                            <img class="image" src="{% static 'images/v41_18.png' %}" />
-                            <div class="product-name">Eucalyptus Diffuser Oil</div>
-                            <div class="product-price">$18.50</div>
                             <button class="btn-add-cart">
                                 <div class="btn-text">Add to Cart</div>
                             </button>
@@ -112,51 +106,7 @@
                                 <div class="btn-text">Add to Cart</div>
                             </button>
                         </div>
-
-                        <div class="product-card">
-                            <img class="image" src="{% static 'images/v41_18.png' %}" />
-                            <div class="product-name">Eucalyptus Diffuser Oil</div>
-                            <div class="product-price">$18.50</div>
-                            <button class="btn-add-cart">
-                                <div class="btn-text">Add to Cart</div>
-                            </button>
-                        </div>
-
-                        <div class="product-card">
-                            <img class="image" src="{% static 'images/v41_18.png' %}" />
-                            <div class="product-name">Eucalyptus Diffuser Oil</div>
-                            <div class="product-price">$18.50</div>
-                            <button class="btn-add-cart">
-                                <div class="btn-text">Add to Cart</div>
-                            </button>
-                        </div>
-
-                        <div class="product-card">
-                            <img class="image" src="{% static 'images/v41_18.png' %}" />
-                            <div class="product-name">Eucalyptus Diffuser Oil</div>
-                            <div class="product-price">$18.50</div>
-                            <button class="btn-add-cart">
-                                <div class="btn-text">Add to Cart</div>
-                            </button>
-                        </div>
-
-                        <div class="product-card">
-                            <img class="image" src="{% static 'images/v41_18.png' %}" />
-                            <div class="product-name">Eucalyptus Diffuser Oil</div>
-                            <div class="product-price">$18.50</div>
-                            <button class="btn-add-cart">
-                                <div class="btn-text">Add to Cart</div>
-                            </button>
-                        </div>
-
-                        <div class="product-card">
-                            <img class="image" src="{% static 'images/v41_18.png' %}" />
-                            <div class="product-name">Eucalyptus Diffuser Oil</div>
-                            <div class="product-price">$18.50</div>
-                            <button class="btn-add-cart">
-                                <div class="btn-text">Add to Cart</div>
-                            </button>
-                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -332,6 +282,37 @@
             </div>
         </div>
         <script src="{% static 'js/script.js' %}"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // กำหนดตัวแปรสำหรับ Grid สินค้า และปุ่มทั้งสอง
+                const productGrid = document.getElementById('productGrid');
+                const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+                const scrollRightBtn = document.getElementById('scrollRightBtn');
+
+                // ตรวจสอบว่ามี element เหล่านี้อยู่ในหน้าเว็บหรือไม่
+                if (productGrid && scrollLeftBtn && scrollRightBtn) {
+                    
+                    // ระยะการเลื่อน = ความกว้างของการ์ด 1 ใบ (256px) + ช่องว่าง gap (24px)
+                    const scrollAmount = 280; 
+
+                    // เมื่อกดปุ่มซ้าย ให้เลื่อนกลับไปด้านซ้าย
+                    scrollLeftBtn.addEventListener('click', () => {
+                        productGrid.scrollBy({ 
+                            left: -scrollAmount, 
+                            behavior: 'smooth' // เลื่อนแบบนุ่มนวล
+                        });
+                    });
+
+                    // เมื่อกดปุ่มขวา ให้เลื่อนไปด้านขวา
+                    scrollRightBtn.addEventListener('click', () => {
+                        productGrid.scrollBy({ 
+                            left: scrollAmount, 
+                            behavior: 'smooth' 
+                        });
+                    });
+                }
+            });
+        </script>
     </div>
 </body>
 </html>
