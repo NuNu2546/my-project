@@ -1,5 +1,3 @@
-
-
 /* --- 1. โครงสร้างหลัก --- */
 .home {
   background-color: var(--light-bg);
@@ -10,7 +8,7 @@
   position: relative;
 }
 
-/* --- 3. Hero Section (ส่วนแรกของเว็บ) --- */
+/* --- 2. Hero Section (ส่วนแรกของเว็บ) --- */
 .hero-section {
   z-index: 1;
   margin: 93px 112px 0 112px;
@@ -50,7 +48,7 @@
   width: 100%;
   max-width: 1020px;
   text-align: center;
-  font-family: "Manrope", sans-serif; /* Fallback ถ้าไม่มี font specific */
+  font-family: "Manrope", sans-serif;
   font-weight: 800;
   color: #ffffff;
   font-size: 60px;
@@ -77,6 +75,7 @@
   margin: 0;
 }
 
+/* --- 3. ปุ่มกดต่างๆ (Buttons) --- */
 .cta-button-primary {
   position: absolute;
   top: 364px;
@@ -95,37 +94,42 @@
   transition: var(--transition-speed);
 }
 
-/* --- แก้ไขส่วน Hover (ตอนชี้) --- */
-
-/* สำหรับปุ่ม Primary (ปุ่มกลาง) ต้องคง translateX(-50%) ไว้ */
-.cta-button-primary:hover {
-  background-color: var(--dark-green);
-  transform: translateX(-50%) scale(1.05);
+.cta-button-secondary {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  width: 140px;
+  height: 48px;
+  background-color: var(--primary-green);
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-speed);
 }
 
-/* สำหรับปุ่ม Secondary (ปุ่มขวาล่าง) เอา translateX ออก เหลือแค่ scale */
-.cta-button-secondary:hover {
-  background-color: var(--dark-green);
-  transform: scale(1.05);
+.btn-add-cart {
+  margin: 16px 16px 0 16px;
+  height: 40px;
+  background-color: rgba(19, 236, 55, 0.1);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* --- แก้ไขส่วน Active (ตอนกด) --- */
-
-/* สำหรับปุ่ม Primary */
-.cta-button-primary:active {
-  transform: translateX(-50%) scale(0.95);
-}
-
-/* สำหรับปุ่ม Secondary */
-.cta-button-secondary:active {
-  transform: scale(0.95);
-}
-
+/* สไตล์ข้อความในปุ่ม */
 .btn-container {
   font-family: "Manrope", sans-serif;
   font-weight: 700;
   color: var(--text-dark);
-  font-size: 16px; /* ปรับขนาดให้อ่านง่าย */
+  font-size: 16px;
   white-space: nowrap;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
 }
@@ -133,10 +137,43 @@
 .btn-text {
   font-family: "Manrope", sans-serif;
   font-weight: 700;
-  color: var(--text-dark);
-  font-size: 16px; /* ปรับขนาดให้อ่านง่าย */
+  color: var(--dark-green); /* ✅ แก้กลับเป็นสีเขียวเหมือนเดิม */
+  font-size: 16px;
   white-space: nowrap;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+  transition: color 0.2s ease;
+}
+
+.btn-add-cart .btn-text {
+  font-size: 14px; /* ✅ เอา color ที่เขียนผิดออก ให้ดึงสีเขียวจากด้านบนมาใช้ตอนปกติ */
+}
+
+/* --- Hover & Active States --- */
+.cta-button-primary:hover {
+  background-color: var(--dark-green);
+  transform: translateX(-50%) scale(1.05);
+}
+
+.cta-button-secondary:hover {
+  background-color: var(--dark-green);
+  transform: scale(1.05);
+}
+
+.btn-add-cart:hover {
+  background-color: var(--primary-green);
+}
+
+/* ✅ บังคับให้ .btn-text เปลี่ยนเป็นสีขาวเฉพาะปุ่ม Add to Cart ตอนเอาเมาส์ชี้ (Hover) */
+.btn-add-cart:hover .btn-text {
+  color: white;
+}
+
+/* ส่วนปุ่ม Primary และ Secondary ปล่อยไว้ตามเดิม ตัวหนังสือจะเป็นสีเขียวตลอดเวลาครับ */
+.cta-button-primary:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+.cta-button-secondary:active {
+  transform: scale(0.95);
 }
 
 /* --- 4. Product Section (สินค้า) --- */
@@ -150,7 +187,7 @@
 
 .products-wrapper {
   width: 100%;
-  max-width: 1440px; /* จำกัดความกว้างสูงสุดไม่ให้แตก */
+  max-width: 1440px;
 }
 
 .products-content {
@@ -161,7 +198,7 @@
 
 .section-heading {
   position: absolute;
-  top: -25px;
+  top: -50px;
   left: 50px;
   font-family: var(--font-main);
   font-weight: 700;
@@ -172,9 +209,9 @@
 }
 
 .product-grid {
-  margin-top: 70px; /* ปรับจาก top absolute เป็น margin เพื่อความยืดหยุ่น */
+  margin-top: 70px;
   margin-left: 50px;
-  width: calc(100% - 100px); /* เว้นซ้ายขวา */
+  width: calc(100% - 100px);
   height: 421px;
   display: flex;
   align-items: center;
@@ -182,18 +219,17 @@
   overflow-x: auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 20px; /* เผื่อที่ให้ Scrollbar */
+  padding-bottom: 20px;
 }
 
-/* ซ่อน Scrollbar */
 .product-grid::-webkit-scrollbar {
   display: none;
 }
 
 .product-card {
-  flex: 0 0 auto; /* ไม่ให้การ์ดย่อขยายเอง */
+  flex: 0 0 auto;
   width: 256px;
-  background-color: #ffffff; /* ปรับพื้นหลังการ์ดให้ชัด */
+  background-color: #ffffff;
   border-radius: 12px;
   border: 1px solid rgba(19, 236, 55, 0.1);
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
@@ -228,26 +264,39 @@
   font-weight: 600;
 }
 
-.btn-add-cart {
-  margin: 16px 16px 0 16px;
-  height: 40px;
-  background-color: rgba(19, 236, 55, 0.1);
-  color: var(--text-dark);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-family: var(--font-main);
-  font-weight: 700;
-  font-size: 14px;
-  transition: 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* --- ปุ่มเลื่อนซ้าย-ขวา (Slider Buttons) --- */
+.scroll-btn {
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--text-dark, #111827);
+    transition: all 0.2s ease;
 }
 
-.btn-add-cart:hover {
-  background-color: var(--primary-green);
-  color: white; /* เปลี่ยนตัวหนังสือเป็นขาวเมื่อ Hover */
+.scroll-btn:hover {
+    background-color: var(--primary-green, #13ec37);
+    color: #ffffff;
+    border-color: var(--primary-green, #13ec37);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.left-btn { left: 10px; }
+.right-btn { right: 10px; }
+
+@media (max-width: 768px) {
+    .scroll-btn { display: none; }
 }
 
 /* --- 5. Rental Section (เช่าแปลงผัก) --- */
@@ -258,10 +307,8 @@
   position: relative;
   border-radius: 12px;
   overflow: hidden;
-  background-color: #333; /* Fallback color */
+  background-color: #333;
 }
-
-/* ใช้ .bg-image เดิมซ้ำได้ */
 
 .rental-content {
   position: absolute;
@@ -288,39 +335,27 @@
   opacity: 0.9;
 }
 
-.cta-button-secondary {
-  position: absolute;
-  bottom: 50px;
-  right: 50px; /* ย้ายมาขวาล่างตามดีไซน์ */
-  width: 140px;
-  height: 48px;
-  background-color: var(--primary-green);
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition-speed);
-}
-
 /* --- 6. Process Section (วิธีการทำงาน) --- */
-/* ปรับปรุงใหม่: ใช้ Flexbox แทน Absolute Positioning เพื่อให้โค้ดสะอาดและ Responsive */
 .process-section {
-  margin: 100px 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 100px auto;
+  padding: 0 20px;
 }
 
 .process-header {
-  margin-bottom: 60px;
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .process-header .section-heading {
-  position: static; /* ยกเลิก absolute เดิม */
+  position: static;
   display: block;
   text-align: center;
   width: 100%;
@@ -333,48 +368,12 @@
   color: var(--text-gray);
 }
 
-/* Container ของ Steps ทั้ง 3 */
-.process-section {
-  /* เราใช้ .process-section เป็นตัวคุม Parent ใหญ่ */
-  position: relative;
-}
-
-/* เนื่องจากโครงสร้าง HTML วาง .step-item ต่อกัน เราจะใช้ Flex wrap หรือ Grid ก็ได้ */
-/* แต่เพื่อให้ตรงกับ HTML ที่ให้ไป เราจะเขียน CSS selector ให้มันเรียงกัน */
-.process-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* สร้าง Wrapper สมมติด้วย CSS Grid หรือ Flex เพื่อเรียง 3 items แนวนอน */
-/* หมายเหตุ: ใน HTML ที่ให้ไป step-item เป็นลูกโดยตรงของ process-section */
-/* ดังนั้นเรากำหนด process-section ให้เป็น Grid ได้เลย */
-.process-section {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3 คอลัมน์เท่ากัน */
-  grid-template-rows: auto auto; /* แถวหัวข้อ กับ แถวเนื้อหา */
-  gap: 40px;
-  max-width: 1200px;
-  margin: 100px auto;
-  padding: 0 20px;
-}
-
-/* ให้ Header กินพื้นที่เต็ม 3 คอลัมน์ */
-.process-header {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
 .step-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  position: relative; /* เพื่อรองรับลูกเล่น */
+  position: relative;
 }
 
 .step-icon-bg {
@@ -408,7 +407,6 @@
   line-height: 1.6;
   max-width: 300px;
 }
-
 
 /* --- 7. Testimonial Section --- */
 .testimonial-section {
@@ -465,7 +463,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: #ddd; /* Fallback */
+  background-color: #ddd;
   object-fit: cover;
   border: 2px solid #fff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -486,47 +484,18 @@
   margin-left: 5px;
 }
 
-/* --- ปุ่มเลื่อนซ้าย-ขวา (Slider Buttons) --- */
-.scroll-btn {
-    position: absolute;
-    top: 55%; /* ให้อยู่กึ่งกลางแนวตั้งของกริดสินค้า */
-    transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    z-index: 10; /* ให้อยู่หน้าสุด ไม่โดนสินค้าบัง */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    color: var(--text-dark, #111827);
-    transition: all 0.2s ease;
+/* --- แก้ไขให้ข้อความในปุ่ม Primary และ Secondary เป็นสีขาว --- */
+
+/* 1. กรณีที่ข้อความเขียนอยู่ในแท็ก <button> โดยตรง */
+.cta-button-primary, 
+.cta-button-secondary {
+  color: #ffffff; 
 }
 
-.scroll-btn:hover {
-    background-color: var(--primary-green, #13ec37);
-    color: #ffffff;
-    border-color: var(--primary-green, #13ec37);
-    transform: translateY(-50%) scale(1.1); /* ขยายใหญ่ขึ้นนิดนึงตอนชี้ */
-}
-
-/* ตำแหน่งปุ่มซ้าย */
-.left-btn {
-    left: 10px; 
-}
-
-/* ตำแหน่งปุ่มขวา */
-.right-btn {
-    right: 10px;
-}
-
-/* ปิดปุ่มเลื่อนตอนอยู่บนมือถือ (เพราะใช้นิ้วปัดได้เลย) */
-@media (max-width: 768px) {
-    .scroll-btn {
-        display: none;
-    }
+/* 2. กรณีที่ในปุ่มมีการครอบ <span> ด้วยคลาส .btn-text หรือ .btn-container */
+.cta-button-primary .btn-text,
+.cta-button-secondary .btn-text,
+.cta-button-primary .btn-container,
+.cta-button-secondary .btn-container {
+  color: #ffffff;
 }
