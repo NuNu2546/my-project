@@ -194,7 +194,7 @@
 /* ส่วน Avatar และ Text ใช้เหมือนเดิม */
 .avatar {
   width: 120px;
-  height: 120px;
+  height: 1200px;
   border-radius: 50%;
   margin: 0 auto 24px auto;
   border: 4px solid #fff;
@@ -332,5 +332,142 @@
     .hero-section,
     .cta-section {
         margin: 40px 20px 0 20px; /* ลด Margin ด้านข้างเมื่อจอเล็ก */
+    }
+}
+
+/* --- Team Modal (Pop-up) Styles --- */
+.team-modal {
+    display: none; /* ซ่อนไว้เป็นค่าเริ่มต้น */
+    position: fixed;
+    z-index: 9999; /* ให้อยู่หน้าสุด */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* พื้นหลังโปร่งแสงสีดำ */
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.team-modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.team-modal-content {
+    background-color: #ffffff;
+    width: 90%;
+    max-width: 900px; /* ขยายความกว้างให้พอสำหรับ 2 คอลัมน์ */
+    border-radius: 16px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.team-modal.show .team-modal-content {
+    transform: translateY(0);
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #999;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.2s;
+}
+
+.close-modal:hover {
+    color: var(--primary-green, #13ec37);
+}
+
+.modal-body {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 400px;
+}
+
+/* ฝั่งซ้าย (รูปภาพ) */
+.modal-left {
+    flex: 1;
+    min-width: 300px;
+    background-color: #f3f4f6;
+}
+
+.modal-image-preview {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    background-size: cover;
+    background-position: center;
+}
+
+/* ฝั่งขวา (ข้อมูล) */
+.modal-right {
+    flex: 1.5;
+    padding: 40px;
+    min-width: 300px;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+.modal-name {
+    margin: 0 0 5px 0;
+    font-size: 28px;
+    color: var(--text-dark, #111827);
+    font-family: var(--font-main);
+}
+
+.modal-role {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+.modal-divider {
+    border: 0;
+    height: 1px;
+    background: rgba(19, 236, 55, 0.2);
+    margin-bottom: 20px;
+}
+
+.modal-detail-group {
+    margin-bottom: 20px;
+}
+
+.modal-detail-group h5 {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+    font-family: var(--font-main);
+}
+
+.modal-detail-group p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #374151;
+    margin: 0;
+    font-family: var(--font-main);
+}
+
+/* Responsive สำหรับหน้าจอเล็ก */
+@media (max-width: 768px) {
+    .modal-body {
+        flex-direction: column;
+    }
+    .modal-image-preview {
+        height: 250px;
+    }
+    .modal-right {
+        padding: 25px;
     }
 }
