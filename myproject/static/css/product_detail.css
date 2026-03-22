@@ -25,23 +25,6 @@
 .breadcrumbs .sep { margin: 0 12px; color: #e5e7eb; font-size: 12px; }
 .breadcrumbs .current { color: var(--text-dark); font-weight: 600; }
 
-/* --- Override: แก้ไขปุ่ม Icon บน Header ให้ดูเป็นธรรมชาติ --- */
-/* (ทับค่าเดิมใน globals.css ให้ปุ่มเป็นสีขาวปกติ และเปลี่ยนสีเมื่อชี้เมาส์) */
-.icon-btn {
-    background-color: #ffffff !important;
-    border: 1px solid #e5e7eb !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
-}
-.icon-btn:hover {
-    background-color: var(--primary-green) !important;
-    border-color: var(--primary-green) !important;
-}
-.icon-btn .icon-img {
-    filter: none !important; /* ให้ไอคอนเป็นสีปกติเมื่อไม่ได้ชี้เมาส์ */
-}
-.icon-btn:hover .icon-img {
-    filter: brightness(0) invert(1) !important; /* เปลี่ยนไอคอนเป็นสีขาวเมื่อชี้เมาส์ */
-}
 
 /* --- Product Hero Section --- */
 .product-hero {

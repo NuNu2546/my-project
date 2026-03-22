@@ -25,16 +25,18 @@
             </nav>
 
             <div class="header-actions">
-                <button type="button" class="icon-btn" aria-label="Shop">
+                <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
                     <div class="icon-inner">
-                        <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Shop" />
+                        <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                        
+                        <span id="cartBadge" class="cart-badge">0</span>
                     </div>
-                </button>
+                </a>
 
                 <div class="profile-container">
                     <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
                         <div class="icon-inner">
-                            <img class="icon-img" src="{% static 'images/profile.png' %}" alt="Profile" />
+                            <img class="icon-img" src="{% static 'images/icon/Profile_icon.png' %}" alt="Profile" />
                         </div>
                     </button>
 
@@ -51,187 +53,187 @@
             </div>
         </header>
 
-    <main class="about-page">
-      
-      <section class="hero-section">
-        <img src="{% static 'images/contact/vegetable.png' %}" alt="Our Story Image" class="hero-bg-img" />
-        <div class="hero-content">
-          <h1 class="hero-title">จากธรรมชาติสู่สวนของคุณ ด้วยใจรักในการปลูก</h1>
-          <p class="hero-subtitle">
-            “เชื่อมโยงผู้คนกับอาหารที่ยั่งยืน และความสุขในการปลูกผักด้วยตัวเอง ทีละแปลง”
-          </p>
-        </div>
-      </section>
-
-      <section class="story-section container">
-        <h2 class="section-title text-green">เรื่องราวของเรา</h2>
-        <div class="story-content">
-            <div class="story-image">
-                <img src="{% static 'images/contact/soil-plant.png' %}" alt="Our Story Image" />
-            </div>
-            <div class="story-text">
-                <p>
-                  ก่อตั้งขึ้นบนความเชื่อที่ว่า ทุกคนควรมีโอกาสใกล้ชิดกับอาหารและผืนดินของตัวเอง 
-                  เราจึงเริ่มต้นด้วยภารกิจง่าย ๆ คือ ทำให้การใช้ชีวิตอย่างยั่งยืนเป็นเรื่องเข้าถึงได้ 
-                  จากจุดเริ่มต้นเล็ก ๆ ในชุมชนสวนสาธารณะ เราเติบโตจนกลายเป็นระบบนิเวศสำหรับคนรักธรรมชาติ 
-                  ที่นี่เรานำเสนอทั้ง ผลิตภัณฑ์ออร์แกนิกคุณภาพเยี่ยม และ พื้นที่ให้คุณได้ปลูกผักและพืชสวนของตัวเอง
-                </p>
-                
-                <div class="value-box">
-                    <h3>เป้าหมาย</h3>
-                    <p>เรามุ่งสร้างพลังให้ชุมชนในการปลูกและบริโภคอาหารสดจากท้องถิ่น พร้อมสร้างความสัมพันธ์ที่แน่นแฟ้นกับธรรมชาติ</p>
-                </div>
-
-                <div class="value-box">
-                    <h3>ค่านิยม</h3>
-                    <p>เรามุ่งมั่นในเรื่อง ความยั่งยืน ชุมชน และการเรียนรู้ ในทุกกิจกรรมของเรา เพื่อสร้างอนาคตที่เขียวขจีและยั่งยืนสำหรับทุกคน</p>
-                </div>
-            </div>
-        </div>
-      </section>
-
-      <section class="team-section">
-            <div class="container">
-                <h2 class="section-title text-green">The People Behind the Plots</h2>
-                <p class="section-desc">
-                    พบกับผู้คนที่มีความมุ่งมั่นและทุ่มเทในการทำให้วิสัยทัศน์ของเราเป็นจริง ความเชี่ยวชาญและความรักในธรรมชาติของทีมงาน คือรากฐานของชุมชนของเรา
-                </p>
-
-                <div class="team-grid">
-                <div class="team-card">
-                    <div class="avatar" style="background-image: url('{% static 'images/profileteam/wave.png' %}');"></div> 
-                    <h3 class="member-name">คนที่ 1</h3>
-                    <span class="member-role">นักพัฒนาและผู้ออกแบบระบบ</span>
-                    <p class="member-quote">
-                    "ออกแบบโครงสร้างระบบทั้งหมด กำหนดทิศทาง และเขียนโค้ดหลักของโปรเจกต์"
-                    </p>
-                </div>
-
-                <div class="team-card">
-                    <div class="avatar" style="background-image: url('{% static 'images/profileteam/fuck.png' %}');"></div>
-                    <h3 class="member-name">คนที่ 2</h3>
-                    <span class="member-role">ผู้ช่วยนักพัฒนาโปรแกรม</span>
-                    <p class="member-quote">
-                    "ซัพพอร์ตการเขียนโค้ดในโมดูลย่อย ช่วยตรวจสอบบั๊ก และร่วมทดสอบการทำงานของระบบ"
-                    </p>
-                </div>
-
-                <div class="team-card">
-                    <div class="avatar" style="background-image: url('{% static 'images/profileteam/pf1.jpg' %}');"></div>
-                    <h3 class="member-name">คนที่ 3</h3>
-                    <span class="member-role">นักวิเคราะห์ระบบ</span>
-                    <p class="member-quote">
-                    "รวบรวมข้อมูล วิเคราะห์ความต้องการของระบบ และเขียนสรุปออกมาเป็นส่วนหนึ่งของรายงาน"
-                    </p>
-                </div>
-
-                <div class="team-card">
-                    <div class="avatar" style="background-image: url('{% static 'images/profileteam/pf2.jpg' %}');"></div>
-                    <h3 class="member-name">คนที่ 4</h3>
-                    <span class="member-role">ผู้จัดทำเอกสารและรูปเล่ม</span>
-                    <p class="member-quote">
-                    "เรียบเรียงเนื้อหาทางเทคนิค จัดทำคู่มือการใช้งาน และจัดหน้ากระดาษรูปเล่มรายงานให้สมบูรณ์"
-                    </p>
-                </div>
-
-                <div class="team-card">
-                    <div class="avatar" style="background-image: url('{% static 'images/profileteam/profile-5.png' %}');"></div>
-                    <h3 class="member-name">คนที่ 5</h3>
-                    <span class="member-role">ผู้ตรวจสอบคุณภาพและเตรียมการนำเสนอ</span>
-                    <p class="member-quote">
-                    "ตรวจทานความถูกต้องของรายงานทั้งหมด พิสูจน์อักษร และเตรียมสไลด์หรือข้อมูลสำหรับพรีเซนต์"
-                    </p>
-                </div>
-            </div>
-      </section>
-
-    </main>
-
-        <footer class="footer">
-            <div class="footer-container">
-                <div class="footer-content">
-
-                    <div class="footer-column footer-brand">
-                        <div class="footer-logo">
-                            <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
-                        </div>
-                        <p class="slogan">
-                            เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
-                        </p>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Explore</h4>
-                        <ul class="footer-list">
-                            <li><a href="#">สินค้าทั้งหมด</a></li>
-                            <li><a href="#">จองแปลงผัก</a></li>
-                            <li><a href="#">เรื่องราวของเรา</a></li>
-                            <li><a href="#">บทความ</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Support</h4>
-                        <ul class="footer-list">
-                            <li><a href="#">ติดต่อเรา</a></li>
-                            <li><a href="#">คำถามที่พบบ่อย</a></li>
-                            <li><a href="#">การจัดส่ง & คืนสินค้า</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Stay Connected</h4>
-                        <p class="newsletter-text">
-                            ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
-                        </p>
-                        <div style="display: flex; gap: 8px;">
-                            <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
-                            <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="footer-bottom">
-                    <p>© 2024 Digital Garden. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
-
-        <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
-            <div id="chatIconContainer">
-                <img src="{% static 'images/Group.png' %}" alt="Chat Icon" id="chatIconMain" />
-            </div>
-        </button>
-
-        <div class="chat-popup" id="chatPopup">
-            <div class="chat-header">
-                <div class="admin-info">
-                    <div class="admin-avatar"></div>
-                    <div>
-                        <p class="admin-name">Greenhearth Admin</p>
-                        <p class="admin-status">ออนไลน์ พร้อมให้บริการ</p>
-                    </div>
-                </div>
-                <button class="close-chat-header" id="closeChatHeader" style="font-size: 20px;">&times;</button>
-            </div>
-
-            <div class="chat-messages" id="chatMessages">
-                <div class="message admin-msg">
-                    สวัสดีค่ะ! 🌿 ยินดีต้อนรับสู่ Digital Garden <br>มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
-                </div>
-            </div>
-
-            <div class="chat-footer">
-                <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
-                <button id="sendBtn">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
+        <main class="about-page">
         
-        <script src="{% static 'js/script.js' %}"></script>
+        <section class="hero-section">
+            <img src="{% static 'images/contact/vegetable.png' %}" alt="Our Story Image" class="hero-bg-img" />
+            <div class="hero-content">
+            <h1 class="hero-title">จากธรรมชาติสู่สวนของคุณ ด้วยใจรักในการปลูก</h1>
+            <p class="hero-subtitle">
+                “เชื่อมโยงผู้คนกับอาหารที่ยั่งยืน และความสุขในการปลูกผักด้วยตัวเอง ทีละแปลง”
+            </p>
+            </div>
+        </section>
+
+        <section class="story-section container">
+            <h2 class="section-title text-green">เรื่องราวของเรา</h2>
+            <div class="story-content">
+                <div class="story-image">
+                    <img src="{% static 'images/contact/soil-plant.png' %}" alt="Our Story Image" />
+                </div>
+                <div class="story-text">
+                    <p>
+                    ก่อตั้งขึ้นบนความเชื่อที่ว่า ทุกคนควรมีโอกาสใกล้ชิดกับอาหารและผืนดินของตัวเอง 
+                    เราจึงเริ่มต้นด้วยภารกิจง่าย ๆ คือ ทำให้การใช้ชีวิตอย่างยั่งยืนเป็นเรื่องเข้าถึงได้ 
+                    จากจุดเริ่มต้นเล็ก ๆ ในชุมชนสวนสาธารณะ เราเติบโตจนกลายเป็นระบบนิเวศสำหรับคนรักธรรมชาติ 
+                    ที่นี่เรานำเสนอทั้ง ผลิตภัณฑ์ออร์แกนิกคุณภาพเยี่ยม และ พื้นที่ให้คุณได้ปลูกผักและพืชสวนของตัวเอง
+                    </p>
+                    
+                    <div class="value-box">
+                        <h3>เป้าหมาย</h3>
+                        <p>เรามุ่งสร้างพลังให้ชุมชนในการปลูกและบริโภคอาหารสดจากท้องถิ่น พร้อมสร้างความสัมพันธ์ที่แน่นแฟ้นกับธรรมชาติ</p>
+                    </div>
+
+                    <div class="value-box">
+                        <h3>ค่านิยม</h3>
+                        <p>เรามุ่งมั่นในเรื่อง ความยั่งยืน ชุมชน และการเรียนรู้ ในทุกกิจกรรมของเรา เพื่อสร้างอนาคตที่เขียวขจีและยั่งยืนสำหรับทุกคน</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="team-section">
+                <div class="container">
+                    <h2 class="section-title text-green">The People Behind the Plots</h2>
+                    <p class="section-desc">
+                        พบกับผู้คนที่มีความมุ่งมั่นและทุ่มเทในการทำให้วิสัยทัศน์ของเราเป็นจริง ความเชี่ยวชาญและความรักในธรรมชาติของทีมงาน คือรากฐานของชุมชนของเรา
+                    </p>
+
+                    <div class="team-grid">
+                    <div class="team-card">
+                        <div class="avatar" style="background-image: url('{% static 'images/profileteam/wave.png' %}');"></div> 
+                        <h3 class="member-name">คนที่ 1</h3>
+                        <span class="member-role">นักพัฒนาและผู้ออกแบบระบบ</span>
+                        <p class="member-quote">
+                        "ออกแบบโครงสร้างระบบทั้งหมด กำหนดทิศทาง และเขียนโค้ดหลักของโปรเจกต์"
+                        </p>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="avatar" style="background-image: url('{% static 'images/profileteam/fuck.png' %}');"></div>
+                        <h3 class="member-name">คนที่ 2</h3>
+                        <span class="member-role">ผู้ช่วยนักพัฒนาโปรแกรม</span>
+                        <p class="member-quote">
+                        "ซัพพอร์ตการเขียนโค้ดในโมดูลย่อย ช่วยตรวจสอบบั๊ก และร่วมทดสอบการทำงานของระบบ"
+                        </p>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="avatar" style="background-image: url('{% static 'images/profileteam/pf1.jpg' %}');"></div>
+                        <h3 class="member-name">คนที่ 3</h3>
+                        <span class="member-role">นักวิเคราะห์ระบบ</span>
+                        <p class="member-quote">
+                        "รวบรวมข้อมูล วิเคราะห์ความต้องการของระบบ และเขียนสรุปออกมาเป็นส่วนหนึ่งของรายงาน"
+                        </p>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="avatar" style="background-image: url('{% static 'images/profileteam/pf2.jpg' %}');"></div>
+                        <h3 class="member-name">คนที่ 4</h3>
+                        <span class="member-role">ผู้จัดทำเอกสารและรูปเล่ม</span>
+                        <p class="member-quote">
+                        "เรียบเรียงเนื้อหาทางเทคนิค จัดทำคู่มือการใช้งาน และจัดหน้ากระดาษรูปเล่มรายงานให้สมบูรณ์"
+                        </p>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="avatar" style="background-image: url('{% static 'images/profileteam/profile-5.png' %}');"></div>
+                        <h3 class="member-name">คนที่ 5</h3>
+                        <span class="member-role">ผู้ตรวจสอบคุณภาพและเตรียมการนำเสนอ</span>
+                        <p class="member-quote">
+                        "ตรวจทานความถูกต้องของรายงานทั้งหมด พิสูจน์อักษร และเตรียมสไลด์หรือข้อมูลสำหรับพรีเซนต์"
+                        </p>
+                    </div>
+                </div>
+        </section>
+
+        </main>
+
+            <footer class="footer">
+                <div class="footer-container">
+                    <div class="footer-content">
+
+                        <div class="footer-column footer-brand">
+                            <div class="footer-logo">
+                                <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+                            </div>
+                            <p class="slogan">
+                                เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
+                            </p>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4 class="footer-title">Explore</h4>
+                            <ul class="footer-list">
+                                <li><a href="#">สินค้าทั้งหมด</a></li>
+                                <li><a href="#">จองแปลงผัก</a></li>
+                                <li><a href="#">เรื่องราวของเรา</a></li>
+                                <li><a href="#">บทความ</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4 class="footer-title">Support</h4>
+                            <ul class="footer-list">
+                                <li><a href="#">ติดต่อเรา</a></li>
+                                <li><a href="#">คำถามที่พบบ่อย</a></li>
+                                <li><a href="#">การจัดส่ง & คืนสินค้า</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="footer-column">
+                            <h4 class="footer-title">Stay Connected</h4>
+                            <p class="newsletter-text">
+                                ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
+                            </p>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
+                                <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="footer-bottom">
+                        <p>© 2024 Digital Garden. All rights reserved.</p>
+                    </div>
+                </div>
+            </footer>
+
+            <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
+                <div id="chatIconContainer">
+                    <img src="{% static 'images/Group.png' %}" alt="Chat Icon" id="chatIconMain" />
+                </div>
+            </button>
+
+            <div class="chat-popup" id="chatPopup">
+                <div class="chat-header">
+                    <div class="admin-info">
+                        <div class="admin-avatar"></div>
+                        <div>
+                            <p class="admin-name">Greenhearth Admin</p>
+                            <p class="admin-status">ออนไลน์ พร้อมให้บริการ</p>
+                        </div>
+                    </div>
+                    <button class="close-chat-header" id="closeChatHeader" style="font-size: 20px;">&times;</button>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message admin-msg">
+                        สวัสดีค่ะ! 🌿 ยินดีต้อนรับสู่ Digital Garden <br>มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
+                    </div>
+                </div>
+
+                <div class="chat-footer">
+                    <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
+                    <button id="sendBtn">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <script src="{% static 'js/script.js' %}"></script>
   </body>
 </html>

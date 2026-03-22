@@ -16,19 +16,6 @@
     box-sizing: border-box;
 }
 
-/* --- Override: แก้ไขปุ่ม Icon บน Header ให้ดูเป็นธรรมชาติ (เผื่อหน้านี้ยังไม่ได้ดึงไป) --- */
-.icon-btn {
-    background-color: #ffffff !important;
-    border: 1px solid #e5e7eb !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
-}
-.icon-btn:hover {
-    background-color: var(--primary-green) !important;
-    border-color: var(--primary-green) !important;
-}
-.icon-btn .icon-img { filter: none !important; }
-.icon-btn:hover .icon-img { filter: brightness(0) invert(1) !important; }
-
 /* --- 2. Page Title --- */
 .page-title {
     text-align: center;

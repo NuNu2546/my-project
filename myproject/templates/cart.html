@@ -7,17 +7,7 @@
     <title>Cart - Digital Garden</title>
     <link rel="stylesheet" href="{% static 'css/globals.css' %}">
     <link rel="stylesheet" href="{% static 'css/shop.css' %}">
-    <style>
-        /* CSS เฉพาะหน้าตะกร้า */
-        .cart-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: white; border-radius: 12px; overflow: hidden; }
-        .cart-table th, .cart-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-        .cart-table th { background-color: #f9f9f9; font-weight: 700; }
-        .cart-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
-        .btn-remove { color: red; cursor: pointer; background: none; border: none; font-weight: bold; }
-        .cart-summary { background: white; padding: 20px; border-radius: 12px; text-align: right; }
-        .total-price { font-size: 24px; font-weight: 800; color: var(--primary-green); }
-        .btn-checkout { background: var(--primary-green); color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 10px; }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
 </head>
 <body>
 
@@ -30,28 +20,240 @@
         </nav>
     </header>
 
-    <main class="container" style="padding-top: 40px;">
-        <h1>ตะกร้าสินค้าของคุณ</h1>
+    <main class="container cart-page-container">
+        <h1 class="cart-page-title">ตะกร้าสินค้าและการชำระเงิน</h1>
         
-        <table class="cart-table">
-            <thead>
-                <tr>
-                    <th>สินค้า</th>
-                    <th>ราคา</th>
-                    <th>จำนวน</th>
-                    <th>รวม</th>
-                    <th>ลบ</th>
-                </tr>
-            </thead>
-            <tbody id="cartTableBody">
-                </tbody>
-        </table>
+        <div class="cart-layout">
+            <div class="cart-main-content">
+                
+                <section class="checkout-section">
+                    <div class="section-header">
+                        <h2 class="section-title">📍 ที่อยู่จัดส่ง</h2>
+                        <button class="btn-text-edit" onclick="openAddressModal()">เปลี่ยนที่อยู่</button>
+                    </div>
+                    <div class="address-box">
+                        <p class="address-name"><strong>คุณ ลูกค้า ทดสอบ (081-234-5678)</strong></p>
+                        <p class="address-detail">123/45 ถนน สุขุมวิท แขวงคลองเตยเหนือ เขตวัฒนา กรุงเทพมหานคร 10110</p>
+                    </div>
+                </section>
 
-        <div class="cart-summary">
-            <h3>ยอดรวมทั้งสิ้น: <span id="cartTotal" class="total-price">$0.00</span></h3>
-            <button class="btn-checkout" onclick="alert('ไปหน้าชำระเงิน (ยังไม่ทำ)')">ชำระเงิน</button>
+                <section class="checkout-section">
+                    <h2 class="section-title">🛍️ รายการสินค้า</h2>
+                    <div class="table-responsive">
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>สินค้า</th>
+                                    <th>ราคา</th>
+                                    <th style="text-align: center;">จำนวน</th>
+                                    <th>รวม</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="cartTableBody">
+                                </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                
+
+
+
+                <section class="checkout-section">
+                    <h2 class="section-title">🚚 ตัวเลือกการจัดส่ง</h2>
+                    <div class="shipping-options">
+                        <label class="shipping-option">
+                            <input type="radio" name="shipping_method" value="standard" checked>
+                            <span class="shipping-custom-radio"></span>
+                            <div class="shipping-info">
+                                <span class="shipping-name">Standard Delivery - ส่งธรรมดาในประเทศ</span>
+                                <span class="shipping-desc">
+                                    ได้รับสินค้าภายใน 2-3 วันทำการ <br>
+                                    <span style="color: var(--primary-green); font-weight: 600;">(คาดว่าจะถึง: <span id="estDeliveryDate">กำลังคำนวณ...</span>)</span>
+                                </span>
+                            </div>
+                            <span class="shipping-price">$5.00</span>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="checkout-section">
+                    <h2 class="section-title">🏷️ ข้อมูลเพิ่มเติม & ส่วนลด</h2>
+                    
+                    <div class="extra-group">
+                        <label class="extra-label">โค้ดส่วนลดร้านค้า</label>
+                        <div class="discount-input-group">
+                            <input type="text" id="discountCode" class="form-input" placeholder="พิมพ์โค้ดส่วนลดที่นี่...">
+                            <button class="btn-apply-code" onclick="applyDiscount()">ใช้โค้ด</button>
+                        </div>
+                    </div>
+
+                    <div class="extra-group">
+                        <label class="extra-label">หมายเหตุ</label>
+                        <input type="text" id="orderNote" class="form-input" placeholder="ฝากข้อความถึงผู้ขาย (เช่น ฝากพัสดุไว้ที่ป้อมยาม)">
+                    </div>
+
+                    <div class="extra-group" style="margin-bottom: 0;">
+                        <label class="custom-checkbox-label">
+                            <input type="checkbox" id="requestTaxInvoice" onchange="toggleTaxForm()">
+                            <span class="custom-checkbox"></span>
+                            <span style="font-weight: 600; color: var(--text-dark);">ขอใบกำกับภาษีเต็มรูปแบบ</span>
+                        </label>
+                    </div>
+                    
+                    <div class="tax-invoice-form" id="taxInvoiceForm">
+                        <input type="text" class="form-input" placeholder="ชื่อ - นามสกุล / ชื่อบริษัท">
+                        <input type="text" class="form-input" placeholder="เลขประจำตัวผู้เสียภาษี (13 หลัก)">
+                        <textarea class="form-input" placeholder="ที่อยู่สำหรับออกใบกำกับภาษี..." rows="2"></textarea>
+                    </div>
+                </section>
+
+                <section class="checkout-section">
+                    <h2 class="section-title">💳 ช่องทางการชำระเงิน</h2>
+                    <div class="payment-methods">
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="promptpay" checked>
+                            <span class="payment-custom-radio"></span>
+                            <div class="payment-info">
+                                <span class="payment-name">QR PromptPay</span>
+                                <span class="payment-desc">สแกนจ่ายผ่านแอปธนาคาร</span>
+                            </div>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="credit_card">
+                            <span class="payment-custom-radio"></span>
+                            <div class="payment-info">
+                                <span class="payment-name">บัตรเครดิต / เดบิต</span>
+                                <span class="payment-desc">ไม่มีค่าธรรมเนียมเพิ่มเติม</span>
+                            </div>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment_method" value="cod">
+                            <span class="payment-custom-radio"></span>
+                            <div class="payment-info">
+                                <span class="payment-name">เก็บเงินปลายทาง (COD)</span>
+                                <span class="payment-desc">ชำระเงินเมื่อได้รับสินค้า</span>
+                            </div>
+                        </label>
+                    </div>
+                </section>
+
+            </div>
+
+            <aside class="cart-sidebar">
+                <div class="cart-summary">
+                    <h3 class="summary-title">ข้อมูลการชำระเงิน</h3>
+                    
+                    <div class="summary-details">
+                        <div class="summary-row">
+                            <span>รวมการสั่งซื้อ</span>
+                            <span id="subtotalPrice">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>การจัดส่ง</span>
+                            <span id="shippingPrice">$5.00</span>
+                        </div>
+                        <div class="summary-row discount">
+                            <span>ส่วนลดค่าจัดส่ง</span>
+                            <span id="shippingDiscount">-$5.00</span>
+                        </div>
+                        <div class="summary-row discount">
+                            <span>ส่วนลด</span>
+                            <span id="couponDiscount">-$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-total">
+                        <span>ยอดชำระเงินทั้งหมด</span>
+                        <span id="cartTotal" class="total-price">$0.00</span>
+                    </div>
+
+                    <button class="btn-checkout" onclick="processCheckout()">ยืนยันคำสั่งซื้อ</button>
+                </div>
+            </aside>
         </div>
     </main>
+
+
+    <div class="modal-overlay" id="addressModal">
+        <div class="modal-content address-modal">
+            <div class="modal-header">
+                <h3 id="addressModalTitle">เลือกที่อยู่จัดส่ง</h3>
+                <button class="close-modal-btn" onclick="closeAddressModal()">&times;</button>
+            </div>
+            
+            <div id="addressListView">
+                <div class="address-list-container">
+                    <label class="address-card selected">
+                        <input type="radio" name="address_selection" checked>
+                        <div class="address-card-inner">
+                            <div class="address-header-row">
+                                <div class="address-tag-group">
+                                    <span class="address-tag">บ้าน</span>
+                                    <span class="default-badge">ค่าเริ่มต้น</span>
+                                </div>
+                                <button type="button" class="btn-delete-address" onclick="deleteAddress(this, event)">ลบ</button>
+                            </div>
+                            <p class="address-name"><strong>คุณ ลูกค้า ทดสอบ</strong> (081-234-5678)</p>
+                            <p class="address-detail">123/45 ถนน สุขุมวิท แขวงคลองเตยเหนือ เขตวัฒนา กรุงเทพมหานคร 10110</p>
+                        </div>
+                    </label>
+
+                    <label class="address-card">
+                        <input type="radio" name="address_selection">
+                        <div class="address-card-inner">
+                            <div class="address-header-row">
+                                <div class="address-tag-group">
+                                    <span class="address-tag">ที่ทำงาน</span>
+                                </div>
+                                <button type="button" class="btn-delete-address" onclick="deleteAddress(this, event)">ลบ</button>
+                            </div>
+                            <p class="address-name"><strong>คุณ ลูกค้า ทดสอบ</strong> (089-987-6543)</p>
+                            <p class="address-detail">ตึก Digital Garden ชั้น 9 ถนนสีลม แขวงสีลม เขตบางรัก กรุงเทพมหานคร 10500</p>
+                        </div>
+                    </label>
+                </div>
+
+                <button class="btn-outline-dashed" onclick="showAddAddressForm()">+ เพิ่มที่อยู่ใหม่</button>
+                <button class="btn-outline w-100" style="margin-top: 20px;" onclick="confirmAddress()">ยืนยันที่อยู่</button>
+            </div>
+
+            <div id="addAddressFormView" style="display: none;">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="extra-label">หัวข้อที่อยู่ <span class="text-mute">(เช่น บ้าน, ที่ทำงาน)</span></label>
+                        <input type="text" id="newAddrTitle" class="form-input" placeholder="ตั้งชื่อที่อยู่ให้จำง่าย">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="extra-label">ชื่อ-นามสกุล</label>
+                        <input type="text" id="newAddrName" class="form-input" placeholder="ชื่อ นามสกุล">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="extra-label">หมายเลขโทรศัพท์</label>
+                        <input type="tel" id="newAddrPhone" class="form-input" placeholder="08x-xxx-xxxx">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="extra-label">จังหวัด, เขต/อำเภอ, แขวง/ตำบล, รหัสไปรษณีย์</label>
+                        <input type="text" id="newAddrRegion" class="form-input" placeholder="พิมพ์ตำบล, อำเภอ, จังหวัด หรือ รหัสไปรษณีย์">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="extra-label">บ้านเลขที่, ซอย, หมู่, ถนน</label>
+                        <textarea id="newAddrDetail" class="form-input" rows="2" placeholder="รายละเอียดที่อยู่..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions" style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button class="btn-outline w-100" onclick="showAddressList()">ย้อนกลับ</button>
+                    <button class="btn-outline w-100" onclick="saveNewAddress()">บันทึกที่อยู่</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -62,7 +264,7 @@
             let cart = JSON.parse(localStorage.getItem('cart')) || [];
             
             if (cart.length === 0) {
-                cartBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 30px;">ยังไม่มีสินค้าในตะกร้า</td></tr>';
+                cartBody.innerHTML = '<tr><td colspan="5" class="empty-cart-msg">ยังไม่มีสินค้าในตะกร้า</td></tr>';
                 cartTotalElement.innerText = "$0.00";
                 return;
             }
@@ -74,17 +276,15 @@
                 let itemTotal = item.price * item.qty;
                 grandTotal += itemTotal;
 
-                // แก้ไข path รูป: ถ้าเป็น path เต็มอยู่แล้วก็ใช้เลย
+                // แก้ไข path รูป
                 let imgSrc = item.image; 
-                // เช็คว่าต้องเติม /static/ หรือไม่ (ขึ้นอยู่กับว่าตอน save เก็บค่ามายังไง)
                 if (!imgSrc.startsWith('/static/') && !imgSrc.startsWith('http')) {
-                     // ถ้าใน JS เก็บมาแค่ 'images/...' ให้เติม /static/ ข้างหน้า
                      imgSrc = '/static/' + imgSrc;
                 }
 
                 let row = `
                     <tr>
-                        <td style="display:flex; align-items:center; gap:10px;">
+                        <td class="product-cell">
                             <img src="${imgSrc}" class="cart-img" onerror="this.src='/static/images/placeholder.png'">
                             <span>${item.name}</span>
                         </td>
@@ -109,6 +309,350 @@
             cart.splice(index, 1); // ลบออกจาก Array
             localStorage.setItem('cart', JSON.stringify(cart)); // บันทึกทับลงไปใหม่
             location.reload(); // รีเฟรชหน้าเพื่อแสดงผลใหม่
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // โหลดตะกร้าครั้งแรกเมื่อเข้าหน้าเว็บ
+            renderCart();
+        });
+
+        // ฟังก์ชันหลักสำหรับแสดงตะกร้าและคำนวณยอดเงินทั้งหมด
+        function renderCart() {
+            const cartBody = document.getElementById('cartTableBody');
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // ตั้งค่าตัวแปรสรุปยอด
+            let subtotal = 0;
+            let shippingFee = 5.00; // ค่าจัดส่งสมมติ (เปลี่ยนได้)
+            let shippingDiscount = 5.00; // ส่วนลดค่าจัดส่ง (โปรส่งฟรี)
+            let couponDiscount = 0.00; // ส่วนลดอื่นๆ
+
+            if (cart.length === 0) {
+                cartBody.innerHTML = '<tr><td colspan="5" class="empty-cart-msg">ยังไม่มีสินค้าในตะกร้า เริ่มช้อปปิ้งเลย!</td></tr>';
+                updateSummary(0, 0, 0, 0); // รีเซ็ตยอดเป็น 0
+                return;
+            }
+
+            cartBody.innerHTML = ''; // ล้างข้อมูลเก่าก่อนวาดใหม่
+
+            // วนลูปสร้างแถวสินค้า
+            cart.forEach((item, index) => {
+                let itemTotal = item.price * item.qty;
+                subtotal += itemTotal;
+
+                // จัดการเรื่องรูปภาพ
+                let imgSrc = item.image; 
+                if (!imgSrc.startsWith('/static/') && !imgSrc.startsWith('http')) {
+                    imgSrc = '/static/' + imgSrc;
+                }
+
+                let row = `
+                    <tr>
+                        <td class="product-cell">
+                            <img src="${imgSrc}" class="cart-img" onerror="this.src='/static/images/placeholder.png'">
+                            <span>${item.name}</span>
+                        </td>
+                        <td>$${item.price.toFixed(2)}</td>
+                        <td>
+                            <div class="qty-control">
+                                <button class="qty-btn" onclick="updateQty(${index}, -1)">-</button>
+                                <input type="text" class="qty-input" value="${item.qty}" readonly>
+                                <button class="qty-btn" onclick="updateQty(${index}, 1)">+</button>
+                            </div>
+                        </td>
+                        <td style="font-weight: 700;">$${itemTotal.toFixed(2)}</td>
+                        <td style="text-align: right;">
+                            <button class="btn-remove" onclick="removeItem(${index})">ลบ</button>
+                        </td>
+                    </tr>
+                `;
+                cartBody.innerHTML += row;
+            });
+
+            // อัปเดตข้อมูลสรุปยอด
+            updateSummary(subtotal, shippingFee, shippingDiscount, couponDiscount);
+        }
+
+        // ฟังก์ชันอัปเดตกล่องสรุปยอด (ฝั่งขวา)
+        function updateSummary(subtotal, shipping, shippingDiscount, discount) {
+            const grandTotal = subtotal + shipping - shippingDiscount - discount;
+
+            document.getElementById('subtotalPrice').innerText = '$' + subtotal.toFixed(2);
+            
+            // ถ้าไม่มีสินค้า ให้ค่าส่งเป็น 0 ด้วย
+            if (subtotal === 0) {
+                document.getElementById('shippingPrice').innerText = '$0.00';
+                document.getElementById('shippingDiscount').innerText = '-$0.00';
+                document.getElementById('cartTotal').innerText = '$0.00';
+            } else {
+                document.getElementById('shippingPrice').innerText = '$' + shipping.toFixed(2);
+                document.getElementById('shippingDiscount').innerText = '-$' + shippingDiscount.toFixed(2);
+                document.getElementById('couponDiscount').innerText = '-$' + discount.toFixed(2);
+                document.getElementById('cartTotal').innerText = '$' + grandTotal.toFixed(2);
+            }
+        }
+
+        // ฟังก์ชันเพิ่ม/ลดจำนวน
+        function updateQty(index, change) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            cart[index].qty += change;
+            
+            // บังคับจำนวนขั้นต่ำคือ 1
+            if (cart[index].qty < 1) {
+                cart[index].qty = 1; 
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart)); // บันทึกข้อมูล
+            renderCart(); // วาดตารางและคำนวณเงินใหม่ทันที โดยไม่ต้องรีเฟรช
+        }
+
+        // ฟังก์ชันลบสินค้า
+        function removeItem(index) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1); // เอาออกจาก Array
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCart(); // อัปเดตตารางใหม่ทันที
+        }
+
+        // ฟังก์ชันจำลองการกดชำระเงิน
+        function processCheckout() {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert("ตะกร้าของคุณว่างเปล่า!");
+                return;
+            }
+
+            // ดึงค่าว่าเลือกจ่ายเงินแบบไหน
+            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+            alert("ระบบกำลังนำไปหน้าชำระเงินผ่าน: " + paymentMethod);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // โค้ดเดิมที่คุณมี ...
+            renderCart();
+            
+            // --- ระบบใหม่: คำนวณวันที่คาดว่าจะได้รับสินค้า (ปัจจุบัน + 3 วัน) ---
+            calculateEstimatedDelivery();
+        });
+
+        // ฟังก์ชันคำนวณวันรับสินค้า
+        function calculateEstimatedDelivery() {
+            const today = new Date();
+            const deliveryDate = new Date(today);
+            deliveryDate.setDate(today.getDate() + 3); // บวกไปอีก 3 วัน
+            
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            const formattedDate = deliveryDate.toLocaleDateString('th-TH', options); // แสดงเป็นภาษาไทย
+            
+            const estElement = document.getElementById('estDeliveryDate');
+            if (estElement) {
+                estElement.innerText = formattedDate;
+            }
+        }
+
+        // ฟังก์ชันโชว์/ซ่อน ฟอร์มใบกำกับภาษี
+        function toggleTaxForm() {
+            const checkBox = document.getElementById('requestTaxInvoice');
+            const form = document.getElementById('taxInvoiceForm');
+            
+            if (checkBox.checked) {
+                form.style.display = 'flex';
+            } else {
+                form.style.display = 'none';
+            }
+        }
+
+        // ฟังก์ชันจำลองการใส่โค้ดส่วนลด
+        function applyDiscount() {
+            const codeInput = document.getElementById('discountCode').value.trim().toUpperCase();
+            
+            if (codeInput === '') {
+                alert("กรุณากรอกโค้ดส่วนลด");
+                return;
+            }
+
+            // สมมติว่ามีโค้ดชื่อ 'GREEN2026' ได้ลด $10
+            if (codeInput === 'GREEN2026') {
+                alert("✅ ใช้โค้ดสำเร็จ! คุณได้รับส่วนลด $10.00");
+                
+                // บันทึกค่าส่วนลดลงตัวแปร (ในระบบจริงต้องผูกกับ renderCart())
+                document.getElementById('couponDiscount').innerText = '-$10.00';
+                
+                // คำนวณยอดใหม่ (สมมติว่าต้องดึงค่า subtotal มาลบใหม่)
+                renderCartWithDiscount(10.00); 
+            } else {
+                alert("❌ โค้ดส่วนลดไม่ถูกต้อง หรือหมดอายุแล้ว");
+            }
+        }
+
+        // ฟังก์ชันอัปเดตตะกร้าเวลาใส่โค้ดลด (ทำงานร่วมกับ renderCart เดิม)
+        function renderCartWithDiscount(discountAmount) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let subtotal = 0;
+            cart.forEach(item => { subtotal += item.price * item.qty; });
+            
+            if (subtotal > 0) {
+                updateSummary(subtotal, 5.00, 5.00, discountAmount); // ส่งค่าส่วนลดเข้าไปในฟังก์ชัน updateSummary เดิม
+            }
+        }
+
+        // ตัวแปรควบคุม Modal
+        const addressModal = document.getElementById('addressModal');
+        const listView = document.getElementById('addressListView');
+        const formView = document.getElementById('addAddressFormView');
+        const modalTitle = document.getElementById('addressModalTitle');
+
+        // เปิด Popup
+        function openAddressModal() {
+            addressModal.classList.add('show');
+            showAddressList(); // ให้โชว์หน้ารายการที่อยู่เสมอตอนเปิดใหม่
+        }
+
+        // ปิด Popup
+        function closeAddressModal() {
+            addressModal.classList.remove('show');
+        }
+
+        // สลับไปหน้า "เพิ่มที่อยู่ใหม่"
+        function showAddAddressForm() {
+            listView.style.display = 'none';
+            formView.style.display = 'block';
+            modalTitle.innerText = 'เพิ่มที่อยู่ใหม่';
+        }
+
+        // สลับกลับมาหน้า "รายการที่อยู่"
+        function showAddressList() {
+            formView.style.display = 'none';
+            listView.style.display = 'block';
+            modalTitle.innerText = 'เลือกที่อยู่จัดส่ง';
+        }
+
+        // เมื่อกด "ยืนยันที่อยู่" ในหน้ารายการ
+        function confirmAddress() {
+            // หาที่อยู่ที่ถูกเลือก (Radio ที่ถูก checked)
+            const selectedRadio = document.querySelector('input[name="address_selection"]:checked');
+            if (selectedRadio) {
+                const cardInner = selectedRadio.nextElementSibling;
+                const nameText = cardInner.querySelector('.address-name').innerHTML;
+                const detailText = cardInner.querySelector('.address-detail').innerText;
+
+                // นำไปอัปเดตบนหน้าหลัก
+                const mainAddressBox = document.querySelector('.address-box');
+                mainAddressBox.innerHTML = `
+                    <p class="address-name">${nameText}</p>
+                    <p class="address-detail">${detailText}</p>
+                `;
+                
+                closeAddressModal();
+            }
+        }
+
+        // เมื่อกด "บันทึกที่อยู่" ในหน้าฟอร์มเพิ่มที่อยู่
+        function saveNewAddress() {
+            const title = document.getElementById('newAddrTitle').value;
+            const name = document.getElementById('newAddrName').value;
+            const phone = document.getElementById('newAddrPhone').value;
+            const region = document.getElementById('newAddrRegion').value;
+            const detail = document.getElementById('newAddrDetail').value;
+
+            // เช็คว่ากรอกครบไหม
+            if (!name || !phone || !region || !detail) {
+                alert('กรุณากรอกข้อมูลที่อยู่ให้ครบถ้วน');
+                return;
+            }
+
+            // สร้างกล่องที่อยู่ใหม่ใน HTML
+            const newAddressHTML = `
+                <label class="address-card">
+                    <input type="radio" name="address_selection" checked>
+                    <div class="address-card-inner">
+                        <div class="address-header-row">
+                            <span class="address-tag">${title || 'บ้าน'}</span>
+                        </div>
+                        <p class="address-name"><strong>${name}</strong> (${phone})</p>
+                        <p class="address-detail">${detail} ${region}</p>
+                    </div>
+                </label>
+            `;
+
+            // แทรกเพิ่มเข้าไปในรายการ (อยู่ด้านบนสุด)
+            const listContainer = document.querySelector('.address-list-container');
+            listContainer.insertAdjacentHTML('afterbegin', newAddressHTML);
+
+            // ล้างข้อมูลในฟอร์ม
+            document.getElementById('newAddrTitle').value = '';
+            document.getElementById('newAddrName').value = '';
+            document.getElementById('newAddrPhone').value = '';
+            document.getElementById('newAddrRegion').value = '';
+            document.getElementById('newAddrDetail').value = '';
+
+            // สลับกลับไปหน้ารายการที่อยู่
+            showAddressList();
+        }
+
+        // ==========================================
+        // 1. เพิ่มฟังก์ชันใหม่สำหรับการลบ
+        // ==========================================
+        function deleteAddress(buttonElement, event) {
+            // ป้องกันไม่ให้คลิกปุ่มลบ แล้วไปติดการเปลี่ยน Radio Button ของ <label>
+            event.preventDefault();
+            event.stopPropagation();
+
+            // ถามเพื่อความแน่ใจก่อนลบ
+            if (confirm('คุณต้องการลบที่อยู่นี้ใช่หรือไม่?')) {
+                // หา การ์ดที่อยู่ (.address-card) ที่ครอบปุ่มนี้อยู่ แล้วลบทิ้ง
+                const addressCard = buttonElement.closest('.address-card');
+                if (addressCard) {
+                    addressCard.remove();
+                }
+            }
+        }
+
+        // ==========================================
+        // 2. อัปเดตฟังก์ชัน saveNewAddress เดิม
+        // ==========================================
+        function saveNewAddress() {
+            const title = document.getElementById('newAddrTitle').value;
+            const name = document.getElementById('newAddrName').value;
+            const phone = document.getElementById('newAddrPhone').value;
+            const region = document.getElementById('newAddrRegion').value;
+            const detail = document.getElementById('newAddrDetail').value;
+
+            if (!name || !phone || !region || !detail) {
+                alert('กรุณากรอกข้อมูลที่อยู่ให้ครบถ้วน');
+                return;
+            }
+
+            // สร้างกล่องที่อยู่ใหม่ (อัปเดตให้มีปุ่มลบด้วย)
+            const newAddressHTML = `
+                <label class="address-card">
+                    <input type="radio" name="address_selection" checked>
+                    <div class="address-card-inner">
+                        <div class="address-header-row">
+                            <div class="address-tag-group">
+                                <span class="address-tag">${title || 'บ้าน'}</span>
+                            </div>
+                            <button type="button" class="btn-delete-address" onclick="deleteAddress(this, event)">ลบ</button>
+                        </div>
+                        <p class="address-name"><strong>${name}</strong> (${phone})</p>
+                        <p class="address-detail">${detail} ${region}</p>
+                    </div>
+                </label>
+            `;
+
+            const listContainer = document.querySelector('.address-list-container');
+            listContainer.insertAdjacentHTML('afterbegin', newAddressHTML);
+
+            // ล้างข้อมูลในฟอร์ม
+            document.getElementById('newAddrTitle').value = '';
+            document.getElementById('newAddrName').value = '';
+            document.getElementById('newAddrPhone').value = '';
+            document.getElementById('newAddrRegion').value = '';
+            document.getElementById('newAddrDetail').value = '';
+
+            showAddressList();
         }
     </script>
 

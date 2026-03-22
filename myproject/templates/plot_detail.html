@@ -10,522 +10,541 @@
 </head>
 <body>
 
-    <header class="header">
-        <a href="{% url 'home' %}">
-            <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
-        </a>
-        <nav class="nav">
-            <ul class="nav-list">
-                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
-                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
-                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
-                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
-            </ul>
-        </nav>
-        <div class="header-actions">
-            <button class="icon-btn">
-                <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Shop">
-            </button>
-            <div class="profile-container">
-                <button class="icon-btn">
-                    <img class="icon-img" src="{% static 'images/profile.png' %}" alt="Profile">
-                </button>
-            </div>
-        </div>
-    </header>
+        <header class="header">
+            <a href="{% url 'home' %}">
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+            </a>
+            
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                    <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
 
-    <main class="plot-detail-page container">
-        
-        <a href="{% url 'veggie_plots' %}" class="back-link">
-            <img src="{% static 'images/vector-3.svg' %}" alt="Back"> Back to Listings
-        </a>
-
-        <div class="plot-grid">
-            <div class="plot-gallery">
-                <img class="main-image" src="{% static 'images/Veggie_Plots/plot_detail/vegetable.png' %}" alt="มุมแดดสบาย A12" />
-                <div class="thumbnail-list">
-                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/grass.png' %}" alt="Thumb 1" />
-                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/soil.png' %}" alt="Thumb 2" />
-                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/tree.png' %}" alt="Thumb 3" />
-                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/vegetable_garden.png' %}" alt="Thumb 4" />
-                </div>
-            </div>
-
-            <div class="plot-info">
-                <h1 class="plot-title">มุมแดดสบาย #A12</h1>
-                <p class="plot-desc">
-                    แปลงมุมที่โดนแดดเต็มวัน เหมาะสำหรับผักและดอกไม้ที่ชอบแสงแดดจัด เช่น มะเขือเทศ พริก หรือดอกทานตะวัน ดินเป็นดินออร์แกนิกคุณภาพดี ช่วยให้ต้นไม้เจริญเติบโตอย่างแข็งแรง มีจุดให้น้ำพร้อมใช้งาน (Water Access) และใกล้โรงเก็บอุปกรณ์ทำสวน (Tool Shed) สะดวกต่อการดูแลแปลง เหมาะสำหรับทั้งผู้เริ่มต้นและผู้ที่ปลูกผักเป็นประจำ
-                </p>
-
-                <div class="suitable-plants">
-                    <div class="plant-card active">
-                        <img src="{% static 'images/Veggie_Plots/plot_detail/Tomato.png' %}" alt="มะเขือเทศ">
-                        <span>มะเขือเทศ</span>
-                    </div>
-                    <div class="plant-card">
-                        <img src="{% static 'images/Veggie_Plots/plot_detail/Carrot.png' %}" alt="แครอท">
-                        <span>แครอท</span>
-                    </div>
-                    <div class="plant-card">
-                        <img src="{% static 'images/Veggie_Plots/plot_detail/Lettuce.png' %}" alt="ผักกาดหอม">
-                        <span>ผักกาดหอม</span>
-                    </div>
-                    <div class="plant-card">
-                        <img src="{% static 'images/Veggie_Plots/plot_detail/Bell_pepper.png' %}" alt="พริกหวาน">
-                        <span>พริกหวาน</span>
-                    </div>
-                    <button class="plant-more-btn" id="openPlantModal">เพิ่มเติม +8</button>
-                </div>
-
-                <div class="plant-modal-overlay" id="plantModal">
-                    <div class="plant-modal-content">
-                        <div class="plant-modal-header">
-                            <h3>พืชที่ปลูกได้ทั้งหมด (12 ชนิด)</h3>
-                            <button class="close-modal-btn" id="closePlantModal">&times;</button>
-                        </div>
+            <div class="header-actions">
+                <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
                         
-                        <div class="plant-modal-grid">
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Tomato.png' %}" alt="มะเขือเทศ"><span>มะเขือเทศ</span></div>
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Carrot.png' %}" alt="แครอท"><span>แครอท</span></div>
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Lettuce.png' %}" alt="ผักกาดหอม"><span>ผักกาดหอม</span></div>
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Bell_pepper.png' %}" alt="พริกหวาน"><span>พริกหวาน</span></div>
-                            
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Cucumber.png' %}" alt="แตงกวา"><span>แตงกวา</span></div>
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Corn.png' %}" alt="คะน้า"><span>ข้าวโพด</span></div>
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Sunflower.png' %}" alt="กวางตุ้ง"><span>ทานตะวัน</span></div>
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Potato.png' %}" alt="ผักบุ้ง"><span>มันฝรั่ง</span></div>
-                            
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Thai_basil.png' %}" alt="กะเพรา"><span>โหระพาไทย</span></div>
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Strawberry.png' %}" alt="โหระพา"><span>สตรอว์เบอร์รี</span></div>
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Blueberry.png' %}" alt="ฟักทอง"><span>บลูเบอร์รี่</span></div>
-                            <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Raspberry.png' %}" alt="มะนาว"><span>ราสป์เบอร์รี่</span></div>
+                        <span id="cartBadge" class="cart-badge">0</span>
+                    </div>
+                </a>
+
+                <div class="profile-container">
+                    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
+                        <div class="icon-inner">
+                            <img class="icon-img" src="{% static 'images/icon/Profile_icon.png' %}" alt="Profile" />
                         </div>
+                    </button>
+
+                    <div class="dropdown-menu" id="profileMenu">
+                        <div class="menu-header">
+                            <img src="{% static 'images/v41_78.png' %}" alt="User" class="menu-user-img">
+                            <span class="menu-username">ชื่อผู้ใช้</span>
+                        </div>
+                        <hr>
+                        <a href="#" class="menu-item">การซื้อของฉัน</a>
+                        <a href="#" class="menu-item logout">ออกจากระบบ</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="plot-detail-page container">
+            
+            <a href="{% url 'veggie_plots' %}" class="back-link">
+                <img src="{% static 'images/vector-3.svg' %}" alt="Back"> Back to Listings
+            </a>
+
+            <div class="plot-grid">
+                <div class="plot-gallery">
+                    <img class="main-image" src="{% static 'images/Veggie_Plots/plot_detail/vegetable.png' %}" alt="มุมแดดสบาย A12" />
+                    <div class="thumbnail-list">
+                        <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/grass.png' %}" alt="Thumb 1" />
+                        <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/soil.png' %}" alt="Thumb 2" />
+                        <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/tree.png' %}" alt="Thumb 3" />
+                        <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/vegetable_garden.png' %}" alt="Thumb 4" />
                     </div>
                 </div>
 
-                <div class="plot-specs">
-                    <div class="spec-item">
-                        <span class="spec-label">Plot Size</span>
-                        <span class="spec-value">10m² (5m x 2m)</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Soil Type</span>
-                        <span class="spec-value">Loamy, well-drained</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Sun Exposure</span>
-                        <span class="spec-value">Full Sun</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Water Access</span>
-                        <span class="spec-value">Shared tap nearby</span>
-                    </div>
-                </div>
+                <div class="plot-info">
+                    <h1 class="plot-title">มุมแดดสบาย #A12</h1>
+                    <p class="plot-desc">
+                        แปลงมุมที่โดนแดดเต็มวัน เหมาะสำหรับผักและดอกไม้ที่ชอบแสงแดดจัด เช่น มะเขือเทศ พริก หรือดอกทานตะวัน ดินเป็นดินออร์แกนิกคุณภาพดี ช่วยให้ต้นไม้เจริญเติบโตอย่างแข็งแรง มีจุดให้น้ำพร้อมใช้งาน (Water Access) และใกล้โรงเก็บอุปกรณ์ทำสวน (Tool Shed) สะดวกต่อการดูแลแปลง เหมาะสำหรับทั้งผู้เริ่มต้นและผู้ที่ปลูกผักเป็นประจำ
+                    </p>
 
-                <div class="booking-widget">
-                    <div class="booking-header">
-                        <h3>เลือกช่วงเวลาในการจอง</h3>
-                            <a href="#" class="more-link" id="openCalendarModal">เพิ่มเติม <img src="{% static 'images/image.svg' %}" alt="More"></a>
+                    <div class="suitable-plants">
+                        <div class="plant-card active">
+                            <img src="{% static 'images/Veggie_Plots/plot_detail/Tomato.png' %}" alt="มะเขือเทศ">
+                            <span>มะเขือเทศ</span>
+                        </div>
+                        <div class="plant-card">
+                            <img src="{% static 'images/Veggie_Plots/plot_detail/Carrot.png' %}" alt="แครอท">
+                            <span>แครอท</span>
+                        </div>
+                        <div class="plant-card">
+                            <img src="{% static 'images/Veggie_Plots/plot_detail/Lettuce.png' %}" alt="ผักกาดหอม">
+                            <span>ผักกาดหอม</span>
+                        </div>
+                        <div class="plant-card">
+                            <img src="{% static 'images/Veggie_Plots/plot_detail/Bell_pepper.png' %}" alt="พริกหวาน">
+                            <span>พริกหวาน</span>
+                        </div>
+                        <button class="plant-more-btn" id="openPlantModal">เพิ่มเติม +8</button>
                     </div>
-                    <div class="calendar-modal-overlay" id="calendarModal" style="display: none;">
-                        <div class="calendar-modal-content">
-                            <div class="calendar-modal-header">
-                                <h3>เลือกวันเริ่มปลูก (ล่วงหน้าไม่เกิน 60 วัน)</h3>
-                                <button class="close-modal-btn" id="closeCalendarModal">&times;</button>
+
+                    <div class="plant-modal-overlay" id="plantModal">
+                        <div class="plant-modal-content">
+                            <div class="plant-modal-header">
+                                <h3>พืชที่ปลูกได้ทั้งหมด (12 ชนิด)</h3>
+                                <button class="close-modal-btn" id="closePlantModal">&times;</button>
                             </div>
                             
-                            <div class="calendar-container">
-                                <div class="cal-header">
-                                    <button class="cal-nav" id="popupPrevMonth">&lt;</button>
-                                    <span class="cal-month" id="popupMonthYear"></span>
-                                    <button class="cal-nav" id="popupNextMonth">&gt;</button>
-                                </div>
-                                <div class="cal-weekdays">
-                                    <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
-                                </div>
-                                <div class="cal-days" id="popupCalendarDays"></div>
+                            <div class="plant-modal-grid">
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Tomato.png' %}" alt="มะเขือเทศ"><span>มะเขือเทศ</span></div>
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Carrot.png' %}" alt="แครอท"><span>แครอท</span></div>
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Lettuce.png' %}" alt="ผักกาดหอม"><span>ผักกาดหอม</span></div>
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Bell_pepper.png' %}" alt="พริกหวาน"><span>พริกหวาน</span></div>
+                                
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Cucumber.png' %}" alt="แตงกวา"><span>แตงกวา</span></div>
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Corn.png' %}" alt="คะน้า"><span>ข้าวโพด</span></div>
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Sunflower.png' %}" alt="กวางตุ้ง"><span>ทานตะวัน</span></div>
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Potato.png' %}" alt="ผักบุ้ง"><span>มันฝรั่ง</span></div>
+                                
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Thai_basil.png' %}" alt="กะเพรา"><span>โหระพาไทย</span></div>
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Strawberry.png' %}" alt="โหระพา"><span>สตรอว์เบอร์รี</span></div>
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Blueberry.png' %}" alt="ฟักทอง"><span>บลูเบอร์รี่</span></div>
+                                <div class="plant-card"><img src="{% static 'images/Veggie_Plots/plot_detail/Raspberry.png' %}" alt="มะนาว"><span>ราสป์เบอร์รี่</span></div>
                             </div>
                         </div>
-                    </div>                     
-                    <div class="calendar-container">
-                        <div class="cal-header">
-                            <button class="cal-nav" id="prevMonth">&lt;</button>
-                            <span class="cal-month" id="currentMonthYear"></span>
-                            <button class="cal-nav" id="nextMonth">&gt;</button>
-                        </div>
-                        <div class="cal-weekdays">
-                            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
-                        </div>
-                        <div class="cal-days" id="calendarDays"></div> 
                     </div>
 
-                    <div class="booking-summary">
-                        <p class="price-label" id="bookingDateRange">กรุณาเลือกพืชเพื่อดูช่วงเวลา</p>
-                        <p class="price-total" id="bookingTotalPrice">฿0.00</p>
-                        
-                        <form id="bookingForm" method="POST" action="{% url 'process_booking' %}">
-                            {% csrf_token %}
-                            <input type="hidden" name="selected_plant" id="hiddenPlant" value="">
-                            <input type="hidden" name="start_date" id="hiddenStartDate" value="">
+                    <div class="plot-specs">
+                        <div class="spec-item">
+                            <span class="spec-label">Plot Size</span>
+                            <span class="spec-value">10m² (5m x 2m)</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Soil Type</span>
+                            <span class="spec-value">Loamy, well-drained</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Sun Exposure</span>
+                            <span class="spec-value">Full Sun</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Water Access</span>
+                            <span class="spec-value">Shared tap nearby</span>
+                        </div>
+                    </div>
+
+                    <div class="booking-widget">
+                        <div class="booking-header">
+                            <h3>เลือกช่วงเวลาในการจอง</h3>
+                                <a href="#" class="more-link" id="openCalendarModal">เพิ่มเติม <img src="{% static 'images/image.svg' %}" alt="More"></a>
+                        </div>
+                        <div class="calendar-modal-overlay" id="calendarModal" style="display: none;">
+                            <div class="calendar-modal-content">
+                                <div class="calendar-modal-header">
+                                    <h3>เลือกวันเริ่มปลูก (ล่วงหน้าไม่เกิน 60 วัน)</h3>
+                                    <button class="close-modal-btn" id="closeCalendarModal">&times;</button>
+                                </div>
+                                
+                                <div class="calendar-container">
+                                    <div class="cal-header">
+                                        <button class="cal-nav" id="popupPrevMonth">&lt;</button>
+                                        <span class="cal-month" id="popupMonthYear"></span>
+                                        <button class="cal-nav" id="popupNextMonth">&gt;</button>
+                                    </div>
+                                    <div class="cal-weekdays">
+                                        <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                                    </div>
+                                    <div class="cal-days" id="popupCalendarDays"></div>
+                                </div>
+                            </div>
+                        </div>                     
+                        <div class="calendar-container">
+                            <div class="cal-header">
+                                <button class="cal-nav" id="prevMonth">&lt;</button>
+                                <span class="cal-month" id="currentMonthYear"></span>
+                                <button class="cal-nav" id="nextMonth">&gt;</button>
+                            </div>
+                            <div class="cal-weekdays">
+                                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                            </div>
+                            <div class="cal-days" id="calendarDays"></div> 
+                        </div>
+
+                        <div class="booking-summary">
+                            <p class="price-label" id="bookingDateRange">กรุณาเลือกพืชเพื่อดูช่วงเวลา</p>
+                            <p class="price-total" id="bookingTotalPrice">฿0.00</p>
                             
-                            <button type="submit" class="btn-book" id="submitBookingBtn" disabled>Book Plot</button>
-                        </form>
+                            <form id="bookingForm" method="POST" action="{% url 'process_booking' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="selected_plant" id="hiddenPlant" value="">
+                                <input type="hidden" name="start_date" id="hiddenStartDate" value="">
+                                
+                                <button type="submit" class="btn-book" id="submitBookingBtn" disabled>Book Plot</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <footer class="footer">
-        <div class="footer-container footer-bottom">
-            <p>© 2024 Digital Garden. All rights reserved.</p>
-        </div>
-    </footer>
+        <footer class="footer">
+            <div class="footer-container footer-bottom">
+                <p>© 2024 Digital Garden. All rights reserved.</p>
+            </div>
+        </footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // ดึงตัวแปรกล่องรูปใหญ่ และรูปเล็กทั้งหมดมาใช้งาน
-            const mainImage = document.querySelector('.main-image');
-            const thumbnails = document.querySelectorAll('.thumbnail');
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // ดึงตัวแปรกล่องรูปใหญ่ และรูปเล็กทั้งหมดมาใช้งาน
+                const mainImage = document.querySelector('.main-image');
+                const thumbnails = document.querySelectorAll('.thumbnail');
 
-            // วนลูปใส่คำสั่ง "เมื่อถูกคลิก" ให้กับรูปเล็กทุกรูป
-            thumbnails.forEach(function(thumb) {
-                thumb.addEventListener('click', function() {
-                    // 1. จำค่า src และ alt ของรูปเล็กที่เราเพิ่งคลิกไว้ก่อน
-                    const clickedSrc = this.src;
-                    const clickedAlt = this.alt;
+                // วนลูปใส่คำสั่ง "เมื่อถูกคลิก" ให้กับรูปเล็กทุกรูป
+                thumbnails.forEach(function(thumb) {
+                    thumb.addEventListener('click', function() {
+                        // 1. จำค่า src และ alt ของรูปเล็กที่เราเพิ่งคลิกไว้ก่อน
+                        const clickedSrc = this.src;
+                        const clickedAlt = this.alt;
 
-                    // 2. ดึงรูปจากกล่องใหญ่ (ค่าเดิม) ลงมาใส่ในรูปเล็กที่เราคลิก
-                    this.src = mainImage.src;
-                    this.alt = mainImage.alt;
+                        // 2. ดึงรูปจากกล่องใหญ่ (ค่าเดิม) ลงมาใส่ในรูปเล็กที่เราคลิก
+                        this.src = mainImage.src;
+                        this.alt = mainImage.alt;
 
-                    // 3. เอารูปเล็กที่เราจำค่าไว้ในข้อ 1 ขึ้นไปใส่แสดงเป็นรูปใหญ่
-                    mainImage.src = clickedSrc;
-                    mainImage.alt = clickedAlt;
+                        // 3. เอารูปเล็กที่เราจำค่าไว้ในข้อ 1 ขึ้นไปใส่แสดงเป็นรูปใหญ่
+                        mainImage.src = clickedSrc;
+                        mainImage.alt = clickedAlt;
 
-                    // 4. จัดการกรอบสีเขียว (Class: active) ให้ย้ายมาอยู่ที่รูปที่เพิ่งถูกสลับลงมา
-                    thumbnails.forEach(t => t.classList.remove('active'));
-                    this.classList.add('active');
+                        // 4. จัดการกรอบสีเขียว (Class: active) ให้ย้ายมาอยู่ที่รูปที่เพิ่งถูกสลับลงมา
+                        thumbnails.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                    });
                 });
             });
-        });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // โค้ดส่วนเปิด-ปิด Popup พืชที่แนะนำ
-            const openPlantModal = document.getElementById('openPlantModal');
-            const closePlantModal = document.getElementById('closePlantModal');
-            const plantModal = document.getElementById('plantModal');
+            document.addEventListener('DOMContentLoaded', function() {
+                // โค้ดส่วนเปิด-ปิด Popup พืชที่แนะนำ
+                const openPlantModal = document.getElementById('openPlantModal');
+                const closePlantModal = document.getElementById('closePlantModal');
+                const plantModal = document.getElementById('plantModal');
 
-            // ถ้ามีปุ่มและกล่อง Popup อยู่ในหน้าเว็บ
-            if (openPlantModal && closePlantModal && plantModal) {
-                
-                // กดปุ่ม "เพิ่มเติม" เพื่อเปิด
-                openPlantModal.addEventListener('click', function() {
-                    plantModal.classList.add('show');
-                });
-
-                // กากบาทปิด
-                closePlantModal.addEventListener('click', function() {
-                    plantModal.classList.remove('show');
-                });
-
-                // คลิกพื้นที่สีดำด้านนอกเพื่อปิด
-                window.addEventListener('click', function(event) {
-                    if (event.target === plantModal) {
-                        plantModal.classList.remove('show');
-                    }
-                });
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const mainContainer = document.querySelector('.suitable-plants');
-            const modal = document.getElementById('plantModal');
-            // ดึงปุ่มเปิด/ปิดตอนโหลดเว็บครั้งแรก
-            let openBtn = document.getElementById('openPlantModal');
-            const closeBtn = document.getElementById('closePlantModal');
-            
-            // ดึงพืชทั้งหมด 12 ชนิดจากใน Popup มาเป็นข้อมูลตั้งต้น (Source of Truth)
-            const allModalPlants = Array.from(document.querySelectorAll('.plant-modal-grid .plant-card'));
-
-            // ฟังก์ชันสำหรับดึงแถวมาแสดงที่หน้าหลัก
-            function renderMainRow(startIndex, activeIndex) {
-                // 1. ล้างกล่องพืชและปุ่มเดิมในหน้าหลักทิ้งทั้งหมด
-                mainContainer.innerHTML = '';
-                
-                // 2. ดึงข้อมูล 4 ตัวในแถวนั้นมาแสดง
-                for (let i = startIndex; i < startIndex + 4 && i < allModalPlants.length; i++) {
-                    // โคลน (Copy) HTML ของพืชจากใน Popup
-                    const plantClone = allModalPlants[i].cloneNode(true);
+                // ถ้ามีปุ่มและกล่อง Popup อยู่ในหน้าเว็บ
+                if (openPlantModal && closePlantModal && plantModal) {
                     
-                    // ล้างสถานะ active ออกให้หมดก่อน แล้วค่อยใส่ให้เฉพาะตัวที่เพิ่งถูกเลือก
-                    plantClone.classList.remove('active');
-                    if (i === activeIndex) {
-                        plantClone.classList.add('active');
+                    // กดปุ่ม "เพิ่มเติม" เพื่อเปิด
+                    openPlantModal.addEventListener('click', function() {
+                        plantModal.classList.add('show');
+                    });
+
+                    // กากบาทปิด
+                    closePlantModal.addEventListener('click', function() {
+                        plantModal.classList.remove('show');
+                    });
+
+                    // คลิกพื้นที่สีดำด้านนอกเพื่อปิด
+                    window.addEventListener('click', function(event) {
+                        if (event.target === plantModal) {
+                            plantModal.classList.remove('show');
+                        }
+                    });
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const mainContainer = document.querySelector('.suitable-plants');
+                const modal = document.getElementById('plantModal');
+                // ดึงปุ่มเปิด/ปิดตอนโหลดเว็บครั้งแรก
+                let openBtn = document.getElementById('openPlantModal');
+                const closeBtn = document.getElementById('closePlantModal');
+                
+                // ดึงพืชทั้งหมด 12 ชนิดจากใน Popup มาเป็นข้อมูลตั้งต้น (Source of Truth)
+                const allModalPlants = Array.from(document.querySelectorAll('.plant-modal-grid .plant-card'));
+
+                // ฟังก์ชันสำหรับดึงแถวมาแสดงที่หน้าหลัก
+                function renderMainRow(startIndex, activeIndex) {
+                    // 1. ล้างกล่องพืชและปุ่มเดิมในหน้าหลักทิ้งทั้งหมด
+                    mainContainer.innerHTML = '';
+                    
+                    // 2. ดึงข้อมูล 4 ตัวในแถวนั้นมาแสดง
+                    for (let i = startIndex; i < startIndex + 4 && i < allModalPlants.length; i++) {
+                        // โคลน (Copy) HTML ของพืชจากใน Popup
+                        const plantClone = allModalPlants[i].cloneNode(true);
+                        
+                        // ล้างสถานะ active ออกให้หมดก่อน แล้วค่อยใส่ให้เฉพาะตัวที่เพิ่งถูกเลือก
+                        plantClone.classList.remove('active');
+                        if (i === activeIndex) {
+                            plantClone.classList.add('active');
+                        }
+
+                        // ทำให้พืชที่ถูกโคลนมาใหม่ในหน้าหลัก สามารถกดสลับ active ไปมาได้
+                        plantClone.addEventListener('click', function() {
+                            mainContainer.querySelectorAll('.plant-card').forEach(c => c.classList.remove('active'));
+                            this.classList.add('active');
+                        });
+
+                        mainContainer.appendChild(plantClone);
                     }
 
-                    // ทำให้พืชที่ถูกโคลนมาใหม่ในหน้าหลัก สามารถกดสลับ active ไปมาได้
-                    plantClone.addEventListener('click', function() {
+                    // 3. สร้างปุ่ม "เพิ่มเติม +8" กลับเข้าไปใหม่ (เพราะโดนล้างไปในข้อ 1)
+                    const moreBtn = document.createElement('button');
+                    moreBtn.className = 'plant-more-btn';
+                    moreBtn.id = 'openPlantModal';
+                    moreBtn.textContent = 'เพิ่มเติม +8';
+                    moreBtn.addEventListener('click', function() {
+                        modal.style.display = 'flex'; // ถ้า CSS เดิมของคุณใช้ block ให้เปลี่ยนเป็น 'block'
+                    });
+                    mainContainer.appendChild(moreBtn);
+                }
+
+                // จัดการ Event เมื่อคลิกเลือกพืชใน Popup
+                allModalPlants.forEach((card, index) => {
+                    card.addEventListener('click', function() {
+                        // สูตรคำนวณหาจุดเริ่มต้นของแถว (0=แถวแรก, 4=แถวสอง, 8=แถวสาม)
+                        const rowStartIndex = Math.floor(index / 4) * 4;
+                        
+                        // อัปเดตกรอบสีเขียวใน Popup
+                        allModalPlants.forEach(c => c.classList.remove('active'));
+                        this.classList.add('active');
+
+                        // เรียกใช้ฟังก์ชันอัปเดตหน้าหลัก พร้อมส่งตำแหน่งเริ่มต้นและตำแหน่งที่คลิกไปให้
+                        renderMainRow(rowStartIndex, index);
+
+                        // ปิด Popup ทันที
+                        modal.style.display = 'none';
+                    });
+                });
+
+                // ปิด Popup เมื่อกดกากบาท
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => modal.style.display = 'none');
+                }
+                
+                // เปิด Popup เมื่อกดปุ่ม "เพิ่มเติม +8" ตัวแรกสุด
+                if (openBtn) {
+                    openBtn.addEventListener('click', () => modal.style.display = 'flex');
+                }
+
+                // ทำให้พืชหน้าหลัก 4 ตัวแรกตอนโหลดเว็บ สามารถกดสลับ active ได้
+                mainContainer.querySelectorAll('.plant-card').forEach(card => {
+                    card.addEventListener('click', function() {
                         mainContainer.querySelectorAll('.plant-card').forEach(c => c.classList.remove('active'));
                         this.classList.add('active');
                     });
-
-                    mainContainer.appendChild(plantClone);
-                }
-
-                // 3. สร้างปุ่ม "เพิ่มเติม +8" กลับเข้าไปใหม่ (เพราะโดนล้างไปในข้อ 1)
-                const moreBtn = document.createElement('button');
-                moreBtn.className = 'plant-more-btn';
-                moreBtn.id = 'openPlantModal';
-                moreBtn.textContent = 'เพิ่มเติม +8';
-                moreBtn.addEventListener('click', function() {
-                    modal.style.display = 'flex'; // ถ้า CSS เดิมของคุณใช้ block ให้เปลี่ยนเป็น 'block'
-                });
-                mainContainer.appendChild(moreBtn);
-            }
-
-            // จัดการ Event เมื่อคลิกเลือกพืชใน Popup
-            allModalPlants.forEach((card, index) => {
-                card.addEventListener('click', function() {
-                    // สูตรคำนวณหาจุดเริ่มต้นของแถว (0=แถวแรก, 4=แถวสอง, 8=แถวสาม)
-                    const rowStartIndex = Math.floor(index / 4) * 4;
-                    
-                    // อัปเดตกรอบสีเขียวใน Popup
-                    allModalPlants.forEach(c => c.classList.remove('active'));
-                    this.classList.add('active');
-
-                    // เรียกใช้ฟังก์ชันอัปเดตหน้าหลัก พร้อมส่งตำแหน่งเริ่มต้นและตำแหน่งที่คลิกไปให้
-                    renderMainRow(rowStartIndex, index);
-
-                    // ปิด Popup ทันที
-                    modal.style.display = 'none';
                 });
             });
 
-            // ปิด Popup เมื่อกดกากบาท
-            if (closeBtn) {
-                closeBtn.addEventListener('click', () => modal.style.display = 'none');
-            }
-            
-            // เปิด Popup เมื่อกดปุ่ม "เพิ่มเติม +8" ตัวแรกสุด
-            if (openBtn) {
-                openBtn.addEventListener('click', () => modal.style.display = 'flex');
-            }
-
-            // ทำให้พืชหน้าหลัก 4 ตัวแรกตอนโหลดเว็บ สามารถกดสลับ active ได้
-            mainContainer.querySelectorAll('.plant-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    mainContainer.querySelectorAll('.plant-card').forEach(c => c.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- 1. ข้อมูลตั้งต้นและวันที่ ---
-            const pricePerDay = 5; 
-            
-            // ตั้งค่า "วันนี้" และเซ็ตเวลาให้เป็นเที่ยงคืนตรง เพื่อการคำนวณที่แม่นยำ
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            // กำหนดวันสูงสุดที่เลือกได้ (ล่วงหน้า 60 วัน)
-            const maxSelectableDate = new Date(today);
-            maxSelectableDate.setDate(today.getDate() + 60);
-
-            // ตัวแปรเก็บสถานะการเลือก
-            let selectedStartDate = new Date(today); // ค่าเริ่มต้นคือวันนี้
-            let harvestDate = null;
-            let currentSelectedPlant = null;
-            let selectedPlantDays = 0;
-
-            // เดือนที่กำลังแสดงในปฏิทิน
-            let mainDisplayedMonth = new Date(selectedStartDate.getFullYear(), selectedStartDate.getMonth(), 1);
-            let popupDisplayedMonth = new Date(selectedStartDate.getFullYear(), selectedStartDate.getMonth(), 1);
-
-            const plantGrowTime = {
-                "มะเขือเทศ": 75, "แครอท": 75, "ผักกาดหอม": 37, "พริกหวาน": 75,
-                "แตงกวา": 52, "ข้าวโพด": 75, "ทานตะวัน": 75, "มันฝรั่ง": 105,
-                "โหระพาไทย": 24, "สตรอว์เบอร์รี": 105, "บลูเบอร์รี่": 912, "ราสป์เบอร์รี่": 547
-            };
-
-            // --- 2. อ้างอิง Elements ---
-            // ปฏิทินหลัก
-            const mainMonthYear = document.getElementById('currentMonthYear');
-            const mainCalDays = document.getElementById('calendarDays');
-            // ปฏิทิน Popup
-            const popupMonthYear = document.getElementById('popupMonthYear');
-            const popupCalDays = document.getElementById('popupCalendarDays');
-            const calendarModal = document.getElementById('calendarModal');
-            
-            const dateRangeDisplay = document.getElementById('bookingDateRange');
-            const totalPriceDisplay = document.getElementById('bookingTotalPrice');
-
-            // --- 3. ฟังก์ชันสร้างปฏิทิน (ใช้ร่วมกันได้ทั้งหลักและ Popup) ---
-            function renderCalendar(container, monthYearDisplay, displayedMonth, isPopup = false) {
-                container.innerHTML = '';
-                const year = displayedMonth.getFullYear();
-                const month = displayedMonth.getMonth();
+            document.addEventListener('DOMContentLoaded', function() {
+                // --- 1. ข้อมูลตั้งต้นและวันที่ ---
+                const pricePerDay = 5; 
                 
-                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
+                // ตั้งค่า "วันนี้" และเซ็ตเวลาให้เป็นเที่ยงคืนตรง เพื่อการคำนวณที่แม่นยำ
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
 
-                const firstDayOfMonth = new Date(year, month, 1).getDay();
-                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                // กำหนดวันสูงสุดที่เลือกได้ (ล่วงหน้า 60 วัน)
+                const maxSelectableDate = new Date(today);
+                maxSelectableDate.setDate(today.getDate() + 60);
 
-                for (let i = 0; i < firstDayOfMonth; i++) {
-                    const emptySpan = document.createElement('span');
-                    container.appendChild(emptySpan);
-                }
+                // ตัวแปรเก็บสถานะการเลือก
+                let selectedStartDate = new Date(today); // ค่าเริ่มต้นคือวันนี้
+                let harvestDate = null;
+                let currentSelectedPlant = null;
+                let selectedPlantDays = 0;
 
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const daySpan = document.createElement('span');
-                    daySpan.textContent = day;
-                    const thisDate = new Date(year, month, day);
+                // เดือนที่กำลังแสดงในปฏิทิน
+                let mainDisplayedMonth = new Date(selectedStartDate.getFullYear(), selectedStartDate.getMonth(), 1);
+                let popupDisplayedMonth = new Date(selectedStartDate.getFullYear(), selectedStartDate.getMonth(), 1);
 
-                    // เช็คว่าอยู่นอกกรอบ 60 วัน หรือเป็นอดีตหรือไม่
-                    if (thisDate < today || thisDate > maxSelectableDate) {
-                        daySpan.className = 'inactive';
-                    } else {
-                        // ถ้าเป็นวันที่เลือกได้ ให้เพิ่ม Event คลิก
-                        daySpan.addEventListener('click', () => {
-                            selectedStartDate = new Date(thisDate);
-                            updateBookingSummary(); // คำนวณใหม่เมื่อเปลี่ยนวัน
-                            if (isPopup) calendarModal.style.display = 'none'; // ปิด Popup ถัาคลิกใน Popup
-                        });
+                const plantGrowTime = {
+                    "มะเขือเทศ": 75, "แครอท": 75, "ผักกาดหอม": 37, "พริกหวาน": 75,
+                    "แตงกวา": 52, "ข้าวโพด": 75, "ทานตะวัน": 75, "มันฝรั่ง": 105,
+                    "โหระพาไทย": 24, "สตรอว์เบอร์รี": 105, "บลูเบอร์รี่": 912, "ราสป์เบอร์รี่": 547
+                };
 
-                        // --- การไฮไลท์สีบนปฏิทิน ---
-                        if (harvestDate) {
-                            // ถ้าเลือกพืชแล้ว ไฮไลท์เป็นช่วง (Range)
-                            if (thisDate >= selectedStartDate && thisDate <= harvestDate) {
-                                daySpan.className = 'selected';
-                                if (thisDate.getTime() === selectedStartDate.getTime()) daySpan.style.borderRadius = '8px 0 0 8px';
-                                if (thisDate.getTime() === harvestDate.getTime()) daySpan.style.borderRadius = '0 8px 8px 0';
-                            }
+                // --- 2. อ้างอิง Elements ---
+                // ปฏิทินหลัก
+                const mainMonthYear = document.getElementById('currentMonthYear');
+                const mainCalDays = document.getElementById('calendarDays');
+                // ปฏิทิน Popup
+                const popupMonthYear = document.getElementById('popupMonthYear');
+                const popupCalDays = document.getElementById('popupCalendarDays');
+                const calendarModal = document.getElementById('calendarModal');
+                
+                const dateRangeDisplay = document.getElementById('bookingDateRange');
+                const totalPriceDisplay = document.getElementById('bookingTotalPrice');
+
+                // --- 3. ฟังก์ชันสร้างปฏิทิน (ใช้ร่วมกันได้ทั้งหลักและ Popup) ---
+                function renderCalendar(container, monthYearDisplay, displayedMonth, isPopup = false) {
+                    container.innerHTML = '';
+                    const year = displayedMonth.getFullYear();
+                    const month = displayedMonth.getMonth();
+                    
+                    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                    monthYearDisplay.textContent = `${monthNames[month]} ${year}`;
+
+                    const firstDayOfMonth = new Date(year, month, 1).getDay();
+                    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+                    for (let i = 0; i < firstDayOfMonth; i++) {
+                        const emptySpan = document.createElement('span');
+                        container.appendChild(emptySpan);
+                    }
+
+                    for (let day = 1; day <= daysInMonth; day++) {
+                        const daySpan = document.createElement('span');
+                        daySpan.textContent = day;
+                        const thisDate = new Date(year, month, day);
+
+                        // เช็คว่าอยู่นอกกรอบ 60 วัน หรือเป็นอดีตหรือไม่
+                        if (thisDate < today || thisDate > maxSelectableDate) {
+                            daySpan.className = 'inactive';
                         } else {
-                            // ถ้ายังไม่เลือกพืช ไฮไลท์แค่วันเริ่มต้นวันเดียว
-                            if (thisDate.getTime() === selectedStartDate.getTime()) {
-                                daySpan.className = 'selected';
-                                daySpan.style.borderRadius = '8px';
+                            // ถ้าเป็นวันที่เลือกได้ ให้เพิ่ม Event คลิก
+                            daySpan.addEventListener('click', () => {
+                                selectedStartDate = new Date(thisDate);
+                                updateBookingSummary(); // คำนวณใหม่เมื่อเปลี่ยนวัน
+                                if (isPopup) calendarModal.style.display = 'none'; // ปิด Popup ถัาคลิกใน Popup
+                            });
+
+                            // --- การไฮไลท์สีบนปฏิทิน ---
+                            if (harvestDate) {
+                                // ถ้าเลือกพืชแล้ว ไฮไลท์เป็นช่วง (Range)
+                                if (thisDate >= selectedStartDate && thisDate <= harvestDate) {
+                                    daySpan.className = 'selected';
+                                    if (thisDate.getTime() === selectedStartDate.getTime()) daySpan.style.borderRadius = '8px 0 0 8px';
+                                    if (thisDate.getTime() === harvestDate.getTime()) daySpan.style.borderRadius = '0 8px 8px 0';
+                                }
+                            } else {
+                                // ถ้ายังไม่เลือกพืช ไฮไลท์แค่วันเริ่มต้นวันเดียว
+                                if (thisDate.getTime() === selectedStartDate.getTime()) {
+                                    daySpan.className = 'selected';
+                                    daySpan.style.borderRadius = '8px';
+                                }
                             }
                         }
+                        container.appendChild(daySpan);
                     }
-                    container.appendChild(daySpan);
-                }
-            }
-
-            // --- 4. ฟังก์ชันอัปเดตสรุปราคาและรีเฟรชหน้าจอ (แก้ไขให้ไม่มี Duplicate Code แล้ว) ---
-            function updateBookingSummary(plantName = currentSelectedPlant) {
-                currentSelectedPlant = plantName;
-
-                // ดึง Hidden Inputs
-                const hiddenPlantInput = document.getElementById('hiddenPlant');
-                const hiddenStartDateInput = document.getElementById('hiddenStartDate');
-                const submitBtn = document.getElementById('submitBookingBtn');
-
-                // ฟังก์ชันจัดรูปแบบวันที่สำหรับแสดงผล
-                const formatDateForDisplay = (date) => {
-                    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-                };
-
-                // ฟังก์ชันแปลงวันที่สำหรับส่งให้ Django (YYYY-MM-DD)
-                const formatDateForDjango = (date) => {
-                    const year = date.getFullYear();
-                    const month = String(date.getMonth() + 1).padStart(2, '0');
-                    const day = String(date.getDate()).padStart(2, '0');
-                    return `${year}-${month}-${day}`;
-                };
-
-                // เช็คว่ามีการเลือกพืชหรือยัง
-                if (currentSelectedPlant && plantGrowTime[currentSelectedPlant]) {
-                    
-                    selectedPlantDays = plantGrowTime[currentSelectedPlant];
-                    
-                    // คำนวณวันเก็บเกี่ยว โดยอิงจาก selectedStartDate
-                    harvestDate = new Date(selectedStartDate);
-                    harvestDate.setDate(selectedStartDate.getDate() + selectedPlantDays);
-
-                    // คำนวณราคา
-                    const totalPrice = selectedPlantDays * pricePerDay;
-
-                    // แสดงผลบนหน้าจอ
-                    dateRangeDisplay.textContent = `Planting: ${formatDateForDisplay(selectedStartDate)} - ${formatDateForDisplay(harvestDate)}`;
-                    totalPriceDisplay.textContent = `฿${totalPrice.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-                    
-                    // อัปเดตค่าลงใน Form 
-                    if(hiddenPlantInput) hiddenPlantInput.value = currentSelectedPlant;
-                    if(hiddenStartDateInput) hiddenStartDateInput.value = formatDateForDjango(selectedStartDate);
-                    
-                    // เปิดใช้งานปุ่ม Book Plot ถ้ามีข้อมูลครบ
-                    if(submitBtn) submitBtn.disabled = false;
-
-                } else {
-                    // กรณีเพิ่งเลือกแค่วัน แต่ยังไม่เลือกพืช
-                    dateRangeDisplay.textContent = `Start Date: ${formatDateForDisplay(selectedStartDate)} (Please select a plant)`;
-                    totalPriceDisplay.textContent = `฿0.00`;
-                    
-                    // ล้างค่าและปิดปุ่มถ้ายังไม่ได้เลือกพืช
-                    if(hiddenPlantInput) hiddenPlantInput.value = '';
-                    if(hiddenStartDateInput) hiddenStartDateInput.value = formatDateForDjango(selectedStartDate);
-                    if(submitBtn) submitBtn.disabled = true; 
                 }
 
-                // รีเฟรชปฏิทินทั้ง 2 อัน เพื่ออัปเดตไฮไลท์สี
-                renderCalendar(mainCalDays, mainMonthYear, mainDisplayedMonth, false);
-                renderCalendar(popupCalDays, popupMonthYear, popupDisplayedMonth, true);
-            }
+                // --- 4. ฟังก์ชันอัปเดตสรุปราคาและรีเฟรชหน้าจอ (แก้ไขให้ไม่มี Duplicate Code แล้ว) ---
+                function updateBookingSummary(plantName = currentSelectedPlant) {
+                    currentSelectedPlant = plantName;
 
-            // --- 5. จัดการปุ่มเปลี่ยนเดือน (ปฏิทินหลัก) ---
-            document.getElementById('prevMonth').addEventListener('click', () => {
-                mainDisplayedMonth.setMonth(mainDisplayedMonth.getMonth() - 1);
-                renderCalendar(mainCalDays, mainMonthYear, mainDisplayedMonth, false);
-            });
-            document.getElementById('nextMonth').addEventListener('click', () => {
-                mainDisplayedMonth.setMonth(mainDisplayedMonth.getMonth() + 1);
-                renderCalendar(mainCalDays, mainMonthYear, mainDisplayedMonth, false);
-            });
+                    // ดึง Hidden Inputs
+                    const hiddenPlantInput = document.getElementById('hiddenPlant');
+                    const hiddenStartDateInput = document.getElementById('hiddenStartDate');
+                    const submitBtn = document.getElementById('submitBookingBtn');
 
-            // --- 6. จัดการปุ่มเปลี่ยนเดือน (ปฏิทิน Popup) ---
-            document.getElementById('popupPrevMonth').addEventListener('click', () => {
-                popupDisplayedMonth.setMonth(popupDisplayedMonth.getMonth() - 1);
-                renderCalendar(popupCalDays, popupMonthYear, popupDisplayedMonth, true);
-            });
-            document.getElementById('popupNextMonth').addEventListener('click', () => {
-                popupDisplayedMonth.setMonth(popupDisplayedMonth.getMonth() + 1);
-                renderCalendar(popupCalDays, popupMonthYear, popupDisplayedMonth, true);
-            });
+                    // ฟังก์ชันจัดรูปแบบวันที่สำหรับแสดงผล
+                    const formatDateForDisplay = (date) => {
+                        return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                    };
 
-            // --- 7. จัดการเปิด/ปิด Popup ปฏิทิน ---
-            document.getElementById('openCalendarModal').addEventListener('click', (e) => {
-                e.preventDefault();
-                // รีเซ็ตเดือนใน Popup ให้ตรงกับเดือนที่เลือกไว้ล่าสุด
-                popupDisplayedMonth = new Date(selectedStartDate.getFullYear(), selectedStartDate.getMonth(), 1);
-                renderCalendar(popupCalDays, popupMonthYear, popupDisplayedMonth, true);
-                calendarModal.style.display = 'flex';
-            });
-            
-            document.getElementById('closeCalendarModal').addEventListener('click', () => {
-                calendarModal.style.display = 'none';
-            });
+                    // ฟังก์ชันแปลงวันที่สำหรับส่งให้ Django (YYYY-MM-DD)
+                    const formatDateForDjango = (date) => {
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        return `${year}-${month}-${day}`;
+                    };
 
-            // --- 8. จับ Event เลือกพืช (ใช้กับ Card พืช) ---
-            function attachPlantSelection() {
-                // ให้ทำงานเมื่อคลิกกล่องพืช (ทั้งหน้าหลักและใน modal พืช)
-                document.body.addEventListener('click', function(e) {
-                    const card = e.target.closest('.plant-card');
-                    if (card) {
-                        const plantName = card.querySelector('span').textContent.trim();
-                        updateBookingSummary(plantName);
+                    // เช็คว่ามีการเลือกพืชหรือยัง
+                    if (currentSelectedPlant && plantGrowTime[currentSelectedPlant]) {
+                        
+                        selectedPlantDays = plantGrowTime[currentSelectedPlant];
+                        
+                        // คำนวณวันเก็บเกี่ยว โดยอิงจาก selectedStartDate
+                        harvestDate = new Date(selectedStartDate);
+                        harvestDate.setDate(selectedStartDate.getDate() + selectedPlantDays);
+
+                        // คำนวณราคา
+                        const totalPrice = selectedPlantDays * pricePerDay;
+
+                        // แสดงผลบนหน้าจอ
+                        dateRangeDisplay.textContent = `Planting: ${formatDateForDisplay(selectedStartDate)} - ${formatDateForDisplay(harvestDate)}`;
+                        totalPriceDisplay.textContent = `฿${totalPrice.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+                        
+                        // อัปเดตค่าลงใน Form 
+                        if(hiddenPlantInput) hiddenPlantInput.value = currentSelectedPlant;
+                        if(hiddenStartDateInput) hiddenStartDateInput.value = formatDateForDjango(selectedStartDate);
+                        
+                        // เปิดใช้งานปุ่ม Book Plot ถ้ามีข้อมูลครบ
+                        if(submitBtn) submitBtn.disabled = false;
+
+                    } else {
+                        // กรณีเพิ่งเลือกแค่วัน แต่ยังไม่เลือกพืช
+                        dateRangeDisplay.textContent = `Start Date: ${formatDateForDisplay(selectedStartDate)} (Please select a plant)`;
+                        totalPriceDisplay.textContent = `฿0.00`;
+                        
+                        // ล้างค่าและปิดปุ่มถ้ายังไม่ได้เลือกพืช
+                        if(hiddenPlantInput) hiddenPlantInput.value = '';
+                        if(hiddenStartDateInput) hiddenStartDateInput.value = formatDateForDjango(selectedStartDate);
+                        if(submitBtn) submitBtn.disabled = true; 
                     }
+
+                    // รีเฟรชปฏิทินทั้ง 2 อัน เพื่ออัปเดตไฮไลท์สี
+                    renderCalendar(mainCalDays, mainMonthYear, mainDisplayedMonth, false);
+                    renderCalendar(popupCalDays, popupMonthYear, popupDisplayedMonth, true);
+                }
+
+                // --- 5. จัดการปุ่มเปลี่ยนเดือน (ปฏิทินหลัก) ---
+                document.getElementById('prevMonth').addEventListener('click', () => {
+                    mainDisplayedMonth.setMonth(mainDisplayedMonth.getMonth() - 1);
+                    renderCalendar(mainCalDays, mainMonthYear, mainDisplayedMonth, false);
                 });
-            }
+                document.getElementById('nextMonth').addEventListener('click', () => {
+                    mainDisplayedMonth.setMonth(mainDisplayedMonth.getMonth() + 1);
+                    renderCalendar(mainCalDays, mainMonthYear, mainDisplayedMonth, false);
+                });
 
-            // โหลดครั้งแรก
-            updateBookingSummary(); // เรียกใช้อัปเดตสถานะเริ่มต้น
-            attachPlantSelection(); // ผูก event เลือกพืช
-        });
-    </script>
+                // --- 6. จัดการปุ่มเปลี่ยนเดือน (ปฏิทิน Popup) ---
+                document.getElementById('popupPrevMonth').addEventListener('click', () => {
+                    popupDisplayedMonth.setMonth(popupDisplayedMonth.getMonth() - 1);
+                    renderCalendar(popupCalDays, popupMonthYear, popupDisplayedMonth, true);
+                });
+                document.getElementById('popupNextMonth').addEventListener('click', () => {
+                    popupDisplayedMonth.setMonth(popupDisplayedMonth.getMonth() + 1);
+                    renderCalendar(popupCalDays, popupMonthYear, popupDisplayedMonth, true);
+                });
+
+                // --- 7. จัดการเปิด/ปิด Popup ปฏิทิน ---
+                document.getElementById('openCalendarModal').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // รีเซ็ตเดือนใน Popup ให้ตรงกับเดือนที่เลือกไว้ล่าสุด
+                    popupDisplayedMonth = new Date(selectedStartDate.getFullYear(), selectedStartDate.getMonth(), 1);
+                    renderCalendar(popupCalDays, popupMonthYear, popupDisplayedMonth, true);
+                    calendarModal.style.display = 'flex';
+                });
+                
+                document.getElementById('closeCalendarModal').addEventListener('click', () => {
+                    calendarModal.style.display = 'none';
+                });
+
+                // --- 8. จับ Event เลือกพืช (ใช้กับ Card พืช) ---
+                function attachPlantSelection() {
+                    // ให้ทำงานเมื่อคลิกกล่องพืช (ทั้งหน้าหลักและใน modal พืช)
+                    document.body.addEventListener('click', function(e) {
+                        const card = e.target.closest('.plant-card');
+                        if (card) {
+                            const plantName = card.querySelector('span').textContent.trim();
+                            updateBookingSummary(plantName);
+                        }
+                    });
+                }
+
+                // โหลดครั้งแรก
+                updateBookingSummary(); // เรียกใช้อัปเดตสถานะเริ่มต้น
+                attachPlantSelection(); // ผูก event เลือกพืช
+            });
+        </script>
 
 </body>
 </html>

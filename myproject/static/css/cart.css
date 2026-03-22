@@ -1,0 +1,653 @@
+/* --- cart.css --- */
+
+/* ส่วน Layout และ Container หลักของหน้าตะกร้า */
+.cart-page-container {
+    padding-top: 40px;
+    padding-bottom: 80px;
+}
+
+.cart-page-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-dark, #1f2937);
+    margin-bottom: 24px;
+}
+
+/* --- ตารางสินค้า (Cart Table) --- */
+.cart-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-bottom: 30px; 
+    background: #ffffff; 
+    border-radius: 12px; 
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* เพิ่มเงาให้กล่องดูลอยขึ้น */
+    border: 1px solid #f3f4f6;
+}
+
+.cart-table th, 
+.cart-table td { 
+    padding: 16px; 
+    text-align: left; 
+    border-bottom: 1px solid #f3f4f6; 
+}
+
+.cart-table th { 
+    background-color: #f9fafb; 
+    font-weight: 700; 
+    color: var(--text-gray, #4b5563);
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+/* ลบเส้นขอบบรรทัดสุดท้าย */
+.cart-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* คอลัมน์ที่แสดงชื่อและรูปสินค้า */
+.product-cell {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-weight: 600;
+    color: var(--text-dark, #1f2937);
+}
+
+.cart-img { 
+    width: 80px; 
+    height: 80px; 
+    object-fit: cover; 
+    border-radius: 8px; 
+    border: 1px solid #f3f4f6;
+}
+
+/* ข้อความแจ้งเตือนเมื่อตะกร้าว่าง */
+.empty-cart-msg {
+    text-align: center; 
+    padding: 40px;
+    color: var(--text-gray, #4b5563);
+    font-weight: 500;
+}
+
+/* ปุ่มลบสินค้า */
+.btn-remove { 
+    color: #ef4444; /* สีแดง */
+    cursor: pointer; 
+    background: none; 
+    border: none; 
+    font-weight: 700; 
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.btn-remove:hover {
+    color: #b91c1c; /* แดงเข้มขึ้นเมื่อชี้เมาส์ */
+}
+
+/* --- กล่องสรุปยอดรวม (Cart Summary) --- */
+.cart-summary { 
+    background: #ffffff; 
+    padding: 24px; 
+    border-radius: 12px; 
+    text-align: right;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f3f4f6;
+    max-width: 400px;
+    margin-left: auto; /* ดันกล่องไปชิดขวา */
+}
+
+.cart-total-text {
+    font-size: 18px;
+    color: var(--text-dark, #1f2937);
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-price { 
+    font-size: 28px; 
+    font-weight: 800; 
+    color: var(--primary-green, #13ec37); 
+}
+
+/* ปุ่มชำระเงิน */
+.btn-checkout { 
+    background: var(--primary-green, #13ec37); 
+    color: #ffffff; 
+    padding: 14px 0; 
+    width: 100%; /* ปุ่มกว้างเต็มกล่องสรุปยอด */
+    border: none; 
+    border-radius: 8px; 
+    font-size: 16px; 
+    font-weight: 700;
+    cursor: pointer; 
+    transition: all 0.2s ease; 
+}
+
+.btn-checkout:hover {
+    background: var(--dark-green, #10d131);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(19, 236, 55, 0.2);
+}
+
+/* --- Responsive ให้อ่านบนมือถือได้ --- */
+@media (max-width: 768px) {
+    .cart-table th:nth-child(2),
+    .cart-table th:nth-child(3),
+    .cart-table td:nth-child(2),
+    .cart-table td:nth-child(3) {
+        display: none; /* ซ่อนราคาและจำนวนบนมือถือเพื่อให้ตารางไม่ล้น */
+    }
+    
+    .cart-img {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .cart-summary {
+        max-width: 100%;
+    }
+}
+
+/* --- Layout ใหม่ แบ่ง 2 ฝั่ง --- */
+.cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px; /* ซ้ายยืดหยุ่น ขวากว้าง 380px */
+    gap: 30px;
+    align-items: start;
+}
+
+/* --- Section พื้นฐาน --- */
+.checkout-section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f3f4f6;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-dark, #1f2937);
+    margin: 0;
+    margin-bottom: 16px; /* สำหรับอันที่ไม่มี header */
+}
+
+.section-header .section-title { margin-bottom: 0; }
+
+.btn-text-edit {
+    background: none;
+    border: none;
+    color: var(--primary-green, #13ec37);
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* --- ที่อยู่จัดส่ง --- */
+.address-box {
+    padding: 16px;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+.address-name { color: var(--text-dark); margin-bottom: 4px; }
+.address-detail { color: var(--text-gray); font-size: 14px; }
+
+/* --- ปุ่มเพิ่ม/ลด จำนวน --- */
+.qty-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #f3f4f6;
+    border-radius: 50px;
+    padding: 4px;
+    width: max-content;
+    margin: 0 auto;
+}
+
+.qty-btn {
+    width: 28px;
+    height: 28px;
+    background: #ffffff;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--text-dark);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: 0.2s;
+}
+.qty-btn:hover { background: #e5e7eb; }
+
+.qty-input {
+    width: 30px;
+    text-align: center;
+    border: none;
+    background: transparent;
+    font-weight: 700;
+    font-size: 14px;
+    pointer-events: none; /* ไม่ให้พิมพ์เอง ป้องกันบั๊ก */
+}
+
+/* --- ช่องทางการชำระเงิน --- */
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.payment-option:hover { border-color: var(--primary-green); }
+
+.payment-option input[type="radio"] {
+    display: none; /* ซ่อน radio ของระบบ */
+}
+
+.payment-custom-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 50%;
+    margin-right: 16px;
+    position: relative;
+    transition: 0.2s;
+}
+
+.payment-option input[type="radio"]:checked + .payment-custom-radio {
+    border-color: var(--primary-green);
+}
+
+.payment-option input[type="radio"]:checked + .payment-custom-radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: var(--primary-green);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.payment-info { display: flex; flex-direction: column; }
+.payment-name { font-weight: 700; color: var(--text-dark); font-size: 15px; }
+.payment-desc { font-size: 13px; color: var(--text-gray); margin-top: 2px; }
+
+/* --- สรุปยอด (Cart Summary) --- */
+.cart-summary {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f3f4f6;
+    position: sticky; /* เลื่อนตามจอ */
+    top: 100px;
+}
+
+.summary-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.summary-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--text-gray);
+}
+
+.summary-row.discount { color: #059669; }
+
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px dashed #e5e7eb;
+    margin-bottom: 24px;
+    font-weight: 800;
+    font-size: 16px;
+    color: var(--text-dark);
+}
+
+.table-responsive { overflow-x: auto; }
+
+/* Responsive ให้อ่านบนมือถือได้ */
+@media (max-width: 992px) {
+    .cart-layout {
+        grid-template-columns: 1fr; /* บนมือถือให้เรียงบนลงล่าง */
+    }
+    .cart-summary { position: static; }
+}
+
+/* --- ตัวเลือกการจัดส่ง --- */
+.shipping-option {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid var(--primary-green); /* เป็นค่า Default เลยให้ขอบเขียว */
+    background-color: rgba(19, 236, 55, 0.05); /* พื้นหลังเขียวอ่อนๆ */
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.shipping-option input[type="radio"] { display: none; }
+
+.shipping-custom-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-green);
+    border-radius: 50%;
+    margin-right: 16px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.shipping-custom-radio::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background: var(--primary-green);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.shipping-info { flex: 1; display: flex; flex-direction: column; }
+.shipping-name { font-weight: 700; color: var(--text-dark); font-size: 15px; }
+.shipping-desc { font-size: 13px; color: var(--text-gray); margin-top: 4px; line-height: 1.5; }
+.shipping-price { font-weight: 800; color: var(--text-dark); font-size: 16px; margin-left: 16px; }
+
+/* --- ฟอร์มข้อมูลเพิ่มเติม & ส่วนลด --- */
+.extra-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.extra-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--text-dark);
+    transition: all 0.2s ease;
+    background-color: #f9fafb;
+}
+.form-input:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(19, 236, 55, 0.1);
+}
+
+/* โค้ดส่วนลด */
+.discount-input-group {
+    display: flex;
+    gap: 10px;
+}
+.btn-apply-code {
+    background: var(--text-dark);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+.btn-apply-code:hover { background: #374151; }
+
+/* เช็คบ็อกซ์ขอใบกำกับภาษี */
+.custom-checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+.custom-checkbox-label input[type="checkbox"] { display: none; }
+.custom-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 6px;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+.custom-checkbox-label input[type="checkbox"]:checked + .custom-checkbox {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+.custom-checkbox-label input[type="checkbox"]:checked + .custom-checkbox::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ฟอร์มใบกำกับภาษี (ซ่อนไว้ก่อน) */
+.tax-invoice-form {
+    display: none; /* ซ่อนตอนโหลดเว็บ */
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 16px;
+    background: #f9fafb;
+    border: 1px dashed #d1d5db;
+    border-radius: 8px;
+    animation: fadeInDown 0.3s ease;
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Modal Overlay (ปรับให้มี Blur หรูๆ) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(17, 24, 39, 0.4); /* สีพื้นหลังเข้มขึ้นนิดนึง */
+    backdrop-filter: blur(4px); /* เอฟเฟกต์กระจกเบลอ */
+    -webkit-backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+    opacity: 0; visibility: hidden;
+    transition: all 0.3s ease;
+}
+.modal-overlay.show { opacity: 1; visibility: visible; }
+
+/* --- Modal Content --- */
+.modal-content.address-modal {
+    background: #ffffff;
+    width: 90%; max-width: 550px;
+    border-radius: 20px; /* โค้งมนขึ้น */
+    padding: 24px;
+    transform: translateY(20px) scale(0.98); /* เพิ่มสเกลให้เด้งมีมิติ */
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); /* เงาฟุ้งๆ ดูลอยขึ้น */
+    border: 1px solid #f3f4f6;
+}
+.modal-overlay.show .modal-content { transform: translateY(0) scale(1); }
+
+/* --- Modal Header (ส่วนหัวและปุ่มปิด) --- */
+.modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f3f4f6;
+}
+.modal-header h3 {
+    margin: 0; font-size: 20px; font-weight: 800; color: var(--text-dark);
+}
+.close-modal-btn {
+    background: #f3f4f6; border: none;
+    width: 36px; height: 36px; border-radius: 50%;
+    font-size: 20px; color: #6b7280;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: 0.2s;
+}
+.close-modal-btn:hover { background: #fee2e2; color: #ef4444; }
+
+/* --- Address List (รายการที่อยู่) --- */
+.address-list-container {
+    display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px;
+}
+.address-card { cursor: pointer; display: block; }
+.address-card input[type="radio"] { display: none; }
+
+.address-card-inner {
+    padding: 20px;
+    border: 2px solid #f3f4f6; /* ขอบหนาขึ้นนิดนึงตอนปกติ */
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    background: #ffffff;
+}
+
+/* เอฟเฟกต์ตอนชี้เมาส์ */
+.address-card:hover .address-card-inner {
+    border-color: #d1d5db;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* เอฟเฟกต์ตอนถูกเลือก (Checked) */
+.address-card input[type="radio"]:checked + .address-card-inner {
+    border-color: var(--primary-green);
+    background-color: rgba(19, 236, 55, 0.03); /* พื้นหลังเขียวอ่อนมากๆ */
+    box-shadow: 0 8px 20px rgba(19, 236, 55, 0.1);
+}
+
+/* เพิ่มเครื่องหมายถูก (✓) มุมขวาบนตอนเลือก */
+.address-card input[type="radio"]:checked + .address-card-inner::before {
+    content: '✓';
+    position: absolute;
+    top: 16px; right: 16px;
+    background: var(--primary-green);
+    color: white;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 900;
+}
+
+/* --- ปรับแต่ง Header ของการ์ดที่อยู่ ให้ปุ่มอยู่ขวาสุด --- */
+.address-header-row { 
+    display: flex; 
+    justify-content: space-between; /* กระจายซ้าย-ขวา */
+    align-items: center; 
+    margin-bottom: 10px; 
+}
+.address-tag-group { 
+    display: flex; 
+    gap: 8px; 
+    align-items: center; 
+}
+
+/* --- ปุ่มลบที่อยู่ --- */
+.btn-delete-address {
+    background: transparent;
+    border: none;
+    color: #ef4444; /* สีแดง */
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    z-index: 10; /* ให้อยู่บนสุดเพื่อรับการคลิก */
+    position: relative;
+}
+.btn-delete-address:hover {
+    background: #fee2e2; /* พื้นหลังแดงอ่อนๆ ตอนชี้ */
+}
+
+.address-tag { 
+    background: #f3f4f6; color: #4b5563; 
+    padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; 
+}
+.default-badge { color: var(--primary-green); border: 1px solid var(--primary-green); padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+.address-card .address-name { margin-bottom: 6px; color: var(--text-dark); font-size: 15px; }
+.address-card .address-detail { font-size: 14px; color: var(--text-gray); line-height: 1.6; padding-right: 30px; /* เว้นที่ให้เครื่องหมายถูก */ }
+
+/* --- ปุ่มกดต่างๆ --- */
+.w-100 { width: 100%; }
+
+/* ปุ่มเพิ่มที่อยู่ใหม่ (Dashed) */
+.btn-outline-dashed {
+    width: 100%; padding: 16px;
+    background: #fafafa; border: 2px dashed #d1d5db;
+    color: #6b7280; border-radius: 16px; font-weight: 700; font-size: 15px;
+    cursor: pointer; transition: all 0.2s ease;
+    display: flex; justify-content: center; align-items: center; gap: 8px;
+}
+.btn-outline-dashed:hover { 
+    border-color: var(--primary-green); color: var(--primary-green); 
+    background: rgba(19, 236, 55, 0.05); transform: translateY(-2px); 
+}
+
+/* ปุ่มย้อนกลับ */
+.btn-outline {
+    background: transparent; border: 2px solid #e5e7eb; color: #4b5563; 
+    padding: 14px 0; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.2s;
+}
+.btn-outline:hover { background: #f9fafb; border-color: #d1d5db; color: var(--text-dark); }
+
+/* --- ฟอร์มกรอกที่อยู่ --- */
+.form-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full-width { grid-column: 1 / -1; }
+.text-mute { font-weight: normal; color: #9ca3af; font-size: 13px; }
