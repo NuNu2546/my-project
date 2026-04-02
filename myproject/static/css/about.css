@@ -1,34 +1,32 @@
-
 /* --- Common Utility --- */
 .container {
-  /* แก้ไข: ปรับให้เท่ากับ products-wrapper ของ home.css */
   width: 100%;
   max-width: 1440px; 
   margin: 0 auto;
-  padding: 0 50px; /* ใช้ Padding ข้างในแทน Margin เพื่อไม่ให้โครงสร้างแตก */
+  padding: 0 50px; 
   box-sizing: border-box;
 }
 
 .text-green {
-  color: #2c5f2d; /* หรือจะใช้ var(--primary-green) ตาม home ก็ได้ แต่สีนี้อ่านง่ายกว่าสำหรับตัวหนังสือ */
+  color: var(--primary-green); /* เปลี่ยนเป็นสีหลักเพื่อให้เด่นชัดในทั้งสองโหมด */
 }
 
 .section-title {
-  font-family: var(--font-main); /* ใช้ font เดียวกับ home */
+  font-family: var(--font-main); 
   font-size: 36px;
-  font-weight: 800; /* ตรงกับ hero-title ของ home */
+  font-weight: 800; 
   margin-bottom: 20px;
   text-align: center;
-  color: #111827;
+  color: var(--text-main); /* สลับขาว-ดำ */
 }
 
 .section-desc {
   font-family: var(--font-main);
-  font-size: 16px; /* ตรงกับ btn-text ของ home */
-  color: var(--text-gray);
+  font-size: 16px; 
+  color: var(--text-gray); /* สลับเทา */
   text-align: center;
   max-width: 700px;
-  margin: 0 auto 60px auto; /* เพิ่มระยะห่างด้านล่าง */
+  margin: 0 auto 60px auto; 
   line-height: 1.6;
 }
 
@@ -36,25 +34,24 @@
 .hero-section {
   margin: 93px 112px 0 112px;
   height: 480px;
-  position: relative; /* สำคัญ: เพื่อให้รูปภาพและ overlay อิงตามพื้นที่นี้ */
+  position: relative; 
   border-radius: 12px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1;
-  background-color: #000; /* กันเหนียวถ้ารูปโหลดช้า */
+  background-color: var(--bg-surface); /* กันรูปโหลดช้า */
 }
 
-/* ปรับแต่งแท็ก img ที่เราเพิ่มเข้าไป */
 .hero-bg-img {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* ให้รูปยืดเต็มพื้นที่เหมือน background-size: cover */
-  z-index: -1; /* ส่งรูปไปอยู่หลังข้อความ */
+  object-fit: cover; 
+  z-index: -1; 
 }
 
 /* Overlay ไล่เฉดสีดำเพื่อให้ข้อความอ่านง่ายขึ้น */
@@ -71,9 +68,9 @@
 
 .hero-content {
   position: relative;
-  z-index: 2; /* ให้ข้อความอยู่หน้าสุด */
+  z-index: 2; 
   text-align: center;
-  color: #fff;
+  color: #fff; /* บังคับขาวเพราะมี Overlay ดำทับรูปอยู่แล้ว */
   padding: 20px;
   width: 100%;
   max-width: 1020px;
@@ -85,7 +82,7 @@
   color: #ffffff;
   font-size: 60px;
   letter-spacing: -2px;
-  line-height: 1.1; /* ปรับเพิ่มเล็กน้อยเผื่อภาษาไทยสระซ้อน */
+  line-height: 1.1; 
   margin-bottom: 24px;
 }
 
@@ -101,16 +98,15 @@
 
 /* --- 2. Our Story Section --- */
 .story-section {
-  /* ปรับระยะห่างให้ใกล้เคียงกับ products-section (margin-top: 129px) */
   margin-top: 100px; 
   padding-bottom: 80px;
-  background-color: var(--light-bg); /* พื้นหลังเดียวกับ body home */
+  background-color: var(--bg-body); /* สลับสีตามโหมด */
 }
 
 .story-content {
   display: flex;
   flex-wrap: wrap;
-  gap: 60px; /* เพิ่มช่องว่างระหว่างรูปกับ text */
+  gap: 60px; 
   align-items: center;
   margin-top: 40px;
 }
@@ -118,22 +114,23 @@
 .story-image {
   flex: 1;
   min-width: 300px;
-  height: 450px; /* ความสูงใกล้เคียง product card 2 แถว */
+  height: 450px; 
 }
 
 .story-image img {
   width: 100%;
   height: 100%;
-  border-radius: 12px; /* ใช้ radius เดียวกับ home */
+  border-radius: 12px; 
   object-fit: cover;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color); /* เพิ่มขอบบางๆ กันจม */
 }
 
 .story-text {
   flex: 1;
   min-width: 300px;
   font-family: var(--font-main);
-  color: var(--text-gray); /* สีเดียวกับ home description */
+  color: var(--text-gray); 
   font-size: 16px;
   line-height: 1.8;
 }
@@ -141,13 +138,13 @@
 .value-box {
   margin-top: 30px;
   padding-left: 20px;
-  border-left: 4px solid var(--primary-green); /* ใช้สีเขียวหลัก */
+  border-left: 4px solid var(--primary-green); 
 }
 
 .value-box h3 {
   font-family: var(--font-main);
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--text-main); /* สลับสีขาว-ดำ */
   font-size: 18px;
   margin-bottom: 8px;
   margin-top: 0;
@@ -156,32 +153,30 @@
 /* --- 3. Team Section --- */
 .team-section {
   padding: 100px 0;
-  background-color: #ffffff; /* ตัดสลับกับพื้นหลัง light-bg */
+  background-color: var(--bg-surface); /* ดึงสีพื้นหลังกล่อง (เช่น เทาเข้มในโหมดมืด) */
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* --- Team Grid ปรับปรุงใหม่ --- */
 .team-grid {
-  display: flex;             /* เปลี่ยนจาก Grid เป็น Flex */
-  flex-wrap: wrap;           /* อนุญาตให้ปัดตกบรรทัดใหม่ */
-  justify-content: center;   /* จัดกึ่งกลางเสมอ (ทำให้แถวล่าง 2 คนอยู่กลาง) */
-  gap: 30px;                 /* ช่องว่างระหว่างการ์ด */
+  display: flex;             
+  flex-wrap: wrap;           
+  justify-content: center;   
+  gap: 30px;                 
   margin-top: 50px;
-  max-width: 1200px;         /* จำกัดความกว้างรวมไม่ให้กระจายเกินไป */
-  margin-left: auto;         /* จัดกล่องรวมให้อยู่กลางหน้าจอ */
+  max-width: 1200px;         
+  margin-left: auto;         
   margin-right: auto;
 }
 
 .team-card {
-  /* ปรับขนาดการ์ด */
-  flex: 0 1 350px;          /* 0=ไม่ขยาย, 1=หดได้, 350px=ความกว้างฐาน */
-  background: var(--light-bg);
+  flex: 0 1 350px;           
+  background-color: var(--bg-body); /* สลับกับ section เพื่อให้กล่องนูนขึ้น */
   border-radius: 12px;
   padding: 40px 30px;
   text-align: center;
-  border: 1px solid rgba(19, 236, 55, 0.1);
-  transition: var(--transition-speed);
-  
-  /* ป้องกันการ์ดเล็กเกินไปในมือถือ */
+  border: 1px solid var(--border-color);
+  transition: var(--transition-speed, 0.3s);
   min-width: 280px; 
 }
 
@@ -191,40 +186,20 @@
   border-color: var(--primary-green);
 }
 
-/* ส่วน Avatar และ Text ใช้เหมือนเดิม */
 .avatar {
   width: 120px;
-  height: 1200px;
+  height: 120px; /* แก้ไข: ก่อนหน้านี้คุณพิมพ์ 1200px ทำให้รูปยืด ผมแก้ให้เป็น 120px ครับ */
   border-radius: 50%;
   margin: 0 auto 24px auto;
-  border: 4px solid #fff;
+  border: 4px solid var(--bg-surface); /* ให้ขอบสลับสีตามหน้าเว็บ */
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   background-size: cover;
   background-position: center;
-  background-color: #ddd;
-}
-/* ... (CSS ส่วน member-name, role, quote ใช้ของเดิมได้เลยครับ) ... */
-
-.team-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-  border-color: var(--primary-green);
-}
-
-.avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin: 0 auto 24px auto;
-  border: 4px solid #fff;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  background-size: cover;
-  background-position: center;
-  background-color: #ddd;
+  background-color: var(--border-color);
 }
 
 .member-name {
-  color: var(--text-dark);
+  color: var(--text-main); /* สลับสีขาว-ดำ */
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 5px;
@@ -232,7 +207,7 @@
 }
 
 .member-role {
-  color: var(--primary-green); /* ใช้สีเขียวหลัก */
+  color: var(--primary-green); 
   font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
@@ -250,23 +225,22 @@
 
 /* --- 4. CTA Section --- */
 .cta-section {
-  /* ใช้ Margin และ Border-radius เหมือน Hero หรือ Rental Section ของ Home */
-  margin: 100px 112px; /* ใช้ Margin ด้านข้างเท่า Hero */
+  margin: 100px 112px; 
   padding: 80px 20px;
-  background-color: #333; /* พื้นหลังเข้มเหมือน Rental section */
+  background-color: var(--bg-surface); /* เปลี่ยนพื้นหลังเป็นสีระบบ */
+  border: 1px solid var(--border-color);
   border-radius: 12px;
   text-align: center;
-  color: white;
   position: relative;
   overflow: hidden;
 }
 
-/* ใส่ Overlay ให้เหมือน Rental Section */
+/* ใช้ Overlay บางๆ พอให้ดูมีมิติแทนที่การถมดำมืด */
 .cta-section::before {
     content: "";
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%);
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
     z-index: 0;
 }
 
@@ -275,13 +249,9 @@
     z-index: 2;
 }
 
-.cta-section .section-title {
-    color: #ffffff;
-}
-
-.cta-section .section-desc {
-    color: rgba(255, 255, 255, 0.9);
-}
+/* ตัวหนังสือสลับสีได้ตามปกติ */
+.cta-section .section-title { color: var(--text-main); }
+.cta-section .section-desc { color: var(--text-gray); }
 
 .cta-buttons {
   margin-top: 40px;
@@ -291,7 +261,6 @@
   flex-wrap: wrap;
 }
 
-/* ปุ่มใช้สไตล์เดียวกับ cta-button-primary/secondary ของ home */
 .btn {
   height: 48px;
   padding: 0 32px;
@@ -300,7 +269,7 @@
   font-size: 16px;
   cursor: pointer;
   border: none;
-  transition: var(--transition-speed);
+  transition: var(--transition-speed, 0.3s);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -308,44 +277,43 @@
 }
 
 .btn-primary {
-  background-color: var(--primary-green);
-  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+  color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(19, 236, 55, 0.2);
 }
 
 .btn-primary:hover {
-  background-color: var(--dark-green);
   transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(19, 236, 55, 0.3);
 }
 
 .btn-secondary {
-  background-color: #ffffff;
-  color: var(--text-dark);
+  background-color: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover {
-  background-color: #f0f0f0;
+  background-color: var(--bg-body);
+  border-color: var(--primary-green);
+  color: var(--primary-green);
   transform: scale(1.05);
 }
 
-/* Responsive Fix: สำหรับหน้าจอเล็กกว่า 1200px ให้ลด Margin ลง */
 @media (max-width: 1200px) {
     .hero-section,
-    .cta-section {
-        margin: 40px 20px 0 20px; /* ลด Margin ด้านข้างเมื่อจอเล็ก */
-    }
+    .cta-section { margin: 40px 20px 0 20px; }
 }
 
 /* --- Team Modal (Pop-up) Styles --- */
 .team-modal {
-    display: none; /* ซ่อนไว้เป็นค่าเริ่มต้น */
+    display: none; 
     position: fixed;
-    z-index: 9999; /* ให้อยู่หน้าสุด */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* พื้นหลังโปร่งแสงสีดำ */
+    z-index: 9999; 
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* เข้มขึ้นเพื่อให้ Modal ลอยเด่น */
     backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -358,35 +326,44 @@
 }
 
 .team-modal-content {
-    background-color: #ffffff;
+    background-color: var(--bg-surface); /* สลับสี Popup ขาว-เทาดำ */
     width: 90%;
-    max-width: 900px; /* ขยายความกว้างให้พอสำหรับ 2 คอลัมน์ */
+    max-width: 900px; 
     border-radius: 16px;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-    transform: translateY(-20px);
-    transition: transform 0.3s ease;
+    transform: translateY(20px) scale(0.98);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border: 1px solid var(--border-color);
 }
 
 .team-modal.show .team-modal-content {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
 .close-modal {
     position: absolute;
     top: 15px;
     right: 20px;
-    color: #999;
+    color: var(--text-gray);
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
     z-index: 10;
     transition: color 0.2s;
+    background: var(--bg-body); /* เพิ่มพื้นหลังปุ่มปิดให้มองเห็นชัดขึ้น */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
 .close-modal:hover {
-    color: var(--primary-green, #13ec37);
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
 }
 
 .modal-body {
@@ -399,7 +376,8 @@
 .modal-left {
     flex: 1;
     min-width: 300px;
-    background-color: #f3f4f6;
+    background-color: var(--bg-body); /* พื้นหลังเผื่อรูปโปร่งใส */
+    border-right: 1px solid var(--border-color);
 }
 
 .modal-image-preview {
@@ -422,7 +400,7 @@
 .modal-name {
     margin: 0 0 5px 0;
     font-size: 28px;
-    color: var(--text-dark, #111827);
+    color: var(--text-main); /* สลับสีขาว-ดำ */
     font-family: var(--font-main);
 }
 
@@ -430,12 +408,14 @@
     margin: 0 0 20px 0;
     font-size: 16px;
     letter-spacing: 1px;
+    color: var(--primary-green);
+    font-weight: 700;
 }
 
 .modal-divider {
     border: 0;
     height: 1px;
-    background: rgba(19, 236, 55, 0.2);
+    background: var(--border-color); /* เส้นแบ่งสลับสีได้ */
     margin-bottom: 20px;
 }
 
@@ -445,29 +425,25 @@
 
 .modal-detail-group h5 {
     font-size: 14px;
-    color: #6b7280;
+    color: var(--text-gray);
     margin: 0 0 5px 0;
     text-transform: uppercase;
     font-family: var(--font-main);
+    font-weight: 700;
 }
 
 .modal-detail-group p {
     font-size: 15px;
     line-height: 1.6;
-    color: #374151;
+    color: var(--text-main); /* สลับสีขาว-ดำ */
     margin: 0;
     font-family: var(--font-main);
 }
 
 /* Responsive สำหรับหน้าจอเล็ก */
 @media (max-width: 768px) {
-    .modal-body {
-        flex-direction: column;
-    }
-    .modal-image-preview {
-        height: 250px;
-    }
-    .modal-right {
-        padding: 25px;
-    }
+    .modal-body { flex-direction: column; }
+    .modal-image-preview { height: 250px; }
+    .modal-right { padding: 25px; }
+    .modal-left { border-right: none; border-bottom: 1px solid var(--border-color); }
 }

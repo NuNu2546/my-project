@@ -1,14 +1,35 @@
 /* globals.css */
+/* --- ทำให้การเปลี่ยนสีลื่นไหล (Smooth Transition) --- */
+*, body, .header, .footer, .user-card, .history-panel, .support-card, .product-card, 
+.sidebar-menu, .info-box, .recent-item, .nav-link, h1, h2, h3, p, div {
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
+}
 
-/* --- 1. CSS Variables (คลังเก็บค่าสีและฟอนต์ - ห้ามลบ!) --- */
+/* =========================================
+   1. CSS Variables (คลังเก็บคู่สีแบบสลับโหมดได้) 
+   ========================================= */
 :root {
+  /* สีหลัก (ไม่เปลี่ยนตามโหมด) */
   --primary-green: #13ec37;
   --dark-green: #10d131;
-  --light-bg: #f6f8f6;
-  --text-dark: #1f2937;
-  --text-gray: #4b5563;
   --font-main: "Manrope", sans-serif;
   --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+  /* ☀️ สีสำหรับ Light Mode */
+  --bg-body: #f6f8f6;         /* สีพื้นหลังเว็บ */
+  --bg-surface: #ffffff;      /* สีพื้นหลังกล่อง / การ์ดต่างๆ */
+  --text-main: #1f2937;       /* สีตัวอักษรหลัก (ดำ) */
+  --text-gray: #4b5563;       /* สีตัวอักษรรอง (เทาเข้ม) */
+  --border-color: rgba(74, 124, 89, 0.1); /* สีเส้นขอบ */
+}
+
+body.dark-mode {
+  /* 🌙 สีสำหรับ Dark Mode */
+  --bg-body: #121212;         /* สีพื้นหลังเว็บโหมดมืด */
+  --bg-surface: #1e1e1e;      /* สีพื้นหลังกล่อง (เทาเข้ม/ดำ) */
+  --text-main: #f9fafb;       /* สีตัวอักษรหลัก (ขาว) */
+  --text-gray: #9ca3af;       /* สีตัวอักษรรอง (เทาอ่อน) */
+  --border-color: #333333;    /* สีเส้นขอบโหมดมืด */
 }
 
 /* --- 2. Global Reset --- */
@@ -16,555 +37,131 @@
 
 body {
     font-family: var(--font-main);
-    background-color: var(--light-bg); /* ใช้สีจากคลัง */
-    color: var(--text-main);
+    background-color: var(--bg-body) !important; /* ดึงจากตัวแปร */
+    color: var(--text-main) !important;
     line-height: 1.5;
 }
 
-/* ... (โค้ด Footer และอื่นๆ ที่คุณมีอยู่แล้ว ต่อจากตรงนี้ได้เลย) ... */
+/* =========================================
+   จัดการสีของ "กล่อง" ทุกชนิดให้สลับสีอัตโนมัติ
+   ========================================= */
+/* รวมคลาสที่เป็น "กล่อง/การ์ด/Sidebar" ทั้งหมดไว้ที่นี่ */
+.header, .footer, .user-card, .history-panel, .support-card, .product-card, 
+.sidebar-menu, .info-box, .recent-item, .login-card, .chat-popup {
+    background-color: var(--bg-surface) !important;
+    border-color: var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+/* บังคับตัวหนังสือพื้นฐานให้เปลี่ยนสีตามธีม */
+h1, h2, h3, h4, h5, p, .nav-link, .product-name {
+    color: var(--text-main) !important;
+}
+
+/* ตัวหนังสือสีเทา (เช่น รายละเอียดสินค้า, สโลแกน) */
+.text-gray, .slogan, .newsletter-text, .footer-list a, .product-description {
+    color: var(--text-gray) !important;
+}
+
+/* =========================================
+   (โค้ดส่วนอื่นๆ ของคุณ เช่น Footer, Chat, Dropdown วางต่อด้านล่างนี้ได้เลย โดยไม่ต้องแก้สีอะไรแล้ว)
+   ========================================= */
 
 /* --- 8. Footer (Redesigned) --- */
 .footer {
-  background-color: var(--light-bg);
-  border-top: 1px solid rgba(74, 124, 89, 0.1);
+  border-top: 1px solid var(--border-color);
   padding-top: 60px;
   padding-bottom: 20px;
-  font-family: var(--font-main);
-  color: var(--text-main);
 }
-
-.footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-.footer-content {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.2fr; /* แบ่งคอลัมน์แบบ Grid */
-  gap: 40px;
-  margin-bottom: 50px;
-}
-
-.footer-logo img {
-  height: 40px;
-  width: auto;
-  margin-bottom: 16px;
-}
-
-.slogan {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--text-gray);
-  max-width: 300px;
-}
-
-.footer-title {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 20px;
-  color: var(--primary-green);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.footer-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-list li {
-  margin-bottom: 12px;
-}
-
-.footer-list a {
-  text-decoration: none;
-  color: var(--text-gray);
-  font-size: 14px;
-  transition: all 0.2s ease;
-  display: inline-block;
-}
-
-.footer-list a:hover {
-  color: var(--primary-green);
-  transform: translateX(5px); /* ขยับขวาเล็กน้อยเมื่อชี้ */
-}
-
-.newsletter-text {
-  font-size: 14px;
-  color: var(--text-gray);
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-
-.footer-bottom {
-  border-top: 1px solid rgba(0,0,0,0.05);
-  padding-top: 24px;
-  text-align: center;
-}
-
-.footer-bottom p {
-  font-size: 13px;
-  color: #9ca3af;
-}
+.footer-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.footer-content { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 40px; margin-bottom: 50px; }
+.footer-logo img { height: 40px; width: auto; margin-bottom: 16px; }
+.slogan { font-size: 14px; line-height: 1.6; max-width: 300px; }
+.footer-title { font-size: 16px; font-weight: 700; margin-bottom: 20px; color: var(--primary-green); text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-list { list-style: none; padding: 0; margin: 0; }
+.footer-list li { margin-bottom: 12px; }
+.footer-list a { text-decoration: none; font-size: 14px; transition: all 0.2s ease; display: inline-block; }
+.footer-list a:hover { color: var(--primary-green) !important; transform: translateX(5px); }
+.newsletter-text { font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+.footer-bottom { border-top: 1px solid var(--border-color); padding-top: 24px; text-align: center; }
+.footer-bottom p { font-size: 13px; color: var(--text-gray); }
 
 /* Responsive Footer */
-@media screen and (max-width: 900px) {
-  .footer-content {
-    grid-template-columns: 1fr 1fr; /* แท็บเล็ตเหลือ 2 คอลัมน์ */
-  }
-}
-@media screen and (max-width: 600px) {
-  .footer-content {
-    grid-template-columns: 1fr; /* มือถือเหลือ 1 คอลัมน์ */
-    text-align: center;
-  }
-  .footer-brand, .slogan { margin: 0 auto; }
-}
+@media screen and (max-width: 900px) { .footer-content { grid-template-columns: 1fr 1fr; } }
+@media screen and (max-width: 600px) { .footer-content { grid-template-columns: 1fr; text-align: center; } .footer-brand, .slogan { margin: 0 auto; } }
 
 /* --- 9. Chat Widget (Modern Style) --- */
-.chat-button {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(74, 124, 89, 0.4);
-  z-index: 1002;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  animation: floatChat 3s ease-in-out infinite; /* ปุ่มลอยเบาๆ */
-}
+.chat-button { position: fixed; bottom: 30px; right: 30px; width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary-green), var(--dark-green)); border-radius: 50%; border: none; cursor: pointer; box-shadow: 0 8px 20px rgba(74, 124, 89, 0.4); z-index: 1002; display: flex; align-items: center; justify-content: center; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); animation: floatChat 3s ease-in-out infinite; }
+@keyframes floatChat { 0% { transform: translateY(0); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0); } }
+.chat-button:hover { transform: scale(1.1) translateY(-5px); }
+.chat-button img { width: 32px; height: 32px; filter: brightness(0) invert(1); }
 
-@keyframes floatChat {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-  100% { transform: translateY(0); }
-}
-
-.chat-button:hover {
-  transform: scale(1.1) translateY(-5px);
-}
-
-.chat-button img {
-  width: 32px;
-  height: 32px;
-  filter: brightness(0) invert(1);
-}
-
-/* Popup Box */
-.chat-popup {
-  position: fixed;
-  bottom: 110px;
-  right: 30px;
-  width: 360px;
-  height: 500px;
-  background-color: var(--white);
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  z-index: 1001;
-  overflow: hidden;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(20px) scale(0.95);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid #f0f0f0;
-}
-
-.chat-popup.show {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0) scale(1);
-}
-
-.chat-header {
-  background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
-  color: white;
-  padding: 18px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.admin-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.admin-avatar {
-  width: 40px;
-  height: 40px;
-  background-color: white;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.3);
-  /* ใส่รูป admin ตรงนี้ */
-  background-image: url('/frontend/assets/images/logo.png'); /* ตัวอย่าง */
-  background-size: cover;
-}
-
+.chat-popup { position: fixed; bottom: 110px; right: 30px; width: 360px; height: 500px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.15); display: flex; flex-direction: column; z-index: 1001; overflow: hidden; opacity: 0; visibility: hidden; transform: translateY(20px) scale(0.95); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); border: 1px solid var(--border-color); }
+.chat-popup.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+.chat-header { background: linear-gradient(135deg, var(--primary-green), var(--dark-green)); color: white; padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; }
+.admin-info { display: flex; align-items: center; gap: 12px; }
+.admin-avatar { width: 40px; height: 40px; background-color: white; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); background-image: url('/frontend/assets/images/logo.png'); background-size: cover; }
 .admin-name { font-weight: 700; font-size: 15px; margin: 0; }
 .admin-status { font-size: 12px; opacity: 0.9; margin: 0; display: flex; align-items: center; gap: 4px; }
-.admin-status::before {
-  content: ''; width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: block;
-}
+.admin-status::before { content: ''; width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: block; }
 
-.chat-messages {
-  flex: 1;
-  padding: 20px;
-  overflow-y: auto;
-  background-color: #f8fafc;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+.chat-messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background-color: transparent; }
+.message { padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.5; max-width: 85%; position: relative; }
+.user-msg { background: linear-gradient(135deg, var(--primary-green), var(--dark-green)); color: white; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 6px rgba(74, 124, 89, 0.2); text-align: right; }
+.admin-msg { background-color: var(--bg-surface); color: var(--text-main); align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid var(--border-color); }
 
-/* Chat Bubbles */
-.message {
-  padding: 12px 16px;
-  border-radius: 18px;
-  font-size: 14px;
-  line-height: 1.5;
-  max-width: 85%;
-  position: relative;
-}
+.chat-footer { padding: 15px 20px; border-top: 1px solid var(--border-color); display: flex; align-items: center; gap: 12px; background-color: transparent; }
+.chat-footer input { flex: 1; background: var(--bg-body); color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 25px; font-size: 14px; outline: none; transition: all 0.2s; }
+.chat-footer input:focus { border-color: var(--primary-green); box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1); }
+#sendBtn { background: var(--primary-green); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: background 0.2s; }
+#sendBtn:hover { background: var(--dark-green); }
 
-.admin-msg {
-  background-color: white;
-  color: var(--text-main);
-  align-self: flex-start;
-  border-bottom-left-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-  border: 1px solid #eee;
-}
+/* Typing indicator */
+.typing span { animation: blink 1.4s infinite both; font-size: 20px; line-height: 10px; margin: 0 1px; }
+.typing span:nth-child(2) { animation-delay: 0.2s; }
+.typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink { 0% { opacity: 0.2; } 20% { opacity: 1; } 100% { opacity: 0.2; } }
 
-/* Chat Input Area */
-.chat-footer {
-  padding: 15px 20px;
-  background: white;
-  border-top: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.chat-footer input {
-  flex: 1;
-  background: #f1f5f9;
-  border: 1px solid transparent;
-  padding: 12px 16px;
-  border-radius: 25px;
-  font-size: 14px;
-  outline: none;
-  transition: all 0.2s;
-}
-
-.chat-footer input:focus {
-  background: white;
-  border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
-}
-
-#sendBtn {
-  background: var(--primary-green);
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-#sendBtn:hover {
-  background: var(--dark-green);
-}
-
-/* --- Header Layout (Glassmorphism) --- */
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  height: 70px;
-  padding: 0 40px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  /* Glass Effect */
-  background-color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
-}
+/* --- Header Layout --- */
+.header { position: sticky; top: 0; z-index: 1000; height: 70px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-color); }
+/* ลบ background-color แข็งๆ ตรงนี้ออก เพราะเราจัดการใน Global แล้ว */
+.header { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); background-color: rgba(var(--bg-surface), 0.85); }
 
 .logo { height: 38px; width: auto; }
-
 .nav { margin-left: auto; margin-right: 32px; }
-
-.nav-list {
-  display: flex;
-  gap: 32px;
-  list-style: none;
-  margin: 0; padding: 0;
-}
-
-.nav-link {
-  text-decoration: none;
-  font-weight: 10;
-  font-size: 15px;
-  color: var(--text-main);
-  position: relative;
-  padding: 5px 0;
-}
-
-/* Menu Hover Animation */
-.nav-link::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: var(--primary-green);
-  transition: width 0.3s ease;
-}
-
-.nav-link:hover { color: var(--primary-green); }
+.nav-list { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; }
+.nav-link { text-decoration: none; font-weight: 10; font-size: 15px; position: relative; padding: 5px 0; }
+.nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--primary-green); transition: width 0.3s ease; }
+.nav-link:hover { color: var(--primary-green) !important; }
 .nav-link:hover::after { width: 100%; }
 
 /* --- Header Actions --- */
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+.header-actions { display: flex; align-items: center; gap: 16px; }
+.icon-btn { width: 42px; height: 42px; background-color: var(--primary-green); border: 1px solid var(--primary-green); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease; position: relative; }
+.icon-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(74, 124, 89, 0.4); }
+.icon-btn .icon-img { filter: brightness(0) invert(1); }
+.icon-inner { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
+.icon-img { width: 100%; height: 100%; object-fit: contain; transition: filter 0.2s ease; }
 
-/* ปุ่ม Icon ทั่วไป (สถานะปกติ) */
-.icon-btn {
-  width: 42px;
-  height: 42px;
-  background-color: #10d131; /* พื้นหลังขาว */
-  border: 1px solid #e5e7eb; /* ขอบสีเทาจาง */
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-/* สถานะเมื่อเอาเมาส์ชี้ (Hover) */
-.icon-btn:hover {
-  background-color: var(--primary-green); /* เปลี่ยนพื้นเป็นสีเขียว */
-  border-color: var(--primary-green);
-  transform: translateY(-2px); /* ลอยขึ้นเล็กน้อย */
-  box-shadow: 0 4px 10px rgba(74, 124, 89, 0.2); /* เงา */
-}
-
-/* เปลี่ยนสีไอคอนข้างในเป็นสีขาวเมื่อ Hover */
-.icon-btn:hover .icon-img {
-  filter: brightness(0) invert(1); 
-}
-
-/* ขนาดไอคอน */
-.icon-inner { 
-  width: 22px; 
-  height: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transition: filter 0.2s ease;
-}
+.cart-badge { position: absolute; top: -5px; right: -5px; background-color: #ff3b30; color: white; font-size: 10px; font-weight: bold; height: 18px; min-width: 18px; padding: 0 5px; border-radius: 9px; display: flex; align-items: center; justify-content: center; border: 2px solid var(--bg-surface); box-shadow: 0 2px 4px rgba(0,0,0,0.2); opacity: 0; transition: transform 0.2s, opacity 0.2s; }
+.cart-badge.show { opacity: 1; }
+.cart-badge.bump { transform: scale(1.3); }
 
 /* --- Profile Dropdown --- */
-.profile-container { 
-  position: relative; 
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 55px; /* ปรับระยะห่างจากปุ่ม */
-  right: 0;
-  width: 260px;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-  padding: 20px;
-  z-index: 2000;
-  
-  /* เริ่มต้นซ่อนไว้ */
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-  border: 1px solid #f3f4f6;
-}
-
-/* คลาสที่จะถูก JS เติมเข้ามาเพื่อแสดงเมนู */
-.dropdown-menu.active {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-/* --- Profile Menu Content (ส่วนเนื้อหาข้างในเมนู) --- */
-
-/* 1. จัดระเบียบส่วนหัว (รูป + ชื่อ) */
-.menu-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px; /* เว้นระยะห่างจากเส้นขีด */
-}
-
-/* 2. แก้รูปใหญ่เกิน -> บังคับขนาดให้พอดี */
-.menu-user-img {
-    width: 50px;       /* กำหนดความกว้าง */
-    height: 50px;      /* กำหนดความสูง */
-    border-radius: 50%; /* ทำเป็นวงกลม */
-    object-fit: cover; /* ป้องกันภาพบีบ */
-    border: 2px solid #e5e7eb;
-}
-
-/* 3. จัดตัวหนังสือชื่อผู้ใช้ */
-.menu-username {
-    font-weight: 700;
-    color: #1f2937;
-    font-size: 16px;
-}
-
-/* 4. เส้นคั่น */
-.dropdown-menu hr {
-    border: 0;
-    height: 1px;
-    background: #f3f4f6;
-    margin: 8px 0;
-}
-
-/* 5. ตกแต่งปุ่มเมนู (การซื้อของฉัน / ออกจากระบบ) */
-.menu-item {
-    display: block;    /* ให้เต็มบรรทัด */
-    padding: 10px 12px;
-    text-decoration: none; /* เอาขีดเส้นใต้ออก */
-    color: #4b5563;    /* สีตัวอักษรเทาเข้ม */
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s;
-    margin-bottom: 4px;
-}
-
-/* เอฟเฟกต์ตอนเอาเมาส์ชี้เมนู */
-.menu-item:hover {
-    background-color: #f9fafb; /* พื้นหลังเทาอ่อนๆ */
-    color: var(--primary-green); /* ตัวหนังสือสีเขียว */
-    transform: translateX(3px); /* ขยับนิดนึง */
-}
-
-/* ปุ่มออกจากระบบ (สีแดง) */
-.menu-item.logout {
-    color: #ef4444;
-    margin-top: 4px;
-}
-
-.menu-item.logout:hover {
-    background-color: #fef2f2; /* พื้นหลังแดงจางๆ */
-    color: #dc2626;
-}
+.profile-container { position: relative; }
+.dropdown-menu { position: absolute; top: 55px; right: 0; width: 260px; background-color: var(--bg-surface); border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); padding: 20px; z-index: 2000; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.2s cubic-bezier(0.165, 0.84, 0.44, 1); border: 1px solid var(--border-color); }
+.dropdown-menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+.menu-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.menu-user-img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); }
+.menu-username { font-weight: 700; color: var(--text-main); font-size: 16px; }
+.dropdown-menu hr { border: 0; height: 1px; background: var(--border-color); margin: 8px 0; }
+.menu-item { display: block; padding: 10px 12px; text-decoration: none; color: var(--text-gray); border-radius: 8px; font-size: 14px; font-weight: 500; transition: all 0.2s; margin-bottom: 4px; }
+.menu-item:hover { background-color: var(--bg-body); color: var(--primary-green); transform: translateX(3px); }
+.menu-item.logout { color: #ef4444; margin-top: 4px; }
+.menu-item.logout:hover { background-color: rgba(239, 68, 68, 0.1); color: #dc2626; }
 
 /* Mobile */
 @media screen and (max-width: 768px) {
   .header { padding: 0 20px; height: 60px; }
-  .nav { display: none; } /* ซ่อนเมนูชั่วคราว */
-}
-
-/* --- Chat Message Styles (Add to style.css) --- */
-
-/* ข้อความฝั่งลูกค้า (สีเขียว ชิดขวา) */
-.user-msg {
-    background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
-    color: white;
-    align-self: flex-end; /* ชิดขวา */
-    border-bottom-right-radius: 4px; /* มุมขวาล่างแหลม */
-    box-shadow: 0 4px 6px rgba(74, 124, 89, 0.2);
-    text-align: right;
-}
-
-/* ข้อความฝั่ง Admin (สีขาว ชิดซ้าย) - ทวนของเดิมให้ */
-.admin-msg {
-    background-color: white;
-    color: var(--text-main);
-    align-self: flex-start; /* ชิดซ้าย */
-    border-bottom-left-radius: 4px;
-    border: 1px solid #eee;
-}
-
-/* Animation จุดไข่ปลา (Typing Indicator) */
-.typing span {
-    animation: blink 1.4s infinite both;
-    font-size: 20px;
-    line-height: 10px;
-    margin: 0 1px;
-}
-
-.typing span:nth-child(2) { animation-delay: 0.2s; }
-.typing span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes blink {
-    0% { opacity: 0.2; }
-    20% { opacity: 1; }
-    100% { opacity: 0.2; }
-}
-
-.cart-badge {
-    position: absolute;
-    top: -5px;    /* ปรับตำแหน่งแนวตั้ง */
-    right: -5px;  /* ปรับตำแหน่งแนวนอน */
-    background-color: #ff3b30; /* สีแดงแจ้งเตือน */
-    color: white;
-    font-size: 10px;
-    font-weight: bold;
-    height: 18px;
-    min-width: 18px; /* ความกว้างขั้นต่ำ */
-    padding: 0 5px;
-    border-radius: 9px; /* ทำเป็นวงกลม/วงรี */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid white; /* ขอบขาวตัดกับพื้นหลัง */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    
-    /* ซ่อนไว้ก่อนถ้าเป็น 0 (เดี๋ยวใช้ JS สั่งโชว์) */
-    opacity: 0; 
-    transition: transform 0.2s, opacity 0.2s;
-}
-
-/* คลาสสำหรับโชว์ Badge */
-.cart-badge.show {
-    opacity: 1;
-}
-
-/* เอฟเฟกต์ตอนตัวเลขเด้ง */
-.cart-badge.bump {
-    transform: scale(1.3);
+  .nav { display: none; }
 }

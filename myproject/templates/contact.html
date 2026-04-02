@@ -5,194 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
     <title>Contact Us - Digital Garden</title>
-    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
-    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}?v=2">
 </head>
 <body>
-        <header class="header">
-            <a href="{% url 'home' %}">
-                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
-            </a>
-            
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-                    <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
-                    <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
-                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
-                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
+    <header class="header">
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+        </a>
+        
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
 
-            <div class="header-actions">
-                <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
-                    <div class="icon-inner">
-                        <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+        <div class="header-actions" style="display: flex; align-items: center; gap: 15px;">
                         
-                        <span id="cartBadge" class="cart-badge">0</span>
-                    </div>
-                </a>
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle Dark Mode" style="background: none; border: none; cursor: pointer; padding: 0;">
+                <div class="icon-inner" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background-color: rgba(19, 236, 55, 0.1);">
+                    <span id="theme-icon" style="font-size: 20px;">🌙</span>
+                </div>
+            </button>
 
-                <div class="profile-container">
-                    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
+            <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart" style="text-decoration: none;">
+                <div class="icon-inner">
+                    <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                </div>
+                <span id="cartBadge" class="cart-badge">0</span>
+            </a>
+
+            <div class="profile-container">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="icon-btn" aria-label="Profile" style="text-decoration: none;">
                         <div class="icon-inner">
                             <img class="icon-img" src="{% static 'images/icon/Profile_icon.png' %}" alt="Profile" />
                         </div>
-                    </button>
-
-                    <div class="dropdown-menu" id="profileMenu">
-                        <div class="menu-header">
-                            <img src="{% static 'images/v41_78.png' %}" alt="User" class="menu-user-img">
-                            <span class="menu-username">ชื่อผู้ใช้</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="icon-btn" aria-label="Login" style="text-decoration: none;">
+                        <div class="icon-inner">
+                            <img class="icon-img" src="{% static 'images/icon/Profile_icon.png' %}" alt="Login" />
                         </div>
-                        <hr>
-                        <a href="#" class="menu-item">การซื้อของฉัน</a>
-                        <a href="#" class="menu-item logout">ออกจากระบบ</a>
-                    </div>
-                </div>
+                    </a>
+                {% endif %}
             </div>
-        </header>
-
-        <main class="contact-page">
             
-            <section class="contact-heading container">
-                <h1 class="main-title">How can we help?</h1>
-                <p class="sub-title">Find the right team to help you with your needs.</p>
-            </section>
+        </div>
+    </header>
 
-            <section class="support-section container">
-                <div class="support-grid">
-                    
-                    <div class="support-card">
-                        <div class="card-icon-bg">
-                            <img src="{% static 'images/Product.png' %}" alt="Product Icon" class="card-icon" /> 
-                        </div>
-                        <h3 class="card-title">Product & Order Support</h3>
-                        <p class="card-desc">ช่วยเหลือเกี่ยวกับคำสั่งซื้อที่มีอยู่ คำถามเกี่ยวกับสินค้า การจัดส่ง และการคืนสินค้า ให้บริการเวลา 09:00 – 17:00 น. วันจันทร์ – วันศุกร์</p>
-                        <div class="card-buttons">
-                            <button class="btn-card-primary">Email Us</button>
-                            <button class="btn-card-outline">Call Us</button>
-                        </div>
+    <main class="contact-page">
+        
+        <section class="contact-heading container">
+            <h1 class="main-title">How can we help?</h1>
+            <p class="sub-title">Find the right team to help you with your needs.</p>
+        </section>
+
+        <section class="support-section container">
+            <div class="support-grid">
+                
+                <div class="support-card">
+                    <div class="card-icon-bg">
+                        <img src="{% static 'images/icon/Flower_icon.png' %}" alt="Product Icon" class="card-icon" /> 
                     </div>
-
-                    <div class="support-card">
-                        <div class="card-icon-bg">
-                            <img src="{% static 'images/Sales.png' %}" alt="Sales Icon" class="card-icon" />
-                        </div>
-                        <h3 class="card-title">Sales & Partnership Inquiries</h3>
-                        <p class="card-desc">สำหรับการสั่งซื้อจำนวนมาก ความร่วมมือทางธุรกิจขององค์กร และคำถามเกี่ยวกับการขายทั่วไป เราจะตอบกลับภายใน 24 ชั่วโมง</p>
-                        <div class="card-buttons">
-                            <button class="btn-card-primary">Contact Sales</button>
-                        </div>
-                    </div>
-
-                    <div class="support-card">
-                        <div class="card-icon-bg">
-                            <img src="{% static 'images/Vegetable.png' %}" alt="Plot Icon" class="card-icon" />
-                        </div>
-                        <h3 class="card-title">Vegetable Plot Support</h3>
-                        <p class="card-desc">ช่วยเหลือเกี่ยวกับความพร้อมของแปลงปลูก ปัญหาในการจอง และคำถามเกี่ยวกับการเป็นสมาชิก </p>
-                        <div class="card-buttons">
-                            <button class="btn-card-primary">Book Support</button>
-                        </div>
-                    </div>
-
-                </div>
-            </section>
-
-            <section class="bottom-cta container">
-                <div class="divider"></div>
-                <h3 class="bottom-title">Looking for something else?</h3>
-                <p class="bottom-desc">Browse our FAQ for quick answers to common questions.</p>
-                <button class="btn-outline-large">Visit FAQ</button>
-            </section>
-
-        </main>
-
-        <footer class="footer">
-            <div class="footer-container">
-                <div class="footer-content">
-                    <div class="footer-column footer-brand">
-                        <div class="footer-logo">
-                            <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
-                        </div>
-                        <p class="slogan">
-                            เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
-                        </p>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Explore</h4>
-                        <ul class="footer-list">
-                            <li><a href="#">สินค้าทั้งหมด</a></li>
-                            <li><a href="#">จองแปลงผัก</a></li>
-                            <li><a href="#">เรื่องราวของเรา</a></li>
-                            <li><a href="#">บทความ</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Support</h4>
-                        <ul class="footer-list">
-                            <li><a href="#">ติดต่อเรา</a></li>
-                            <li><a href="#">คำถามที่พบบ่อย</a></li>
-                            <li><a href="#">การจัดส่ง & คืนสินค้า</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="footer-column">
-                        <h4 class="footer-title">Stay Connected</h4>
-                        <p class="newsletter-text">
-                            ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
-                        </p>
-                        <div style="display: flex; gap: 8px;">
-                            <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
-                            <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
-                        </div>
+                    <h3 class="card-title">Product & Order Support</h3>
+                    <p class="card-desc">ช่วยเหลือเกี่ยวกับคำสั่งซื้อที่มีอยู่ คำถามเกี่ยวกับสินค้า การจัดส่ง และการคืนสินค้า ให้บริการเวลา 09:00 – 17:00 น. วันจันทร์ – วันศุกร์</p>
+                    <div class="card-buttons">
+                        <button class="btn-card-primary">Email Us</button>
+                        <button class="btn-card-outline">Call Us</button>
                     </div>
                 </div>
 
-                <div class="footer-bottom">
-                    <p>© 2024 Digital Garden. All rights reserved.</p>
+                <div class="support-card">
+                    <div class="card-icon-bg">
+                        <img src="{% static 'images/icon/Sales_icon.png' %}" alt="Sales Icon" class="card-icon" />
+                    </div>
+                    <h3 class="card-title">Sales & Partnership Inquiries</h3>
+                    <p class="card-desc">สำหรับการสั่งซื้อจำนวนมาก ความร่วมมือทางธุรกิจขององค์กร และคำถามเกี่ยวกับการขายทั่วไป เราจะตอบกลับภายใน 24 ชั่วโมง</p>
+                    <div class="card-buttons">
+                        <button class="btn-card-primary">Contact Sales</button>
+                    </div>
                 </div>
+
+                <div class="support-card">
+                    <div class="card-icon-bg">
+                        <img src="{% static 'images/icon/Vegetable_icon.png' %}" alt="Plot Icon" class="card-icon" />
+                    </div>
+                    <h3 class="card-title">Vegetable Plot Support</h3>
+                    <p class="card-desc">ช่วยเหลือเกี่ยวกับความพร้อมของแปลงปลูก ปัญหาในการจอง และคำถามเกี่ยวกับการเป็นสมาชิก </p>
+                    <div class="card-buttons">
+                        <button class="btn-card-primary">Book Support</button>
+                    </div>
+                </div>
+
             </div>
-        </footer>
+        </section>
 
-        <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
-            <div id="chatIconContainer">
-                <img src="{% static 'images/Group.png' %}" alt="Chat Icon" id="chatIconMain" />
-            </div>
-        </button>
+        <section class="bottom-cta container">
+            <div class="divider"></div>
+            <h3 class="bottom-title">Looking for something else?</h3>
+            <p class="bottom-desc">Browse our FAQ for quick answers to common questions.</p>
+            <button class="btn-outline-large">Visit FAQ</button>
+        </section>
 
-        <div class="chat-popup" id="chatPopup">
-            <div class="chat-header">
-                <div class="admin-info">
-                    <div class="admin-avatar"></div>
-                    <div>
-                        <p class="admin-name">Greenhearth Admin</p>
-                        <p class="admin-status">ออนไลน์ พร้อมให้บริการ</p>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-column footer-brand">
+                    <div class="footer-logo">
+                        <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
                     </div>
+                    <p class="slogan">
+                        เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
+                    </p>
                 </div>
-                <button class="close-chat-header" id="closeChatHeader" style="font-size: 20px;">&times;</button>
-            </div>
 
-            <div class="chat-messages" id="chatMessages">
-                <div class="message admin-msg">
-                    สวัสดีค่ะ! 🌿 ยินดีต้อนรับสู่ Digital Garden <br>มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
+                <div class="footer-column">
+                    <h4 class="footer-title">Explore</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">สินค้าทั้งหมด</a></li>
+                        <li><a href="#">จองแปลงผัก</a></li>
+                        <li><a href="#">เรื่องราวของเรา</a></li>
+                        <li><a href="#">บทความ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">ติดต่อเรา</a></li>
+                        <li><a href="#">คำถามที่พบบ่อย</a></li>
+                        <li><a href="#">การจัดส่ง & คืนสินค้า</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Stay Connected</h4>
+                    <p class="newsletter-text">
+                        ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
+                    </p>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
+                        <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="chat-footer">
-                <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
-                <button id="sendBtn">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-                    </svg>
-                </button>
+            <div class="footer-bottom">
+                <p>© 2024 Digital Garden. All rights reserved.</p>
             </div>
         </div>
-        
-        <script src="{% static 'js/script.js' %}"></script>
+    </footer>
+
+    <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
+        <div id="chatIconContainer">
+            <img src="{% static 'images/Group.png' %}" alt="Chat Icon" id="chatIconMain" />
+        </div>
+    </button>
+
+    <div class="chat-popup" id="chatPopup">
+        <div class="chat-header">
+            <div class="admin-info">
+                <div class="admin-avatar"></div>
+                <div>
+                    <p class="admin-name">Greenhearth Admin</p>
+                    <p class="admin-status">ออนไลน์ พร้อมให้บริการ</p>
+                </div>
+            </div>
+            <button class="close-chat-header" id="closeChatHeader" style="font-size: 20px;">&times;</button>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message admin-msg">
+                สวัสดีค่ะ! 🌿 ยินดีต้อนรับสู่ Digital Garden <br>มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
+            <button id="sendBtn">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <script src="{% static 'js/script.js' %}?v=1"></script>
 
 </body>
 </html>

@@ -50,6 +50,7 @@
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     transition: all 1s ease-in-out;
+    background-color: var(--bg-surface); /* เพิ่มสีพื้นหลังเผื่อรูปโหลดช้า */
 }
 
 .thumbnail-list {
@@ -66,11 +67,13 @@
     cursor: pointer;
     transition: all 0.2s ease;
     opacity: 0.8;
+    border: 2px solid transparent;
 }
 
 .thumbnail:hover, .thumbnail.active {
     border-color: var(--primary-green);
     transform: translateY(-2px);
+    opacity: 1;
 }
 
 /* --- ข้อมูลแปลง --- */
@@ -82,7 +85,7 @@
 .plot-title {
     font-size: 36px;
     font-weight: 800;
-    color: var(--text-dark);
+    color: var(--text-main); /* สลับขาว-ดำ อัตโนมัติ */
     margin-bottom: 16px;
     letter-spacing: -0.5px;
 }
@@ -102,7 +105,6 @@
     flex-wrap: wrap;
 }
 
-/* จัดการ Grid ใน Modal ให้เป็นแบบ Flex เหมือนกันเพื่อใช้คลาส plant-card ร่วมกันได้ */
 .plant-modal-grid {
     display: flex;
     gap: 12px;
@@ -111,26 +113,24 @@
 
 .plant-card {
     display: flex;
-    flex-direction: column;  /* เปลี่ยนให้เรียงเนื้อหาเป็นแนวตั้ง (รูปอยู่บน ชื่ออยู่ล่าง) */
-    align-items: center;     /* จัดเนื้อหาให้อยู่กึ่งกลางแนวนอน */
-    justify-content: center; /* จัดเนื้อหาให้อยู่กึ่งกลางแนวตั้ง */
-    gap: 8px;                /* ระยะห่างระหว่างรูปภาพกับชื่อพืช */
-    padding: 16px 5px;      /* ปรับ padding บนล่างให้กว้างขึ้นนิดหน่อยให้ดูสมดุล */
-    background-color: #fff;
-    border: 1px solid #e5e7eb;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px; 
+    padding: 16px 5px; 
+    background-color: var(--bg-surface); /* ดึงสีจาก Global */
+    border: 1px solid var(--border-color); /* สลับขอบตามโหมด */
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--text-dark);
+    color: var(--text-main);
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    
-    flex: 0 0 calc(25% - 9px); /* 0 ตัวที่สองคือคำสั่งห้ามหดตัว (flex-shrink: 0) */
-    
+    flex: 0 0 calc(25% - 9px); 
     box-sizing: border-box;
-    text-align: center; /* จัดให้ข้อความอยู่กึ่งกลางเผื่อชื่อพืชยาว */
-    overflow: hidden; /* ซ่อนส่วนที่อาจจะล้นออกไป */
+    text-align: center; 
+    overflow: hidden; 
 }
 
 .plant-card:hover {
@@ -141,11 +141,11 @@
 .plant-card.active {
     background-color: rgba(19, 236, 55, 0.1);
     border-color: var(--primary-green);
-    color: var(--dark-green);
+    color: var(--primary-green); /* ปรับให้สีเขียวเด่นขึ้น */
 }
 
 .plant-card img {
-    width: 32px;  /* ผมปรับให้รูปใหญ่ขึ้นนิดหน่อย (เดิม 24px) เพื่อให้สมส่วนเมื่ออยู่ตรงกลางด้านบน */
+    width: 32px; 
     height: 32px;
     object-fit: contain;
 }
@@ -155,10 +155,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
-    background-color: #fff;
+    background-color: var(--bg-surface); /* สลับสีตามธีม */
     padding: 24px;
     border-radius: 16px;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
     margin-bottom: 40px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 }
@@ -178,13 +178,13 @@
 .spec-value {
     font-size: 14px;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--text-main);
 }
 
 /* --- Widget การจอง (Calendar) --- */
 .booking-widget {
-    background-color: #fff;
-    border: 1px solid #e5e7eb;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 24px;
     box-shadow: 0 4px 16px rgba(0,0,0,0.04);
@@ -200,7 +200,7 @@
 .booking-header h3 {
     font-size: 18px;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--text-main);
     margin: 0;
 }
 
@@ -209,28 +209,23 @@
     align-items: center;
     gap: 6px;
     font-size: 14px;
-    color: var(--dark-green);
+    color: var(--primary-green); /* ใช้สีนีออนเด่นๆ */
     text-decoration: none;
     font-weight: 600;
     transition: opacity 0.2s ease;
 }
 
-.more-link:hover {
-    opacity: 0.7;
-}
+.more-link:hover { opacity: 0.7; }
 
-.more-link img {
-    width: 16px;
-    transform: rotate(-90deg);
-}
+.more-link img { width: 16px; transform: rotate(-90deg); filter: brightness(0) invert(1); } /* ถ้ามีไอคอนลูกศร */
 
 /* ปฏิทิน */
 .calendar-container {
-    background: #fcfcfc;
+    background-color: var(--bg-body); /* แยกมิติปฏิทินให้ลึกกว่ากล่อง Widget */
     border-radius: 12px;
     padding: 16px;
     margin-bottom: 24px;
-    border: 1px solid #f3f4f6;
+    border: 1px solid var(--border-color);
 }
 
 .cal-header {
@@ -243,7 +238,7 @@
 .cal-month {
     font-weight: 700;
     font-size: 15px;
-    color: var(--text-dark);
+    color: var(--text-main);
 }
 
 .cal-nav {
@@ -260,8 +255,8 @@
 }
 
 .cal-nav:hover {
-    background-color: #e5e7eb;
-    color: var(--text-dark);
+    background-color: var(--border-color);
+    color: var(--text-main);
 }
 
 .cal-weekdays, .cal-days {
@@ -285,36 +280,37 @@
     height: 36px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-dark);
+    color: var(--text-main);
     cursor: pointer;
     border-radius: 8px;
     transition: all 0.2s;
 }
 
 .cal-days span:hover:not(.inactive):not(.selected):not(.booked) {
-    background-color: #f1f5f9;
+    background-color: var(--border-color); /* ใช้สีขอบเป็น hover effect */
 }
 
 .cal-days span.inactive {
-    color: #9ca3af;
+    color: var(--text-gray);
+    opacity: 0.5;
     cursor: default;
 }
 
 .cal-days span.booked {
-    color: #b91c1c;
-    background-color: #fecaca;
+    color: #ef4444; /* แดงสว่างขึ้น */
+    background-color: rgba(239, 68, 68, 0.1);
     border-radius: 50%;
     cursor: not-allowed;
 }
 
 .cal-days span.selected {
-    background-color: rgba(255, 199, 44, 0.4);
+    background-color: rgba(19, 236, 55, 0.3); /* ใช้เขียวนีออนของเราแทนสีเหลืองเก่า */
+    color: var(--text-main);
 }
-
 
 /* --- สรุปราคาและปุ่มจอง --- */
 .booking-summary {
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid var(--border-color);
     padding-top: 20px;
 }
 
@@ -327,14 +323,14 @@
 .price-total {
     font-size: 28px;
     font-weight: 800;
-    color: var(--dark-green);
+    color: var(--primary-green); /* เน้นราคาให้ชัดเจน */
     margin-bottom: 20px;
 }
 
 .btn-book {
     width: 100%;
     height: 52px;
-    background-color: var(--dark-green);
+    background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -343,42 +339,25 @@
     cursor: pointer;
     transition: all 0.2s ease;
     margin-bottom: 20px;
-    box-shadow: 0 4px 10px rgba(16, 209, 49, 0.2);
+    box-shadow: 0 4px 10px rgba(19, 236, 55, 0.2);
 }
 
 .btn-book:hover {
-    background-color: #0ea827;
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(16, 209, 49, 0.3);
+    box-shadow: 0 6px 14px rgba(19, 236, 55, 0.3);
 }
+
 /* --- Responsive Layout --- */
 @media (max-width: 992px) {
-    .plot-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
+    .plot-grid { grid-template-columns: 1fr; gap: 30px; }
 }
 
 @media (max-width: 576px) {
-    .plot-title {
-        font-size: 28px;
-    }
-    
-    .thumbnail-list {
-        gap: 8px;
-    }
-    
-    .plot-specs {
-        grid-template-columns: 1fr;
-    }
-    
-    .booking-actions {
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-    }
+    .plot-title { font-size: 28px; }
+    .thumbnail-list { gap: 8px; }
+    .plot-specs { grid-template-columns: 1fr; }
+    .booking-actions { flex-direction: column; align-items: center; gap: 16px; }
 }
-
 
 /* --- ปุ่มเพิ่มเติม --- */
 .plant-more-btn {
@@ -386,19 +365,19 @@
     align-items: center;
     justify-content: center;
     padding: 10px 16px;
-    background-color: #f3f4f6;
-    border: 1px dashed #9ca3af;
+    background-color: var(--bg-body); /* สลับสีตามธีม */
+    border: 1px dashed var(--border-color);
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
-    color: #4b5563;
+    color: var(--text-main);
     cursor: pointer;
     transition: all 0.2s ease;
     font-family: inherit;
 }
 
 .plant-more-btn:hover {
-    background-color: #e5e7eb;
+    background-color: var(--border-color);
     color: var(--primary-green);
     border-color: var(--primary-green);
     transform: translateY(-2px);
@@ -407,41 +386,34 @@
 /* --- Popup (Modal) Overlay --- */
 .plant-modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* พื้นหลังสีดำโปร่งแสง */
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* เข้มขึ้นให้ Popup ดูเด่น */
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999; /* ให้อยู่หน้าสุด */
+    z-index: 9999;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
 }
 
-/* คลาสที่จะถูก JS สั่งให้แสดงผล */
-.plant-modal-overlay.show {
-    opacity: 1;
-    visibility: visible;
-}
+.plant-modal-overlay.show { opacity: 1; visibility: visible; }
 
 /* --- กล่องเนื้อหา Popup --- */
 .plant-modal-content {
-    background-color: #fff;
+    background-color: var(--bg-surface); /* Popup สลับสีแล้ว */
     padding: 24px;
     border-radius: 16px;
     width: 90%;
-    max-width: 650px; /* จำกัดความกว้างไม่ให้ใหญ่เกินไป */
+    max-width: 650px;
     transform: translateY(20px);
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border: 1px solid var(--border-color);
 }
 
-.plant-modal-overlay.show .plant-modal-content {
-    transform: translateY(0);
-}
+.plant-modal-overlay.show .plant-modal-content { transform: translateY(0); }
 
 /* --- ส่วนหัว Popup --- */
 .plant-modal-header {
@@ -450,13 +422,13 @@
     align-items: center;
     margin-bottom: 20px;
     padding-bottom: 12px;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .plant-modal-header h3 {
     margin: 0;
     font-size: 18px;
-    color: var(--text-dark);
+    color: var(--text-main);
 }
 
 .close-modal-btn {
@@ -465,49 +437,49 @@
     font-size: 28px;
     line-height: 1;
     cursor: pointer;
-    color: #9ca3af;
+    color: var(--text-gray);
     transition: color 0.2s;
 }
 
-.close-modal-btn:hover {
-    color: #ef4444; /* สีแดงตอนชี้ */
-}
+.close-modal-btn:hover { color: #ef4444; }
 
 /* --- จัดเรียง Grid ใน Popup (4 คอลัมน์) --- */
 .plant-modal-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 รูป ต่อ 1 แถว */
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
-    max-height: 60vh; /* เผื่อกรณีจอมือถือเล็ก จะสามารถเลื่อนขึ้นลงได้ */
+    max-height: 60vh;
     overflow-y: auto;
     padding-right: 4px;
 }
 
-/* สำหรับมือถือ ให้แสดงแถวละ 2 ชนิดแทน เพื่อให้อ่านง่าย */
-@media (max-width: 576px) {
-    .plant-modal-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+/* สไตล์สำหรับ Scrollbar ใน Popup */
+.plant-modal-grid::-webkit-scrollbar { width: 6px; }
+.plant-modal-grid::-webkit-scrollbar-track { background: var(--bg-body); border-radius: 10px; }
+.plant-modal-grid::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
+
+@media (max-width: 576px) { .plant-modal-grid { grid-template-columns: repeat(2, 1fr); } }
 
 /* สไตล์สำหรับ Popup ปฏิทิน */
 .calendar-modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    backdrop-filter: blur(5px);
 }
 
 .calendar-modal-content {
-    background-color: #fff;
+    background-color: var(--bg-surface);
     padding: 24px;
     border-radius: 16px;
     width: 90%;
     max-width: 400px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    border: 1px solid var(--border-color);
 }
 
 .calendar-modal-header {
@@ -520,17 +492,5 @@
 .calendar-modal-header h3 {
     margin: 0;
     font-size: 16px;
-    color: var(--text-dark);
-}
-
-.close-modal-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #6b7280;
-}
-
-.close-modal-btn:hover {
-    color: #ef4444;
+    color: var(--text-main);
 }

@@ -12,7 +12,7 @@
     margin-top: 30px;
     margin-bottom: 40px;
     font-size: 14px;
-    color: #9ca3af;
+    color: var(--text-gray); /* สลับสีตามธีม */
     display: flex;
     align-items: center;
 }
@@ -22,8 +22,8 @@
     transition: color 0.3s ease; 
 }
 .breadcrumbs a:hover { color: var(--primary-green); }
-.breadcrumbs .sep { margin: 0 12px; color: #e5e7eb; font-size: 12px; }
-.breadcrumbs .current { color: var(--text-dark); font-weight: 600; }
+.breadcrumbs .sep { margin: 0 12px; color: var(--border-color); font-size: 12px; }
+.breadcrumbs .current { color: var(--text-main); font-weight: 600; }
 
 
 /* --- Product Hero Section --- */
@@ -39,10 +39,10 @@
 .main-image-frame {
     width: 100%;
     aspect-ratio: 1;
-    background-color: #ffffff;
+    background-color: var(--bg-surface); /* ดึงสีพื้นหลังกล่อง */
     border-radius: 30px;
     overflow: hidden;
-    border: 1px solid #f3f4f6;
+    border: 1px solid var(--border-color);
     box-shadow: 0 20px 40px rgba(0,0,0,0.04);
     padding: 20px;
 }
@@ -53,6 +53,7 @@
     object-fit: cover;
     border-radius: 20px;
     transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    background-color: var(--bg-body); /* สีพื้นหลังกันภาพใส */
 }
 
 .main-image-frame:hover img {
@@ -70,7 +71,7 @@
     font-size: 40px;
     font-weight: 800;
     line-height: 1.25;
-    color: var(--text-dark);
+    color: var(--text-main);
     margin-bottom: 16px;
     letter-spacing: -0.5px;
 }
@@ -85,15 +86,15 @@
 .price-current {
     font-size: 36px;
     font-weight: 800;
-    color: var(--primary-green);
+    color: var(--primary-green); /* นีออนเด่นเสมอ */
     letter-spacing: -0.5px;
 }
 
 /* ป้าย In Stock ให้ดูพรีเมียมขึ้น */
 .stock-status {
-    background-color: #ecfdf5;
-    color: #059669;
-    border: 1px solid #a7f3d0;
+    background-color: rgba(19, 236, 55, 0.1); /* เขียวโปร่งแสง ใช้ได้ทั้ง 2 ธีม */
+    color: var(--primary-green);
+    border: 1px solid rgba(19, 236, 55, 0.2);
     padding: 6px 14px;
     border-radius: 50px;
     font-size: 13px;
@@ -115,34 +116,38 @@
     gap: 20px;
     margin-bottom: 40px;
     padding-bottom: 40px;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .quantity-control {
     display: flex;
     align-items: center;
-    border: 2px solid #f3f4f6;
+    border: 2px solid var(--border-color);
     border-radius: 50px;
-    background: #ffffff;
+    background: transparent; /* เอาสีขาวออก */
     padding: 4px 8px;
     transition: border-color 0.3s ease;
 }
 
-.quantity-control:hover { border-color: #e5e7eb; }
+.quantity-control:hover { border-color: var(--primary-green); }
 
 .quantity-control button {
     width: 36px; height: 36px;
-    background: #f3f4f6;
+    background: var(--bg-body); /* เปลี่ยนเป็นสีพื้นหลังเว็บ */
     font-size: 20px;
-    color: var(--text-dark);
+    color: var(--text-main);
     border-radius: 50%;
-    border: none;
+    border: 1px solid var(--border-color);
     cursor: pointer;
     transition: all 0.2s;
     display: flex; align-items: center; justify-content: center;
 }
 
-.quantity-control button:hover { background-color: #e5e7eb; }
+.quantity-control button:hover { 
+    background-color: var(--primary-green); 
+    color: #000;
+    border-color: var(--primary-green);
+}
 
 .quantity-control input {
     width: 48px;
@@ -150,7 +155,7 @@
     border: none;
     font-size: 16px;
     font-weight: 700;
-    color: var(--text-dark);
+    color: var(--text-main);
     background: transparent;
     outline: none;
 }
@@ -178,7 +183,7 @@
     box-shadow: 0 12px 25px rgba(19, 236, 55, 0.35);
 }
 
-/* --- Tabs & Content (เปลี่ยนจากขีดเส้นใต้เป็นปุ่ม Pill) --- */
+/* --- Tabs & Content --- */
 .product-tabs-wrapper { margin-top: 10px; }
 
 .tabs-header {
@@ -191,55 +196,58 @@
     padding: 10px 24px;
     font-weight: 600;
     color: var(--text-gray);
-    background-color: #f3f4f6;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 15px;
 }
 
-.tab:hover { background-color: #e5e7eb; }
+.tab:hover { background-color: var(--bg-body); color: var(--text-main); }
 
 .tab.active {
-    background-color: var(--text-dark);
-    color: #ffffff;
+    background-color: var(--text-main); /* สลับสีตามโหมด (ดำ/ขาว) */
+    color: var(--bg-body); /* สีตัวอักษรจะเป็นสีพื้นหลัง */
+    border-color: var(--text-main);
 }
 
 .prose {
     line-height: 1.8;
     color: var(--text-gray);
     font-size: 15px;
-    background: #ffffff;
+    background: var(--bg-surface);
     padding: 24px;
     border-radius: 20px;
-    border: 1px solid #f3f4f6;
+    border: 1px solid var(--border-color);
 }
 
 /* Review Styles */
 .reviews-container {
-    background: #ffffff;
+    background: var(--bg-surface);
     padding: 10px 24px;
     border-radius: 20px;
-    border: 1px solid #f3f4f6;
+    border: 1px solid var(--border-color);
 }
 
 .review-item {
     display: flex;
     gap: 16px;
     padding: 24px 0;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid var(--border-color);
     animation: fadeIn 0.4s ease;
 }
 .review-item:last-child { border-bottom: none; }
 
 .review-avatar {
     width: 48px; height: 48px;
-    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    background: var(--bg-body);
+    border: 1px solid var(--border-color);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-weight: 700;
     font-size: 18px;
-    color: var(--text-dark);
+    color: var(--text-main);
 }
 
 .stars-yellow { color: #fbbf24; margin-left: 12px; font-size: 15px; letter-spacing: 2px;}
@@ -252,7 +260,7 @@
 .section-title {
     font-size: 28px;
     font-weight: 800;
-    color: var(--text-dark);
+    color: var(--text-main);
     margin: 0;
 }
 
@@ -266,8 +274,8 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
     color: var(--text-gray);
     display: flex;
     align-items: center;
@@ -289,34 +297,27 @@
 .product-slider-container {
     display: flex;
     gap: 30px;
-    overflow-x: auto; /* ให้เลื่อนแนวนอนได้ */
+    overflow-x: auto;
     scroll-behavior: smooth;
-    padding-bottom: 30px; /* เผื่อพื้นที่ให้เงาของการ์ดตอน Hover */
+    padding-bottom: 30px; 
     padding-top: 10px;
-    
-    /* ซ่อนแถบ Scrollbar ให้ดูสะอาดตา */
-    scrollbar-width: none; /* สำหรับ Firefox */
-    -ms-overflow-style: none;  /* สำหรับ IE / Edge */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
 }
 
-/* ซ่อน Scrollbar สำหรับ Chrome / Safari */
-.product-slider-container::-webkit-scrollbar {
-    display: none; 
-}
+.product-slider-container::-webkit-scrollbar { display: none; }
 
 /* บังคับขนาดของการ์ดใน Slider */
 .product-card.slider-card {
-    flex: 0 0 auto; /* ป้องกันไม่ให้การ์ดโดนบีบ */
-    width: 260px; /* กำหนดความกว้างการ์ดแบบตายตัว */
-    
-    /* สไตล์เดิมของการ์ด */
+    flex: 0 0 auto; 
+    width: 260px; 
     display: flex;
     flex-direction: column;
     text-decoration: none;
-    background: #ffffff;
+    background: var(--bg-surface);
     border-radius: 24px;
     padding: 16px;
-    border: 1px solid #f3f4f6;
+    border: 1px solid var(--border-color);
     box-shadow: 0 4px 15px rgba(0,0,0,0.02);
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
@@ -324,18 +325,19 @@
 .product-card.slider-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 20px 30px rgba(0,0,0,0.06);
-    border-color: #e5e7eb;
+    border-color: var(--primary-green);
 }
 
-/* ส่วนภาพรายละเอียดในการ์ด (คงเดิม) */
+/* ส่วนภาพรายละเอียดในการ์ด */
 .card-image-wrapper {
     position: relative;
     width: 100%;
     aspect-ratio: 1;
     border-radius: 16px;
     overflow: hidden;
-    background-color: #f9fafb;
+    background-color: var(--bg-body);
     margin-bottom: 20px;
+    border: 1px solid var(--border-color); /* เพิ่มกรอบบางๆ */
 }
 
 .card-image-wrapper img {
@@ -348,7 +350,7 @@
 .product-card:hover .card-image-wrapper img { transform: scale(1.05); }
 
 .card-details { padding: 0 8px 8px 8px; }
-.card-title { font-size: 17px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+.card-title { font-size: 17px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
 .card-price { font-size: 17px; font-weight: 800; color: var(--primary-green); }
 
 /* ซ่อนปุ่มเลื่อนในหน้าจอมือถือ แล้วให้ใช้การปัด (Swipe) แทน */

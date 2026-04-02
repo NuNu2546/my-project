@@ -186,3 +186,35 @@ window.onclick = function(event) {
         closeModal();
     }
 }
+
+// ==========================================
+// ระบบ Dark Mode Toggle
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const body = document.body;
+
+    // 1. ตรวจสอบว่าเคยเปิด Dark Mode ไว้ไหมตอนโหลดหน้าเว็บ
+    if (localStorage.getItem('theme') === 'dark') {
+        body.classList.add('dark-mode');
+        if (themeIcon) themeIcon.textContent = '☀️';
+    }
+
+    // 2. สั่งงานเมื่อคลิกปุ่มสลับธีม
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            // สลับคลาส dark-mode ที่แท็ก body
+            body.classList.toggle('dark-mode');
+            
+            // เช็กสถานะปัจจุบันแล้วบันทึกค่าลงเครื่องผู้ใช้ (localStorage)
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('theme', 'dark');
+                if (themeIcon) themeIcon.textContent = '☀️'; // เปลี่ยนเป็นรูปพระอาทิตย์
+            } else {
+                localStorage.setItem('theme', 'light');
+                if (themeIcon) themeIcon.textContent = '🌙'; // เปลี่ยนเป็นรูปพระจันทร์
+            }
+        });
+    }
+});

@@ -1,0 +1,74 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+<style>
+    .editor-container { max-width: 800px; margin: 0 auto; animation: fadeIn 0.5s ease; }
+    .editor-card { background: var(--bg-panel); border: 1px solid var(--border-color); border-radius: 20px; padding: 40px; backdrop-filter: blur(20px); }
+    
+    /* ปรับแต่ง Input ของ Django Form ให้เป็นสไตล์ Quantum */
+    .quantum-input, input[type="text"], input[type="number"], input[type="email"], textarea, select {
+        width: 100%; background: rgba(0,0,0,0.4) !important; border: 1px solid var(--border-color) !important; 
+        padding: 12px; color: white !important; border-radius: 8px; margin-top: 5px; margin-bottom: 15px; display: block;
+    }
+    .quantum-input:focus { border-color: var(--primary-neon) !important; outline: none; box-shadow: 0 0 15px var(--primary-dim); }
+    
+    label { color: var(--primary-neon); font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Metadata Grid */
+    .metadata-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 25px 0; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 12px; border: 1px solid var(--border-color); }
+    .meta-item label { color: var(--text-dim); font-size: 10px; text-transform: uppercase; }
+    .meta-item p { margin: 5px 0 0 0; color: white; font-family: monospace; font-size: 13px; }
+
+    /* Button Group */
+    .btn-group { display: flex; gap: 15px; margin-top: 30px; }
+    .btn-save { flex: 2; background: var(--primary-neon); color: black; border: none; padding: 15px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+    .btn-save:hover { box-shadow: 0 0 20px var(--primary-neon); transform: translateY(-2px); }
+    .btn-continue { flex: 1; background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--border-color); padding: 15px; border-radius: 8px; cursor: pointer; font-weight: 700; transition: 0.3s; }
+    .btn-continue:hover { background: rgba(255,255,255,0.1); }
+    .btn-delete { flex: 1; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid #ef4444; padding: 15px; border-radius: 8px; text-decoration: none; text-align: center; font-size: 13px; font-weight: 700; transition: 0.3s; }
+    .btn-delete:hover { background: #ef4444; color: white; }
+
+    .btn-password { display: block; text-align: center; margin: 20px 0; color: var(--primary-neon); text-decoration: none; font-size: 11px; font-weight: 800; border: 1px dashed var(--primary-neon); padding: 12px; border-radius: 8px; transition: 0.3s; }
+    .btn-password:hover { background: var(--primary-dim); }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+
+<div class="editor-container">
+    <div class="admin-header">
+        <h1>Quantum <span>Editor</span> / {{ title }}</h1>
+        <a href="javascript:history.back()" style="color: var(--text-dim); text-decoration: none; font-size: 13px;">← CANCEL_BACK</a>
+    </div>
+
+    <div class="editor-card">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+
+            {% if instance %}
+            <div class="metadata-grid">
+                <div class="meta-item"><label>ID_NODE</label><p>#{{ instance.id }}</p></div>
+                <div class="meta-item"><label>CREATED_DATE</label><p>{{ instance.date_joined|date:"d M Y"|default:"N/A" }}</p></div>
+                <div class="meta-item"><label>LAST_SYNC</label><p>{{ instance.last_login|date:"d M Y H:i"|default:"OFFLINE" }}</p></div>
+            </div>
+            {% endif %}
+
+            {% if model_type == 'user' and instance %}
+            <a href="/admin/auth/user/{{ instance.id }}/password/" target="_blank" class="btn-password">
+                🔑 RESET_SECURITY_CREDENTIALS
+            </a>
+            {% endif %}
+
+            <div class="btn-group">
+                <button type="submit" name="save_exit" class="btn-save">EXECUTE_AND_EXIT</button>
+                <button type="submit" name="save_continue" class="btn-continue">SAVE_AND_STAY</button>
+                
+                {% if instance %}
+                <a href="{% url 'admin_delete' model_type instance.id %}" class="btn-delete" onclick="return confirm('⚠️ ยืนยันการลบข้อมูลนี้ออกจากระบบ?')">DELETE_NODE</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

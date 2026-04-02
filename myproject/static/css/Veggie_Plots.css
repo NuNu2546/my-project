@@ -10,7 +10,7 @@
 
 .main {
     width: 100%;
-    max-width: 1240px; /* ปรับให้กะทัดรัดขึ้นนิดนึงเพื่อให้การ์ดดูสมส่วน */
+    max-width: 1240px; 
     margin: 0 auto;
     padding: 40px 24px 100px 24px; 
     box-sizing: border-box;
@@ -26,7 +26,7 @@
 .heading-find-your {
     font-weight: 800;
     font-size: 42px;
-    color: var(--text-dark);
+    color: var(--text-main); /* เปลี่ยนจาก --text-dark ให้สลับสีได้ */
     letter-spacing: -1px;
     margin-bottom: 12px;
 }
@@ -42,18 +42,17 @@
 /* --- 3. Grid System --- */
 .plots-grid {
     display: grid;
-    /* ขยายขนาดการ์ดขั้นต่ำให้ใหญ่ขึ้นดูพรีเมียม */
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
     gap: 32px;
 }
 
 /* --- 4. Plot Card Styling --- */
 .plot-card {
-    background-color: #ffffff;
-    border-radius: 24px; /* โค้งมนขึ้น */
+    background-color: var(--bg-surface); /* ดึงค่าสีพื้นหลังกล่องจาก Global */
+    border-radius: 24px; 
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); /* เงาฟุ้งๆ นุ่มๆ */
-    border: 1px solid #f3f4f6;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03); 
+    border: 1px solid var(--border-color); /* เปลี่ยนขอบให้สลับสีตามโหมด */
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
     display: flex;
@@ -63,58 +62,54 @@
 .plot-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    border-color: #e5e7eb;
+    border-color: var(--primary-green); /* ตอนชี้ให้ขอบเป็นสีเขียวจะดูสวยขึ้น */
 }
 
 /* Card Image Area */
 .card-image {
     width: 100%;
     height: 240px;
-    background-color: #f9fafb;
+    background-color: var(--bg-body);
     background-size: cover;
     background-position: center;
     position: relative;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid var(--border-color);
     transition: transform 0.6s ease;
     background-repeat: no-repeat;
-    background-size: cover;      /* บังคับรูปให้ขยายเต็มกรอบ */
-    background-position: center; /* จัดให้อยู่กึ่งกลางเสมอ */
 }
 
-/* ให้รูปซูมเข้าเล็กน้อยตอน Hover การ์ด */
 .plot-card:hover .card-image {
     transform: scale(1.05);
 }
 
-/* Placeholder กรณีไม่มีรูป */
 .card-image:empty {
-    background-image: linear-gradient(45deg, #f3f4f6 25%, #e5e7eb 25%, #e5e7eb 50%, #f3f4f6 50%, #f3f4f6 75%, #e5e7eb 75%, #e5e7eb 100%);
+    background-image: linear-gradient(45deg, var(--bg-body) 25%, var(--border-color) 25%, var(--border-color) 50%, var(--bg-body) 50%, var(--bg-body) 75%, var(--border-color) 75%, var(--border-color) 100%);
     background-size: 20px 20px;
 }
 
-/* Status Badge (ป้ายสถานะ) - ทำเป็น Glassmorphism นิดๆ */
+/* Status Badge */
 .status-badge {
     position: absolute;
     top: 20px;
     right: 20px;
     padding: 8px 16px;
-    border-radius: 50px; /* ป้ายทรงแคปซูล */
+    border-radius: 50px; 
     font-size: 13px;
     font-weight: 800;
     letter-spacing: 0.5px;
     z-index: 10;
-    backdrop-filter: blur(8px); /* เอฟเฟกต์กระจกเบลอพื้นหลัง */
+    backdrop-filter: blur(8px); 
     -webkit-backdrop-filter: blur(8px);
 }
 
 .status-badge.available {
-    background-color: rgba(209, 250, 229, 0.9); /* เขียวอ่อนโปร่งแสง */
+    background-color: rgba(209, 250, 229, 0.9); 
     color: #059669;
     border: 1px solid rgba(167, 243, 208, 0.5);
 }
 
 .status-badge.full {
-    background-color: rgba(254, 226, 226, 0.9); /* แดงอ่อนโปร่งแสง */
+    background-color: rgba(254, 226, 226, 0.9); 
     color: #dc2626;
     border: 1px solid rgba(254, 202, 202, 0.5);
 }
@@ -125,15 +120,15 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    background: #ffffff;
+    background: transparent; /* เอาสีขาวตรงนี้ออก ให้มันใช้สีเดียวกับตัวการ์ดหลัก */
     position: relative;
-    z-index: 2; /* บังส่วนรูปที่ซูมล้นลงมา */
+    z-index: 2; 
 }
 
 .heading-text {
     font-size: 22px;
     font-weight: 800;
-    color: var(--text-dark);
+    color: var(--text-main); /* แก้ให้เป็น --text-main */
     margin-bottom: 10px;
     letter-spacing: -0.3px;
 }
@@ -153,7 +148,7 @@
     gap: 10px;
     margin-bottom: 24px;
     padding-bottom: 24px;
-    border-bottom: 1px dashed #e5e7eb; /* เปลี่ยนเป็นเส้นประให้ดูน่ารักขึ้น */
+    border-bottom: 1px dashed var(--border-color); /* ใช้ตัวแปรสีขอบ */
 }
 
 .spec-tag {
@@ -163,14 +158,15 @@
     font-size: 13px;
     color: var(--text-gray);
     font-weight: 600;
-    background-color: #f3f4f6;
+    background-color: var(--bg-body); /* เปลี่ยนจากพื้นเทาสว่าง เป็นสีพื้นหลังเว็บ */
     padding: 6px 14px;
-    border-radius: 50px; /* ทรงแคปซูล */
+    border-radius: 50px; 
     transition: background 0.2s;
+    border: 1px solid var(--border-color); /* เพิ่มขอบบางๆ ให้ดูมีมิติในโหมดมืด */
 }
 
 .plot-card:hover .spec-tag {
-    background-color: #f1f5f9;
+    background-color: var(--border-color);
 }
 
 /* Price & Button Row */
@@ -189,7 +185,7 @@
 
 .unit {
     font-size: 14px;
-    color: #9ca3af;
+    color: var(--text-gray);
     margin-left: 6px;
     font-weight: 500;
 }
@@ -197,7 +193,7 @@
 .action-btn {
     width: 100%;
     height: 52px;
-    border-radius: 50px; /* ปุ่มทรงแคปซูล */
+    border-radius: 50px; 
     border: none;
     font-weight: 700;
     font-size: 16px;
@@ -216,13 +212,13 @@
     box-shadow: 0 12px 25px rgba(19, 236, 55, 0.35);
 }
 
-/* Booked Button State (ปุ่มที่ถูกจองแล้ว) */
+/* Booked Button State */
 .action-btn.booked {
-    background: #f3f4f6;
-    color: #9ca3af;
+    background: var(--bg-body); /* เปลี่ยนสีให้กลืนไปกับโหมดนั้นๆ */
+    color: var(--text-gray);
     box-shadow: none;
     cursor: not-allowed;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
 }
 
 .action-btn.booked:hover {

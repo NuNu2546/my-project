@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-card">
+            <div class="logo-container">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" width="150">
+                </a>
+            </div>
+
+            <h2 class="login-title">เข้าสู่ระบบ</h2>
+
+            {% if messages %}
+                <div class="alert-messages">
+                    {% for message in messages %}
+                        <p class="error-text">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %} <div class="input-group">
+                    <label for="username">ชื่อผู้ใช้</label>
+                    <input type="text" id="username" name="username" required placeholder="กรอกชื่อผู้ใช้">
+                </div>
+
+                <div class="input-group">
+                    <label for="password">รหัสผ่าน</label>
+                    <input type="password" id="password" name="password" required placeholder="กรอกรหัสผ่าน">
+                </div>
+
+                <button type="submit" class="btn-login">เข้าสู่ระบบ</button>
+            </form>
+
+                <p class="register-text">
+                    ยังไม่มีบัญชีใช่ไหม? <a href="{% url 'register' %}" class="register-link">สมัครสมาชิกที่นี่</a>
+                </p>
+        </div>
+    </div>
+    <script src="{% static 'js/script.js' %}?v=1"></script>
+</body>
+</html>

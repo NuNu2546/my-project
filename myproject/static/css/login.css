@@ -1,0 +1,105 @@
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--light-bg, #f4f7f6); /* ใช้สีพื้นหลังของเว็บ */
+    padding: 20px;
+}
+
+.login-card {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(19, 236, 55, 0.1);
+}
+
+.logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-title {
+    text-align: center;
+    font-family: var(--font-main, sans-serif);
+    color: #111827;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-family: var(--font-main, sans-serif);
+    font-size: 14px;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-green, #13ec37);
+    box-shadow: 0 0 0 3px rgba(19, 236, 55, 0.1);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--primary-green, #13ec37);
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: var(--font-main, sans-serif);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 10px;
+}
+
+.btn-login:hover {
+    background-color: var(--dark-green, #1a4d2e);
+}
+
+.error-text {
+    color: #ef4444;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 15px;
+    background-color: #fee2e2;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.register-text {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.register-link {
+    color: var(--primary-green, #13ec37);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}

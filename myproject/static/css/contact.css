@@ -1,14 +1,5 @@
 /* contact.css */
 
-/* --- 0. Variables สำหรับหน้านี้ --- */
-:root {
-    --contact-dark: #1f2937;
-    --contact-medium: #6b7280;
-    --card-bg: #ffffff;
-    --card-bg-hover: #f9fafb;
-    --transition-speed: 0.3s;
-}
-
 /* --- Common Utility --- */
 .container {
     width: 100%;
@@ -29,7 +20,7 @@
     font-family: var(--font-main);
     font-weight: 800;
     font-size: 48px;
-    color: var(--contact-dark);
+    color: var(--text-main); /* สลับขาว-ดำ อัตโนมัติ */
     margin-bottom: 16px;
     letter-spacing: -1px;
 }
@@ -38,7 +29,7 @@
     font-family: var(--font-main);
     font-weight: 400;
     font-size: 18px;
-    color: var(--contact-medium);
+    color: var(--text-gray); /* สลับสีเทาตามโหมด */
     margin: 0;
 }
 
@@ -55,30 +46,29 @@
 }
 
 .support-card {
-    background-color: var(--card-bg);
+    background-color: var(--bg-surface); /* ดึงสีพื้นหลังกล่อง */
     border-radius: 24px;
     padding: 40px 32px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-    transition: var(--transition-speed);
-    border: 1px solid transparent;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color); /* กรอบสลับสีตามโหมด */
 }
 
 .support-card:hover {
-    background-color: var(--card-bg-hover);
     transform: translateY(-5px);
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
-    border-color: rgba(52, 78, 65, 0.1);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary-green); /* ตอนชี้ให้ขอบเป็นสีเขียวนีออน */
 }
 
 /* Icon Styles */
 .card-icon-bg {
     width: 64px;
     height: 64px;
-    background-color: rgba(52, 78, 65, 0.1);
+    background-color: rgba(19, 236, 55, 0.1); /* สีเขียวโปร่งแสง ใช้ได้ทั้งสองโหมด */
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -90,6 +80,7 @@
     width: auto;
     height: auto;
     object-fit: contain;
+    /* ถ้ามีไอคอนที่เป็นสีดำทึบ สามารถเพิ่ม filter: brightness(0) invert(1); ใน dark mode ได้ */
 }
 
 /* Text Styles */
@@ -97,13 +88,13 @@
     font-family: var(--font-main);
     font-weight: 700;
     font-size: 20px;
-    color: var(--contact-dark);
+    color: var(--text-main);
     margin-bottom: 8px;
 }
 
 .card-desc {
     font-size: 14px;
-    color: var(--contact-medium);
+    color: var(--text-gray);
     line-height: 1.6;
     margin-bottom: 32px;
     max-width: 260px;
@@ -120,7 +111,7 @@
 .btn-card-primary {
     width: 100%;
     height: 44px;
-    background-color: var(--primary-green);
+    background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
     color: #ffffff;
     border: none;
     border-radius: 16px;
@@ -130,20 +121,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.2s;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 10px rgba(19, 236, 55, 0.2);
 }
 
 .btn-card-primary:hover {
-    background-color: var(--dark-green);
     transform: scale(1.02);
+    box-shadow: 0 6px 14px rgba(19, 236, 55, 0.3);
 }
 
 .btn-card-outline {
     width: 100%;
     height: 44px;
     background-color: transparent;
-    color: var(--contact-dark);
-    border: 1px solid rgba(52, 78, 65, 0.2);
+    color: var(--text-main); /* ตัวหนังสือสลับขาว-ดำ */
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     font-weight: 700;
     font-size: 14px;
@@ -151,12 +143,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.2s;
+    transition: 0.3s ease;
 }
 
 .btn-card-outline:hover {
-    border-color: var(--contact-dark);
-    background-color: rgba(52, 78, 65, 0.05);
+    border-color: var(--primary-green);
+    color: var(--primary-green);
 }
 
 /* --- 3. Bottom CTA Section --- */
@@ -171,7 +163,7 @@
 .divider {
     width: 100%;
     height: 1px;
-    background-color: rgba(52, 78, 65, 0.1);
+    background-color: var(--border-color); /* เส้นคั่นสลับสีตามโหมด */
     margin-bottom: 60px;
 }
 
@@ -179,13 +171,13 @@
     font-family: var(--font-main);
     font-weight: 700;
     font-size: 18px;
-    color: var(--contact-dark);
+    color: var(--text-main);
     margin-bottom: 8px;
 }
 
 .bottom-desc {
     font-size: 16px;
-    color: var(--contact-medium);
+    color: var(--text-gray);
     margin-bottom: 24px;
 }
 
@@ -193,31 +185,25 @@
     height: 44px;
     padding: 0 40px;
     background-color: transparent;
-    color: var(--contact-dark);
-    border: 1px solid var(--contact-dark);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
     font-weight: 700;
     font-size: 14px;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.3s ease;
 }
 
 .btn-outline-large:hover {
-    background-color: var(--contact-dark);
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
     color: #ffffff;
+    box-shadow: 0 4px 10px rgba(19, 236, 55, 0.2);
 }
 
 /* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
-    .main-title {
-        font-size: 32px;
-    }
-    
-    .sub-title {
-        font-size: 16px;
-    }
-    
-    .container {
-        padding: 0 20px;
-    }
+    .main-title { font-size: 32px; }
+    .sub-title { font-size: 16px; }
+    .container { padding: 0 20px; }
 }

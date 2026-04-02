@@ -1,67 +1,71 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="th">
-  <head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
     <title>About Us - Digital Garden</title>
-    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
-    <link rel="stylesheet" href="{% static 'css/about.css' %}">
-  </head>
-  <body>
-        <header class="header">
-            <a href="{% url 'home' %}">
-                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
-            </a>
-            
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
-                    <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
-                    <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
-                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
-                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
-                </ul>
-            </nav>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/about.css' %}?v=2">
+</head>
+<body>
+    <header class="header">
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+        </a>
+        
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
 
-            <div class="header-actions">
-                <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
-                    <div class="icon-inner">
-                        <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+        <div class="header-actions" style="display: flex; align-items: center; gap: 15px;">
                         
-                        <span id="cartBadge" class="cart-badge">0</span>
-                    </div>
-                </a>
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle Dark Mode" style="background: none; border: none; cursor: pointer; padding: 0;">
+                <div class="icon-inner" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background-color: rgba(19, 236, 55, 0.1);">
+                    <span id="theme-icon" style="font-size: 20px;">🌙</span>
+                </div>
+            </button>
 
-                <div class="profile-container">
-                    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
+            <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart" style="text-decoration: none;">
+                <div class="icon-inner">
+                    <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                </div>
+                <span id="cartBadge" class="cart-badge">0</span>
+            </a>
+
+            <div class="profile-container">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="icon-btn" aria-label="Profile" style="text-decoration: none;">
                         <div class="icon-inner">
                             <img class="icon-img" src="{% static 'images/icon/Profile_icon.png' %}" alt="Profile" />
                         </div>
-                    </button>
-
-                    <div class="dropdown-menu" id="profileMenu">
-                        <div class="menu-header">
-                            <img src="{% static 'images/v41_78.png' %}" alt="User" class="menu-user-img">
-                            <span class="menu-username">ชื่อผู้ใช้</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="icon-btn" aria-label="Login" style="text-decoration: none;">
+                        <div class="icon-inner">
+                            <img class="icon-img" src="{% static 'images/icon/Profile_icon.png' %}" alt="Login" />
                         </div>
-                        <hr>
-                        <a href="#" class="menu-item">การซื้อของฉัน</a>
-                        <a href="#" class="menu-item logout">ออกจากระบบ</a>
-                    </div>
-                </div>
+                    </a>
+                {% endif %}
             </div>
-        </header>
+            
+        </div>
+    </header>
 
-        <main class="about-page">
-        
+    <main class="about-page">
         <section class="hero-section">
             <img src="{% static 'images/about/vegetable.png' %}" alt="Our Story Image" class="hero-bg-img" />
             <div class="hero-content">
-            <h1 class="hero-title">จากธรรมชาติสู่สวนของคุณ ด้วยใจรักในการปลูก</h1>
-            <p class="hero-subtitle">
-                “เชื่อมโยงผู้คนกับอาหารที่ยั่งยืน และความสุขในการปลูกผักด้วยตัวเอง ทีละแปลง”
-            </p>
+                <h1 class="hero-title">จากธรรมชาติสู่สวนของคุณ ด้วยใจรักในการปลูก</h1>
+                <p class="hero-subtitle">
+                    “เชื่อมโยงผู้คนกับอาหารที่ยั่งยืน และความสุขในการปลูกผักด้วยตัวเอง ทีละแปลง”
+                </p>
             </div>
         </section>
 
@@ -93,14 +97,14 @@
         </section>
 
         <section class="team-section">
-                <div class="container">
-                    <h2 class="section-title text-green">The People Behind the Plots</h2>
-                    <p class="section-desc">
-                        พบกับผู้คนที่มีความมุ่งมั่นและทุ่มเทในการทำให้วิสัยทัศน์ของเราเป็นจริง ความเชี่ยวชาญและความรักในธรรมชาติของทีมงาน คือรากฐานของชุมชนของเรา
-                    </p>
+            <div class="container">
+                <h2 class="section-title text-green">The People Behind the Plots</h2>
+                <p class="section-desc">
+                    พบกับผู้คนที่มีความมุ่งมั่นและทุ่มเทในการทำให้วิสัยทัศน์ของเราเป็นจริง ความเชี่ยวชาญและความรักในธรรมชาติของทีมงาน คือรากฐานของชุมชนของเรา
+                </p>
 
-                    <div class="team-grid">
-                    <div class="team-card"onclick="openTeamModal(this, 'kritsada')" style="cursor: pointer;">
+                <div class="team-grid">
+                    <div class="team-card" onclick="openTeamModal(this, 'kritsada')" style="cursor: pointer;">
                         <div class="avatar" style="background-image: url('{% static 'images/about/Kritsada.png' %}');"></div> 
                         <h3 class="member-name">Kritsada Phothong</h3>
                         <span class="member-role">นักพัฒนาและผู้ออกแบบระบบ</span>
@@ -109,7 +113,7 @@
                         </p>
                     </div>
 
-                    <div class="team-card"onclick="openTeamModal(this, 'wutthichai')" style="cursor: pointer;">
+                    <div class="team-card" onclick="openTeamModal(this, 'wutthichai')" style="cursor: pointer;">
                         <div class="avatar" style="background-image: url('{% static 'images/about/Ceo.png' %}');"></div>
                         <h3 class="member-name">Wutthichai Chanthsom</h3>
                         <span class="member-role">ผู้บริหาร และ ผู้ช่วยพัฒนา CODE</span>
@@ -118,7 +122,7 @@
                         </p>
                     </div>
 
-                    <div class="team-card"onclick="openTeamModal(this, 'supakorn')" style="cursor: pointer;">
+                    <div class="team-card" onclick="openTeamModal(this, 'supakorn')" style="cursor: pointer;">
                         <div class="avatar" style="background-image: url('{% static 'images/about/Fluk.jpg' %}');"></div>
                         <h3 class="member-name">Supakorn Sooksabuy</h3>
                         <span class="member-role">นักวิเคราะห์ระบบ</span>
@@ -127,7 +131,7 @@
                         </p>
                     </div>
 
-                    <div class="team-card"onclick="openTeamModal(this, 'wichairat')" style="cursor: pointer;">
+                    <div class="team-card" onclick="openTeamModal(this, 'wichairat')" style="cursor: pointer;">
                         <div class="avatar" style="background-image: url('{% static 'images/about/pf1.jpg' %}');"></div>
                         <h3 class="member-name">Wichairat Matarat</h3>
                         <span class="member-role">ผู้จัดทำเอกสารและรูปเล่ม</span>
@@ -136,7 +140,7 @@
                         </p>
                     </div>
 
-                    <div class="team-card"onclick="openTeamModal(this, 'pimchanok')" style="cursor: pointer;">
+                    <div class="team-card" onclick="openTeamModal(this, 'pimchanok')" style="cursor: pointer;">
                         <div class="avatar" style="background-image: url('{% static 'images/about/pf2.jpg' %}');"></div>
                         <h3 class="member-name">Pimchanok Tamboon</h3>
                         <span class="member-role">ผู้ตรวจสอบคุณภาพและเตรียมการนำเสนอ</span>
@@ -145,224 +149,224 @@
                         </p>
                     </div>
                 </div>
+            </div>
         </section>
+    </main>
 
-        </main>
-
-            <footer class="footer">
-                <div class="footer-container">
-                    <div class="footer-content">
-
-                        <div class="footer-column footer-brand">
-                            <div class="footer-logo">
-                                <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
-                            </div>
-                            <p class="slogan">
-                                เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
-                            </p>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4 class="footer-title">Explore</h4>
-                            <ul class="footer-list">
-                                <li><a href="#">สินค้าทั้งหมด</a></li>
-                                <li><a href="#">จองแปลงผัก</a></li>
-                                <li><a href="#">เรื่องราวของเรา</a></li>
-                                <li><a href="#">บทความ</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4 class="footer-title">Support</h4>
-                            <ul class="footer-list">
-                                <li><a href="#">ติดต่อเรา</a></li>
-                                <li><a href="#">คำถามที่พบบ่อย</a></li>
-                                <li><a href="#">การจัดส่ง & คืนสินค้า</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="footer-column">
-                            <h4 class="footer-title">Stay Connected</h4>
-                            <p class="newsletter-text">
-                                ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
-                            </p>
-                            <div style="display: flex; gap: 8px;">
-                                <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
-                                <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
-                            </div>
-                        </div>
-
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-column footer-brand">
+                    <div class="footer-logo">
+                        <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
                     </div>
+                    <p class="slogan">
+                        เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
+                    </p>
+                </div>
 
-                    <div class="footer-bottom">
-                        <p>© 2024 Digital Garden. All rights reserved.</p>
+                <div class="footer-column">
+                    <h4 class="footer-title">Explore</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">สินค้าทั้งหมด</a></li>
+                        <li><a href="#">จองแปลงผัก</a></li>
+                        <li><a href="#">เรื่องราวของเรา</a></li>
+                        <li><a href="#">บทความ</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">ติดต่อเรา</a></li>
+                        <li><a href="#">คำถามที่พบบ่อย</a></li>
+                        <li><a href="#">การจัดส่ง & คืนสินค้า</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 class="footer-title">Stay Connected</h4>
+                    <p class="newsletter-text">
+                        ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
+                    </p>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
+                        <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
                     </div>
                 </div>
-            </footer>
+            </div>
 
-            <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
-                <div id="chatIconContainer">
-                    <img src="{% static 'images/Group.png' %}" alt="Chat Icon" id="chatIconMain" />
+            <div class="footer-bottom">
+                <p>© 2024 Digital Garden. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="chat-button" id="chatButton" aria-label="Toggle Chat">
+        <div id="chatIconContainer">
+            <img src="{% static 'images/icon/Chat_icon.png' %}" alt="Chat Icon" id="chatIconMain" />
+        </div>
+    </button>
+
+    <div class="chat-popup" id="chatPopup">
+        <div class="chat-header">
+            <div class="admin-info">
+                <div class="admin-avatar"></div>
+                <div>
+                    <p class="admin-name">Greenhearth Admin</p>
+                    <p class="admin-status">ออนไลน์ พร้อมให้บริการ</p>
                 </div>
+            </div>
+            <button class="close-chat-header" id="closeChatHeader" style="font-size: 20px;">&times;</button>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message admin-msg">
+                สวัสดีค่ะ! 🌿 ยินดีต้อนรับสู่ Digital Garden <br>มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
+            <button id="sendBtn">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                </svg>
             </button>
-
-            <div class="chat-popup" id="chatPopup">
-                <div class="chat-header">
-                    <div class="admin-info">
-                        <div class="admin-avatar"></div>
-                        <div>
-                            <p class="admin-name">Greenhearth Admin</p>
-                            <p class="admin-status">ออนไลน์ พร้อมให้บริการ</p>
+        </div>
+    </div>
+    
+    <script src="{% static 'js/script.js' %}?v=1"></script>
+    
+    <div id="teamModal" class="team-modal">
+        <div class="team-modal-content">
+            <span class="close-modal" onclick="closeTeamModal()">&times;</span>
+            <div class="modal-body">
+                <div class="modal-left">
+                    <div id="modalImage" class="modal-image-preview"></div>
+                </div>
+                <div class="modal-right">
+                    <h2 id="modalName" class="modal-name">ชื่อ-นามสกุล</h2>
+                    <h4 id="modalRole" class="modal-role text-green">ตำแหน่ง</h4>
+                    <hr class="modal-divider">
+                    <div class="modal-details" id="modalDetails">
                         </div>
-                    </div>
-                    <button class="close-chat-header" id="closeChatHeader" style="font-size: 20px;">&times;</button>
-                </div>
-
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message admin-msg">
-                        สวัสดีค่ะ! 🌿 ยินดีต้อนรับสู่ Digital Garden <br>มีปัญหาการใช้งานตรงไหนให้แอดมินช่วยไหมคะ?
-                    </div>
-                </div>
-
-                <div class="chat-footer">
-                    <input type="text" placeholder="พิมพ์ข้อความที่นี่..." id="chatInput" />
-                    <button id="sendBtn">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-                        </svg>
-                    </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <script>
+        // ข้อมูลสมมุติของทีมงานแต่ละคน
+        const teamProfiles = {
+            'kritsada': {
+                email: 'kritsada.p@digitalgarden.com',
+                education: 'ปริญญาตรี วิศวกรรมคอมพิวเตอร์, มหาวิทยาลัยเทคโนโลยี',
+                experience: '5 ปี ในด้าน Full-Stack Development และ Software Architecture',
+                skills: 'Python, Django, React, Cloud Infrastructure (AWS), Database Design',
+                bio: 'ผู้อยู่เบื้องหลังโครงสร้างระบบทั้งหมดของ Digital Garden เริ่มต้นจากการเป็น Front-end Developer ก่อนจะขยายความเชี่ยวชาญมาฝั่ง Back-end มีความหลงใหลในการเขียนโค้ดที่สะอาดและระบบที่สเกลได้ เป็นคนวางรากฐานฟีเจอร์จองแปลงผักออนไลน์ให้ใช้งานได้จริง'
+            },
+            'wutthichai': {
+                email: 'wutthichai.c@digitalgarden.com',
+                education: 'ปริญญาโท การบริหารจัดการเทคโนโลยีสารสนเทศ',
+                experience: '7 ปี ในการบริหารจัดการโปรเจกต์และ Tech Lead',
+                skills: 'Project Management, Agile/Scrum, Node.js, System Debugging',
+                bio: 'ผู้บริหารวิสัยทัศน์ไกลที่เข้าใจทั้งฝั่ง Business และ ฝั่ง Technical คอยซัพพอร์ตทีม Dev ในการแก้ปัญหาและตัดสินใจเรื่องเทคโนโลยีที่เหมาะสม มั่นใจว่าโปรเจกต์จะส่งมอบได้ตรงเวลาพร้อมคุณภาพโค้ดที่ยอดเยี่ยม'
+            },
+            'supakorn': {
+                email: 'supakorn.s@digitalgarden.com',
+                education: 'ปริญญาตรี ระบบสารสนเทศเพื่อการจัดการ (MIS)',
+                experience: '4 ปี ในด้าน IT Business Analyst และ System Analyst',
+                skills: 'Requirement Analysis, UML, SQL, Data Visualization',
+                bio: 'นักแปลภาษาจาก "ความต้องการของผู้ใช้" ให้กลายเป็น "โครงสร้างระบบที่จับต้องได้" สุภากรณ์เป็นตัวกลางสำคัญที่รวบรวมข้อมูลทั้งหมด วิเคราะห์ความเป็นไปได้ และออกแบบ Flow การทำงานของเว็บไซต์ให้ตอบโจทย์ทั้งผู้ใช้และผู้ดูแลระบบ'
+            },
+            'wichairat': {
+                email: 'wichairat.m@digitalgarden.com',
+                education: 'ปริญญาตรี วิทยาการคอมพิวเตอร์',
+                experience: '3 ปี ในด้าน Technical Writing และ Documentation',
+                skills: 'Technical Writing, API Documentation, MS Office Suite',
+                bio: 'ผู้เชี่ยวชาญด้านการเรียบเรียงข้อมูลที่ซับซ้อนให้เข้าใจง่าย รับผิดชอบในการทำคู่มือการใช้งานทั้งฝั่งผู้ใช้งานทั่วไปและฝั่งผู้พัฒนาระบบ รวมถึงการจัดการรูปเล่มรายงานโปรเจกต์ให้มีความสมบูรณ์แบบและเป็นมืออาชีพ'
+            },
+            'pimchanok': {
+                email: 'pimchanok.t@digitalgarden.com',
+                education: 'ปริญญาตรี เทคโนโลยีสื่อสารมวลชน',
+                experience: '3 ปี ในด้าน Software Quality Assurance (QA) และ UX/UI Review',
+                skills: 'Manual Testing, Automated Testing, Presentation Design, Proofreading',
+                bio: 'ด่านสุดท้ายก่อนที่ระบบจะถึงมือผู้ใช้งาน พิมพ์ชนกเป็นผู้ตรวจสอบทุกรายละเอียดอย่างละเอียดถี่ถ้วน ทั้งการทำงานของระบบและการแสดงผล นอกจากนี้ยังเป็นตัวหลักในการออกแบบสไลด์พรีเซนต์ของทีมให้สวยงามและสื่อสารได้ตรงจุด'
+            }
+        };
+
+        // ฟังก์ชันเปิด Modal
+        function openTeamModal(cardElement, memberId) {
+            const modal = document.getElementById('teamModal');
+            const data = teamProfiles[memberId];
             
-            <script src="{% static 'js/script.js' %}"></script>
-            
-            <div id="teamModal" class="team-modal">
-                <div class="team-modal-content">
-                    <span class="close-modal" onclick="closeTeamModal()">&times;</span>
-                    <div class="modal-body">
-                        <div class="modal-left">
-                            <div id="modalImage" class="modal-image-preview"></div>
-                        </div>
-                        <div class="modal-right">
-                            <h2 id="modalName" class="modal-name">ชื่อ-นามสกุล</h2>
-                            <h4 id="modalRole" class="modal-role text-green">ตำแหน่ง</h4>
-                            <hr class="modal-divider">
-                            <div class="modal-details" id="modalDetails">
-                                </div>
-                        </div>
-                    </div>
+            if (!data) return; // ถ้าไม่พบข้อมูลให้ข้ามไป
+
+            // ดึงรูปภาพจาก Card ที่คลิก (ดึง URL จาก style background-image)
+            const avatarEl = cardElement.querySelector('.avatar');
+            const bgImage = window.getComputedStyle(avatarEl).backgroundImage;
+            document.getElementById('modalImage').style.backgroundImage = bgImage;
+
+            // ดึงชื่อและตำแหน่งจาก Card
+            const name = cardElement.querySelector('.member-name').innerText;
+            const role = cardElement.querySelector('.member-role').innerText;
+
+            // นำข้อมูลไปใส่ใน Modal
+            document.getElementById('modalName').innerText = name;
+            document.getElementById('modalRole').innerText = role;
+
+            // สร้าง HTML สำหรับข้อมูลรายละเอียด
+            const detailsHtml = `
+                <div class="modal-detail-group">
+                    <h5>อีเมลติดต่อ</h5>
+                    <p>${data.email}</p>
                 </div>
-            </div>
-            <script>
-                // ข้อมูลสมมุติของทีมงานแต่ละคน
-                const teamProfiles = {
-                    'kritsada': {
-                        email: 'kritsada.p@digitalgarden.com',
-                        education: 'ปริญญาตรี วิศวกรรมคอมพิวเตอร์, มหาวิทยาลัยเทคโนโลยี',
-                        experience: '5 ปี ในด้าน Full-Stack Development และ Software Architecture',
-                        skills: 'Python, Django, React, Cloud Infrastructure (AWS), Database Design',
-                        bio: 'ผู้อยู่เบื้องหลังโครงสร้างระบบทั้งหมดของ Digital Garden เริ่มต้นจากการเป็น Front-end Developer ก่อนจะขยายความเชี่ยวชาญมาฝั่ง Back-end มีความหลงใหลในการเขียนโค้ดที่สะอาดและระบบที่สเกลได้ เป็นคนวางรากฐานฟีเจอร์จองแปลงผักออนไลน์ให้ใช้งานได้จริง'
-                    },
-                    'wutthichai': {
-                        email: 'wutthichai.c@digitalgarden.com',
-                        education: 'ปริญญาโท การบริหารจัดการเทคโนโลยีสารสนเทศ',
-                        experience: '7 ปี ในการบริหารจัดการโปรเจกต์และ Tech Lead',
-                        skills: 'Project Management, Agile/Scrum, Node.js, System Debugging',
-                        bio: 'ผู้บริหารวิสัยทัศน์ไกลที่เข้าใจทั้งฝั่ง Business และ ฝั่ง Technical คอยซัพพอร์ตทีม Dev ในการแก้ปัญหาและตัดสินใจเรื่องเทคโนโลยีที่เหมาะสม มั่นใจว่าโปรเจกต์จะส่งมอบได้ตรงเวลาพร้อมคุณภาพโค้ดที่ยอดเยี่ยม'
-                    },
-                    'supakorn': {
-                        email: 'supakorn.s@digitalgarden.com',
-                        education: 'ปริญญาตรี ระบบสารสนเทศเพื่อการจัดการ (MIS)',
-                        experience: '4 ปี ในด้าน IT Business Analyst และ System Analyst',
-                        skills: 'Requirement Analysis, UML, SQL, Data Visualization',
-                        bio: 'นักแปลภาษาจาก "ความต้องการของผู้ใช้" ให้กลายเป็น "โครงสร้างระบบที่จับต้องได้" สุภากรณ์เป็นตัวกลางสำคัญที่รวบรวมข้อมูลทั้งหมด วิเคราะห์ความเป็นไปได้ และออกแบบ Flow การทำงานของเว็บไซต์ให้ตอบโจทย์ทั้งผู้ใช้และผู้ดูแลระบบ'
-                    },
-                    'wichairat': {
-                        email: 'wichairat.m@digitalgarden.com',
-                        education: 'ปริญญาตรี วิทยาการคอมพิวเตอร์',
-                        experience: '3 ปี ในด้าน Technical Writing และ Documentation',
-                        skills: 'Technical Writing, API Documentation, MS Office Suite',
-                        bio: 'ผู้เชี่ยวชาญด้านการเรียบเรียงข้อมูลที่ซับซ้อนให้เข้าใจง่าย รับผิดชอบในการทำคู่มือการใช้งานทั้งฝั่งผู้ใช้งานทั่วไปและฝั่งผู้พัฒนาระบบ รวมถึงการจัดการรูปเล่มรายงานโปรเจกต์ให้มีความสมบูรณ์แบบและเป็นมืออาชีพ'
-                    },
-                    'pimchanok': {
-                        email: 'pimchanok.t@digitalgarden.com',
-                        education: 'ปริญญาตรี เทคโนโลยีสื่อสารมวลชน',
-                        experience: '3 ปี ในด้าน Software Quality Assurance (QA) และ UX/UI Review',
-                        skills: 'Manual Testing, Automated Testing, Presentation Design, Proofreading',
-                        bio: 'ด่านสุดท้ายก่อนที่ระบบจะถึงมือผู้ใช้งาน พิมพ์ชนกเป็นผู้ตรวจสอบทุกรายละเอียดอย่างละเอียดถี่ถ้วน ทั้งการทำงานของระบบและการแสดงผล นอกจากนี้ยังเป็นตัวหลักในการออกแบบสไลด์พรีเซนต์ของทีมให้สวยงามและสื่อสารได้ตรงจุด'
-                    }
-                };
+                <div class="modal-detail-group">
+                    <h5>ประวัติการศึกษา</h5>
+                    <p>${data.education}</p>
+                </div>
+                <div class="modal-detail-group">
+                    <h5>ประสบการณ์</h5>
+                    <p>${data.experience}</p>
+                </div>
+                <div class="modal-detail-group">
+                    <h5>ทักษะความเชี่ยวชาญ</h5>
+                    <p>${data.skills}</p>
+                </div>
+                <div class="modal-detail-group">
+                    <h5>ประวัติการทำงานโดยย่อ</h5>
+                    <p>${data.bio}</p>
+                </div>
+            `;
+            
+            document.getElementById('modalDetails').innerHTML = detailsHtml;
 
-                // ฟังก์ชันเปิด Modal
-                function openTeamModal(cardElement, memberId) {
-                    const modal = document.getElementById('teamModal');
-                    const data = teamProfiles[memberId];
-                    
-                    if (!data) return; // ถ้าไม่พบข้อมูลให้ข้ามไป
+            // แสดง Modal
+            modal.style.display = 'flex';
+            // ใช้ setTimeout เล็กน้อยเพื่อให้ CSS Transition ทำงาน
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+        }
 
-                    // ดึงรูปภาพจาก Card ที่คลิก (ดึง URL จาก style background-image)
-                    const avatarEl = cardElement.querySelector('.avatar');
-                    const bgImage = window.getComputedStyle(avatarEl).backgroundImage;
-                    document.getElementById('modalImage').style.backgroundImage = bgImage;
+        // ฟังก์ชันปิด Modal
+        function closeTeamModal() {
+            const modal = document.getElementById('teamModal');
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300); // รอให้ Animation จบก่อนซ่อน
+        }
 
-                    // ดึงชื่อและตำแหน่งจาก Card
-                    const name = cardElement.querySelector('.member-name').innerText;
-                    const role = cardElement.querySelector('.member-role').innerText;
-
-                    // นำข้อมูลไปใส่ใน Modal
-                    document.getElementById('modalName').innerText = name;
-                    document.getElementById('modalRole').innerText = role;
-
-                    // สร้าง HTML สำหรับข้อมูลรายละเอียด
-                    const detailsHtml = `
-                        <div class="modal-detail-group">
-                            <h5>อีเมลติดต่อ</h5>
-                            <p>${data.email}</p>
-                        </div>
-                        <div class="modal-detail-group">
-                            <h5>ประวัติการศึกษา</h5>
-                            <p>${data.education}</p>
-                        </div>
-                        <div class="modal-detail-group">
-                            <h5>ประสบการณ์</h5>
-                            <p>${data.experience}</p>
-                        </div>
-                        <div class="modal-detail-group">
-                            <h5>ทักษะความเชี่ยวชาญ</h5>
-                            <p>${data.skills}</p>
-                        </div>
-                        <div class="modal-detail-group">
-                            <h5>ประวัติการทำงานโดยย่อ</h5>
-                            <p>${data.bio}</p>
-                        </div>
-                    `;
-                    
-                    document.getElementById('modalDetails').innerHTML = detailsHtml;
-
-                    // แสดง Modal
-                    modal.style.display = 'flex';
-                    // ใช้ setTimeout เล็กน้อยเพื่อให้ CSS Transition ทำงาน
-                    setTimeout(() => {
-                        modal.classList.add('show');
-                    }, 10);
-                }
-
-                // ฟังก์ชันปิด Modal
-                function closeTeamModal() {
-                    const modal = document.getElementById('teamModal');
-                    modal.classList.remove('show');
-                    setTimeout(() => {
-                        modal.style.display = 'none';
-                    }, 300); // รอให้ Animation จบก่อนซ่อน
-                }
-
-                // ปิด Modal เมื่อคลิกพื้นที่ว่างๆ นอกกล่องข้อมูล
-                window.onclick = function(event) {
-                    const modal = document.getElementById('teamModal');
-                    if (event.target == modal) {
-                        closeTeamModal();
-                    }
-                }
-            </script>
-  </body>
+        // ปิด Modal เมื่อคลิกพื้นที่ว่างๆ นอกกล่องข้อมูล
+        window.onclick = function(event) {
+            const modal = document.getElementById('teamModal');
+            if (event.target == modal) {
+                closeTeamModal();
+            }
+        }
+    </script>
+    
+</body>
 </html>

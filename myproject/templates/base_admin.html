@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DG Quantum | {% block title %}{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050509; --bg-panel: rgba(20, 20, 35, 0.6);
+            --primary-neon: #13ec37; --primary-dim: rgba(19, 236, 55, 0.15);
+            --text-main: #e5e7eb; --text-dim: #9ca3af;
+            --border-color: rgba(255, 255, 255, 0.08); --glass-blur: blur(12px);
+        }
+        * { box-sizing: border-box; transition: 0.3s ease; }
+        body { margin: 0; background: var(--bg-dark); color: var(--text-main); font-family: 'Manrope', sans-serif; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* SIDEBAR */
+        .admin-sidebar { width: 260px; background: var(--bg-panel); backdrop-filter: var(--glass-blur); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 30px 0; }
+        .admin-brand { font-size: 22px; font-weight: 800; color: var(--primary-neon); text-align: center; margin-bottom: 30px; }
+        .admin-menu a { display: flex; align-items: center; padding: 16px 25px; color: var(--text-dim); text-decoration: none; font-size: 15px; border-left: 3px solid transparent; }
+        .admin-menu a:hover { background: var(--primary-dim); color: white; }
+        .admin-menu a.active { color: var(--primary-neon); background: rgba(19, 236, 55, 0.08); border-left-color: var(--primary-neon); font-weight: 700; }
+        .admin-logout { margin-top: auto; padding: 15px 25px; color: #ef4444; text-decoration: none; font-weight: 700; border-top: 1px solid var(--border-color); }
+
+        /* CONTENT */
+        .admin-main { flex-grow: 1; padding: 40px; overflow-y: auto; animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+        .data-section { background: var(--bg-panel); backdrop-filter: var(--glass-blur); padding: 30px; border-radius: 16px; border: 1px solid var(--border-color); }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; color: var(--primary-neon); font-size: 12px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
+        td { padding: 15px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+        .btn-manage { border: 1px solid var(--primary-neon); color: var(--primary-neon); padding: 5px 12px; border-radius: 6px; text-decoration: none; font-size: 11px; font-weight: 700; }
+        .btn-manage:hover { background: var(--primary-neon); color: black; }
+    </style>
+</head>
+<body>
+    <aside class="admin-sidebar">
+        <div class="admin-brand">DG <span>Quantum</span></div>
+        <div class="admin-menu">
+            <a href="{% url 'admin_dashboard' %}" class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">📊 Dashboard</a>
+            <a href="{% url 'admin_users' %}" class="{% if request.resolver_match.url_name == 'admin_users' %}active{% endif %}">👥 Users</a>
+            <a href="{% url 'admin_orders' %}" class="{% if request.resolver_match.url_name == 'admin_orders' %}active{% endif %}">🛍️ Orders</a>
+            <a href="{% url 'admin_plots' %}" class="{% if request.resolver_match.url_name == 'admin_plots' %}active{% endif %}">🌱 Veggie Plots</a>
+            <a href="{% url 'admin_products' %}" class="{% if request.resolver_match.url_name == 'admin_products' %}active{% endif %}">📦 Products</a>
+        </div>
+        <a href="{% url 'logout' %}" class="admin-logout">🚪 LOGOUT</a>
+    </aside>
+    <main class="admin-main">
+        {% block content %}{% endblock %}
+    </main>
+    {% if messages %}
+<div id="toast-container">
+    {% for message in messages %}
+    <div class="toast {{ message.tags }}">
+        <span class="glow-line"></span>
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<style>
+    #toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+    .toast { background: var(--bg-panel); backdrop-filter: blur(10px); color: white; padding: 15px 25px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 10px; font-size: 13px; font-weight: 700; position: relative; overflow: hidden; animation: slideIn 0.5s ease; }
+    .toast.success { border-left: 4px solid var(--primary-neon); }
+    .toast.error { border-left: 4px solid #ef4444; }
+    .glow-line { position: absolute; bottom: 0; left: 0; height: 2px; width: 100%; background: var(--primary-neon); animation: shrink 3s linear forwards; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes shrink { from { width: 100%; } to { width: 0%; } }
+</style>
+
+<script>
+    setTimeout(() => {
+        const toasts = document.querySelectorAll('.toast');
+        toasts.forEach(t => t.style.display = 'none');
+    }, 3000);
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+    <div class="admin-header"><h1>Quantum <span>Inventory</span> / Products</h1></div>
+    <div class="data-section">
+        <table>
+            <thead><tr><th>IMAGE</th><th>NAME</th><th>PRICE</th><th>STOCK</th><th>ACTION</th></tr></thead>
+            <tbody>
+                {% for p in all_products %}
+                <tr>
+                    <td><img src="{{ p.image.url }}" style="width:40px; border-radius:8px;"></td>
+                    <td>{{ p.name }}</td>
+                    <td style="color:var(--primary-neon);">${{ p.price }}</td>
+                    <td>IN_STOCK</td>
+                    <td><a href="/admin/store/product/{{ p.id }}/change/" target="_blank" class="btn-manage">EDIT</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

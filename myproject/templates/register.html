@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครสมาชิก - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="login-page">
+        <div class="login-card">
+            <div class="logo-container">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" width="150">
+                </a>
+            </div>
+
+            <h2 class="login-title">สร้างบัญชีใหม่</h2>
+
+            {% if messages %}
+                <div class="alert-messages">
+                    {% for message in messages %}
+                        <p class="error-text" {% if message.tags == 'success' %}style="background-color: #dcfce7; color: #166534;"{% endif %}>
+                            {{ message }}
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                
+                <div class="input-group">
+                    <label for="username">ชื่อผู้ใช้</label>
+                    <input type="text" id="username" name="username" required placeholder="ตั้งชื่อผู้ใช้อย่างน้อย 4 ตัวอักษร">
+                </div>
+
+                <div class="input-group">
+                    <label for="email">อีเมล</label>
+                    <input type="email" id="email" name="email" required placeholder="กรอกอีเมลของคุณ">
+                </div>
+
+                <div class="input-group">
+                    <label for="password">รหัสผ่าน</label>
+                    <input type="password" id="password" name="password" required placeholder="ตั้งรหัสผ่าน">
+                </div>
+
+                <div class="input-group">
+                    <label for="confirm_password">ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required placeholder="กรอกรหัสผ่านอีกครั้ง">
+                </div>
+
+                <button type="submit" class="btn-login">สมัครสมาชิก</button>
+            </form>
+
+            <p class="register-text">
+                มีบัญชีอยู่แล้วใช่ไหม? <a href="{% url 'login' %}" class="register-link">เข้าสู่ระบบที่นี่</a>
+            </p>
+        </div>
+    </div>
+    <script src="{% static 'js/script.js' %}?v=1"></script>
+</body>
+</html>
