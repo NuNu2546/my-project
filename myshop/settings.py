@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ir-48$r+s5j!(!39moq&q5lxvcl%18i!&k@$3b6xzevz_&(1_u'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-change-me-before-deploy')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -132,12 +135,17 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 
-# --- Opn Payments (Omise) Test Keys ---
-OMISE_SECRET_KEY = "skey_test_68e3u2cyorz2vg39pre"
-OMISE_PUBLIC_KEY = "pkey_test_68e3u2bm8tpsy8uydfd"
+# --- Opn Payments (Omise) ---
+OMISE_SECRET_KEY = os.environ.get('OMISE_SECRET_KEY', '')
+OMISE_PUBLIC_KEY = os.environ.get('OMISE_PUBLIC_KEY', '')
 
-ALLOWED_HOSTS += ['popsicle-frequent-massive.ngrok-free.dev']
-CSRF_TRUSTED_ORIGINS = ['https://popsicle-frequent-massive.ngrok-free.dev']
+# --- ngrok (dev only) ---
+_NGROK_URL = os.environ.get('NGROK_URL', '').strip()
+if _NGROK_URL:
+    ALLOWED_HOSTS.append(_NGROK_URL)
+    CSRF_TRUSTED_ORIGINS = [f'https://{_NGROK_URL}']
+else:
+    CSRF_TRUSTED_ORIGINS = []
 
 # Session: ไม่หมดอายุเมื่อปิดเบราว์เซอร์ อยู่ได้ 1 ปี (สำหรับจำออเดอร์ของผู้ใช้)
 SESSION_COOKIE_AGE = 31536000  # 1 year in seconds

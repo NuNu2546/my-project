@@ -1,6 +1,50 @@
-# .gitignore
-*.pyc
-__pycache__
-db.sqlite3
-/venv
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# === Virtual environments ===
+venv/
+env/
+.venv/
+.env/
+ENV/
+
+# === Environment variables (ห้าม commit เด็ดขาด) ===
 .env
+.env.local
+.env.*.local
+
+# === Django ===
+db.sqlite3
+db.sqlite3-journal
+*.log
+media/
+staticfiles/
+local_settings.py
+
+# === Licensed / purchased assets (ห้ามแจกจ่ายตามเงื่อนไข license) ===
+static/images/game/
+
+# === IDE & OS ===
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === Distribution / packaging ===
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# === Testing ===
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
