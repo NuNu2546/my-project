@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>โปรไฟล์ - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <style>
+        .profile-page {
+            max-width: 700px;
+            margin: 80px auto 100px;
+            padding: 0 24px;
+        }
+        .profile-page h1 { font-size: 28px; font-weight: 800; color: #1f2937; margin-bottom: 8px; }
+        .profile-email { font-size: 14px; color: #6b7280; margin-bottom: 32px; }
+        .coin-banner {
+            background: linear-gradient(135deg, #1a5c35, var(--primary-green));
+            color: #fff; border-radius: 18px; padding: 20px 28px;
+            display: flex; align-items: center; gap: 16px; margin-bottom: 36px;
+        }
+        .coin-banner img { width: 36px; height: 36px; opacity: .9; }
+        .coin-banner .coin-num { font-size: 28px; font-weight: 800; }
+        .coin-banner .coin-label { font-size: 13px; opacity: .8; }
+
+        .profile-card {
+            background: #fff; border-radius: 20px; padding: 32px;
+            box-shadow: 0 1px 4px rgba(0,0,0,.06); margin-bottom: 24px;
+        }
+        .profile-card h2 { font-size: 17px; font-weight: 700; color: #1f2937; margin-bottom: 24px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { margin-bottom: 18px; }
+        .form-label { display: block; font-size: 13px; font-weight: 600; color: #374151; margin-bottom: 6px; }
+        .form-input {
+            width: 100%; padding: 11px 14px; border: 1px solid #e5e7eb;
+            border-radius: 12px; font-size: 14px; box-sizing: border-box;
+            transition: border-color .2s;
+        }
+        .form-input.is-error { border-color: #ef4444; }
+        .form-input:focus { outline: none; border-color: var(--primary-green); box-shadow: 0 0 0 3px rgba(19,236,55,.12); }
+        textarea.form-input { resize: vertical; min-height: 80px; }
+        .form-error { font-size: 12px; color: #ef4444; margin-top: 4px; }
+        .alert-success {
+            background: #f0fdf4; border: 1px solid #bbf7d0;
+            border-radius: 10px; padding: 12px 16px;
+            font-size: 14px; color: #166534; margin-bottom: 20px;
+        }
+        .btn-save {
+            padding: 11px 28px; background: var(--primary-green); color: #fff;
+            border: none; border-radius: 12px; font-size: 14px;
+            font-weight: 700; cursor: pointer; transition: background .2s, box-shadow .2s;
+        }
+        .btn-save:hover { background: var(--dark-green); box-shadow: 0 4px 14px rgba(19,236,55,.28); }
+        .email-readonly {
+            padding: 11px 14px; background: #f9fafb; border: 1px solid #e5e7eb;
+            border-radius: 12px; font-size: 14px; color: #6b7280;
+        }
+        @media (max-width: 540px) { .form-row { grid-template-columns: 1fr; } .profile-page { margin-top: 40px; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+        </a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                <div class="icon-inner">
+                    <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                    <span id="cartBadge" class="cart-badge">0</span>
+                </div>
+            </a>
+            {% include '_profile_dropdown.html' %}
+        </div>
+    </header>
+
+    <main class="profile-page">
+        <h1>โปรไฟล์ของฉัน</h1>
+        <p class="profile-email">{{ request.user.email }}</p>
+
+        <div class="coin-banner">
+            <img src="{% static 'images/icon/Sales_icon.png' %}" alt="coins">
+            <div>
+                <div class="coin-num">{{ wallet_balance }} coins</div>
+                <div class="coin-label">ยอด coins สะสมปัจจุบัน</div>
+            </div>
+        </div>
+
+        {% if success %}
+        <div class="alert-success">✓ {{ success }}</div>
+        {% endif %}
+
+        <!-- ข้อมูลส่วนตัว -->
+        <div class="profile-card">
+            <h2>ข้อมูลส่วนตัว</h2>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="profile">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">ชื่อ</label>
+                        <input type="text" name="first_name"
+                               class="form-input{% if errors.first_name %} is-error{% endif %}"
+                               value="{{ request.user.first_name }}" required>
+                        {% if errors.first_name %}<p class="form-error">{{ errors.first_name }}</p>{% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">นามสกุล</label>
+                        <input type="text" name="last_name"
+                               class="form-input{% if errors.last_name %} is-error{% endif %}"
+                               value="{{ request.user.last_name }}" required>
+                        {% if errors.last_name %}<p class="form-error">{{ errors.last_name }}</p>{% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">อีเมล (เปลี่ยนไม่ได้)</label>
+                    <div class="email-readonly">{{ request.user.email }}</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">เบอร์โทรศัพท์</label>
+                    <input type="tel" name="phone"
+                           class="form-input{% if errors.phone %} is-error{% endif %}"
+                           value="{{ profile.phone }}" placeholder="08x-xxx-xxxx">
+                    {% if errors.phone %}<p class="form-error">{{ errors.phone }}</p>{% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">ที่อยู่เริ่มต้น (prefill อัตโนมัติในหน้า checkout)</label>
+                    <textarea name="default_address" class="form-input"
+                              placeholder="บ้านเลขที่ ถนน แขวง เขต จังหวัด รหัสไปรษณีย์">{{ profile.default_address }}</textarea>
+                </div>
+
+                <button type="submit" class="btn-save">บันทึกข้อมูล</button>
+            </form>
+        </div>
+
+        <!-- เปลี่ยนรหัสผ่าน -->
+        <div class="profile-card">
+            <h2>เปลี่ยนรหัสผ่าน</h2>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="password">
+
+                <div class="form-group">
+                    <label class="form-label">รหัสผ่านปัจจุบัน</label>
+                    <input type="password" name="old_password"
+                           class="form-input{% if errors.old_password %} is-error{% endif %}"
+                           placeholder="••••••••">
+                    {% if errors.old_password %}<p class="form-error">{{ errors.old_password }}</p>{% endif %}
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">รหัสผ่านใหม่</label>
+                        <input type="password" name="new_password"
+                               class="form-input{% if errors.new_password %} is-error{% endif %}"
+                               placeholder="อย่างน้อย 8 ตัว">
+                        {% if errors.new_password %}<p class="form-error">{{ errors.new_password }}</p>{% endif %}
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
+                        <input type="password" name="new_password2"
+                               class="form-input{% if errors.new_password2 %} is-error{% endif %}"
+                               placeholder="พิมพ์อีกครั้ง">
+                        {% if errors.new_password2 %}<p class="form-error">{{ errors.new_password2 }}</p>{% endif %}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-save">เปลี่ยนรหัสผ่าน</button>
+            </form>
+        </div>
+
+        <div style="margin-top:16px;">
+            <a href="{% url 'my_orders' %}" style="color:var(--primary-green);font-weight:600;font-size:14px;">← การซื้อของฉัน</a>
+        </div>
+    </main>
+
+    {% include '_chat_widget.html' %}
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

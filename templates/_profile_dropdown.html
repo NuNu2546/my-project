@@ -1,0 +1,41 @@
+{% load static %}
+<div class="profile-container">
+    <button type="button" class="icon-btn profile-trigger" aria-label="Profile" onclick="toggleProfileMenu()">
+        <div class="icon-inner">
+            <img class="icon-img" src="{% static 'images/icon/Profile_icon.png' %}" alt="Profile" />
+        </div>
+    </button>
+
+    <div class="dropdown-menu" id="profileMenu">
+        {% if request.user.is_authenticated %}
+        <div class="menu-header">
+            <img src="{% static 'images/profile.png' %}" alt="User" class="menu-user-img">
+            <div>
+                <span class="menu-username">{{ request.user.get_full_name|default:request.user.username }}</span>
+                <span style="font-size:12px;color:#6b7280;display:block;margin-top:2px;">
+                    <img src="{% static 'images/icon/Sales_icon.png' %}" style="width:12px;height:12px;vertical-align:middle;opacity:0.5;" alt="">
+                    <span id="coinsBadge">0</span> coins
+                </span>
+            </div>
+        </div>
+        <hr>
+        <a href="{% url 'profile' %}" class="menu-item">โปรไฟล์</a>
+        <a href="{% url 'my_orders' %}" class="menu-item">การซื้อของฉัน</a>
+        {% if request.user.is_staff %}
+        <a href="{% url 'staff_overview' %}" class="menu-item" style="color:var(--primary-green);font-weight:700;">🌿 จัดการร้านค้า</a>
+        {% endif %}
+        <a href="#" class="menu-item logout" onclick="event.preventDefault();document.getElementById('logoutForm').submit();">ออกจากระบบ</a>
+        <form id="logoutForm" action="{% url 'logout' %}" method="post" style="display:none;">{% csrf_token %}</form>
+        {% else %}
+        <div class="menu-header" style="padding:14px 16px 10px;">
+            <div>
+                <span class="menu-username" style="font-size:14px;color:#374151;">ยังไม่ได้เข้าสู่ระบบ</span>
+                <span style="font-size:12px;color:#9ca3af;display:block;margin-top:2px;">เข้าสู่ระบบเพื่อดูออเดอร์ & coins</span>
+            </div>
+        </div>
+        <hr>
+        <a href="{% url 'login' %}?next={{ request.path }}" class="menu-item">เข้าสู่ระบบ</a>
+        <a href="{% url 'register' %}?next={{ request.path }}" class="menu-item" style="color:var(--primary-green);font-weight:600;">สมัครสมาชิก</a>
+        {% endif %}
+    </div>
+</div>

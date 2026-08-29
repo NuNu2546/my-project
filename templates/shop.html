@@ -1,0 +1,250 @@
+﻿{% load static staff_extras %}
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Shop - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/shop.css' %}">
+  </head>
+  <body>
+        <header class="header">
+            <a href="{% url 'home' %}">
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+            </a>
+            
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                    <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                        <span id="cartBadge" class="cart-badge">0</span>
+                    </div>
+                </a>
+                {% include '_profile_dropdown.html' %}
+            </div>
+        </header>
+
+    <main class="shop-container container">
+        
+        <div class="breadcrumb">
+            <a href="{% url 'home' %}">Home</a> <span>/</span> <span class="current">Shop</span>
+        </div>
+
+        <div class="shop-layout">
+            <aside class="shop-sidebar">
+                <div class="filter-group">
+                    <h3 class="filter-title">หมวดหมู่สินค้า</h3>
+                    <ul class="category-list">
+                        <li class="active" data-filter="all">ทั้งหมด</li>
+                        <li data-filter="natural">ผลิตภัณฑ์ธรรมชาติ</li>
+                        <li data-filter="aroma">อโรม่า</li>
+                        <li data-filter="seeds">เมล็ดพันธุ์</li>
+                        <li data-filter="tools">อุปกรณ์ทำสวน</li>
+                    </ul>
+                </div>
+            </aside>
+
+            <section class="shop-content">
+                <div class="shop-topbar">
+                    <h2 class="page-title">สินค้าทั้งหมด</h2>
+                    <div class="sort-wrapper">
+                        <span>Sort by:</span>
+                        <select class="sort-select">
+                            <option value="popularity">Popularity</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="product-grid" id="productGrid">
+                    {% for product in products %}
+                    <div class="product-card" data-category="{{ product.category }}"{% if not product.is_in_stock %} data-out-of-stock="1"{% endif %}>
+
+                        <a href="{% url 'product_detail' product.id %}" class="card-link">
+                            <div class="card-img-wrapper" style="position:relative">
+                                <img src="{% static product.image %}" alt="{{ product.name }}">
+                                {% if not product.is_in_stock %}
+                                <span class="badge-out-of-stock">สินค้าหมด</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="product-title">{{ product.name }}</h3>
+                                <p class="product-price">{{ product.price|price_fmt }}</p>
+                                {% if product.avg_rating %}
+                                <p style="font-size:12px;color:#f59e0b;margin-top:2px;">{{ product.avg_rating|floatformat:1 }}★ <span style="color:#9ca3af;">({{ product.review_count }})</span></p>
+                                {% endif %}
+                                {% if product.is_low_stock %}
+                                <p class="stock-low-label">เหลือ {{ product.stock_quantity }} ชิ้น</p>
+                                {% endif %}
+                            </div>
+                        </a>
+
+                        <div style="padding: 0 16px 16px 16px;">
+                                <button class="btn-add"
+                                    {% if not product.is_in_stock %}disabled style="opacity:.45;cursor:not-allowed"{% else %}onclick="openQuickView(event, '{{ product.id }}', '{{ product.name|escapejs }}', '{{ product.price }}', '{% static product.image %}')"{% endif %}>
+                                    {% if product.is_in_stock %}Add to Cart{% else %}สินค้าหมด{% endif %}
+                                </button>
+                        </div>
+
+                    </div>
+                    {% empty %}
+                        <p style="grid-column: 1/-1; text-align: center;">ยังไม่มีสินค้าในระบบ</p>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+
+                    <div class="footer-column footer-brand">
+                        <div class="footer-logo">
+                            <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+                        </div>
+                        <p class="slogan">
+                            เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
+                        </p>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Explore</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'shop' %}">สินค้าทั้งหมด</a></li>
+                            <li><a href="{% url 'veggie_plots' %}">จองแปลงผัก</a></li>
+                            <li><a href="{% url 'about' %}">เรื่องราวของเรา</a></li>
+                            <li><a href="#">บทความ</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'contact' %}">ติดต่อเรา</a></li>
+                            <li><a href="{% url 'contact' %}#faq">คำถามที่พบบ่อย</a></li>
+                            <li><a href="mailto:support@digitalgarden.co.th">การจัดส่ง & คืนสินค้า</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Stay Connected</h4>
+                        <p class="newsletter-text">
+                            ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
+                        </p>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
+                            <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2024 Digital Garden. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+        <div id="quickViewModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                
+                <div class="modal-body">
+                    <div class="modal-img-wrapper">
+                        <img id="modalImg" src="" alt="Product Image">
+                    </div>
+
+                    <div class="modal-info">
+                        <h3 id="modalTitle">ชื่อสินค้า</h3>
+                        <p id="modalPrice" class="modal-price">฿0</p>
+                        
+                        <div class="quantity-control">
+                            <button onclick="updateModalQty(-1)">-</button>
+                            <input type="number" id="modalQty" value="1" readonly>
+                            <button onclick="updateModalQty(1)">+</button>
+                        </div>
+
+                        <button class="btn-confirm-add" onclick="confirmAddToCart()">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% include '_chat_widget.html' %}
+        <script src="{% static 'js/script.js' %}"></script>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- 1. Filter Logic ---
+            const filters = document.querySelectorAll('.category-list li');
+            const products = document.querySelectorAll('.product-card');
+
+            filters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    // ลบ active เก่า
+                    filters.forEach(f => f.classList.remove('active'));
+                    // ใส่ active ใหม่
+                    this.classList.add('active');
+
+                    const category = this.getAttribute('data-filter');
+
+                    products.forEach(product => {
+                        // ดึง category ของสินค้าจาก data-category
+                        const productCat = product.getAttribute('data-category');
+                        
+                        if (category === 'all' || productCat === category) {
+                            product.style.display = 'flex'; // แสดง
+                        } else {
+                            product.style.display = 'none'; // ซ่อน
+                        }
+                    });
+                });
+            });
+
+            // --- 2. Sort Logic ---
+            const sortSelect = document.querySelector('.sort-select');
+            const productGrid = document.getElementById('productGrid');
+
+            function getPrice(product) {
+                const priceText = product.querySelector('.product-price').innerText;
+                // ลบ $ และ , ออก แล้วแปลงเป็นตัวเลข
+                return parseFloat(priceText.replace('฿', '').replace(/,/g, ''));
+            }
+
+            sortSelect.addEventListener('change', function() {
+                const sortValue = this.value;
+                let sortedProducts = Array.from(productGrid.children);
+
+                if (sortValue === 'price-low') {
+                    sortedProducts.sort((a, b) => getPrice(a) - getPrice(b));
+                } else if (sortValue === 'price-high') {
+                    sortedProducts.sort((a, b) => getPrice(b) - getPrice(a));
+                } else {
+                    // กลับไปใช้ค่าเดิม (ต้องระวังเรื่อง Filter ด้วย แต่เบื้องต้นเรียงตาม HTML เดิม)
+                    // เพื่อความง่ายให้ Reload หน้า หรือเรียงตาม ID ถ้ามี
+                    window.location.reload(); 
+                    return; 
+                }
+
+                // ลบของเก่าและใส่ของใหม่ที่เรียงแล้ว
+                productGrid.innerHTML = "";
+                sortedProducts.forEach(product => productGrid.appendChild(product));
+            });
+        });
+        </script>
+  </body>
+</html>

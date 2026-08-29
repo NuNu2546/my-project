@@ -1,0 +1,387 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ติดตาม Order #{{ order.id }} - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <style>
+        /* ===== Page layout ===== */
+        .track-detail-page { background: #f6f8f6; min-height: calc(100vh - 80px); padding: 40px 20px 80px; }
+        .track-container { max-width: 960px; margin: 0 auto; }
+
+        /* breadcrumb */
+        .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #6b7280; margin-bottom: 24px; }
+        .breadcrumb a { color: #059669; text-decoration: none; font-weight: 600; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb-sep { color: #d1d5db; }
+
+        /* ===== Order header card ===== */
+        .order-header-card { background: #fff; border-radius: 20px; padding: 28px 32px; margin-bottom: 24px; border: 1px solid #f3f4f6; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+        .order-header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+        .order-id-label { font-size: 13px; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .order-id-value { font-size: 30px; font-weight: 900; color: #1f2937; }
+        .order-date { font-size: 13px; color: #9ca3af; margin-top: 4px; }
+        .status-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; border-radius: 50px; font-size: 14px; font-weight: 700; white-space: nowrap; }
+        .badge-pending    { background: rgba(251,191,36,0.12); color: #92400e; border: 1.5px solid rgba(251,191,36,0.4); }
+        .badge-paid       { background: rgba(19,236,55,0.1); color: #059669; border: 1.5px solid rgba(19,236,55,0.3); }
+        .badge-shipped    { background: rgba(59,130,246,0.1); color: #1d4ed8; border: 1.5px solid rgba(59,130,246,0.3); }
+        .badge-in_transit { background: rgba(139,92,246,0.1); color: #6d28d9; border: 1.5px solid rgba(139,92,246,0.3); }
+        .badge-delivered  { background: rgba(19,236,55,0.15); color: #047857; border: 1.5px solid rgba(19,236,55,0.4); }
+        .badge-cancelled, .badge-failed, .badge-expired { background: rgba(239,68,68,0.1); color: #b91c1c; border: 1.5px solid rgba(239,68,68,0.3); }
+        .badge-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+        /* ===== Tracking number banner ===== */
+        .tracking-banner { background: linear-gradient(135deg, rgba(19,236,55,0.07), rgba(16,209,49,0.04)); border: 1.5px solid rgba(19,236,55,0.25); border-radius: 16px; padding: 18px 24px; margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
+        .tracking-banner-icon { font-size: 28px; flex-shrink: 0; }
+        .tracking-banner-label { font-size: 12px; color: #4b5563; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .tracking-number-text { font-size: 22px; font-weight: 900; color: #1f2937; letter-spacing: 1px; }
+        .tracking-carrier { font-size: 13px; color: #059669; font-weight: 700; margin-top: 2px; }
+
+        /* ===== Two-column layout ===== */
+        .track-grid { display: grid; grid-template-columns: 1fr 360px; gap: 24px; align-items: start; }
+        @media (max-width: 768px) { .track-grid { grid-template-columns: 1fr; } }
+
+        /* ===== Card base ===== */
+        .info-card { background: #fff; border-radius: 20px; padding: 28px; border: 1px solid #f3f4f6; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .card-title { font-size: 16px; font-weight: 800; color: #1f2937; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; gap: 8px; }
+
+        /* ===== Timeline ===== */
+        .timeline { display: flex; flex-direction: column; }
+        .tl-step { display: flex; gap: 16px; }
+        .tl-icon-col { display: flex; flex-direction: column; align-items: center; }
+
+        .tl-dot { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; flex-shrink: 0; position: relative; z-index: 1; }
+        .tl-dot-done { background: #13ec37; color: #fff; }
+        .tl-dot-current { background: #13ec37; color: #fff; box-shadow: 0 0 0 5px rgba(19,236,55,0.18); animation: tlPulse 2s ease-in-out infinite; }
+        @keyframes tlPulse { 0%,100% { box-shadow: 0 0 0 5px rgba(19,236,55,0.18); } 50% { box-shadow: 0 0 0 10px rgba(19,236,55,0.07); } }
+        .tl-dot-upcoming { background: #f3f4f6; border: 2px solid #e5e7eb; color: #d1d5db; }
+        .tl-dot-negative { background: #fee2e2; border: 2px solid #fca5a5; color: #ef4444; }
+
+        .tl-line { width: 2px; flex: 1; min-height: 24px; margin: 4px 0; border-radius: 2px; }
+        .tl-line-done { background: #13ec37; }
+        .tl-line-current { background: linear-gradient(to bottom, #13ec37, #e5e7eb); }
+        .tl-line-upcoming { background: #e5e7eb; }
+
+        .tl-content { flex: 1; padding-bottom: 28px; }
+        .tl-step:last-child .tl-content { padding-bottom: 0; }
+        .tl-label-done { font-size: 15px; font-weight: 700; color: #1f2937; margin: 8px 0 4px; }
+        .tl-label-current { font-size: 16px; font-weight: 900; color: #059669; margin: 6px 0 4px; }
+        .tl-label-upcoming { font-size: 14px; font-weight: 500; color: #9ca3af; margin: 8px 0 4px; }
+        .tl-label-negative { font-size: 15px; font-weight: 700; color: #b91c1c; margin: 8px 0 4px; }
+        .tl-time { font-size: 12px; color: #9ca3af; margin-bottom: 4px; }
+        .tl-note { font-size: 13px; color: #4b5563; padding: 8px 12px; background: #f9fafb; border-radius: 8px; margin-top: 4px; }
+
+        /* ===== Items table ===== */
+        .items-tbl { width: 100%; border-collapse: collapse; }
+        .items-tbl th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #f3f4f6; }
+        .items-tbl td { padding: 14px 12px; border-bottom: 1px solid #f9fafb; font-size: 14px; color: #374151; }
+        .items-tbl tr:last-child td { border-bottom: none; }
+        .item-name { font-weight: 600; color: #1f2937; }
+        .total-line { display: flex; justify-content: space-between; padding: 16px 12px 0; border-top: 2px dashed #e5e7eb; margin-top: 8px; font-weight: 800; font-size: 16px; }
+        .total-line span:last-child { color: #13ec37; }
+
+        /* ===== Address ===== */
+        .address-box-track { background: #f9fafb; border: 1px solid #f3f4f6; border-radius: 12px; padding: 16px; font-size: 14px; color: #374151; line-height: 1.7; }
+        .address-name-track { font-weight: 700; color: #1f2937; margin-bottom: 4px; }
+
+        /* ===== Back button ===== */
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: transparent; border: 2px solid #e5e7eb; border-radius: 10px; color: #4b5563; font-weight: 700; font-size: 14px; text-decoration: none; transition: all 0.2s; margin-bottom: 24px; }
+        .btn-back:hover { border-color: #13ec37; color: #059669; }
+        /* ===== Review button ===== */
+        .btn-review { display:inline-flex; align-items:center; gap:4px; padding:5px 12px; background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:8px; color:#059669; font-size:12px; font-weight:700; cursor:pointer; transition:all .15s; margin-top:4px; }
+        .btn-review:hover { background:#dcfce7; }
+        .review-done { display:inline-flex; align-items:center; gap:4px; padding:5px 12px; background:#f9fafb; border:1.5px solid #e5e7eb; border-radius:8px; color:#9ca3af; font-size:12px; font-weight:600; margin-top:4px; }
+        /* ===== Review modal ===== */
+        #reviewModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:9100; align-items:center; justify-content:center; }
+        .rev-modal-box { background:#fff; border-radius:20px; padding:28px; width:90%; max-width:460px; position:relative; }
+        .rev-modal-title { font-size:17px; font-weight:800; color:#1f2937; margin-bottom:4px; }
+        .rev-modal-sub { font-size:13px; color:#6b7280; margin-bottom:16px; }
+        .star-picker { display:flex; gap:6px; margin-bottom:14px; }
+        .star-picker span { font-size:32px; cursor:pointer; color:#d1d5db; transition:color .1s; }
+        .star-picker span.lit { color:#f59e0b; }
+        .rev-input { width:100%; border:1.5px solid #e5e7eb; border-radius:10px; padding:10px 14px; font-size:14px; font-family:inherit; resize:vertical; min-height:80px; margin-bottom:10px; box-sizing:border-box; }
+        .rev-name-row { display:flex; gap:8px; margin-bottom:14px; align-items:center; }
+        .rev-name-inp { flex:1; border:1.5px solid #e5e7eb; border-radius:10px; padding:10px 14px; font-size:14px; font-family:inherit; }
+        .rev-anon-label { font-size:13px; color:#6b7280; display:flex; align-items:center; gap:4px; cursor:pointer; white-space:nowrap; }
+        .btn-rev-submit { width:100%; padding:12px; background:linear-gradient(135deg,#13ec37,#10d131); color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; }
+        .rev-msg { font-size:13px; min-height:18px; margin-top:8px; text-align:center; font-weight:600; }
+        .close-rev { position:absolute; top:12px; right:16px; font-size:22px; color:#9ca3af; background:none; border:none; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+        </a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                <div class="icon-inner">
+                    <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                    <span id="cartBadge" class="cart-badge">0</span>
+                </div>
+            </a>
+            {% include '_profile_dropdown.html' %}
+        </div>
+    </header>
+
+    <main class="track-detail-page">
+        <div class="track-container">
+
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="{% url 'my_orders' %}">← การซื้อของฉัน</a>
+                <span class="breadcrumb-sep">/</span>
+                <span>Order #{{ order.id }}</span>
+            </div>
+
+            <!-- Order Header -->
+            <div class="order-header-card">
+                <div class="order-header-top">
+                    <div>
+                        <p class="order-id-label">เลขออเดอร์</p>
+                        <p class="order-id-value">#{{ order.id }}</p>
+                        <p class="order-date">สั่งซื้อเมื่อ {{ order.created_at|date:"d/m/Y H:i" }}</p>
+                    </div>
+                    <span class="status-badge badge-{{ order.status }}">
+                        <span class="badge-dot"></span>
+                        {{ order.get_status_display }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Tracking Number Banner (only if available) -->
+            {% if order.tracking_number %}
+            <div class="tracking-banner">
+                <span class="tracking-banner-icon">🚚</span>
+                <div>
+                    <p class="tracking-banner-label">เลขพัสดุ</p>
+                    <p class="tracking-number-text">{{ order.tracking_number }}</p>
+                    {% if carrier_display %}
+                    <p class="tracking-carrier">{{ carrier_display }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Main grid -->
+            <div class="track-grid">
+
+                <!-- Left: Timeline -->
+                <div class="info-card">
+                    <p class="card-title">📍 สถานะการจัดส่ง</p>
+                    <div class="timeline">
+                        {% for step in timeline %}
+                        <div class="tl-step">
+                            <div class="tl-icon-col">
+                                <div class="tl-dot tl-dot-{{ step.state }}">
+                                    {% if step.state == 'done' %}✓{% elif step.state == 'current' %}{% else %}{% endif %}
+                                </div>
+                                {% if not forloop.last %}
+                                <div class="tl-line tl-line-{{ step.state }}"></div>
+                                {% endif %}
+                            </div>
+                            <div class="tl-content">
+                                <p class="tl-label-{{ step.state }}">{{ step.label }}</p>
+                                {% if step.timestamp %}
+                                <p class="tl-time">{{ step.timestamp|date:"d/m/Y H:i" }}</p>
+                                {% endif %}
+                                {% if step.note %}
+                                <p class="tl-note">{{ step.note }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        {% if is_negative %}
+                        <div class="tl-step">
+                            <div class="tl-icon-col">
+                                <div class="tl-dot tl-dot-negative">✕</div>
+                            </div>
+                            <div class="tl-content">
+                                <p class="tl-label-negative">{{ order.get_status_display }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Right: Details -->
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+
+                    <!-- Order Items -->
+                    <div class="info-card">
+                        <p class="card-title">🛍️ รายการสินค้า</p>
+                        <table class="items-tbl">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">สินค้า</th>
+                                    <th style="text-align:center">จำนวน</th>
+                                    <th style="text-align:right">ราคา</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in items_with_images %}
+                                <tr>
+                                    <td style="width:52px;padding-right:6px">
+                                        {% if row.image %}<img src="{% static row.image %}" alt="" style="width:44px;height:44px;object-fit:cover;border-radius:8px;display:block">{% endif %}
+                                    </td>
+                                    <td class="item-name">
+                                        {{ row.item.product_name }}
+                                        {% if row.can_review %}
+                                            {% if row.reviewed %}
+                                            <br><span class="review-done">✓ รีวิวแล้ว {% if row.existing_rating %}{{ row.existing_rating }}★{% endif %}</span>
+                                            {% else %}
+                                            <br><button class="btn-review" onclick="openReviewModal({{ order.id }}, {{ row.item.product_id }}, '{{ row.item.product_name|escapejs }}', '{{ order.customer_name|escapejs }}')">✍ เขียนรีวิว</button>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td style="text-align:center;color:#6b7280">× {{ row.item.quantity }}</td>
+                                    <td style="text-align:right;font-weight:700">฿{{ row.item.price }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="total-line">
+                            <span>ยอดชำระทั้งหมด</span>
+                            <span>฿{{ order.total }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Address -->
+                    <div class="info-card">
+                        <p class="card-title">📍 ที่อยู่จัดส่ง</p>
+                        <div class="address-box-track">
+                            <p class="address-name-track">{{ order.customer_name }}{% if order.phone %} ({{ order.phone }}){% endif %}</p>
+                            {% if order.address %}
+                            <p>{{ order.address }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div style="text-align:center;margin-top:28px">
+                <a href="{% url 'my_orders' %}" class="btn-back">← กลับไปการซื้อของฉัน</a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Review Modal -->
+    <div id="reviewModal">
+        <div class="rev-modal-box">
+            <button class="close-rev" onclick="closeReviewModal()">&times;</button>
+            <p class="rev-modal-title">รีวิวสินค้า</p>
+            <p class="rev-modal-sub" id="revModalSub"></p>
+            <div class="star-picker" id="starPicker">
+                <span onclick="setRevStar(1)">★</span>
+                <span onclick="setRevStar(2)">★</span>
+                <span onclick="setRevStar(3)">★</span>
+                <span onclick="setRevStar(4)">★</span>
+                <span onclick="setRevStar(5)">★</span>
+            </div>
+            <textarea class="rev-input" id="revComment" placeholder="แชร์ประสบการณ์ของคุณกับสินค้านี้…" maxlength="1000"></textarea>
+            <div class="rev-name-row">
+                <input class="rev-name-inp" id="revName" type="text" placeholder="ชื่อที่จะแสดง" maxlength="100">
+                <label class="rev-anon-label">
+                    <input type="checkbox" id="revAnon" onchange="toggleAnon()"> ย่อชื่อ
+                </label>
+            </div>
+            <button class="btn-rev-submit" onclick="submitReview()">ส่งรีวิว</button>
+            <p class="rev-msg" id="revMsg"></p>
+        </div>
+    </div>
+
+    <script>document.body.setAttribute('data-order-id','{{ order.id }}');</script>
+    {% include '_chat_widget.html' %}
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+    var _revOrderId = 0, _revProductId = 0, _revStar = 0, _fullName = '';
+
+    function openReviewModal(orderId, productId, productName, customerName) {
+        _revOrderId = orderId;
+        _revProductId = productId;
+        _revStar = 0;
+        _fullName = customerName;
+        document.getElementById('revModalSub').textContent = productName;
+        document.getElementById('revComment').value = '';
+        document.getElementById('revName').value = customerName;
+        document.getElementById('revAnon').checked = false;
+        document.getElementById('revMsg').textContent = '';
+        updateStarUI(0);
+        document.getElementById('reviewModal').style.display = 'flex';
+    }
+
+    function closeReviewModal() {
+        document.getElementById('reviewModal').style.display = 'none';
+    }
+
+    function setRevStar(n) {
+        _revStar = n;
+        updateStarUI(n);
+    }
+
+    function updateStarUI(n) {
+        document.querySelectorAll('#starPicker span').forEach(function(el, i) {
+            el.classList.toggle('lit', i < n);
+        });
+    }
+
+    function toggleAnon() {
+        var anon = document.getElementById('revAnon').checked;
+        if (anon && _fullName) {
+            var parts = _fullName.trim().split(/\s+/);
+            var abbr = parts[0] + (parts.length > 1 ? ' ' + parts[parts.length-1].charAt(0) + '.' : '');
+            document.getElementById('revName').value = abbr;
+        } else {
+            document.getElementById('revName').value = _fullName;
+        }
+    }
+
+    function submitReview() {
+        var msg = document.getElementById('revMsg');
+        if (!_revStar) { msg.style.color='#dc2626'; msg.textContent='กรุณาเลือกคะแนน'; return; }
+        var name = document.getElementById('revName').value.trim();
+        if (!name) { msg.style.color='#dc2626'; msg.textContent='กรุณาระบุชื่อ'; return; }
+        var comment = document.getElementById('revComment').value.trim();
+        msg.style.color='#6b7280'; msg.textContent='กำลังส่ง…';
+        var csrfToken = document.cookie.match(/csrftoken=([^;]+)/);
+        csrfToken = csrfToken ? csrfToken[1] : '';
+        fetch('/order/' + _revOrderId + '/review/' + _revProductId + '/', {
+            method:'POST',
+            headers:{'Content-Type':'application/json','X-CSRFToken':csrfToken},
+            body: JSON.stringify({rating:_revStar, customer_name:name, comment:comment}),
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+            if (d.ok) {
+                msg.style.color='#059669'; msg.textContent='ขอบคุณสำหรับรีวิว!';
+                setTimeout(function() {
+                    closeReviewModal();
+                    location.reload();
+                }, 1200);
+            } else {
+                msg.style.color='#dc2626'; msg.textContent = d.error || 'เกิดข้อผิดพลาด';
+            }
+        })
+        .catch(function() { msg.style.color='#dc2626'; msg.textContent='เกิดข้อผิดพลาด กรุณาลองใหม่'; });
+    }
+
+    document.getElementById('reviewModal').addEventListener('click', function(e) {
+        if (e.target === this) closeReviewModal();
+    });
+    </script>
+</body>
+</html>

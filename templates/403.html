@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>403 — ไม่มีสิทธิ์เข้าถึง</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap"></noscript>
+<link rel="stylesheet" href="{% static 'css/globals.css' %}">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Sarabun', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0f7f2 0%, #e8f5ec 50%, #f0f7f2 100%);
+    padding: 24px;
+  }
+  .err-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 56px 48px 48px;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 40px rgba(45,106,79,.10), 0 2px 8px rgba(0,0,0,.06);
+  }
+  .err-leaf {
+    font-size: 56px;
+    line-height: 1;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .err-code {
+    font-size: 88px;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, #2d6a4f, #52b788);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 12px;
+  }
+  .err-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a2e22;
+    margin-bottom: 10px;
+  }
+  .err-desc {
+    font-size: 15px;
+    color: #6b7280;
+    line-height: 1.65;
+    margin-bottom: 32px;
+  }
+  .btn-home {
+    display: inline-block;
+    background: var(--primary-green, #13ec37);
+    color: #fff;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 12px 32px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background .18s, transform .15s, box-shadow .18s;
+    box-shadow: 0 2px 12px rgba(19,236,55,.25);
+  }
+  .btn-home:hover {
+    background: var(--dark-green, #0db830);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(19,236,55,.35);
+  }
+  .err-divider {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 32px 0 24px;
+  }
+  .err-login-hint {
+    font-size: 13px;
+    color: #9ca3af;
+  }
+  .err-login-hint a {
+    color: #2d6a4f;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .err-login-hint a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="err-card">
+  <span class="err-leaf">🌿</span>
+  <div class="err-code">403</div>
+  <div class="err-title">ไม่มีสิทธิ์เข้าถึง</div>
+  <p class="err-desc">
+    หน้านี้สำหรับเจ้าหน้าที่ Greenhearth เท่านั้น<br>
+    บัญชีของคุณไม่มีสิทธิ์เข้าถึงส่วนนี้
+  </p>
+  <a href="/" class="btn-home">กลับหน้าหลัก</a>
+  <hr class="err-divider">
+  <p class="err-login-hint">
+    เข้าสู่ระบบด้วยบัญชีเจ้าหน้าที่?
+    <form method="post" action="{% url 'logout' %}" style="display:inline">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{% url 'login' %}?next={% url 'staff_overview' %}">
+      <button type="submit" style="background:none;border:none;cursor:pointer;color:#2d6a4f;font-weight:600;font-size:13px;font-family:inherit;padding:0;">สลับบัญชี</button>
+    </form>
+  </p>
+</div>
+</body>
+</html>

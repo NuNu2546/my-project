@@ -1,0 +1,199 @@
+{% load static staff_extras %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ใบจัดของ — ออเดอร์ #{{ order.id }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap"></noscript>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Sarabun', sans-serif;
+    font-size: 14px;
+    color: #1a202c;
+    background: #fff;
+    padding: 20px;
+  }
+
+  /* ── Screen styles ── */
+  .print-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 20px; background: #2d6a4f; color: #fff;
+    border: none; border-radius: 7px; font-size: 14px;
+    font-family: inherit; font-weight: 600; cursor: pointer;
+    margin-bottom: 20px;
+  }
+  .print-btn:hover { opacity: .85; }
+
+  /* ── Slip layout ── */
+  .slip {
+    max-width: 680px;
+    margin: 0 auto;
+    border: 2px solid #1b4332;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .slip-header {
+    background: #1b4332;
+    color: #fff;
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .slip-brand { font-size: 20px; font-weight: 800; letter-spacing: .02em; }
+  .slip-brand small { display: block; font-size: 12px; font-weight: 400; opacity: .7; margin-top: 2px; }
+  .slip-order { text-align: right; }
+  .slip-order .order-num { font-size: 22px; font-weight: 800; }
+  .slip-order small { font-size: 11px; opacity: .75; }
+
+  .slip-body { padding: 20px 24px; }
+
+  .section-title {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .06em; color: #718096;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 4px; margin-bottom: 10px; margin-top: 18px;
+  }
+  .section-title:first-child { margin-top: 0; }
+
+  .addr-block { font-size: 14px; line-height: 1.7; }
+  .addr-block strong { font-size: 15px; }
+
+  table.items {
+    width: 100%; border-collapse: collapse; font-size: 13px;
+  }
+  table.items th {
+    background: #f8fafc; padding: 8px 10px;
+    text-align: left; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; color: #718096;
+    border-top: 1px solid #e2e8f0; border-bottom: 1px solid #e2e8f0;
+  }
+  table.items td { padding: 10px 10px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+  table.items tr:last-child td { border-bottom: none; }
+  .check-box {
+    width: 18px; height: 18px;
+    border: 2px solid #2d6a4f;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  .slip-footer {
+    background: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    padding: 12px 24px;
+    font-size: 12px;
+    color: #718096;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* ── Print media ── */
+  @media print {
+    body { padding: 0; }
+    .print-btn { display: none; }
+    .slip {
+      border: 2px solid #000;
+      border-radius: 0;
+      max-width: 100%;
+    }
+    .slip-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    table.items th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .slip-footer { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    @page { margin: 12mm; }
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">🖨️ พิมพ์ใบจัดของ</button>
+
+<div class="slip">
+
+  <!-- Header -->
+  <div class="slip-header">
+    <div class="slip-brand">
+      🌿 Greenhearth
+      <small>ใบจัดของ (Packing Slip)</small>
+    </div>
+    <div class="slip-order">
+      <div class="order-num">#{{ order.id }}</div>
+      <small>{{ order.created_at|date:"d M Y H:i" }}</small>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="slip-body">
+
+    <!-- Ship-to -->
+    <div class="section-title">ข้อมูลผู้รับ</div>
+    <div class="addr-block">
+      <strong>{{ order.customer_name }}</strong><br>
+      {% if order.phone %}📞 {{ order.phone }}<br>{% endif %}
+      {% if order.address %}
+      📍 {{ order.address }}
+      {% endif %}
+    </div>
+
+    <!-- Items -->
+    <div class="section-title">รายการสินค้า</div>
+    <table class="items">
+      <thead>
+        <tr>
+          <th style="width:36px">✓</th>
+          <th>รายการสินค้า</th>
+          <th class="text-right" style="width:60px;text-align:right">จำนวน</th>
+          <th class="text-right" style="width:80px;text-align:right">ราคา (฿)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in items_with_img %}
+        <tr>
+          <td><span class="check-box"></span></td>
+          <td>
+            <strong>{{ row.item.product_name }}</strong>
+          </td>
+          <td style="text-align:right;font-weight:700;font-size:15px">{{ row.item.quantity }}</td>
+          <td style="text-align:right">{{ row.item.price|price_fmt }}</td>
+        </tr>
+        {% endfor %}
+        <tr style="font-weight:700;background:#f8fafc">
+          <td colspan="2" style="text-align:right;padding:10px">ยอดรวม</td>
+          <td></td>
+          <td style="text-align:right">{{ order.total|price_fmt }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Tracking (if set) -->
+    {% if order.tracking_number %}
+    <div class="section-title">ข้อมูลการจัดส่ง</div>
+    <div style="font-size:14px">
+      <strong>{{ order.get_shipping_carrier_display|default:"ขนส่ง" }}:</strong>
+      {{ order.tracking_number }}
+    </div>
+    {% endif %}
+
+    <!-- Staff note -->
+    {% if order.staff_note %}
+    <div class="section-title">หมายเหตุ</div>
+    <div style="font-size:13px;color:#718096">{{ order.staff_note }}</div>
+    {% endif %}
+
+  </div><!-- /slip-body -->
+
+  <!-- Footer -->
+  <div class="slip-footer">
+    <span>พิมพ์โดย Greenhearth Staff</span>
+    <span>ออเดอร์ #{{ order.id }} — {{ order.created_at|date:"d/m/Y" }}</span>
+  </div>
+
+</div><!-- /slip -->
+
+</body>
+</html>

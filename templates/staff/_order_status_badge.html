@@ -1,0 +1,7 @@
+{% if status == 'paid' %}<span class="badge badge-green">ชำระแล้ว</span>
+{% elif status == 'in_transit' %}<span class="badge badge-blue">กำลังแพ็ค</span>
+{% elif status == 'shipped' %}<span class="badge badge-blue">จัดส่งแล้ว</span>
+{% elif status == 'pending' %}<span class="badge badge-yellow">รอชำระ</span>
+{% elif status == 'delivered' %}<span class="badge badge-green">จัดส่งสำเร็จ</span>
+{% elif status == 'cancelled' or status == 'expired' or status == 'failed' %}<span class="badge badge-red">{{ order.get_status_display }}</span>
+{% else %}<span class="badge badge-gray">{{ status }}</span>{% endif %}

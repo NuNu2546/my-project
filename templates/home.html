@@ -1,0 +1,537 @@
+﻿{% load static staff_extras %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Digital Garden - Greenhearth</title>
+
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <style>
+        /* Donation tab below hero */
+        .donate-tab-wrap {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .donate-tab-card {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .donate-tab-left {
+            flex: 1;
+        }
+        .donate-tab-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        .donate-tab-bar-track {
+            background: #e5e7eb;
+            border-radius: 999px;
+            height: 10px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+        .donate-tab-bar-fill {
+            background: linear-gradient(90deg, #4ade80, #16a34a);
+            height: 100%;
+            border-radius: 999px;
+            transition: width 1s ease;
+        }
+        .donate-tab-count {
+            font-size: 13px;
+            font-weight: 800;
+            color: #16a34a;
+        }
+        .donate-tab-goal {
+            font-weight: 400;
+            color: #9ca3af;
+        }
+        .donate-tab-btn {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 22px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity .2s;
+        }
+        .donate-tab-btn:hover { opacity: .85; }
+        /* Donate modal — same structure as shop quick-view */
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #9ca3af;
+            line-height: 1;
+            background: none;
+            border: none;
+        }
+        .close-modal:hover { color: #1f2937; }
+        .modal-body { display: flex; gap: 20px; }
+        .modal-info { flex: 1; }
+        .modal-info h3 { font-size: 18px; font-weight: 800; color: #1f2937; margin-bottom: 4px; }
+        .btn-confirm-add {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #13ec37, #10d131);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-confirm-add:hover { background: #0db829; }
+
+    </style>
+</head>
+
+<body>
+    <div class="home">
+
+        <header class="header">
+            <a href="{% url 'home' %}">
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+            </a>
+            
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                    <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                        <span id="cartBadge" class="cart-badge">0</span>
+                    </div>
+                </a>
+                {% include '_profile_dropdown.html' %}
+            </div>
+        </header>
+
+        <section class="hero-section">
+            <img src="{% static 'images/Activity.png' %}" alt="Planting Trees" class="bg-image" />
+
+            <h1 class="hero-title">
+                ปลูกต้นไม้หนึ่งต้น… เปลี่ยนโลกได้หนึ่งครั้ง
+            </h1>
+
+            <p class="hero-description">
+                ต้นไม้เพียงหนึ่งต้นอาจดูเล็กน้อย แต่ทุกต้นที่ปลูกคือจุดเริ่มต้นของอากาศที่ดี น้ำที่สะอาด<br />
+                และโลกที่น่าอยู่ขึ้น เราทุกคนสามารถเป็นส่วนหนึ่งของการเปลี่ยนแปลงครั้งใหญ่ได้<br />
+                เพียงแค่ลงมือปลูกต้นไม้ทีละต้น จากมือเรา… สู่โลกใบใหญ่ของทุกคน
+            </p>
+
+            <button type="button" class="cta-button-primary" onclick="openDonateModal()">
+                <div class="btn-container">
+                    <div class="btn-text">เข้าร่วม</div>
+                </div>
+            </button>
+        </section>
+
+        <!-- ── Donation Tab ── -->
+        <div class="donate-tab-wrap">
+            <div class="donate-tab-card">
+                <div class="donate-tab-left">
+                    <p class="donate-tab-label">ยอดบริจาคปลูกต้นไม้</p>
+                    <div class="donate-tab-bar-track">
+                        <div id="treeDonationBar" class="donate-tab-bar-fill" style="width:{% widthratio tree_donation.total_coins_donated tree_donation.goal 100 %}%"></div>
+                    </div>
+                    <p class="donate-tab-count">
+                        <span id="treeDonationCount">{{ tree_donation.total_coins_donated|floatformat:0 }}</span>
+                        <span class="donate-tab-goal"> / {{ tree_donation.goal|floatformat:0 }} coins</span>
+                    </p>
+                </div>
+                <button class="donate-tab-btn" onclick="openDonateModal()">บริจาค Coins</button>
+            </div>
+        </div>
+
+        <section class="products-section">
+            <div class="products-wrapper">
+                <div class="products-content">
+                    <h2 class="section-heading">สินค้าขายดี</h2>
+
+                    <button class="scroll-btn left-btn" id="scrollLeftBtn" aria-label="เลื่อนซ้าย">&#10094;</button>
+                    <button class="scroll-btn right-btn" id="scrollRightBtn" aria-label="เลื่อนขวา">&#10095;</button>
+
+                    <div class="product-grid" id="productGrid">
+                        {% for product in best_sellers %}
+                        <div class="product-card" style="position:relative;">
+                            <a href="{% url 'product_detail' product.id %}" style="display:block;">
+                                <img class="image" src="{% static '' %}{{ product.image }}" alt="{{ product.name }}" />
+                            </a>
+                            {% if not product.is_in_stock %}
+                            <span style="position:absolute;top:8px;left:8px;background:#ef4444;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:12px;">สินค้าหมด</span>
+                            {% endif %}
+                            <div class="product-name">{{ product.name }}</div>
+                            <div class="product-price">{{ product.price|price_fmt }}</div>
+                            {% if product.avg_rating %}<div style="font-size:12px;color:#f59e0b;margin:4px 16px 0;">{{ product.avg_rating }}★ <span style="color:#9ca3af;">({{ product.review_count }})</span></div>{% endif %}
+                            {% if product.is_in_stock %}
+                            <button class="btn-add-cart" onclick="openQuickView(event, {{ product.id }}, '{{ product.name|escapejs }}', {{ product.price }}, '{% static '' %}{{ product.image }}')">
+                                <div class="btn-text">Add to Cart</div>
+                            </button>
+                            {% else %}
+                            <button class="btn-add-cart" disabled style="opacity:.45;cursor:not-allowed;">
+                                <div class="btn-text">สินค้าหมด</div>
+                            </button>
+                            {% endif %}
+                        </div>
+                        {% empty %}
+                        <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:#6b7280;">
+                            <p style="font-size:16px;font-weight:600;">ยังไม่มีสินค้า</p>
+                            <a href="{% url 'shop' %}" style="color:#16a34a;font-weight:700;">ดูร้านค้า →</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="rental-section">
+            <img src="{% static 'images/Veggie_Plots.png' %}" alt="Planting Trees" class="bg-image" />
+
+            <div class="rental-content">
+                <h2 class="rental-title">
+                    จองแปลงผักเล็ก ๆ ของคุณ ที่เราจะช่วยดูแลจนวันเก็บเกี่ยว
+                </h2>
+                <div class="rental-description">
+                    ทุกแปลงคือความรักที่เราดูแล และผลผลิตคือความสดที่ส่งตรงถึงบ้านของคุณ
+                </div>
+            </div>
+
+            <a href="{% url 'veggie_plots' %}" class="cta-button-secondary" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
+                <div class="btn-text">เช่าแปลงผัก</div>
+            </a>
+        </section>
+
+        <section class="process-section">
+            <div class="process-header">
+                <h2 class="section-heading">วิธีการทำงาน</h2>
+                <p class="section-subheading">
+                    เส้นทางง่าย ๆ สู่วิถีการเก็บเกี่ยวผลผลิตสดของคุณเอง
+                </p>
+            </div>
+
+            <div class="step-item">
+                <div class="step-icon-bg">
+                    <div class="img-wrapper">
+                        <img class="step-icon" src="{% static 'images/icon/Flower_icon.png' %}" alt="step 1" />
+                    </div>
+                </div>
+                <h3 class="step-title">1. เลือกแปลงผักของคุณ</h3>
+                <p class="step-description">
+                    เลือกขนาดและตำแหน่งแปลงผักที่เหมาะกับการปลูกผักในแบบที่คุณต้องการ จากแปลงที่เราจัดเตรียมไว้ให้
+                </p>
+            </div>
+
+            <div class="step-item">
+                <div class="step-icon-bg">
+                    <div class="img-wrapper">
+                        <img class="step-icon" src="{% static 'images/icon/Grass_icon.png' %}" alt="step 2" />
+                    </div>
+                </div>
+                <h3 class="step-title">2. เราช่วยดูแลการปลูกให้คุณ</h3>
+                <p class="step-description">
+                    เรามีอุปกรณ์ ดินปลอดสาร และคำแนะนำจากผู้เชี่ยวชาญ เพื่อให้ผักของคุณเติบโตได้ดีตลอดฤดูกาล
+                </p>
+            </div>
+
+            <div class="step-item">
+                <div class="step-icon-bg">
+                    <div class="img-wrapper">
+                        <img class="step-icon" src="{% static 'images/icon/Basket_icon.png' %}" alt="step 3" />
+                    </div>
+                </div>
+                <h3 class="step-title">3. เก็บเกี่ยว &amp; อร่อยได้เลย</h3>
+                <p class="step-description">
+                    รับผลผลิตสด ๆ จากแปลงของคุณเอง และเพลิดเพลินกับผักปลอดสารที่คุณมีส่วนร่วมปลูกด้วยตัวเอง
+                </p>
+            </div>
+        </section>
+
+        <section class="testimonial-section">
+            <div class="testimonial-container">
+                <div class="quote-icon">
+                    <img src="{% static 'images/icon/Comma_icon.png' %}" alt="quote icon" />
+                </div>
+
+                <figure class="testimonial-content">
+                    <blockquote class="quote-text">
+                        “การจองแปลงผักกับ GREENHEARTH คือการตัดสินใจที่ดีที่สุดของฉันในปีนี้ ความสุขตอนเก็บมะเขือเทศด้วยตัวเองมันบอกไม่ถูกเลย...”
+                    </blockquote>
+
+                    <figcaption class="author-info">
+                        <img class="author-avatar" src="{% static 'images/profile.png' %}" alt="quote icon" />
+                        <p class="author-name">
+                            <span class="name">Jane D.</span>
+                            <span class="title">- Happy Gardener</span>
+                        </p>
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+
+                    <div class="footer-column footer-brand">
+                        <div class="footer-logo">
+                            <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+                        </div>
+                        <p class="slogan">
+                            เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
+                        </p>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Explore</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'shop' %}">สินค้าทั้งหมด</a></li>
+                            <li><a href="{% url 'veggie_plots' %}">จองแปลงผัก</a></li>
+                            <li><a href="{% url 'about' %}">เรื่องราวของเรา</a></li>
+                            <li><a href="#">บทความ</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'contact' %}">ติดต่อเรา</a></li>
+                            <li><a href="{% url 'contact' %}#faq">คำถามที่พบบ่อย</a></li>
+                            <li><a href="mailto:support@digitalgarden.co.th">การจัดส่ง & คืนสินค้า</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Stay Connected</h4>
+                        <p class="newsletter-text">
+                            ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
+                        </p>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
+                            <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2024 Digital Garden. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Donate Modal -->
+        <div id="donateModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9000;align-items:center;justify-content:center;">
+            <div class="modal-content" style="max-width:400px;width:90%;position:relative;">
+                <span class="close-modal" onclick="closeDonateModal()">&times;</span>
+                <div class="modal-body" style="flex-direction:column;gap:16px;">
+                    <div class="modal-info" style="width:100%;">
+                        <h3 style="margin-bottom:4px;">บริจาค Coins ปลูกต้นไม้</h3>
+                        {% if wallet_balance > 0 %}
+                        <p style="font-size:14px;color:#6b7280;margin-bottom:16px;">Coins ของคุณ: <strong id="modalWalletBal" style="color:#16a34a;">{{ wallet_balance }}</strong> coins</p>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+                            <button onclick="setDonate(10)"  style="padding:8px 16px;border:1.5px solid #16a34a;background:#fff;color:#16a34a;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;">10</button>
+                            <button onclick="setDonate(50)"  style="padding:8px 16px;border:1.5px solid #16a34a;background:#fff;color:#16a34a;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;">50</button>
+                            <button onclick="setDonate({{ wallet_balance }})" style="padding:8px 16px;border:1.5px solid #16a34a;background:#fff;color:#16a34a;border-radius:8px;font-weight:700;cursor:pointer;font-family:inherit;">ทั้งหมด</button>
+                            <input id="donateInput" type="number" min="1" max="{{ wallet_balance }}" placeholder="จำนวน"
+                                   style="padding:8px 12px;border:1.5px solid #d1d5db;border-radius:8px;width:80px;font-size:14px;font-family:inherit;outline:none;text-align:center;" />
+                        </div>
+                        <button class="btn-confirm-add" onclick="submitDonate()">ยืนยันบริจาค</button>
+                        <p id="donateMsg" style="font-size:13px;min-height:16px;margin-top:10px;text-align:center;font-weight:600;"></p>
+                        {% else %}
+                        <p style="font-size:14px;color:#6b7280;margin-bottom:6px;">คุณยังไม่มี Coins</p>
+                        <p style="font-size:13px;color:#9ca3af;margin-bottom:16px;">ทุก 50 บาท รับ 1 coin — สะสมจากการซื้อสินค้าหรือจองแปลงผัก</p>
+                        <a href="{% url 'shop' %}" class="btn-confirm-add" style="text-decoration:none;display:block;text-align:center;">ไปที่ร้านค้า</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast notification -->
+        <div id="donateToast" style="display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#166534;color:#fff;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:700;z-index:9999;box-shadow:0 4px 20px rgba(0,0,0,0.2);white-space:nowrap;"></div>
+
+        <!-- Quick View Modal (Add to Cart) -->
+        <div id="quickViewModal" class="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:8000;align-items:center;justify-content:center;">
+            <div class="modal-content" style="max-width:520px;width:90%;position:relative;">
+                <span class="close-modal" onclick="closeModal()">&times;</span>
+                <div class="modal-body" style="align-items:center;">
+                    <div class="modal-img-wrapper" style="flex:0 0 140px;">
+                        <img id="modalImg" src="" alt="Product Image" style="width:140px;height:140px;object-fit:cover;border-radius:12px;display:block;">
+                    </div>
+                    <div class="modal-info">
+                        <h3 id="modalTitle">ชื่อสินค้า</h3>
+                        <p id="modalPrice" class="modal-price" style="font-size:20px;font-weight:800;color:#16a34a;margin:8px 0 16px;"></p>
+                        <div class="quantity-control" style="display:flex;align-items:center;gap:8px;margin-bottom:16px;">
+                            <button onclick="updateModalQty(-1)" style="width:32px;height:32px;border:1.5px solid #d1d5db;border-radius:8px;background:#f9fafb;font-size:18px;cursor:pointer;line-height:1;">-</button>
+                            <input type="number" id="modalQty" value="1" readonly style="width:48px;text-align:center;border:1.5px solid #d1d5db;border-radius:8px;padding:4px;font-size:15px;">
+                            <button onclick="updateModalQty(1)" style="width:32px;height:32px;border:1.5px solid #d1d5db;border-radius:8px;background:#f9fafb;font-size:18px;cursor:pointer;line-height:1;">+</button>
+                        </div>
+                        <button class="btn-confirm-add" onclick="confirmAddToCart()">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include '_chat_widget.html' %}
+
+        <script src="{% static 'js/script.js' %}"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var productGrid = document.getElementById('productGrid');
+                var scrollLeftBtn = document.getElementById('scrollLeftBtn');
+                var scrollRightBtn = document.getElementById('scrollRightBtn');
+                if (productGrid && scrollLeftBtn && scrollRightBtn) {
+                    var scrollAmount = 280;
+                    scrollLeftBtn.addEventListener('click', function() { productGrid.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); });
+                    scrollRightBtn.addEventListener('click', function() { productGrid.scrollBy({ left: scrollAmount, behavior: 'smooth' }); });
+                }
+                // Close modal on overlay click
+                var modal = document.getElementById('donateModal');
+                if (modal) {
+                    modal.addEventListener('click', function(e) { if (e.target === modal) closeDonateModal(); });
+                }
+            });
+
+            function csrf() {
+                var m = document.cookie.match(/csrftoken=([^;]+)/);
+                return m ? m[1] : '';
+            }
+
+            function openDonateModal() {
+                var m = document.getElementById('donateModal');
+                if (m) m.style.display = 'flex';
+            }
+
+            function closeDonateModal() {
+                var m = document.getElementById('donateModal');
+                if (m) m.style.display = 'none';
+            }
+
+            function setDonate(n) {
+                var inp = document.getElementById('donateInput');
+                if (inp) inp.value = n;
+            }
+
+            function showToast(text) {
+                var t = document.getElementById('donateToast');
+                if (!t) return;
+                t.textContent = text;
+                t.style.display = 'block';
+                setTimeout(function() { t.style.display = 'none'; }, 3000);
+            }
+
+            function submitDonate() {
+                var inp = document.getElementById('donateInput');
+                var msg = document.getElementById('donateMsg');
+                if (!inp) return;
+                var amount = parseInt(inp.value, 10);
+                if (!amount || amount <= 0) { if (msg) { msg.style.color = '#dc2626'; msg.textContent = 'กรุณาใส่จำนวน coins'; } return; }
+                if (msg) { msg.style.color = '#6b7280'; msg.textContent = 'กำลังส่ง…'; }
+
+                fetch('/coins/donate/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+                    body: JSON.stringify({ amount: amount }),
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    if (d.ok) {
+                        // Update navbar badge + modal balance
+                        var badgeEl  = document.getElementById('coinsBadge');
+                        var modalBal = document.getElementById('modalWalletBal');
+                        if (badgeEl)  badgeEl.textContent  = d.new_balance;
+                        if (modalBal) modalBal.textContent = d.new_balance;
+                        // Update hero progress bar
+                        var countEl = document.getElementById('treeDonationCount');
+                        var barEl   = document.getElementById('treeDonationBar');
+                        if (countEl) countEl.textContent = d.total_donated;
+                        if (barEl)   barEl.style.width = Math.min(100, Math.round(d.total_donated / d.goal * 100)) + '%';
+                        if (inp) inp.value = '';
+                        closeDonateModal();
+                        showToast('ขอบคุณที่บริจาค ' + amount + ' coins เพื่อปลูกต้นไม้!');
+                    } else {
+                        if (msg) { msg.style.color = '#dc2626'; msg.textContent = d.error || 'เกิดข้อผิดพลาด'; }
+                    }
+                })
+                .catch(function() { if (msg) { msg.style.color = '#dc2626'; msg.textContent = 'เกิดข้อผิดพลาด กรุณาลองใหม่'; } });
+            }
+
+            // Override animateFlyToCart — self-contained, all CSS inline, no class dependency
+            window.animateFlyToCart = function(sourceElement, callback) {
+                var cartIcon = document.querySelector('.cart-btn-wrapper');
+                if (!cartIcon || !sourceElement) {
+                    if (callback) callback();
+                    return;
+                }
+                var startRect = sourceElement.getBoundingClientRect();
+                var endRect   = cartIcon.getBoundingClientRect();
+                if (!startRect.width || !startRect.height) {
+                    if (callback) callback();
+                    return;
+                }
+                var flyImg = document.createElement('img');
+                flyImg.src = sourceElement.src;
+                var destX = (endRect.left + endRect.width / 2) - (startRect.left + startRect.width / 2);
+                var destY = (endRect.top  + endRect.height / 2) - (startRect.top  + startRect.height / 2);
+                var scale = 40 / startRect.width;
+                flyImg.style.cssText =
+                    'position:fixed;' +
+                    'top:'    + startRect.top  + 'px;' +
+                    'left:'   + startRect.left + 'px;' +
+                    'width:'  + startRect.width  + 'px;' +
+                    'height:' + startRect.height + 'px;' +
+                    'margin:0;padding:0;border-radius:50%;object-fit:cover;' +
+                    'z-index:99999;pointer-events:none;opacity:1;' +
+                    'transition:transform 0.75s cubic-bezier(0.4,0,0.2,1),opacity 0.75s ease;' +
+                    'transform-origin:center center;';
+                document.body.appendChild(flyImg);
+                // Double rAF ensures browser paints initial state before transition starts
+                requestAnimationFrame(function() {
+                    requestAnimationFrame(function() {
+                        flyImg.style.transform = 'translate(' + destX + 'px,' + destY + 'px) scale(' + scale + ')';
+                        flyImg.style.opacity = '0';
+                    });
+                });
+                setTimeout(function() {
+                    if (flyImg.parentNode) flyImg.parentNode.removeChild(flyImg);
+                    if (callback) callback();
+                }, 900);
+            };
+        </script>
+    </div>
+</body>
+</html>

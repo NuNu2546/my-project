@@ -1,0 +1,265 @@
+{% load static %}
+<!-- ── Chat widget ──────────────────────────────────────── -->
+<button class="chat-button" id="chatButton" aria-label="Toggle Chat">
+    <img src="{% static 'images/icon/Chat_icon.png' %}" alt="Chat" style="width:32px;height:32px;filter:brightness(0) invert(1)" />
+    <span id="chatUnreadBadge" style="display:none;position:absolute;top:-4px;right:-4px;background:#e53e3e;color:#fff;font-size:10px;font-weight:700;border-radius:50%;width:18px;height:18px;align-items:center;justify-content:center;border:2px solid #fff"></span>
+</button>
+
+<div class="chat-popup" id="chatPopup">
+    <div class="chat-header">
+        <div class="admin-info">
+            <div class="admin-avatar"></div>
+            <div>
+                <p class="admin-name">Greenhearth Admin</p>
+                <p class="admin-status">ออนไลน์ พร้อมให้บริการ</p>
+            </div>
+        </div>
+        <button id="closeChatHeader" style="background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1">&times;</button>
+    </div>
+
+    <!-- Step 1: Intro form (shown only when not logged in) -->
+    <div id="chatIntroPane" style="padding:24px;display:flex;flex-direction:column;gap:14px;flex:1;overflow:auto;background:#fff">
+        <p style="font-size:14px;line-height:1.7;color:#555;margin:0">
+            🌿 สวัสดีค่ะ! ก่อนเริ่มแชทกรุณาใส่ชื่อและเบอร์โทรเพื่อให้แอดมินช่วยได้รวดเร็วขึ้นนะคะ (ไม่บังคับ)
+        </p>
+        <input id="chatNameInput" type="text" placeholder="ชื่อของคุณ" maxlength="100"
+               style="padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;outline:none;width:100%;box-sizing:border-box">
+        <input id="chatPhoneInput" type="tel" placeholder="เบอร์โทร" maxlength="20"
+               style="padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;font-family:inherit;outline:none;width:100%;box-sizing:border-box">
+        <button id="chatStartBtn"
+                style="background:linear-gradient(135deg,#4a7c59,#2d6a4f);color:#fff;border:none;border-radius:8px;padding:12px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer">
+            เริ่มแชท →
+        </button>
+    </div>
+
+    <!-- Step 2: Messages -->
+    <div id="chatMainPane" style="display:none;flex-direction:column;flex:1;min-height:0">
+        <div class="chat-messages" id="chatMessages" style="flex:1;overflow-y:auto;background:#f8fafc"></div>
+        <div class="chat-footer">
+            <input id="chatInput" type="text" placeholder="พิมพ์ข้อความ…" maxlength="500" class="chat-text-field" />
+            <button id="sendBtn">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.message.user-msg {
+    background: linear-gradient(135deg,#4a7c59,#2d6a4f);
+    color: #fff;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 2px 5px rgba(45,106,79,.25);
+}
+.msg-time { font-size:10px; opacity:.6; margin-top:3px; display:block; }
+</style>
+
+<script>
+/* ── ข้อมูล user จาก Django (ใช้ auto-start เมื่อ login แล้ว) ── */
+var _chatUser = {% if request.user.is_authenticated %}
+    { name: "{{ request.user.get_full_name|default:request.user.username|escapejs }}",
+      phone: "{% with ph=request.user.userprofile.phone|default:'' %}{{ ph|escapejs }}{% endwith %}" }
+{% else %}null{% endif %};
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    /* ── Elements ── */
+    var btn        = document.getElementById('chatButton');
+    var popup      = document.getElementById('chatPopup');
+    var closeBtn   = document.getElementById('closeChatHeader');
+    var introPane  = document.getElementById('chatIntroPane');
+    var mainPane   = document.getElementById('chatMainPane');
+    var msgArea    = document.getElementById('chatMessages');
+    var nameInput  = document.getElementById('chatNameInput');
+    var phoneInput = document.getElementById('chatPhoneInput');
+    var startBtn   = document.getElementById('chatStartBtn');
+    var textInput  = document.getElementById('chatInput');
+    var sendBtn    = document.getElementById('sendBtn');
+    var badge      = document.getElementById('chatUnreadBadge');
+
+    if (!btn || !popup) return;  /* widget not on page */
+
+    /* ── State ── */
+    var roomId    = null;
+    var lastId    = 0;
+    var timer     = null;
+    var unread    = 0;
+    var popupOpen = false;
+
+    /* pick up order-id if injected by order-track page */
+    var orderId = document.body.getAttribute('data-order-id') || null;
+
+    /* ── Helpers ── */
+    function csrf() {
+        var m = document.cookie.match(/csrftoken=([^;]+)/);
+        return m ? m[1] : '';
+    }
+
+    function esc(s) {
+        return String(s)
+            .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    }
+
+    function scrollDown() {
+        if (msgArea) msgArea.scrollTop = msgArea.scrollHeight;
+    }
+
+    function addMsg(m) {
+        var d = document.createElement('div');
+        d.className = 'message ' + (m.sender_type === 'staff' ? 'admin-msg' : 'user-msg');
+        d.dataset.id = m.id;
+        d.innerHTML  = esc(m.message) + '<span class="msg-time">' + esc(m.created_at) + '</span>';
+        msgArea.appendChild(d);
+        if (m.id > lastId) lastId = m.id;
+        scrollDown();
+    }
+
+    function setBadge(n) {
+        unread = n;
+        if (n > 0 && !popupOpen) {
+            badge.textContent    = n;
+            badge.style.display  = 'flex';
+        } else {
+            badge.style.display  = 'none';
+        }
+    }
+
+    function showMainPane() {
+        introPane.style.display = 'none';
+        mainPane.style.display  = 'flex';
+    }
+
+    /* ── Core: เริ่ม/ต่อ room ── */
+    function startChat(name, phone) {
+        var body = { customer_name: name || '', phone: phone || '' };
+        if (orderId) body.order_id = parseInt(orderId);
+
+        var skelTimer = setTimeout(function () {
+            showMainPane();
+            msgArea.innerHTML = [1,2,3].map(function (i) {
+                var rev = i % 2 === 0;
+                return '<div style="display:flex;gap:8px;margin-bottom:12px;' + (rev ? 'flex-direction:row-reverse' : '') + '">' +
+                    '<span class="skeleton" style="width:32px;height:32px;border-radius:50%;flex-shrink:0"></span>' +
+                    '<span class="skeleton ' + (rev ? 'w45' : 'w70') + '" style="height:36px;border-radius:12px"></span>' +
+                '</div>';
+            }).join('');
+        }, 200);
+
+        fetch('/chat/get-room/', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+            body:    JSON.stringify(body),
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+            clearTimeout(skelTimer);
+            if (!d.room_id) return;
+            roomId = d.room_id;
+            msgArea.innerHTML = '';
+            lastId = 0;
+            (d.messages || []).forEach(addMsg);
+            showMainPane();
+            scrollDown();
+            if (!timer) timer = setInterval(pollNew, 5000);
+        })
+        .catch(function() { clearTimeout(skelTimer); });
+    }
+
+    /* ── Pre-fill inputs สำหรับ user ที่ login แล้ว ── */
+    if (_chatUser) {
+        if (nameInput)  nameInput.value  = _chatUser.name  || '';
+        if (phoneInput) phoneInput.value = _chatUser.phone || '';
+    }
+
+    /* ── Toggle popup ── */
+    btn.addEventListener('click', function() {
+        popupOpen = !popupOpen;
+        if (popupOpen) {
+            popup.classList.add('show');
+            setBadge(0);
+            /* ถ้า login แล้วและยังไม่มี room → เริ่มแชทอัตโนมัติ */
+            if (_chatUser && !roomId) {
+                startChat(_chatUser.name, _chatUser.phone);
+            }
+            scrollDown();
+        } else {
+            popup.classList.remove('show');
+        }
+    });
+
+    closeBtn.addEventListener('click', function() {
+        popupOpen = false;
+        popup.classList.remove('show');
+    });
+
+    /* ── Start chat (intro form) — ใช้เมื่อไม่ได้ login ── */
+    startBtn.addEventListener('click', function() {
+        startChat(nameInput.value.trim(), phoneInput.value.trim());
+    });
+
+    /* ── Send message ── */
+    function doSend() {
+        var text = textInput.value.trim();
+        if (!text || !roomId) return;
+        textInput.value = '';
+        fetch('/chat/send/', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+            body:    JSON.stringify({ message: text }),
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(d) { if (d.message) addMsg(d.message); })
+        .catch(function() {});
+    }
+
+    sendBtn.addEventListener('click', doSend);
+    textInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') doSend();
+    });
+
+    /* ── Poll for new messages ── */
+    function pollNew() {
+        if (!roomId) return;
+        fetch('/chat/poll/' + roomId + '/?after=' + lastId)
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+            (d.messages || []).forEach(function(m) {
+                if (!document.querySelector('[data-id="' + m.id + '"]')) addMsg(m);
+                if (m.sender_type === 'staff' && !popupOpen) setBadge(unread + 1);
+            });
+        })
+        .catch(function() {});
+    }
+
+    /* ── Sync coins badge on all pages ── */
+    fetch('/coins/balance/')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+        var el = document.getElementById('coinsBadge');
+        if (el && typeof d.balance !== 'undefined') el.textContent = d.balance;
+    })
+    .catch(function() {});
+
+    /* ── Resume room on load (if session already has one) ── */
+    fetch('/chat/get-room/', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf() },
+        body:    JSON.stringify({ resume: true }),
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+        if (d.room_id && d.messages && d.messages.length > 1) {
+            roomId = d.room_id;
+            (d.messages || []).forEach(addMsg);
+            showMainPane();
+            if (!timer) timer = setInterval(pollNew, 5000);
+        }
+    })
+    .catch(function() {});
+
+});
+</script>

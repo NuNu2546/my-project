@@ -1,0 +1,123 @@
+{% load static staff_extras %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}หลังร้าน{% endblock %} — Greenhearth Staff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap"></noscript>
+<link rel="stylesheet" href="{% static 'css/staff.css' %}">
+{% block extra_head %}{% endblock %}
+</head>
+<body class="staff-body">
+
+<div class="staff-layout">
+
+  <!-- ── Sidebar ─────────────────────────────────────────── -->
+  <aside class="staff-sidebar">
+    <a href="{% url 'staff_overview' %}" class="sidebar-brand">
+      <span class="brand-leaf">🌿</span>
+      <span>หลังร้าน</span>
+    </a>
+
+    <nav class="sidebar-nav">
+      <span class="nav-group-label">เมนูหลัก</span>
+
+      <a href="{% url 'staff_overview' %}" class="sidebar-link {% block nav_overview %}{% endblock %}">
+        <span class="nav-icon">📊</span> ภาพรวม
+        {% if new_order_count > 0 %}
+        <span class="sidebar-badge" id="sidebarNewBadge">{{ new_order_count }}</span>
+        {% else %}
+        <span class="sidebar-badge" id="sidebarNewBadge" style="display:none">0</span>
+        {% endif %}
+      </a>
+
+      <a href="{% url 'staff_orders' %}" class="sidebar-link {% block nav_orders %}{% endblock %}">
+        <span class="nav-icon">🛒</span> ออเดอร์
+        <span class="sidebar-badge" id="sidebarOrderBadge" {% if not new_order_count %}style="display:none"{% endif %}>{{ new_order_count }}</span>
+      </a>
+
+      <a href="{% url 'staff_bookings' %}" class="sidebar-link {% block nav_bookings %}{% endblock %}">
+        <span class="nav-icon">🌱</span> การจองแปลง
+      </a>
+
+      <span class="nav-group-label">สินค้า</span>
+
+      <a href="{% url 'staff_products' %}" class="sidebar-link {% block nav_products %}{% endblock %}">
+        <span class="nav-icon">📦</span> สินค้า &amp; สต๊อก
+      </a>
+
+      <a href="{% url 'staff_chat' %}" class="sidebar-link {% block nav_chat %}{% endblock %}">
+        <span class="nav-icon">💬</span> แชทลูกค้า
+        {% if unread_chat_count > 0 %}
+        <span class="sidebar-badge" id="sidebarChatBadge">{{ unread_chat_count }}</span>
+        {% else %}
+        <span class="sidebar-badge" id="sidebarChatBadge" style="display:none">0</span>
+        {% endif %}
+      </a>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="/admin/" target="_blank" style="display:flex;align-items:center;gap:6px;color:#a3c4b0;font-size:12px;text-decoration:none;margin-bottom:6px;transition:color .18s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#a3c4b0'">
+        <span style="font-size:14px">⚙️</span> Django Admin
+      </a>
+      <span style="color:#6b7280;font-size:11px;">Greenhearth Staff v1.0</span>
+    </div>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────── -->
+  <div class="staff-main">
+
+    <!-- Topbar -->
+    <header class="staff-topbar">
+      <span class="topbar-title">{% block page_title %}หลังร้าน{% endblock %}</span>
+      <div class="topbar-right">
+        <span class="topbar-staff">สวัสดี, <strong>{{ request.user.get_full_name|default:request.user.username }}</strong></span>
+        <form method="post" action="{% url 'logout' %}" style="display:inline">{% csrf_token %}<button type="submit" class="btn-logout" style="background:none;border:none;cursor:pointer;font-family:inherit;">ออกจากระบบ</button></form>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="staff-content">
+      {% block content %}{% endblock %}
+    </main>
+
+  </div><!-- /staff-main -->
+
+</div><!-- /staff-layout -->
+
+<!-- ── Polling (every 30s): new orders + unread chats ──── -->
+<script>
+(function() {
+  function setBadge(id, count) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (count > 0) { el.textContent = count; el.style.display = ''; }
+    else            { el.style.display = 'none'; }
+  }
+
+  function poll() {
+    fetch('{% url "staff_new_order_count" %}')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        setBadge('sidebarNewBadge',   d.count);
+        setBadge('sidebarOrderBadge', d.count);
+        setBadge('sidebarChatBadge',  d.chat_count || 0);
+        var total = (d.count || 0) + (d.chat_count || 0);
+        var base = document.title.replace(/^\(\d+\) /, '');
+        document.title = total > 0 ? '(' + total + ') ' + base : base;
+      })
+      .catch(function() {});
+  }
+
+  setInterval(poll, 30000);
+})();
+</script>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

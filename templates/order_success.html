@@ -1,0 +1,127 @@
+﻿{% load static staff_extras %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คำสั่งซื้อสำเร็จ - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <style>
+        .success-page { min-height: calc(100vh - 80px); padding: 60px 20px 80px; display: flex; align-items: center; justify-content: center; background: var(--light-bg, #f6f8f6); }
+        .success-card { background: #fff; border-radius: 24px; padding: 48px 40px; max-width: 620px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid #f3f4f6; text-align: center; }
+        .success-icon { width: 80px; height: 80px; background: linear-gradient(135deg,#13ec37,#10d131); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 36px; color: #fff; font-weight: 900; }
+        .success-title { font-size: 28px; font-weight: 900; color: var(--text-dark,#1f2937); margin-bottom: 6px; }
+        .success-sub { font-size: 15px; color: var(--text-gray,#4b5563); margin-bottom: 20px; }
+
+        .order-number-box { background: linear-gradient(135deg, rgba(19,236,55,0.08), rgba(16,209,49,0.05)); border: 2px dashed rgba(19,236,55,0.4); border-radius: 16px; padding: 20px 24px; margin-bottom: 8px; }
+        .order-number-label { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: #4b5563; font-weight: 700; margin-bottom: 6px; }
+        .order-number-value { font-size: 40px; font-weight: 900; color: #1f2937; letter-spacing: 2px; }
+        .order-number-hint { font-size: 13px; color: #059669; font-weight: 600; margin-top: 6px; }
+
+        .status-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 18px; border-radius: 50px; font-size: 13px; font-weight: 700; margin: 16px 0 24px; }
+        .status-paid    { background: rgba(19,236,55,0.1); color: #059669; border: 1px solid rgba(19,236,55,0.3); }
+        .status-pending { background: rgba(251,191,36,0.1); color: #92400e; border: 1px solid rgba(251,191,36,0.3); }
+        .status-failed  { background: rgba(239,68,68,0.1); color: #b91c1c; border: 1px solid rgba(239,68,68,0.3); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+
+        .items-table { width: 100%; border-collapse: collapse; margin: 20px 0 8px; text-align: left; border-radius: 12px; overflow: hidden; border: 1px solid #f3f4f6; }
+        .items-table th { background: #f9fafb; padding: 12px 16px; font-size: 11px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+        .items-table td { padding: 14px 16px; border-top: 1px solid #f3f4f6; font-size: 14px; color: #374151; }
+        .total-row { display: flex; justify-content: space-between; padding: 16px 0; border-top: 2px dashed #e5e7eb; margin-top: 4px; font-weight: 800; font-size: 18px; color: var(--text-dark,#1f2937); }
+        .total-row span:last-child { color: var(--primary-green,#13ec37); }
+
+        .action-buttons { display: flex; gap: 12px; margin-top: 28px; }
+        .btn-track { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; background: linear-gradient(135deg,#13ec37,#10d131); color: #fff; border-radius: 12px; font-weight: 800; font-size: 15px; text-decoration: none; transition: all 0.2s; }
+        .btn-track:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(19,236,55,0.3); color: #fff; }
+        .btn-shop { flex: 1; display: flex; align-items: center; justify-content: center; padding: 14px 20px; background: transparent; border: 2px solid #e5e7eb; color: #4b5563; border-radius: 12px; font-weight: 700; font-size: 15px; text-decoration: none; transition: all 0.2s; }
+        .btn-shop:hover { border-color: #13ec37; color: #059669; }
+        @media (max-width: 480px) { .success-card { padding: 32px 20px; } .order-number-value { font-size: 32px; } .action-buttons { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="{% url 'home' %}"><img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" /></a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                <div class="icon-inner">
+                    <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                    <span id="cartBadge" class="cart-badge">0</span>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <main class="success-page">
+        <div class="success-card">
+            <div class="success-icon">✓</div>
+            <h1 class="success-title">คำสั่งซื้อสำเร็จ!</h1>
+            <p class="success-sub">ขอบคุณที่ช้อปปิ้งกับ Digital Garden 🌿</p>
+
+            <div class="order-number-box">
+                <p class="order-number-label">เลขออเดอร์</p>
+                <p class="order-number-value">#{{ order.id }}</p>
+                <p class="order-number-hint">📌 จดเลขนี้ไว้เพื่อติดตามสินค้าของคุณ</p>
+            </div>
+
+            {% if order.status == 'paid' %}
+            <span class="status-badge status-paid"><span class="status-dot"></span>ชำระเงินแล้ว</span>
+            {% elif order.status == 'failed' %}
+            <span class="status-badge status-failed"><span class="status-dot"></span>การชำระเงินล้มเหลว</span>
+            {% else %}
+            <span class="status-badge status-pending"><span class="status-dot"></span>รอการยืนยันการชำระเงิน</span>
+            {% endif %}
+
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>สินค้า</th>
+                        <th style="text-align:center">จำนวน</th>
+                        <th style="text-align:right">ราคา/ชิ้น</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.items.all %}
+                    <tr>
+                        <td style="font-weight:600">{{ item.product_name }}</td>
+                        <td style="text-align:center;color:#6b7280">× {{ item.quantity }}</td>
+                        <td style="text-align:right;font-weight:700">{{ item.price|price_fmt }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="total-row">
+                <span>ยอดชำระทั้งหมด</span>
+                <span>{{ order.total|price_fmt }}</span>
+            </div>
+
+            {% if coins_earned %}
+            <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;border-radius:12px;padding:16px 20px;text-align:center;margin:16px 0;">
+                <span style="font-size:22px;">🌿</span>
+                <p style="margin:6px 0 0;font-size:15px;font-weight:700;color:#166534;">คุณได้รับ <strong>{{ coins_earned }} coins</strong> จากการสั่งซื้อนี้!</p>
+                <p style="font-size:12px;color:#6b7280;margin:4px 0 0;">นำไปบริจาคปลูกต้นไม้ได้ที่หน้า Home</p>
+            </div>
+            {% endif %}
+
+            <div class="action-buttons">
+                <a href="{% url 'order_track_detail' order_id=order.id %}" class="btn-track">📦 ดูรายละเอียดคำสั่งซื้อ</a>
+                <a href="{% url 'my_orders' %}" class="btn-shop">🛍️ การซื้อของฉัน</a>
+            </div>
+            <div style="text-align:center;margin-top:14px">
+                <a href="{% url 'shop' %}" style="font-size:13px;color:#6b7280;text-decoration:none;font-weight:600">← กลับไปช้อปปิ้ง</a>
+            </div>
+        </div>
+    </main>
+
+    {% include '_chat_widget.html' %}
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

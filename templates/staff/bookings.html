@@ -1,0 +1,95 @@
+{% extends 'staff/base.html' %}
+{% load static staff_extras %}
+
+{% block title %}การจองแปลง{% endblock %}
+{% block page_title %}การจองแปลง{% endblock %}
+{% block nav_bookings %}active{% endblock %}
+
+{% block content %}
+
+<!-- ── Tab bar ─────────────────────────────────────────── -->
+<div class="staff-tabs" style="margin-bottom:0;border-radius:12px 12px 0 0;overflow:hidden;border:1px solid var(--s-border);border-bottom:none;background:#fff;padding:0 20px">
+  {% for key, label, _ in BOOKING_TABS %}
+  <a href="?tab={{ key }}{% if q %}&q={{ q }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}"
+     class="staff-tab {% if tab == key %}active{% endif %}">
+    {{ label }}
+    <span class="tab-badge">{{ tab_counts|get_item:key|default:0 }}</span>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="staff-table-wrap" style="border-radius:0 0 12px 12px">
+  <div class="staff-table-header">
+    <h3>
+      {% for key, label, _ in BOOKING_TABS %}{% if tab == key %}{{ label }}{% endif %}{% endfor %}
+      ({{ tab_counts|get_item:tab|default:0 }} รายการ)
+    </h3>
+    <form method="get" class="filter-bar">
+      <input type="hidden" name="tab" value="{{ tab }}">
+      <input type="search" name="q" value="{{ q }}" placeholder="ค้นหา ชื่อ / เบอร์…">
+      <input type="date" name="date_from" value="{{ date_from }}">
+      <input type="date" name="date_to"   value="{{ date_to }}">
+      <button type="submit" class="btn-staff btn-primary-staff btn-sm">กรอง</button>
+      {% if q or date_from or date_to %}<a href="?tab={{ tab }}" class="btn-staff btn-outline-staff btn-sm">ล้าง</a>{% endif %}
+    </form>
+  </div>
+
+  <table class="staff-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>แปลง / พืช</th>
+        <th>ลูกค้า</th>
+        <th>เบอร์โทร</th>
+        <th>ปลูก → เก็บ</th>
+        <th class="text-right">ราคา (฿)</th>
+        <th>สถานะ</th>
+        <th>วิธีรับ</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in bookings %}
+      <tr>
+        <td class="nowrap">#{{ b.id }}</td>
+        <td>
+          <div style="font-weight:600">{{ b.plot.code }}</div>
+          <div style="font-size:12px;color:var(--s-text-muted)">{{ b.plant.name }}</div>
+        </td>
+        <td>{{ b.customer_name }}</td>
+        <td>{{ b.phone }}</td>
+        <td class="nowrap" style="font-size:12px">
+          {{ b.start_date|date:"d/m/y" }} →<br>{{ b.harvest_date|date:"d/m/y" }}
+        </td>
+        <td class="text-right">{{ b.total_price|price_fmt }}</td>
+        <td>{% include 'staff/_booking_status_badge.html' with status=b.status %}</td>
+        <td>
+          {% if b.delivery_method == 'pickup' %}<span style="font-size:13px">🏡 รับเอง</span>
+          {% elif b.delivery_method == 'shipping' %}<span style="font-size:13px">📦 ส่งบ้าน</span>
+          {% else %}<span class="text-muted" style="font-size:12px">—</span>{% endif %}
+        </td>
+        <td>
+          <a href="{% url 'staff_booking_detail' b.id %}" class="btn-staff btn-outline-staff btn-sm">ดู →</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="9" style="text-align:center;padding:30px;color:var(--s-text-muted)">ไม่พบการจอง</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if bookings.has_other_pages %}
+  <div style="padding:14px 20px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--s-border)">
+    {% if bookings.has_previous %}
+    <a href="?tab={{ tab }}&page={{ bookings.previous_page_number }}{% if q %}&q={{ q }}{% endif %}" class="btn-staff btn-outline-staff btn-sm">← ก่อนหน้า</a>
+    {% endif %}
+    <span class="text-muted" style="font-size:13px">หน้า {{ bookings.number }} / {{ bookings.paginator.num_pages }}</span>
+    {% if bookings.has_next %}
+    <a href="?tab={{ tab }}&page={{ bookings.next_page_number }}{% if q %}&q={{ q }}{% endif %}" class="btn-staff btn-outline-staff btn-sm">ถัดไป →</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

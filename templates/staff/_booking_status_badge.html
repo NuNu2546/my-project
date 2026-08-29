@@ -1,0 +1,13 @@
+{% if status == 'pending' %}<span class="badge badge-yellow">รอชำระ</span>
+{% elif status == 'paid' %}<span class="badge badge-green">จองแล้ว</span>
+{% elif status == 'growing' %}<span class="badge badge-blue">กำลังปลูก</span>
+{% elif status == 'ready_to_harvest' %}<span class="badge badge-yellow">พร้อมเก็บ</span>
+{% elif status == 'harvested' %}<span class="badge badge-yellow">เก็บแล้ว</span>
+{% elif status == 'awaiting_shipping_payment' %}<span class="badge badge-yellow">รอชำระค่าส่ง</span>
+{% elif status == 'preparing' %}<span class="badge badge-blue">กำลังแพ็ค</span>
+{% elif status == 'shipped' %}<span class="badge badge-blue">ส่งแล้ว</span>
+{% elif status == 'delivered' %}<span class="badge badge-green">ได้รับแล้ว</span>
+{% elif status == 'ready_for_pickup' %}<span class="badge badge-blue">รอรับที่สวน</span>
+{% elif status == 'completed' %}<span class="badge badge-green">เสร็จสิ้น</span>
+{% elif status == 'cancelled' or status == 'expired' %}<span class="badge badge-red">{% if status == 'cancelled' %}ยกเลิก{% else %}หมดอายุ{% endif %}</span>
+{% else %}<span class="badge badge-gray">{{ status }}</span>{% endif %}

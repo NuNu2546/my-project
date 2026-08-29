@@ -1,0 +1,97 @@
+{% extends 'staff/base.html' %}
+{% load static staff_extras %}
+
+{% block title %}ออเดอร์{% endblock %}
+{% block page_title %}ออเดอร์{% endblock %}
+{% block nav_orders %}active{% endblock %}
+
+{% block content %}
+
+<!-- ── Tab bar ─────────────────────────────────────────── -->
+<div class="staff-tabs" style="margin-bottom:0;border-radius:12px 12px 0 0;overflow:hidden;border:1px solid var(--s-border);border-bottom:none;background:#fff;padding:0 20px">
+  {% for key, label, _ in ORDER_TABS %}
+  <a href="?tab={{ key }}{% if q %}&q={{ q }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}"
+     class="staff-tab {% if tab == key %}active{% endif %}">
+    {{ label }}
+    <span class="tab-badge">{{ tab_counts|get_item:key|default:0 }}</span>
+  </a>
+  {% endfor %}
+</div>
+
+<!-- ── Filter bar + table ───────────────────────────────── -->
+<div class="staff-table-wrap" style="border-radius:0 0 12px 12px">
+  <div class="staff-table-header">
+    <h3>
+      {% for key, label, _ in ORDER_TABS %}{% if tab == key %}{{ label }}{% endif %}{% endfor %}
+      ({{ tab_counts|get_item:tab|default:0 }} รายการ)
+    </h3>
+    <form method="get" class="filter-bar" id="filterForm">
+      <input type="hidden" name="tab" value="{{ tab }}">
+      <input type="search" name="q" value="{{ q }}" placeholder="ค้นหา #ID / ชื่อ / เบอร์…">
+      <input type="date" name="date_from" value="{{ date_from }}" title="ตั้งแต่วันที่">
+      <input type="date" name="date_to"   value="{{ date_to }}"   title="ถึงวันที่">
+      <select name="sort">
+        <option value="newest" {% if sort == 'newest' %}selected{% endif %}>ใหม่ก่อน</option>
+        <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>เก่าก่อน</option>
+      </select>
+      <button type="submit" class="btn-staff btn-primary-staff btn-sm">กรอง</button>
+      {% if q or date_from or date_to %}
+      <a href="?tab={{ tab }}" class="btn-staff btn-outline-staff btn-sm">ล้าง</a>
+      {% endif %}
+    </form>
+  </div>
+
+  <table class="staff-table">
+    <thead>
+      <tr>
+        <th style="width:70px">#</th>
+        <th>ลูกค้า</th>
+        <th>เบอร์โทร</th>
+        <th>สินค้า</th>
+        <th class="text-right">ยอด (฿)</th>
+        <th>สถานะ</th>
+        <th>วันที่</th>
+        <th style="width:80px"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in orders %}
+      <tr {% if not order.is_viewed_by_staff and order.status in 'paid,pending' %}class="row-new"{% endif %}>
+        <td class="nowrap">
+          #{{ order.id }}
+          {% if not order.is_viewed_by_staff and order.status in 'paid,pending' %}
+          <span class="badge-new">ใหม่</span>
+          {% endif %}
+        </td>
+        <td>{{ order.customer_name }}</td>
+        <td>{{ order.phone }}</td>
+        <td style="font-size:12px;color:var(--s-text-muted)">{{ order.items.count }} รายการ</td>
+        <td class="text-right">{{ order.total|price_fmt }}</td>
+        <td>{% include 'staff/_order_status_badge.html' with status=order.status %}</td>
+        <td class="nowrap text-muted" style="font-size:12px">{{ order.created_at|date:"d/m/y H:i" }}</td>
+        <td>
+          <a href="{% url 'staff_order_detail' order.id %}" class="btn-staff btn-outline-staff btn-sm">ดู →</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="8" style="text-align:center;padding:30px;color:var(--s-text-muted)">ไม่พบออเดอร์</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if orders.has_other_pages %}
+  <div style="padding:14px 20px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--s-border)">
+    {% if orders.has_previous %}
+    <a href="?tab={{ tab }}&page={{ orders.previous_page_number }}{% if q %}&q={{ q }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}&sort={{ sort }}"
+       class="btn-staff btn-outline-staff btn-sm">← ก่อนหน้า</a>
+    {% endif %}
+    <span class="text-muted" style="font-size:13px">หน้า {{ orders.number }} / {{ orders.paginator.num_pages }}</span>
+    {% if orders.has_next %}
+    <a href="?tab={{ tab }}&page={{ orders.next_page_number }}{% if q %}&q={{ q }}{% endif %}{% if date_from %}&date_from={{ date_from }}{% endif %}{% if date_to %}&date_to={{ date_to }}{% endif %}&sort={{ sort }}"
+       class="btn-staff btn-outline-staff btn-sm">ถัดไป →</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

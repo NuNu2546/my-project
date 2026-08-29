@@ -1,0 +1,333 @@
+{% extends 'staff/base.html' %}
+{% load static %}
+
+{% block title %}สินค้า &amp; สต๊อก{% endblock %}
+{% block page_title %}สินค้า &amp; สต๊อก{% endblock %}
+{% block nav_products %}active{% endblock %}
+
+{% block content %}
+
+<!-- ── Tabs ────────────────────────────────────────────── -->
+<div class="staff-tabs">
+  <div class="staff-tab {% if not tab or tab == 'products' %}active{% endif %}" onclick="switchTab('products')">สินค้า</div>
+  <div class="staff-tab {% if tab == 'movements' %}active{% endif %}" onclick="switchTab('movements')">ประวัติสต๊อก</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TAB: สินค้า
+══════════════════════════════════════════════════════ -->
+<div id="tab-products" class="tab-section {% if tab == 'movements' %}hidden{% endif %}">
+
+  <div class="staff-table-wrap">
+    <div class="staff-table-header">
+      <h3>สินค้าทั้งหมด ({{ total_count }} รายการ)</h3>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <form method="get" class="filter-bar" id="filterForm">
+          <input type="hidden" name="tab" value="products">
+          <input type="search" name="q" value="{{ q }}" placeholder="ค้นหาชื่อสินค้า…" id="searchInput" style="min-width:180px">
+          <select name="cat" onchange="document.getElementById('filterForm').submit()">
+            <option value="">— ทุกหมวด —</option>
+            {% for val, label in category_choices %}
+            <option value="{{ val }}" {% if cat_filter == val %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+          <select name="sort" onchange="document.getElementById('filterForm').submit()">
+            <option value="id" {% if sort == 'id' %}selected{% endif %}>เรียงตาม ID</option>
+            <option value="stock_asc" {% if sort == 'stock_asc' %}selected{% endif %}>สต๊อก: น้อย→มาก</option>
+            <option value="stock_desc" {% if sort == 'stock_desc' %}selected{% endif %}>สต๊อก: มาก→น้อย</option>
+            <option value="name" {% if sort == 'name' %}selected{% endif %}>ชื่อ A-Z</option>
+          </select>
+          <button type="submit" class="btn-staff btn-primary-staff btn-sm">ค้นหา</button>
+          {% if q or cat_filter %}<a href="?tab=products" class="btn-staff btn-outline-staff btn-sm">ล้าง</a>{% endif %}
+        </form>
+        <button class="btn-staff btn-primary-staff btn-sm" onclick="openAddModal()">+ เพิ่มสินค้าใหม่</button>
+      </div>
+    </div>
+
+    <form method="post" action="{% url 'staff_products_bulk_save' %}" id="bulkForm">
+      {% csrf_token %}
+      <input type="hidden" name="tab" value="products">
+      <table class="staff-table">
+        <thead>
+          <tr>
+            <th style="width:44px"></th>
+            <th>สินค้า</th>
+            <th>หมวด</th>
+            <th class="text-right" style="width:110px">ราคา (฿)</th>
+            <th class="text-right" style="width:90px">สต๊อก</th>
+            <th style="width:80px">ขาย</th>
+            <th style="width:80px">เติมสต๊อก</th>
+            <th style="width:70px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in products %}
+          <tr id="row-{{ p.id }}">
+            <td>
+              <img src="{% static p.image %}" class="prod-thumb" alt="{{ p.name }}" onerror="this.style.opacity=.3">
+            </td>
+            <td>
+              <div style="font-weight:600">{{ p.name }}</div>
+              <div style="font-size:11px;color:var(--s-text-muted)">ID {{ p.id }}</div>
+            </td>
+            <td style="font-size:12px;color:var(--s-text-muted)">{{ p.get_category_display }}</td>
+            <td class="text-right">
+              <input type="number" class="inline-input" name="price_{{ p.id }}" value="{{ p.price }}" step="0.01" min="0">
+            </td>
+            <td class="text-right">
+              <input type="number" class="inline-input" name="stock_{{ p.id }}" value="{{ p.stock_quantity }}" min="0"
+                style="color:{% if p.stock_quantity == 0 %}#ef4444{% elif p.stock_quantity < 5 %}#f59e0b{% else %}inherit{% endif %}">
+            </td>
+            <td style="text-align:center">
+              <label class="toggle-switch">
+                <input type="checkbox" name="active_{{ p.id }}" {% if p.is_active %}checked{% endif %}
+                  onchange="toggleActive({{ p.id }}, this.checked)">
+                <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              </label>
+            </td>
+            <td>
+              <button type="button" class="btn-staff btn-primary-staff btn-sm" onclick="openRestockModal({{ p.id }}, '{{ p.name|escapejs }}', {{ p.stock_quantity }})">
+                +เติม
+              </button>
+            </td>
+            <td>
+              <button type="button" class="btn-staff btn-outline-staff btn-sm" onclick="saveRow({{ p.id }})">บันทึก</button>
+            </td>
+          </tr>
+          {% empty %}
+          <tr><td colspan="8" style="text-align:center;padding:24px;color:var(--s-text-muted)">ไม่พบสินค้า</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <!-- Hidden save-all button (triggered per-row via JS) -->
+      <input type="hidden" name="save_ids" id="saveIds" value="">
+      <button type="submit" id="bulkSubmitBtn" style="display:none"></button>
+    </form>
+
+    {% if products.has_other_pages %}
+    <div style="padding:14px 20px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--s-border)">
+      {% if products.has_previous %}
+      <a href="?tab=products&page={{ products.previous_page_number }}{% if q %}&q={{ q }}{% endif %}{% if cat_filter %}&cat={{ cat_filter }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="btn-staff btn-outline-staff btn-sm">← ก่อนหน้า</a>
+      {% endif %}
+      <span class="text-muted" style="font-size:13px">หน้า {{ products.number }} / {{ products.paginator.num_pages }}</span>
+      {% if products.has_next %}
+      <a href="?tab=products&page={{ products.next_page_number }}{% if q %}&q={{ q }}{% endif %}{% if cat_filter %}&cat={{ cat_filter }}{% endif %}{% if sort %}&sort={{ sort }}{% endif %}" class="btn-staff btn-outline-staff btn-sm">ถัดไป →</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+</div><!-- /tab-products -->
+
+
+<!-- ══════════════════════════════════════════════════════
+     TAB: ประวัติสต๊อก
+══════════════════════════════════════════════════════ -->
+<div id="tab-movements" class="tab-section {% if tab != 'movements' %}hidden{% endif %}">
+
+  <div class="staff-table-wrap">
+    <div class="staff-table-header">
+      <h3>ประวัติการเคลื่อนไหวสต๊อก</h3>
+      <form method="get" class="filter-bar">
+        <input type="hidden" name="tab" value="movements">
+        <input type="search" name="mq" value="{{ mq }}" placeholder="ค้นหาชื่อสินค้า…">
+        <select name="mreason">
+          <option value="">— ทุกเหตุผล —</option>
+          <option value="sale" {% if mreason == 'sale' %}selected{% endif %}>ขาย</option>
+          <option value="return" {% if mreason == 'return' %}selected{% endif %}>คืนสต๊อก</option>
+          <option value="restock" {% if mreason == 'restock' %}selected{% endif %}>เติมสต๊อก</option>
+          <option value="adjust" {% if mreason == 'adjust' %}selected{% endif %}>ปรับยอด</option>
+        </select>
+        <button type="submit" class="btn-staff btn-primary-staff btn-sm">กรอง</button>
+        {% if mq or mreason %}<a href="?tab=movements" class="btn-staff btn-outline-staff btn-sm">ล้าง</a>{% endif %}
+      </form>
+    </div>
+
+    <table class="staff-table">
+      <thead>
+        <tr>
+          <th>สินค้า</th>
+          <th>เหตุผล</th>
+          <th class="text-right">จำนวน (+/-)</th>
+          <th>ออเดอร์</th>
+          <th>หมายเหตุ</th>
+          <th>Staff</th>
+          <th>วันที่</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in movements %}
+        <tr>
+          <td>{{ m.product.name }}</td>
+          <td>
+            {% if m.reason == 'sale' %}<span class="badge badge-blue">ขาย</span>
+            {% elif m.reason == 'return' %}<span class="badge badge-yellow">คืนสต๊อก</span>
+            {% elif m.reason == 'restock' %}<span class="badge badge-green">เติมสต๊อก</span>
+            {% else %}<span class="badge badge-gray">ปรับยอด</span>{% endif %}
+          </td>
+          <td class="text-right {% if m.change > 0 %}stock-ok{% else %}stock-zero{% endif %}" style="font-weight:700">
+            {% if m.change > 0 %}+{% endif %}{{ m.change }}
+          </td>
+          <td>{% if m.order %}<a href="{% url 'staff_order_detail' m.order_id %}">#{{ m.order_id }}</a>{% else %}—{% endif %}</td>
+          <td style="font-size:12px;color:var(--s-text-muted)">{{ m.note|default:"—" }}</td>
+          <td style="font-size:12px">{{ m.staff.username|default:"ระบบ" }}</td>
+          <td class="nowrap" style="font-size:12px;color:var(--s-text-muted)">{{ m.created_at|date:"d/m/y H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" style="text-align:center;padding:24px;color:var(--s-text-muted)">ยังไม่มีประวัติ</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if movements.has_other_pages %}
+    <div style="padding:14px 20px;display:flex;gap:8px;align-items:center;border-top:1px solid var(--s-border)">
+      {% if movements.has_previous %}
+      <a href="?tab=movements&page={{ movements.previous_page_number }}{% if mq %}&mq={{ mq }}{% endif %}{% if mreason %}&mreason={{ mreason }}{% endif %}" class="btn-staff btn-outline-staff btn-sm">← ก่อนหน้า</a>
+      {% endif %}
+      <span class="text-muted" style="font-size:13px">หน้า {{ movements.number }} / {{ movements.paginator.num_pages }}</span>
+      {% if movements.has_next %}
+      <a href="?tab=movements&page={{ movements.next_page_number }}{% if mq %}&mq={{ mq }}{% endif %}{% if mreason %}&mreason={{ mreason }}{% endif %}" class="btn-staff btn-outline-staff btn-sm">ถัดไป →</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+</div><!-- /tab-movements -->
+
+
+<!-- ══ Modal: เติมสต๊อก ══════════════════════════════════ -->
+<div class="staff-modal-overlay" id="restockOverlay">
+  <div class="staff-modal">
+    <div class="modal-title">เติมสต๊อก — <span id="restockName"></span></div>
+    <div class="alert-info">สต๊อกปัจจุบัน: <strong id="restockCurrent"></strong> ชิ้น</div>
+    <form method="post" action="{% url 'staff_product_restock' %}">
+      {% csrf_token %}
+      <input type="hidden" name="product_id" id="restockProductId">
+      <input type="hidden" name="tab" value="products">
+      <div class="form-row">
+        <label>จำนวนที่เติม (ชิ้น) *</label>
+        <input type="number" name="qty" min="1" required id="restockQty" placeholder="เช่น 50">
+      </div>
+      <div class="form-row">
+        <label>หมายเหตุ</label>
+        <input type="text" name="note" placeholder="ระบุแหล่งที่มา เช่น สั่งเพิ่มครั้งที่ 3…">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-staff btn-outline-staff" onclick="closeRestockModal()">ยกเลิก</button>
+        <button type="submit" class="btn-staff btn-primary-staff">บันทึก</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ══ Modal: เพิ่มสินค้าใหม่ ════════════════════════════ -->
+<div class="staff-modal-overlay" id="addOverlay">
+  <div class="staff-modal" style="width:560px">
+    <div class="modal-title">เพิ่มสินค้าใหม่</div>
+    <form method="post" action="{% url 'staff_product_add' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-row" style="grid-column:1/-1">
+          <label>ชื่อสินค้า *</label>
+          <input type="text" name="name" required>
+        </div>
+        <div class="form-row">
+          <label>ราคา (฿) *</label>
+          <input type="number" name="price" step="0.01" min="0" required>
+        </div>
+        <div class="form-row">
+          <label>สต๊อกเริ่มต้น</label>
+          <input type="number" name="stock_quantity" value="0" min="0">
+        </div>
+        <div class="form-row" style="grid-column:1/-1">
+          <label>หมวดหมู่</label>
+          <select name="category">
+            <option value="">— เลือกหมวด —</option>
+            {% for val, label in category_choices %}
+            <option value="{{ val }}">{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-row" style="grid-column:1/-1">
+          <label>รูปภาพ (อัปโหลด)</label>
+          <input type="file" name="image_file" accept="image/*">
+        </div>
+        <div class="form-row" style="grid-column:1/-1">
+          <label>หรือระบุ path รูป</label>
+          <input type="text" name="image_path" placeholder="images/grow_kits/example.png">
+        </div>
+        <div class="form-row" style="grid-column:1/-1">
+          <label>รายละเอียด</label>
+          <textarea name="description" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-staff btn-outline-staff" onclick="closeAddModal()">ยกเลิก</button>
+        <button type="submit" class="btn-staff btn-primary-staff">บันทึก</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// ── Tab switch ───────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab-section').forEach(s => s.classList.add('hidden'));
+  document.querySelectorAll('.staff-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.remove('hidden');
+  const tabs = document.querySelectorAll('.staff-tab');
+  tabs[tab === 'products' ? 0 : 1].classList.add('active');
+  // update URL without reload
+  const url = new URL(location.href);
+  url.searchParams.set('tab', tab);
+  history.replaceState(null, '', url);
+}
+
+// ── Restock modal ────────────────────────────────────────
+function openRestockModal(id, name, current) {
+  document.getElementById('restockProductId').value = id;
+  document.getElementById('restockName').textContent = name;
+  document.getElementById('restockCurrent').textContent = current;
+  document.getElementById('restockQty').value = '';
+  document.getElementById('restockOverlay').classList.add('open');
+}
+function closeRestockModal() {
+  document.getElementById('restockOverlay').classList.remove('open');
+}
+document.getElementById('restockOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeRestockModal();
+});
+
+// ── Add modal ────────────────────────────────────────────
+function openAddModal() { document.getElementById('addOverlay').classList.add('open'); }
+function closeAddModal() { document.getElementById('addOverlay').classList.remove('open'); }
+document.getElementById('addOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeAddModal();
+});
+
+// ── Save single row ──────────────────────────────────────
+function saveRow(pid) {
+  document.getElementById('saveIds').value = String(pid);
+  document.getElementById('bulkSubmitBtn').click();
+}
+
+// ── Toggle active via AJAX ───────────────────────────────
+function toggleActive(pid, active) {
+  fetch('{% url "staff_product_toggle_active" %}', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
+    body: JSON.stringify({product_id: pid, is_active: active})
+  });
+}
+
+// Tab init
+const tabParam = new URLSearchParams(location.search).get('tab');
+if (tabParam === 'movements') switchTab('movements');
+</script>
+<style>
+.hidden { display: none !important; }
+</style>
+{% endblock %}

@@ -1,0 +1,398 @@
+{% extends 'staff/base.html' %}
+{% load static %}
+
+{% block title %}แชทลูกค้า{% endblock %}
+{% block page_title %}แชทลูกค้า{% endblock %}
+{% block nav_chat %}active{% endblock %}
+
+{% block extra_head %}
+<style>
+.chat-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 0;
+  height: calc(100vh - 120px);
+  background: var(--s-surface);
+  border: 1px solid var(--s-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ── Room list ── */
+.chat-room-list {
+  border-right: 1px solid var(--s-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.room-list-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--s-border);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.room-list-header a {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--s-border);
+  color: var(--s-text-muted);
+  text-decoration: none;
+  background: transparent;
+}
+.room-list-header a.active {
+  background: var(--s-green);
+  color: #fff;
+  border-color: var(--s-green);
+}
+.room-items { overflow-y: auto; flex: 1; }
+.room-item {
+  display: block;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--s-border);
+  text-decoration: none;
+  color: inherit;
+  transition: background .15s;
+  cursor: pointer;
+}
+.room-item:hover { background: #f0faf4; }
+.room-item.selected { background: #e8f5ee; border-left: 3px solid var(--s-green); }
+.room-item-name { font-weight: 700; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+.room-item-sub { font-size: 12px; color: var(--s-text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.unread-dot {
+  background: #e53e3e;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 12px;
+  padding: 1px 6px;
+  min-width: 18px;
+  text-align: center;
+}
+.room-closed-badge {
+  font-size: 10px;
+  background: #e2e8f0;
+  color: #718096;
+  border-radius: 10px;
+  padding: 1px 6px;
+}
+
+/* ── Chat window ── */
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.chat-win-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--s-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+.chat-win-info .name { font-weight: 700; font-size: 15px; }
+.chat-win-info .sub  { font-size: 12px; color: var(--s-text-muted); margin-top: 2px; }
+.chat-win-actions { display: flex; gap: 8px; align-items: center; }
+
+.chat-messages-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f8fafc;
+}
+.chat-bubble {
+  max-width: 72%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  position: relative;
+}
+.chat-bubble .bubble-meta {
+  font-size: 11px;
+  margin-top: 4px;
+  opacity: .65;
+}
+.bubble-customer {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.bubble-staff {
+  background: var(--s-green);
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.bubble-staff .bubble-meta { color: rgba(255,255,255,.75); }
+
+.chat-input-area {
+  padding: 12px 16px;
+  border-top: 1px solid var(--s-border);
+  background: #fff;
+  flex-shrink: 0;
+}
+.canned-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.canned-btn {
+  font-size: 11px;
+  padding: 3px 10px;
+  border: 1px solid var(--s-border);
+  border-radius: 12px;
+  background: #f8fafc;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--s-text-main);
+  transition: background .15s;
+}
+.canned-btn:hover { background: #e8f5ee; border-color: var(--s-green); }
+.chat-send-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.chat-text-input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid var(--s-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+.chat-text-input:focus { border-color: var(--s-green); box-shadow: 0 0 0 3px rgba(45,106,79,.1); }
+.btn-send-chat {
+  background: var(--s-green);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.btn-send-chat:hover { opacity: .88; }
+
+.chat-empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--s-text-muted);
+  gap: 10px;
+  font-size: 14px;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="chat-layout">
+
+  <!-- ── Room list ── -->
+  <div class="chat-room-list">
+    <div class="room-list-header">
+      <a href="?tab=open" class="{% if tab != 'closed' %}active{% endif %}">เปิดอยู่</a>
+      <a href="?tab=closed" class="{% if tab == 'closed' %}active{% endif %}">ปิดแล้ว</a>
+    </div>
+    <div class="room-items">
+      {% for room in rooms %}
+      <a href="?room={{ room.id }}&tab={{ tab }}"
+         class="room-item {% if selected_room and selected_room.id == room.id %}selected{% endif %}">
+        <div class="room-item-name">
+          <span>{{ room.customer_name|default:"ไม่ระบุชื่อ" }}</span>
+          {% if room.unread_by_staff > 0 %}
+          <span class="unread-dot">{{ room.unread_by_staff }}</span>
+          {% elif room.is_closed %}
+          <span class="room-closed-badge">ปิดแล้ว</span>
+          {% endif %}
+        </div>
+        <div class="room-item-sub">
+          {% if room.phone %}{{ room.phone }}{% endif %}
+          {% if room.related_order %} · ออเดอร์ #{{ room.related_order_id }}{% endif %}
+        </div>
+        {% with room.messages.last as last_msg %}
+        {% if last_msg %}
+        <div class="room-item-sub" style="margin-top:3px">{{ last_msg.message|truncatechars:40 }}</div>
+        {% endif %}
+        {% endwith %}
+      </a>
+      {% empty %}
+      <div style="padding:24px;text-align:center;color:var(--s-text-muted);font-size:13px">
+        ไม่มีการสนทนา
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ── Chat window ── -->
+  <div class="chat-window">
+    {% if selected_room %}
+
+    <!-- Header -->
+    <div class="chat-win-header">
+      <div class="chat-win-info">
+        <div class="name">{{ selected_room.customer_name|default:"ไม่ระบุชื่อ" }}</div>
+        <div class="sub">
+          {% if selected_room.phone %}📞 {{ selected_room.phone }}{% endif %}
+          {% if selected_room.related_order %}
+           · <a href="{% url 'staff_order_detail' selected_room.related_order_id %}" style="color:var(--s-green)">ออเดอร์ #{{ selected_room.related_order_id }}</a>
+          {% endif %}
+          · เริ่มเมื่อ {{ selected_room.created_at|date:"d M Y H:i" }}
+        </div>
+      </div>
+      <div class="chat-win-actions">
+        {% if not selected_room.is_closed %}
+        <button class="btn-staff btn-outline-staff btn-sm" id="closeRoomBtn" onclick="closeRoom({{ selected_room.id }})">
+          🔒 ปิดเคส
+        </button>
+        {% else %}
+        <span style="font-size:12px;color:var(--s-text-muted)">เคสนี้ปิดแล้ว</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="chat-messages-area" id="msgArea">
+      {% for msg in messages %}
+      <div class="chat-bubble {% if msg.sender_type == 'staff' %}bubble-staff{% else %}bubble-customer{% endif %}"
+           data-id="{{ msg.id }}">
+        {{ msg.message }}
+        <div class="bubble-meta">
+          {% if msg.sender_type == 'staff' %}{{ msg.sender_name }} · {% endif %}{{ msg.created_at|date:"H:i" }}
+        </div>
+      </div>
+      {% empty %}
+      <div style="text-align:center;color:var(--s-text-muted);font-size:13px;margin-top:40px">ยังไม่มีข้อความ</div>
+      {% endfor %}
+    </div>
+
+    {% if not selected_room.is_closed %}
+    <!-- Input -->
+    <div class="chat-input-area">
+      <div class="canned-row">
+        {% for canned in canned_responses %}
+        <button class="canned-btn" onclick="useCanned(this)">{{ canned }}</button>
+        {% endfor %}
+      </div>
+      <div class="chat-send-row">
+        <input type="text" class="chat-text-input" id="staffMsgInput"
+               placeholder="พิมพ์ข้อความ…" maxlength="500"
+               onkeydown="if(event.key==='Enter')sendStaffMsg()">
+        <button class="btn-send-chat" onclick="sendStaffMsg()">ส่ง</button>
+      </div>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="chat-empty-state">
+      <span style="font-size:48px">💬</span>
+      <span>เลือกการสนทนาจากรายการทางซ้าย</span>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+{% if selected_room %}
+<script>
+var ROOM_ID   = {{ selected_room.id }};
+var IS_CLOSED = {{ selected_room.is_closed|yesno:"true,false" }};
+var lastId    = 0;
+
+// Set lastId from rendered messages
+document.querySelectorAll('[data-id]').forEach(function(el) {
+  var id = parseInt(el.getAttribute('data-id'));
+  if (id > lastId) lastId = id;
+});
+
+var msgArea = document.getElementById('msgArea');
+
+function scrollBottom() {
+  if (msgArea) msgArea.scrollTop = msgArea.scrollHeight;
+}
+scrollBottom();
+
+function appendBubble(msg) {
+  var div = document.createElement('div');
+  div.className = 'chat-bubble ' + (msg.sender_type === 'staff' ? 'bubble-staff' : 'bubble-customer');
+  div.setAttribute('data-id', msg.id);
+  var meta = msg.sender_type === 'staff' ? msg.sender_name + ' · ' + msg.created_at : msg.created_at;
+  div.innerHTML = escapeHtml(msg.message) + '<div class="bubble-meta">' + escapeHtml(meta) + '</div>';
+  msgArea.appendChild(div);
+  if (msg.id > lastId) lastId = msg.id;
+  scrollBottom();
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function sendStaffMsg() {
+  var input = document.getElementById('staffMsgInput');
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  fetch('{% url "staff_chat_send" 0 %}'.replace('/0/', '/' + ROOM_ID + '/'), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCsrf() },
+    body: JSON.stringify({ message: text }),
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) { if (d.id) appendBubble(d); })
+  .catch(function() {});
+}
+
+function useCanned(btn) {
+  var input = document.getElementById('staffMsgInput');
+  if (input) { input.value = btn.textContent; input.focus(); }
+}
+
+function pollMessages() {
+  if (IS_CLOSED) return;
+  fetch('{% url "staff_chat_poll" 0 %}'.replace('/0/', '/' + ROOM_ID + '/') + '?after=' + lastId)
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      (d.messages || []).forEach(function(m) { appendBubble(m); });
+      if (d.is_closed) IS_CLOSED = true;
+    })
+    .catch(function() {});
+}
+
+function closeRoom(roomId) {
+  if (!confirm('ปิดเคสนี้? ลูกค้าจะไม่สามารถส่งข้อความเพิ่มได้')) return;
+  fetch('{% url "staff_chat_close" 0 %}'.replace('/0/', '/' + roomId + '/'), {
+    method: 'POST',
+    headers: { 'X-CSRFToken': getCsrf() },
+  })
+  .then(function() { location.reload(); })
+  .catch(function() {});
+}
+
+function getCsrf() {
+  var cookies = document.cookie.split(';');
+  for (var i = 0; i < cookies.length; i++) {
+    var c = cookies[i].trim();
+    if (c.startsWith('csrftoken=')) return c.slice(10);
+  }
+  return '';
+}
+
+setInterval(pollMessages, 5000);
+</script>
+{% endif %}
+{% endblock %}

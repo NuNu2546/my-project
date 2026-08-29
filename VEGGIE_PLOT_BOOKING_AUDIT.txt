@@ -1,0 +1,355 @@
+================================================================================
+รายงานสำรวจระบบจองแปลงผัก (Veggie Plot Booking) — Digital Garden
+วันที่สำรวจ: 2026-08-24
+ผู้สำรวจ: Claude Code (read-only audit, ไม่มีการแก้ไขโค้ดใดๆ)
+================================================================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+หัวข้อ 1: Models — ตาราง/โมเดลที่เกี่ยวกับแปลงผักและการจอง
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+สถานะ: ❌ ไม่มี Model ใดๆ ที่เกี่ยวกับแปลงผักหรือการจองอยู่ในระบบเลย
+
+store/models.py มี Model เพียง 4 ตัว ทั้งหมดเกี่ยวกับการซื้อสินค้า:
+  - Product      : สินค้าใน Shop
+  - Order        : คำสั่งซื้อ (สถานะ, ชื่อลูกค้า, เบอร์, ที่อยู่, ยอดรวม, charge_id ฯลฯ)
+  - OrderItem    : รายการสินค้าในออเดอร์
+  - OrderStatusHistory : ประวัติการเปลี่ยนสถานะออเดอร์
+
+ไม่มี:
+  - Plot model (แปลงผัก)
+  - Booking model (การจอง)
+  - ตารางใดๆ ในฐานข้อมูลที่เก็บข้อมูลแปลงหรือการจอง
+
+ข้อมูลแปลง 6 แปลงมาจากไหน:
+  ทั้งหมด HARDCODE อยู่ใน templates/Veggie_Plots.html ตั้งแต่บรรทัดที่ 67 ถึง 179
+  แต่ละแปลงเขียนตรงๆ ใน HTML ประกอบด้วย:
+    - ชื่อแปลง: มุมแดดสบาย #A12, มุมน่ารัก #B04, เนินดอกไม้ #C21,
+                ทุ่งเล็ก #D08, แปลงสดชื่น #E15, โอเอซิสเขียว #F01
+    - รูปภาพ:   images/Veggie_Plots/Veggie_Plots_A12.png, ...B04.png ฯลฯ
+    - ขนาด:     10x10m, 8x12m, 5x5m, 12x8m, 10x10m, 20x15m
+    - สถานะ:    "ว่าง" (hardcode ทุกแปลง ดูหัวข้อ 4)
+    - ราคา:     $45, $55, $30, $60, $40, $85 /เดือน
+                ⚠️ หน่วยเป็น "$" ไม่ใช่ "฿" และไม่ตรงกับระบบคำนวณจริง (ดูหัวข้อ 3)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+หัวข้อ 2: Views + URLs
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+มี 3 view ที่เกี่ยวข้อง (store/views.py):
+
+──────────────────────────────────────────────────────────────────────────────
+[1] veggie_plots (บรรทัด 527-528)
+──────────────────────────────────────────────────────────────────────────────
+URL:    /veggie-plots/   (name='veggie_plots')
+Method: GET
+รับ:    ไม่รับ parameter ใดๆ
+ส่ง:    ไม่ส่ง context ใดๆ ให้ template
+โค้ด:
+    def veggie_plots(request):
+        return render(request, 'Veggie_Plots.html')
+
+หมายเหตุ: view ว่างเปล่า ข้อมูล 6 แปลงทั้งหมดอยู่ใน template ล้วนๆ
+           ไม่มีการดึงข้อมูลจาก DB เลย
+
+──────────────────────────────────────────────────────────────────────────────
+[2] plot_detail (บรรทัด 524-525)
+──────────────────────────────────────────────────────────────────────────────
+URL:    /plot-detail/   (name='plot_detail')
+Method: GET
+รับ:    ไม่รับ parameter ใดๆ (ไม่มี plot_id!)
+ส่ง:    ไม่ส่ง context ใดๆ
+โค้ด:
+    def plot_detail(request):
+        return render(request, 'plot_detail.html')
+
+⚠️ ปัญหาร้ายแรง: URL ไม่รับ plot_id → การ์ดทั้ง 6 ใบใน Veggie_Plots.html
+   คลิกแล้วไปหน้าเดียวกันหมด (hardcode แปลง A12 เท่านั้น)
+   ลูกค้าเลือกแปลง B04, C21, D08, E15, F01 ก็ได้หน้า A12 ทุกครั้ง
+
+──────────────────────────────────────────────────────────────────────────────
+[3] process_booking (บรรทัด 536-558)
+──────────────────────────────────────────────────────────────────────────────
+URL:    /process-booking/   (name='process_booking')
+Method: POST
+รับ:    selected_plant (ชื่อพืช), start_date (วันที่ format YYYY-MM-DD)
+ส่ง:    render booking_success.html พร้อม context: plant, start_date, harvest_date, price
+
+โค้ดทั้งท่อน (copy จาก views.py บรรทัด 536-558):
+---
+def process_booking(request):
+    if request.method == 'POST':
+        # 1. รับค่าที่ส่งมาจาก Hidden Input
+        plant_name = request.POST.get('selected_plant')
+        start_date_str = request.POST.get('start_date') # จะได้เป็นข้อความเช่น '2026-03-18'
+
+        if plant_name and start_date_str:
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d').date()
+
+            days_needed = PLANT_GROW_TIMES.get(plant_name, 0)
+            price_per_day = 5
+            total_price = days_needed * price_per_day
+
+            harvest_date = start_date + timedelta(days=days_needed)
+
+            return render(request, 'booking_success.html', {
+                'plant': plant_name,
+                'start_date': start_date,
+                'harvest_date': harvest_date,
+                'price': total_price
+            })
+
+    return redirect('plot_detail')
+---
+
+สังเกต:
+  - ไม่มี Booking.objects.create() → ไม่บันทึกอะไรลง DB เลย
+  - ไม่มีการตรวจสอบว่าแปลงว่างหรือไม่
+  - ไม่มีการตรวจสอบ 60 วัน ฝั่ง server
+  - ราคา hardcode ที่ ฿5/วัน ไม่ได้มาจาก Model
+  - ไม่รับ plot_id → ไม่รู้ว่าจองแปลงไหน
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+หัวข้อ 3: Frontend (plot_detail.html + JavaScript)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ฟิลด์ที่ฟอร์มส่งไป (templates/plot_detail.html บรรทัด 185-191):
+  Form id:   bookingForm
+  Action:    {% url 'process_booking' %}   (POST)
+  CSRF:      {% csrf_token %} ✅ มี
+  Fields:
+    - selected_plant  → input[type=hidden] id="hiddenPlant"     (ชื่อพืชที่เลือก)
+    - start_date      → input[type=hidden] id="hiddenStartDate" (วัน format YYYY-MM-DD)
+  ⚠️ ไม่มี: plot_id, ชื่อลูกค้า, เบอร์โทร, ที่อยู่ (ไม่ถามลูกค้าเลย)
+
+ปฏิทินเลือกวัน:
+  มี 2 ปฏิทิน: (1) ปฏิทินหลักในหน้า (2) ปฏิทิน Popup เพิ่มเติม
+  ทั้งคู่สร้างด้วย JavaScript ล้วนๆ ไม่ใช่ input[type=date]
+  การตรวจสอบ 60 วัน → ทำที่ FRONTEND เท่านั้น (JS บรรทัด 352-353):
+    const maxSelectableDate = new Date(today);
+    maxSelectableDate.setDate(today.getDate() + 60);
+  ⚠️ ฝั่ง server ไม่มีการ validate เลย → ส่ง start_date ที่เกิน 60 วันมาได้
+
+การคำนวณวันเก็บเกี่ยวและราคา:
+  ทำที่ FRONTEND ก่อนเพื่อแสดงผล (JS บรรทัด 459-472):
+    harvestDate = selectedStartDate + selectedPlantDays วัน
+    totalPrice = selectedPlantDays * 5 (฿/วัน)
+  แล้วทำ Backend ซ้ำอีกครั้งใน process_booking เพื่อยืนยัน:
+    days_needed = PLANT_GROW_TIMES.get(plant_name, 0)
+    price_per_day = 5
+    total_price = days_needed * price_per_day
+  → ดีที่ backend คำนวณซ้ำ (ไม่เชื่อ frontend) แต่ยังไม่บันทึกผลไว้
+
+รายชื่อพืช 12 ชนิดพร้อมวันโต:
+  เก็บซ้ำกันใน 2 ที่:
+
+  [A] store/views.py บรรทัด 14-27 (Python dict):
+    PLANT_GROW_TIMES = {
+        "มะเขือเทศ": 75,   "แครอท": 75,      "ผักกาดหอม": 37,  "พริกหวาน": 75,
+        "แตงกวา": 52,       "ข้าวโพด": 75,    "ทานตะวัน": 75,   "มันฝรั่ง": 105,
+        "โหระพาไทย": 24,   "สตรอว์เบอร์รี": 105, "บลูเบอร์รี่": 912, "ราสป์เบอร์รี่": 547
+    }
+
+  [B] plot_detail.html บรรทัด 365-369 (JavaScript object):
+    const plantGrowTime = {
+        "มะเขือเทศ": 75, "แครอท": 75, "ผักกาดหอม": 37, "พริกหวาน": 75,
+        "แตงกวา": 52, "ข้าวโพด": 75, "ทานตะวัน": 75, "มันฝรั่ง": 105,
+        "โหระพาไทย": 24, "สตรอว์เบอร์รี": 105, "บลูเบอร์รี่": 912, "ราสป์เบอร์รี่": 547
+    }
+
+  ⚠️ ข้อมูลซ้ำกัน 2 ที่ → ถ้าแก้ที่หนึ่งลืมแก้อีกที่ จะเกิด inconsistency
+  แนวทางที่ดีกว่า: ส่งข้อมูลจาก views.py เป็น JSON context ให้ template แล้ว
+  JS อ่านจากนั้นจุดเดียว
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+หัวข้อ 4: สถานะแปลง (ว่าง/ไม่ว่าง)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+สถานะปัจจุบัน: ❌ HARDCODE ว่าง 100%
+
+ทั้ง 6 แปลงใน Veggie_Plots.html มี:
+    <div class="status-badge available">ว่าง</div>
+ทุกแปลง บรรทัด 71, 90, 109, 128, 147, 166
+
+ไม่มีการ:
+  - ดึงสถานะจาก DB
+  - ตรวจสอบการจองซ้อนทับ
+  - บันทึกการจองที่ผ่านมา (เพราะ Booking model ไม่มี)
+
+การกันการจองซ้ำ:
+  ❌ ไม่มีเลย ปัจจุบัน:
+    - ไม่รู้ว่าใครจองแปลงไหน
+    - ไม่รู้ว่าจองช่วงวันไหน
+    - คนกี่คนก็จองช่วงเดียวกันได้ไม่จำกัด
+    - หน้า booking_success.html บอก "ยืนยันแล้ว" ทั้งที่ไม่ได้บันทึกอะไรเลย
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+หัวข้อ 5: หน้า booking_success.html
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+สิ่งที่แสดง (templates/booking_success.html):
+  - ข้อความ "ทำรายการสำเร็จ!" พร้อมไอคอน ✅
+  - พืชที่ปลูก: {{ plant }}
+  - วันที่เริ่มปลูก: {{ start_date|date:"d M Y" }}
+  - คาดว่าจะเก็บเกี่ยว: {{ harvest_date|date:"d M Y" }}
+  - ราคารวม: ฿{{ price|floatformat:2 }}
+  - ปุ่ม "กลับสู่หน้าหลัก" → {% url 'home' %}
+
+ปัญหาที่พบ:
+  ❌ ไม่มี header/navbar ของเว็บ → เป็น standalone HTML แยกจาก design system
+  ❌ ไม่แสดงชื่อแปลง (ไม่รู้ว่าจองแปลงไหน เพราะไม่ได้รับค่า plot)
+  ❌ ไม่แสดงเลขการจอง (ไม่มีเพราะไม่บันทึก)
+  ❌ ไม่มีปุ่มชำระเงิน
+
+ข้อมูลหลัง submit หายไปไหน:
+  ❌ ข้อมูลหายหมด ไม่ได้เก็บที่ไหนเลย
+  process_booking view คำนวณแล้วส่งให้ template render แต่ไม่มี .objects.create()
+  ปิดหน้าแล้วข้อมูลหายทันที ไม่มีทางย้อนดูประวัติการจอง
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+หัวข้อ 6: จุดเชื่อมกับระบบที่มีอยู่
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ระบบที่มีอยู่แล้ว:
+  ✅ Order + OrderItem       : คำสั่งซื้อสินค้า
+  ✅ OrderStatusHistory      : ประวัติสถานะ (auto-track ผ่าน save() override)
+  ✅ Opn Payments PromptPay  : QR Payment, Webhook
+  ✅ session['my_orders']    : จำออเดอร์ไว้ 1 ปีในเบราว์เซอร์
+  ✅ /my-orders/             : หน้าดูประวัติการซื้อ
+  ✅ /order/<id>/track/      : ติดตามสถานะ
+
+ประเมินการนำระบบมาใช้ซ้ำกับ Booking:
+
+ตัวเลือก A: ใช้ Order model ร่วมกัน (reuse)
+  แนวคิด: สร้าง "booking order" เป็น Order ปกติ แต่มี type='booking'
+           ใส่ข้อมูลแปลงลง OrderItem (product_name = "แปลง A12 - มะเขือเทศ")
+  ข้อดี:
+    - จ่าย PromptPay QR ได้ทันทีโดยไม่ต้องแก้ Omise code เลย
+    - เข้าระบบ my-orders ได้เลย (ลูกค้าเห็นทั้งสินค้าและการจองในที่เดียว)
+    - OrderStatusHistory รองรับ status tracking แปลงได้
+    - STATUS_CHOICES ที่มีอยู่ใช้ได้เลย (pending → paid → ...)
+  ข้อเสีย:
+    - ต้องแยก type ออกมาให้ชัด (shop order vs booking order)
+    - ไม่มีฟิลด์: plot_id, start_date, harvest_date, plant_name แบบ typed
+    - ต้อง encode ข้อมูล booking ลงใน JSON field หรือ OrderItem (ซับซ้อนขึ้น)
+    - ไม่สามารถ query "แปลง A12 ถูกจองช่วงไหนบ้าง" ได้โดยตรง
+
+ตัวเลือก B: สร้าง Booking model แยก
+  แนวคิด: สร้าง model ใหม่ PlotBooking เก็บ plot_id, plant, start_date,
+           harvest_date, status, charge_id (เชื่อม Opn Payment)
+           แล้วเชื่อม my-orders ให้แสดงทั้ง Order และ PlotBooking
+  ข้อดี:
+    - ข้อมูลครบถ้วน query ง่าย ถูกต้องตามหลัก OOP
+    - ตรวจสอบ date overlap ได้สะดวก
+    - รองรับ feature ในอนาคตได้ง่ายกว่า (เช่น renewal, แสดง plot calendar)
+  ข้อเสีย:
+    - ต้องแก้ Payment flow ให้รองรับ PlotBooking.charge_id ด้วย
+    - ต้อง integrate my-orders ให้ดึงทั้ง Order และ PlotBooking
+    - code เยอะขึ้น
+
+คำแนะนำ: ตัวเลือก B (แยก model) เหมาะกว่าในระยะยาว
+  เหตุผล: business logic การจองแปลง (ช่วงวัน, ความขัดแย้ง, รายแปลง)
+           แตกต่างจาก product order มากพอที่จะ justify model แยก
+
+การเชื่อม Opn PromptPay:
+  ✅ ทำได้เลย เพราะ Omise SDK และ settings.py มี key พร้อมแล้ว
+  ต้องแก้ views.py ให้ process_booking สร้าง PlotBooking แล้วส่งไป
+  create payment เหมือน create_payment view แต่ metadata เป็น booking_id
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+หัวข้อ 7: สรุปปัญหา/ช่องโหว่ และสิ่งที่ต้องตัดสินใจก่อนลงมือทำ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+── ปัญหาและช่องโหว่ที่พบ ──────────────────────────────────────────────────────
+
+🔴 ร้ายแรงมาก (ระบบใช้งานจริงไม่ได้):
+
+  1. ไม่บันทึกการจองเลย
+     → process_booking ไม่มี DB write ทุกการจองสูญหายเมื่อปิดหน้า
+     → booking_success.html โกหกลูกค้าว่า "ยืนยันแล้ว"
+
+  2. ทุกแปลง link ไปหน้าเดียวกัน (A12)
+     → /plot-detail/ ไม่รับ plot_id parameter
+     → ลูกค้าเลือกแปลงอะไรก็เจอแปลง A12 เสมอ
+     → ไม่มีทางรู้ว่าลูกค้าจะจองแปลงไหน
+
+  3. ไม่มีการกันจองซ้ำ/ทับ
+     → 100 คนจอง A12 วันเดียวกันได้ทั้งหมด
+
+  4. ไม่รับข้อมูลลูกค้า
+     → ไม่มีฟิลด์ชื่อ/เบอร์ในฟอร์มจอง → ไม่รู้ว่าใครจอง
+
+🟡 ปัญหาระดับกลาง (จะสร้าง bug เมื่อระบบใหญ่ขึ้น):
+
+  5. ข้อมูลพืชซ้ำ 2 ที่
+     → PLANT_GROW_TIMES ใน views.py (Python) กับ plantGrowTime ใน plot_detail.html (JS)
+     → แก้ที่เดียวลืมแก้อีกที่ → ราคา/วันเก็บเกี่ยว frontend ≠ backend
+
+  6. ราคา hardcode หลายที่ ไม่สอดคล้องกัน
+     → Veggie_Plots.html แสดง "$45-$85/เดือน" (หน่วย $)
+     → process_booking คำนวณ ฿5/วัน × จำนวนวันโต (หน่วย ฿)
+     → ราคาสองชุดนี้ไม่มีความสัมพันธ์กันเลย
+
+  7. ไม่ validate 60 วันฝั่ง server
+     → แก้ JS หรือ bypass ผ่าน curl ส่ง start_date ที่ไกลกว่า 60 วันได้
+
+  8. booking_success.html ไม่ integrate กับ design ของเว็บ
+     → ไม่มี header, navbar, stylesheet ของ Digital Garden
+     → ดูต่างจากหน้าอื่นทั้งหมด
+
+🟢 ข้อสังเกตเล็กน้อย:
+
+  9. ไม่รู้ว่า plot_detail.html ต้องแสดงข้อมูลแปลงไหน
+     → title hardcode "มุมแดดสบาย #A12" ทุกอย่างของ A12 เท่านั้น
+
+  10. ไม่มีปุ่มชำระเงินในระบบจอง
+      → หลัง booking_success ลูกค้าไม่รู้ต้องทำอะไรต่อ
+
+── สิ่งที่ต้องตัดสินใจก่อนลงมือทำ ────────────────────────────────────────────
+
+การตัดสินใจสำคัญ 5 ข้อ:
+
+  [D1] Model: ใช้ Order model ร่วม หรือสร้าง PlotBooking model แยก?
+       → แนะนำ: PlotBooking แยก (ดูหัวข้อ 6 สำหรับ trade-off)
+
+  [D2] ราคา: คิดค่าเช่า "฿/วัน × วันโตของพืช" หรือ "฿/เดือน ตามขนาดแปลง"?
+       → ตอนนี้มีทั้ง 2 ระบบ (ขัดแย้งกัน) ต้องเลือกใช้อันเดียว
+       → ถ้า ฿/วัน: ยืนยันว่า ฿5/วัน ถูกต้องหรือต้องต่างตามแปลง?
+       → ถ้า ฿/เดือน: ต้องคำนวณจำนวนเดือนจาก start_date ถึง harvest_date
+
+  [D3] แปลง: จะ hardcode 6 แปลงไว้ใน code หรือให้ Admin จัดการผ่าน Admin panel?
+       → ถ้า hardcode: ไม่ต้องสร้าง Plot model แยก แต่เพิ่มแปลงต้องแก้ code
+       → ถ้า DB: ต้องสร้าง Plot model + admin
+
+  [D4] ลูกค้า: ต้องกรอกชื่อ/เบอร์ตอนจองหรือดึงจาก session ของระบบ login ในอนาคต?
+       → ตอนนี้ไม่มี login ระบบ → ต้องให้กรอกตอนจองก่อน
+
+  [D5] ชำระเงิน: บังคับจ่ายก่อนยืนยันการจอง หรือจองก่อนแล้วค่อยจ่าย?
+       → ถ้าบังคับจ่ายก่อน: ต้องทำ flow เหมือน cart.html → QR → booking_success
+       → ถ้าจองก่อนจ่ายทีหลัง: ต้องมี status "รอชำระ" และ reminder
+
+── สิ่งที่ต้องทำถ้าจะ implement ให้ครบ ────────────────────────────────────────
+
+ลำดับงานที่แนะนำ (เรียงตามความสำคัญ):
+
+  1. สร้าง Plot + PlotBooking models + migration
+  2. สร้าง admin สำหรับจัดการแปลงและการจอง
+  3. แก้ URL: /plot-detail/<plot_id>/ รับ parameter
+  4. แก้ veggie_plots view: ดึงข้อมูลแปลงจาก DB
+  5. แก้ plot_detail view: ดึงแปลงตาม id
+  6. แก้ plot_detail.html: รับข้อมูลพืชจาก context (ไม่ duplicate)
+  7. เพิ่มฟิลด์ชื่อ/เบอร์ในฟอร์มจอง
+  8. แก้ process_booking: บันทึก PlotBooking ลง DB + ตรวจ overlap + validate วัน
+  9. เชื่อม Opn PromptPay กับ PlotBooking
+  10. ออกแบบ booking_success.html ใหม่ให้ integrate กับ design ของเว็บ
+  11. เพิ่มการจองเข้าระบบ session my-orders
+
+================================================================================
+END OF REPORT
+================================================================================

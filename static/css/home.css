@@ -1,0 +1,502 @@
+/* --- 1. โครงสร้างหลัก --- */
+.home {
+  background-color: var(--light-bg);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* --- 2. Hero Section (ส่วนแรกของเว็บ) --- */
+.hero-section {
+  z-index: 1;
+  margin: 93px 112px 0 112px;
+  height: 480px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* Overlay ไล่เฉดสีดำ */
+.hero-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.5) 100%);
+  z-index: 0;
+}
+
+.hero-title {
+  position: absolute;
+  top: 97px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1020px;
+  text-align: center;
+  font-family: "Manrope", sans-serif;
+  font-weight: 800;
+  color: #ffffff;
+  font-size: 60px;
+  letter-spacing: -2px;
+  line-height: 1;
+  z-index: 2;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.hero-description {
+  position: absolute;
+  top: 238px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 640px;
+  text-align: center;
+  font-family: var(--font-main);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 18px;
+  line-height: 28px;
+  z-index: 2;
+  margin: 0;
+}
+
+/* --- 3. ปุ่มกดต่างๆ (Buttons) --- */
+.cta-button-primary {
+  position: absolute;
+  top: 364px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 48px;
+  background-color: var(--primary-green);
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-speed);
+}
+
+.cta-button-secondary {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
+  width: 140px;
+  height: 48px;
+  background-color: var(--primary-green);
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-speed);
+}
+
+.btn-add-cart {
+  margin: 16px 16px 0 16px;
+  height: 40px;
+  background-color: rgba(19, 236, 55, 0.1);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* สไตล์ข้อความในปุ่ม */
+.btn-container {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  color: var(--text-dark);
+  font-size: 16px;
+  white-space: nowrap;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.btn-text {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  color: var(--dark-green); /* ✅ แก้กลับเป็นสีเขียวเหมือนเดิม */
+  font-size: 16px;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.btn-add-cart .btn-text {
+  font-size: 14px; /* ✅ เอา color ที่เขียนผิดออก ให้ดึงสีเขียวจากด้านบนมาใช้ตอนปกติ */
+}
+
+/* --- Hover & Active States --- */
+.cta-button-primary:hover {
+  background-color: var(--dark-green);
+  transform: translateX(-50%) scale(1.05);
+}
+
+.cta-button-secondary:hover {
+  background-color: var(--dark-green);
+  transform: scale(1.05);
+}
+
+.btn-add-cart:hover {
+  background-color: var(--primary-green);
+}
+
+/* ✅ บังคับให้ .btn-text เปลี่ยนเป็นสีขาวเฉพาะปุ่ม Add to Cart ตอนเอาเมาส์ชี้ (Hover) */
+.btn-add-cart:hover .btn-text {
+  color: white;
+}
+
+/* ส่วนปุ่ม Primary และ Secondary ปล่อยไว้ตามเดิม ตัวหนังสือจะเป็นสีเขียวตลอดเวลาครับ */
+.cta-button-primary:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+.cta-button-secondary:active {
+  transform: scale(0.95);
+}
+
+/* --- 4. Product Section (สินค้า) --- */
+.products-section {
+  z-index: 6;
+  width: 100%;
+  margin-top: 129px;
+  display: flex;
+  justify-content: center;
+}
+
+.products-wrapper {
+  width: 100%;
+  max-width: 1440px;
+}
+
+.products-content {
+  height: 493px;
+  position: relative;
+  width: 100%;
+}
+
+.section-heading {
+  position: absolute;
+  top: -50px;
+  left: 50px;
+  font-family: var(--font-main);
+  font-weight: 700;
+  color: #111827;
+  font-size: 30px;
+  letter-spacing: -0.45px;
+  margin: 0;
+}
+
+.product-grid {
+  margin-top: 70px;
+  margin-left: 50px;
+  width: calc(100% - 100px);
+  height: 421px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 20px;
+}
+
+.product-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.product-card {
+  flex: 0 0 auto;
+  width: 256px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(19, 236, 55, 0.1);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 16px;
+  overflow: hidden;
+}
+
+.product-card .image {
+  width: 100%;
+  height: 254px;
+  object-fit: cover;
+}
+
+.product-name {
+  margin: 16px 16px 4px 16px;
+  font-family: var(--font-main);
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-price {
+  margin: 0 16px;
+  font-family: var(--font-main);
+  color: var(--primary-green);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* --- ปุ่มเลื่อนซ้าย-ขวา (Slider Buttons) --- */
+.scroll-btn {
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--text-dark, #111827);
+    transition: all 0.2s ease;
+}
+
+.scroll-btn:hover {
+    background-color: var(--primary-green, #13ec37);
+    color: #ffffff;
+    border-color: var(--primary-green, #13ec37);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.left-btn { left: 10px; }
+.right-btn { right: 10px; }
+
+@media (max-width: 768px) {
+    .scroll-btn { display: none; }
+}
+
+/* --- 5. Rental Section (เช่าแปลงผัก) --- */
+.rental-section {
+  z-index: 7;
+  margin: 86px 131px 0 90px;
+  height: 446px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.rental-content {
+  position: absolute;
+  left: 50px;
+  bottom: 50px;
+  z-index: 2;
+  color: white;
+  max-width: 600px;
+}
+
+.rental-title {
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.2;
+  margin-bottom: 16px;
+  white-space: nowrap;
+}
+
+.rental-description {
+  font-family: var(--font-main);
+  font-weight: 500;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* --- 6. Process Section (วิธีการทำงาน) --- */
+.process-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 100px auto;
+  padding: 0 20px;
+}
+
+.process-header {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.process-header .section-heading {
+  position: static;
+  display: block;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.section-subheading {
+  font-family: var(--font-main);
+  font-size: 16px;
+  color: var(--text-gray);
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.step-icon-bg {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(19, 236, 55, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.step-icon {
+  width: 40px;
+  height: auto;
+}
+
+.step-title {
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+
+.step-description {
+  font-family: var(--font-main);
+  font-size: 14px;
+  color: var(--text-gray);
+  line-height: 1.6;
+  max-width: 300px;
+}
+
+/* --- 7. Testimonial Section --- */
+.testimonial-section {
+  padding: 100px 20px;
+  background-color: rgba(19, 236, 55, 0.05);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+}
+
+.testimonial-container {
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.quote-icon img {
+  width: 48px;
+  height: auto;
+  opacity: 0.8;
+}
+
+.testimonial-content {
+  margin: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.quote-text {
+  margin: 0;
+  font-family: var(--font-main);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.5;
+  color: var(--text-dark);
+  max-width: 700px;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.author-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #ddd;
+  object-fit: cover;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.author-name {
+  font-size: 16px;
+  margin: 0;
+}
+
+.author-name .name {
+  font-weight: 700;
+  color: #111827;
+}
+
+.author-name .title {
+  color: #6b7280;
+  margin-left: 5px;
+}
+
+/* --- แก้ไขให้ข้อความในปุ่ม Primary และ Secondary เป็นสีขาว --- */
+
+/* 1. กรณีที่ข้อความเขียนอยู่ในแท็ก <button> โดยตรง */
+.cta-button-primary,
+.cta-button-secondary {
+  color: #ffffff;
+}
+
+/* 2. กรณีที่ในปุ่มมีการครอบ <span> ด้วยคลาส .btn-text หรือ .btn-container */
+.cta-button-primary .btn-text,
+.cta-button-secondary .btn-text,
+.cta-button-primary .btn-container,
+.cta-button-secondary .btn-container {
+  color: #ffffff;
+}
+

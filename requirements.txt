@@ -1,0 +1,6 @@
+asgiref==3.11.0
+Django==6.0.1
+omise
+sqlparse==0.5.5
+tzdata==2025.3
+whitenoise==6.12.0

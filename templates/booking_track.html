@@ -1,0 +1,533 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การจอง #{{ booking.id }} - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <style>
+        .track-page { background: #f6f8f6; min-height: calc(100vh - 80px); padding: 36px 20px 80px; }
+        .track-container { max-width: 680px; margin: 0 auto; }
+
+        /* Breadcrumb */
+        .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; font-size: 14px; }
+        .breadcrumb a { color: #13ec37; text-decoration: none; font-weight: 700; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { color: #9ca3af; }
+
+        /* Header card */
+        .header-card { background: #fff; border-radius: 16px; padding: 24px 28px; margin-bottom: 16px; border: 1px solid #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+        .booking-num { font-size: 20px; font-weight: 900; color: #1f2937; }
+        .booking-date { font-size: 12px; color: #9ca3af; margin-top: 3px; }
+
+        /* Status badges */
+        .sb { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 50px; font-size: 13px; font-weight: 700; }
+        .sb-pending                   { background: rgba(251,191,36,0.12);  color: #92400e; border: 1px solid rgba(251,191,36,0.4); }
+        .sb-paid                      { background: rgba(59,130,246,0.1);   color: #1d4ed8; border: 1px solid rgba(59,130,246,0.3); }
+        .sb-growing                   { background: rgba(19,236,55,0.12);   color: #047857; border: 1px solid rgba(19,236,55,0.3); }
+        .sb-ready_to_harvest          { background: rgba(249,115,22,0.1);   color: #c2410c; border: 1px solid rgba(249,115,22,0.3); }
+        .sb-harvested                 { background: rgba(234,179,8,0.12);   color: #854d0e; border: 1px solid rgba(234,179,8,0.4); }
+        .sb-awaiting_shipping_payment { background: rgba(99,102,241,0.1);   color: #4338ca; border: 1px solid rgba(99,102,241,0.3); }
+        .sb-preparing                 { background: rgba(236,72,153,0.1);   color: #9d174d; border: 1px solid rgba(236,72,153,0.3); }
+        .sb-shipped                   { background: rgba(14,165,233,0.1);   color: #0369a1; border: 1px solid rgba(14,165,233,0.3); }
+        .sb-delivered                 { background: rgba(19,236,55,0.12);   color: #047857; border: 1px solid rgba(19,236,55,0.3); }
+        .sb-ready_for_pickup          { background: rgba(245,158,11,0.12);  color: #92400e; border: 1px solid rgba(245,158,11,0.4); }
+        .sb-completed                 { background: rgba(19,236,55,0.16);   color: #047857; border: 1px solid rgba(19,236,55,0.5); }
+        .sb-cancelled, .sb-expired    { background: rgba(239,68,68,0.1);    color: #b91c1c; border: 1px solid rgba(239,68,68,0.3); }
+
+        /* Info grid */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .info-item { background: #f9fafb; border-radius: 10px; padding: 12px 14px; }
+        .info-label { font-size: 11px; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .info-value { font-size: 14px; font-weight: 700; color: #1f2937; }
+        @media(max-width:480px) { .info-grid { grid-template-columns: 1fr; } }
+
+        /* Timeline card */
+        .timeline-card { background: #fff; border-radius: 16px; padding: 28px; margin-bottom: 16px; border: 1px solid #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .timeline-card h3 { font-size: 15px; font-weight: 800; color: #1f2937; margin-bottom: 24px; }
+        .timeline { display: flex; flex-direction: column; gap: 0; }
+        .tl-item { display: flex; gap: 16px; }
+        .tl-left { display: flex; flex-direction: column; align-items: center; width: 28px; flex-shrink: 0; }
+        .tl-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; flex-shrink: 0; z-index: 1; }
+        .tl-dot-done    { background: #13ec37; color: #fff; }
+        .tl-dot-current { background: #13ec37; color: #fff; box-shadow: 0 0 0 4px rgba(19,236,55,0.2); animation: pulse-dot 1.8s ease-in-out infinite; }
+        .tl-dot-upcoming { background: #e5e7eb; color: #9ca3af; }
+        .tl-dot-negative { background: #ef4444; color: #fff; }
+        @keyframes pulse-dot { 0%,100% { box-shadow:0 0 0 4px rgba(19,236,55,0.2); } 50% { box-shadow:0 0 0 8px rgba(19,236,55,0.08); } }
+        .tl-line { flex: 1; width: 2px; background: #e5e7eb; margin: 4px 0; min-height: 32px; }
+        .tl-line-done { background: #13ec37; }
+        .tl-right { flex: 1; padding-bottom: 32px; padding-top: 4px; }
+        .tl-label { font-size: 14px; font-weight: 700; color: #1f2937; }
+        .tl-label-upcoming { color: #9ca3af; }
+        .tl-ts { font-size: 12px; color: #9ca3af; margin-top: 3px; }
+        .tl-note { font-size: 12px; color: #6b7280; margin-top: 4px; font-style: italic; }
+        .tl-item:last-child .tl-right { padding-bottom: 0; }
+        .tl-extra { font-size: 12px; color: #059669; margin-top: 4px; font-weight: 600; }
+
+        /* Delivery choice card */
+        .action-card { background: #fff; border-radius: 16px; padding: 28px; margin-bottom: 16px; border: 1px solid #e5e7eb; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+        .action-card h3 { font-size: 16px; font-weight: 800; color: #1f2937; margin-bottom: 6px; }
+        .action-card .subtitle { font-size: 13px; color: #6b7280; margin-bottom: 20px; }
+        .harvest-info { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #15803d; font-weight: 600; }
+
+        /* Delivery option buttons */
+        .delivery-options { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+        @media(max-width:480px) { .delivery-options { grid-template-columns: 1fr; } }
+        .delivery-btn { border: 2px solid #e5e7eb; border-radius: 14px; padding: 20px 16px; cursor: pointer; background: #fff; text-align: left; transition: all 0.2s; }
+        .delivery-btn:hover { border-color: #13ec37; }
+        .delivery-btn.selected { border-color: #13ec37; background: #f0fdf4; }
+        .delivery-btn .db-icon { font-size: 28px; margin-bottom: 8px; display: block; }
+        .delivery-btn .db-title { font-size: 15px; font-weight: 800; color: #1f2937; display: block; margin-bottom: 3px; }
+        .delivery-btn .db-sub { font-size: 12px; color: #6b7280; }
+        .delivery-btn .db-price { font-size: 14px; font-weight: 700; color: #059669; margin-top: 6px; display: block; }
+
+        /* Shipping form */
+        .shipping-form { display: none; border-top: 1px solid #e5e7eb; padding-top: 20px; }
+        .shipping-form label { font-size: 13px; font-weight: 700; color: #374151; display: block; margin-bottom: 6px; }
+        .shipping-form textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 14px; font-family: inherit; resize: vertical; min-height: 90px; box-sizing: border-box; }
+        .shipping-form textarea:focus { outline: none; border-color: #13ec37; }
+
+        /* QR payment area */
+        .qr-area { text-align: center; padding: 24px 0 8px; }
+        .qr-area img { width: 200px; height: 200px; border-radius: 12px; border: 1px solid #e5e7eb; }
+        .qr-amount { font-size: 22px; font-weight: 900; color: #13ec37; margin-top: 10px; }
+        .qr-hint { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+        .qr-spinner { width: 40px; height: 40px; border: 4px solid #e5e7eb; border-top-color: #13ec37; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 20px auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Pickup info card */
+        .pickup-info { background: #fffbeb; border: 1px solid #fde68a; border-radius: 12px; padding: 16px 18px; margin-bottom: 10px; }
+        .pickup-deadline { font-size: 18px; font-weight: 900; color: #92400e; margin-bottom: 4px; }
+        .pickup-deadline.urgent { color: #dc2626; }
+        .pickup-addr { font-size: 13px; color: #6b7280; line-height: 1.6; margin-top: 8px; }
+        .pickup-hours { font-size: 12px; color: #9ca3af; margin-top: 4px; }
+
+        /* Shipping tracking card */
+        .tracking-info { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px 18px; margin-bottom: 10px; }
+        .tracking-num { font-size: 18px; font-weight: 900; color: #1d4ed8; letter-spacing: 0.04em; }
+        .tracking-carrier { font-size: 13px; color: #3b82f6; margin-top: 4px; }
+
+        /* Action buttons */
+        .btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 28px; background: #13ec37; color: #064e3b; border: none; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; transition: all 0.2s; width: 100%; }
+        .btn-primary:hover { background: #10d132; }
+        .btn-primary:disabled { background: #d1d5db; color: #9ca3af; cursor: not-allowed; }
+        .btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 28px; background: #fff; color: #374151; border: 1.5px solid #e5e7eb; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; width: 100%; }
+        .btn-secondary:hover { border-color: #13ec37; color: #059669; }
+
+        /* Negative state */
+        .negative-banner { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 12px; padding: 14px 18px; color: #b91c1c; font-size: 14px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border: 1.5px solid #e5e7eb; color: #4b5563; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; transition: all 0.2s; }
+        .btn-back:hover { border-color: #13ec37; color: #059669; }
+
+        .msg-error { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 10px; padding: 12px 14px; color: #b91c1c; font-size: 13px; font-weight: 600; margin-top: 12px; display: none; }
+        .msg-success { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 12px 14px; color: #15803d; font-size: 13px; font-weight: 600; margin-top: 12px; display: none; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+        </a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                <div class="icon-inner">
+                    <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                    <span id="cartBadge" class="cart-badge">0</span>
+                </div>
+            </a>
+            {% include '_profile_dropdown.html' %}
+        </div>
+    </header>
+
+    <main class="track-page">
+        <div class="track-container">
+
+            <div class="breadcrumb">
+                <a href="{% url 'my_orders' %}">← การซื้อของฉัน</a>
+                <span>/</span>
+                <span>การจอง #{{ booking.id }}</span>
+            </div>
+
+            {% if is_negative %}
+            <div class="negative-banner">
+                ⚠️ การจองนี้ {{ booking.get_status_display }} แล้ว
+            </div>
+            {% endif %}
+
+            <!-- Header card -->
+            <div class="header-card">
+                <div class="header-top">
+                    <div>
+                        <div class="booking-num">การจองแปลงผัก #{{ booking.id }}</div>
+                        <div class="booking-date">จองเมื่อ {{ booking.created_at|date:"d/m/Y H:i" }}</div>
+                    </div>
+                    <span class="sb sb-{{ booking.status }}">{{ booking.get_status_display }}</span>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">แปลง</div>
+                        <div class="info-value">{{ booking.plot.name }} #{{ booking.plot.code }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">พืชที่ปลูก</div>
+                        <div class="info-value">{{ booking.plant.name }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">วันเริ่มปลูก</div>
+                        <div class="info-value">{{ booking.start_date|date:"d M Y" }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">คาดว่าเก็บเกี่ยว</div>
+                        <div class="info-value">{{ booking.harvest_date|date:"d M Y" }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">ชื่อลูกค้า</div>
+                        <div class="info-value">{{ booking.customer_name }}</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">ราคาเช่าแปลง</div>
+                        <div class="info-value" style="color:#13ec37;">฿{{ booking.total_price|floatformat:2 }}</div>
+                    </div>
+                    {% if booking.harvest_weight %}
+                    <div class="info-item" style="grid-column:span 2">
+                        <div class="info-label">น้ำหนักผลผลิต</div>
+                        <div class="info-value" style="color:#059669;">{{ booking.harvest_weight }} กก.</div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Timeline card -->
+            <div class="timeline-card">
+                <h3>📋 สถานะการจอง
+                    {% if booking.delivery_method == 'pickup' %}<span style="font-size:12px;font-weight:600;color:#92400e;background:#fef9c3;padding:3px 10px;border-radius:20px;margin-left:8px;">🚶 มารับเอง</span>{% endif %}
+                    {% if booking.delivery_method == 'shipping' %}<span style="font-size:12px;font-weight:600;color:#1d4ed8;background:#eff6ff;padding:3px 10px;border-radius:20px;margin-left:8px;">🚚 จัดส่ง</span>{% endif %}
+                </h3>
+                <div class="timeline">
+                    {% for step in timeline %}
+                    <div class="tl-item">
+                        <div class="tl-left">
+                            {% if step.state == 'done' %}
+                                <div class="tl-dot tl-dot-done">✓</div>
+                            {% elif step.state == 'current' %}
+                                {% if is_negative %}
+                                    <div class="tl-dot tl-dot-negative">✕</div>
+                                {% else %}
+                                    <div class="tl-dot tl-dot-current">●</div>
+                                {% endif %}
+                            {% else %}
+                                <div class="tl-dot tl-dot-upcoming">○</div>
+                            {% endif %}
+                            {% if not forloop.last %}
+                                <div class="tl-line {% if step.state == 'done' %}tl-line-done{% endif %}"></div>
+                            {% endif %}
+                        </div>
+                        <div class="tl-right">
+                            <div class="tl-label {% if step.state == 'upcoming' %}tl-label-upcoming{% endif %}">
+                                {{ step.label }}
+                            </div>
+                            {% if step.timestamp %}
+                            <div class="tl-ts">{{ step.timestamp|date:"d/m/Y H:i" }} น.</div>
+                            {% endif %}
+                            {% if step.note %}
+                            <div class="tl-note">{{ step.note }}</div>
+                            {% endif %}
+                            {% if step.status == 'shipped' and booking.tracking_number %}
+                            <div class="tl-extra">📦 {{ booking.tracking_number }}{% if booking.get_shipping_carrier_display %} · {{ booking.get_shipping_carrier_display }}{% endif %}</div>
+                            {% endif %}
+                            {% if step.status == 'ready_for_pickup' and booking.pickup_deadline %}
+                            <div class="tl-extra">รับภายใน {{ booking.pickup_deadline|date:"d M Y" }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    {% if not booking.delivery_method and booking.status == 'harvested' %}
+                    <!-- Fork indicator -->
+                    <div style="margin-top:16px;padding:12px 14px;background:#f9fafb;border-radius:10px;border:1px dashed #d1d5db;font-size:13px;color:#6b7280;text-align:center;">
+                        รอเลือกวิธีรับผลผลิต → <strong>มารับเอง</strong> หรือ <strong>จัดส่งถึงบ้าน</strong>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- ══ Delivery choice card (status = harvested) ══ -->
+            {% if show_delivery_choice %}
+            <div class="action-card" id="deliveryCard">
+                <h3>🌿 เลือกวิธีรับผลผลิต</h3>
+                <p class="subtitle">ผลผลิตของคุณพร้อมแล้ว — กรุณาเลือกวิธีรับภายใน 7 วัน</p>
+
+                {% if booking.harvest_weight %}
+                <div class="harvest-info">
+                    🏆 น้ำหนักผลผลิตของคุณ: <strong>{{ booking.harvest_weight }} กก.</strong>
+                </div>
+                {% endif %}
+
+                <div class="delivery-options">
+                    <button class="delivery-btn" id="btnPickup" onclick="selectMethod('pickup')">
+                        <span class="db-icon">🚶</span>
+                        <span class="db-title">มารับเองที่สวน</span>
+                        <span class="db-sub">รับได้เลย ไม่รอขนส่ง</span>
+                        <span class="db-price">ฟรี</span>
+                    </button>
+                    <button class="delivery-btn" id="btnShipping" onclick="selectMethod('shipping')">
+                        <span class="db-icon">🚚</span>
+                        <span class="db-title">จัดส่งถึงบ้าน</span>
+                        <span class="db-sub">สะดวก ไม่ต้องเดินทาง</span>
+                        <span class="db-price">฿{{ shipping_fee }}.00</span>
+                    </button>
+                </div>
+
+                <!-- Pickup confirm -->
+                <div id="pickupConfirm" style="display:none;border-top:1px solid #e5e7eb;padding-top:20px;">
+                    <div class="pickup-info" style="margin-bottom:16px;">
+                        <div style="font-weight:700;margin-bottom:6px;">📍 ที่อยู่สวน</div>
+                        <div class="pickup-addr">{{ garden_info.address }}</div>
+                        <div class="pickup-hours">{{ garden_info.hours }}</div>
+                    </div>
+                    <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">กรุณามารับผลผลิตภายใน 7 วัน นับจากวันเก็บเกี่ยว</p>
+                    <button class="btn-primary" onclick="confirmPickup()">ยืนยัน — มารับเองที่สวน</button>
+                </div>
+
+                <!-- Shipping form -->
+                <div class="shipping-form" id="shippingForm">
+                    <label for="shippingAddr">ที่อยู่จัดส่ง</label>
+                    <textarea id="shippingAddr" placeholder="บ้านเลขที่ ถนน แขวง/ตำบล เขต/อำเภอ จังหวัด รหัสไปรษณีย์"></textarea>
+                    <div style="margin-top:16px;">
+                        <button class="btn-primary" onclick="submitShipping()">ชำระค่าจัดส่ง ฿{{ shipping_fee }}.00</button>
+                    </div>
+                </div>
+
+                <!-- QR payment (shown after shipping submitted) -->
+                <div id="qrSection" style="display:none;border-top:1px solid #e5e7eb;padding-top:20px;">
+                    <div class="qr-area">
+                        <div class="qr-spinner" id="qrSpinner"></div>
+                        <img id="qrImg" src="" alt="QR PromptPay" style="display:none">
+                        <div class="qr-amount">฿{{ shipping_fee }}.00</div>
+                        <div class="qr-hint">สแกน QR ด้วยแอปธนาคารของคุณ</div>
+                    </div>
+                </div>
+
+                <div class="msg-error" id="msgError"></div>
+                <div class="msg-success" id="msgSuccess"></div>
+            </div>
+            {% endif %}
+
+            <!-- ══ Shipping QR card (status = awaiting_shipping_payment — page reload) ══ -->
+            {% if show_shipping_qr %}
+            <div class="action-card" id="shippingQRCard">
+                <h3>💳 ชำระค่าจัดส่ง</h3>
+                <p class="subtitle">สแกน QR ด้านล่างเพื่อชำระค่าจัดส่ง ฿{{ booking.shipping_fee|floatformat:2 }}</p>
+                <div class="qr-area" id="qrReloadArea">
+                    <div class="qr-spinner" id="qrReloadSpinner"></div>
+                    <img id="qrReloadImg" src="" alt="QR PromptPay" style="display:none">
+                    <div class="qr-amount">฿{{ booking.shipping_fee|floatformat:2 }}</div>
+                    <div class="qr-hint">รอชำระเงิน · หน้านี้จะอัปเดตอัตโนมัติ</div>
+                </div>
+                <div style="margin-top:12px;font-size:12px;color:#9ca3af;text-align:center;">ที่อยู่จัดส่ง: {{ booking.shipping_address }}</div>
+            </div>
+            {% endif %}
+
+            <!-- ══ Pickup info card (status = ready_for_pickup) ══ -->
+            {% if show_pickup_info %}
+            <div class="action-card">
+                <h3>🚶 พร้อมรับผลผลิตที่สวน</h3>
+                {% if pickup_days_left is not None %}
+                <div class="pickup-deadline {% if pickup_days_left <= 2 %}urgent{% endif %}">
+                    {% if pickup_days_left > 0 %}เหลือเวลา {{ pickup_days_left }} วัน{% elif pickup_days_left == 0 %}วันสุดท้ายวันนี้!{% else %}เกินกำหนดแล้ว{% endif %}
+                </div>
+                <div style="font-size:12px;color:#9ca3af;margin-bottom:12px;">วันสุดท้าย: {{ booking.pickup_deadline|date:"d M Y" }}</div>
+                {% endif %}
+                {% if booking.harvest_weight %}
+                <div class="harvest-info">🏆 น้ำหนักผลผลิต: <strong>{{ booking.harvest_weight }} กก.</strong></div>
+                {% endif %}
+                <div class="pickup-info">
+                    <div style="font-weight:700;margin-bottom:6px;">📍 ที่อยู่สวน</div>
+                    <div class="pickup-addr">{{ garden_info.address }}</div>
+                    <div class="pickup-hours">{{ garden_info.hours }}</div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- ══ Tracking + confirm received (status = shipped) ══ -->
+            {% if show_confirm_received %}
+            <div class="action-card">
+                <h3>📦 พัสดุอยู่ระหว่างจัดส่ง</h3>
+                {% if booking.harvest_weight %}
+                <div class="harvest-info" style="margin-bottom:16px;">🏆 น้ำหนักผลผลิต: <strong>{{ booking.harvest_weight }} กก.</strong></div>
+                {% endif %}
+                {% if booking.tracking_number %}
+                <div class="tracking-info" style="margin-bottom:16px;">
+                    <div style="font-size:12px;color:#3b82f6;font-weight:600;margin-bottom:4px;">เลขพัสดุ</div>
+                    <div class="tracking-num">{{ booking.tracking_number }}</div>
+                    {% if booking.get_shipping_carrier_display %}
+                    <div class="tracking-carrier">{{ booking.get_shipping_carrier_display }}</div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">ได้รับผลผลิตครบแล้วใช่ไหม? กดยืนยันเพื่อปิดการจอง</p>
+                <button class="btn-primary" id="btnConfirmReceived" onclick="confirmReceived()">ได้รับผลผลิตแล้ว ✓</button>
+                <div class="msg-error" id="confirmErr" style="margin-top:12px;"></div>
+            </div>
+            {% endif %}
+
+            <a href="{% url 'my_orders' %}" class="btn-back">← กลับไปการซื้อของฉัน</a>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <p>© 2024 Digital Garden. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    {% include '_chat_widget.html' %}
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+    const BOOKING_ID = {{ booking.id }};
+    const CSRF_TOKEN = '{{ csrf_token }}';
+
+    /* ── Delivery choice UI ───────────────────────────────────── */
+    function selectMethod(method) {
+        document.getElementById('pickupConfirm')  && (document.getElementById('pickupConfirm').style.display  = 'none');
+        document.getElementById('shippingForm')   && (document.getElementById('shippingForm').style.display   = 'none');
+        document.querySelectorAll('.delivery-btn').forEach(b => b.classList.remove('selected'));
+
+        if (method === 'pickup') {
+            document.getElementById('btnPickup').classList.add('selected');
+            document.getElementById('pickupConfirm').style.display = 'block';
+        } else {
+            document.getElementById('btnShipping').classList.add('selected');
+            document.getElementById('shippingForm').style.display = 'block';
+        }
+    }
+
+    function showMsg(id, text, isError) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = text;
+        el.style.display = 'block';
+        setTimeout(() => { el.style.display = 'none'; }, 5000);
+    }
+
+    async function confirmPickup() {
+        const res = await fetch(`/booking/${BOOKING_ID}/choose-delivery/`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+            body: JSON.stringify({method: 'pickup'}),
+        });
+        const data = await res.json();
+        if (res.ok) { location.reload(); }
+        else { showMsg('msgError', data.error || 'เกิดข้อผิดพลาด', true); }
+    }
+
+    async function submitShipping() {
+        const addr = document.getElementById('shippingAddr').value.trim();
+        if (!addr) { showMsg('msgError', 'กรุณากรอกที่อยู่จัดส่ง', true); return; }
+
+        document.getElementById('shippingForm').style.display = 'none';
+        document.getElementById('qrSection').style.display    = 'block';
+        document.getElementById('qrSpinner').style.display    = 'block';
+
+        const res = await fetch(`/booking/${BOOKING_ID}/choose-delivery/`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+            body: JSON.stringify({method: 'shipping', shipping_address: addr}),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            document.getElementById('qrSection').style.display = 'none';
+            document.getElementById('shippingForm').style.display = 'block';
+            showMsg('msgError', data.error || 'เกิดข้อผิดพลาด', true);
+            return;
+        }
+
+        document.getElementById('qrSpinner').style.display = 'none';
+        if (data.qr_image) {
+            const img = document.getElementById('qrImg');
+            img.src = data.qr_image;
+            img.style.display = 'block';
+        }
+        pollShipping();
+    }
+
+    /* ── Polling (delivery choice page — fresh QR just created) ─ */
+    let pollTimer;
+    function pollShipping() {
+        pollTimer = setInterval(async () => {
+            const res = await fetch(`/booking/${BOOKING_ID}/check-shipping-payment/`);
+            const data = await res.json();
+            if (data.status === 'preparing' || data.status === 'preparing') {
+                clearInterval(pollTimer);
+                location.reload();
+            } else if (data.status === 'harvested' && data.reset) {
+                clearInterval(pollTimer);
+                showMsg('msgError', 'หมดเวลาชำระเงิน กรุณาเลือกวิธีรับใหม่', true);
+                setTimeout(() => location.reload(), 3000);
+            }
+        }, 4000);
+    }
+
+    /* ── Polling (awaiting_shipping_payment — page reload) ───── */
+    {% if show_shipping_qr %}
+    (async function loadQROnReload() {
+        const res = await fetch(`/booking/${BOOKING_ID}/check-shipping-payment/`);
+        const data = await res.json();
+        document.getElementById('qrReloadSpinner').style.display = 'none';
+        if (data.qr_image) {
+            const img = document.getElementById('qrReloadImg');
+            img.src = data.qr_image;
+            img.style.display = 'block';
+        }
+        if (data.status === 'harvested' && data.reset) {
+            location.reload();
+            return;
+        }
+        // Start polling
+        const timer = setInterval(async () => {
+            const r = await fetch(`/booking/${BOOKING_ID}/check-shipping-payment/`);
+            const d = await r.json();
+            if (d.status === 'preparing') { clearInterval(timer); location.reload(); }
+            else if (d.status === 'harvested') { clearInterval(timer); location.reload(); }
+        }, 4000);
+    })();
+    {% endif %}
+
+    /* ── Confirm received ─────────────────────────────────────── */
+    async function confirmReceived() {
+        const btn = document.getElementById('btnConfirmReceived');
+        btn.disabled = true;
+        btn.textContent = 'กำลังยืนยัน...';
+        const res = await fetch(`/booking/${BOOKING_ID}/confirm-received/`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
+            body: '{}',
+        });
+        const data = await res.json();
+        if (res.ok) { location.reload(); }
+        else {
+            btn.disabled = false;
+            btn.textContent = 'ได้รับผลผลิตแล้ว ✓';
+            document.getElementById('confirmErr').textContent = data.error || 'เกิดข้อผิดพลาด';
+            document.getElementById('confirmErr').style.display = 'block';
+        }
+    }
+    </script>
+</body>
+</html>

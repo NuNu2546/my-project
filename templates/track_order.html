@@ -1,0 +1,89 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ติดตามคำสั่งซื้อ - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <style>
+        .track-page { min-height: calc(100vh - 80px); padding: 60px 20px 80px; display: flex; align-items: center; justify-content: center; background: var(--light-bg,#f6f8f6); }
+        .track-card { background: #fff; border-radius: 24px; padding: 48px 40px; max-width: 480px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid #f3f4f6; }
+        .track-hero { text-align: center; margin-bottom: 36px; }
+        .track-emoji { font-size: 56px; margin-bottom: 16px; display: block; }
+        .track-title { font-size: 26px; font-weight: 900; color: var(--text-dark,#1f2937); margin-bottom: 8px; }
+        .track-sub { font-size: 14px; color: var(--text-gray,#4b5563); line-height: 1.6; }
+        .alert-error { background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 14px 18px; color: #b91c1c; font-size: 14px; font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 10px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; font-size: 14px; font-weight: 700; color: var(--text-dark,#1f2937); margin-bottom: 8px; }
+        .form-label span { color: #9ca3af; font-weight: 400; font-size: 13px; }
+        .form-input-track { width: 100%; padding: 14px 16px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 15px; font-family: inherit; color: var(--text-dark,#1f2937); transition: all 0.2s; background: #f9fafb; box-sizing: border-box; }
+        .form-input-track:focus { outline: none; border-color: #13ec37; background: #fff; box-shadow: 0 0 0 4px rgba(19,236,55,0.1); }
+        .btn-track-submit { width: 100%; padding: 16px; background: linear-gradient(135deg,#13ec37,#10d131); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 800; cursor: pointer; transition: all 0.2s; margin-top: 8px; }
+        .btn-track-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(19,236,55,0.3); }
+        .track-divider { text-align: center; margin-top: 28px; font-size: 13px; color: #9ca3af; }
+        .track-divider a { color: #059669; font-weight: 700; text-decoration: none; }
+        .track-divider a:hover { text-decoration: underline; }
+        @media (max-width: 480px) { .track-card { padding: 32px 20px; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+        </a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                <div class="icon-inner">
+                    <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                    <span id="cartBadge" class="cart-badge">0</span>
+                </div>
+            </a>
+            {% include '_profile_dropdown.html' %}
+        </div>
+    </header>
+
+    <main class="track-page">
+        <div class="track-card">
+            <div class="track-hero">
+                <span class="track-emoji">📦</span>
+                <h1 class="track-title">ติดตามคำสั่งซื้อ</h1>
+                <p class="track-sub">กรอกเลขออเดอร์และเบอร์โทรที่ใช้สั่งซื้อ<br>เพื่อดูสถานะการจัดส่งของคุณ</p>
+            </div>
+
+            {% if error %}
+            <div class="alert-error">⚠️ {{ error }}</div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label">เลขออเดอร์ <span>(พบในอีเมลยืนยันหรือหน้าสำเร็จ)</span></label>
+                    <input type="number" name="order_id" class="form-input-track" placeholder="เช่น 12345" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">เบอร์โทรศัพท์ <span>(ที่ใช้ตอนสั่งซื้อ)</span></label>
+                    <input type="tel" name="phone" class="form-input-track" placeholder="เช่น 081-234-5678" required>
+                </div>
+                <button type="submit" class="btn-track-submit">🔍 ติดตามคำสั่งซื้อ</button>
+            </form>
+
+            <div class="track-divider">
+                ต้องการสั่งซื้อสินค้า? <a href="{% url 'shop' %}">ไปที่ร้านค้า</a>
+            </div>
+        </div>
+    </main>
+
+    {% include '_chat_widget.html' %}
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

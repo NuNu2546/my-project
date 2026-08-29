@@ -1,0 +1,545 @@
+﻿{% load static staff_extras %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>{{ plot.name }} #{{ plot.code }} - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/plot_detail.css' %}">
+    <style>
+        /* ── QR Modal ── */
+        .qr-modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:9999; align-items:center; justify-content:center; }
+        .qr-modal-overlay.show { display:flex; }
+        .qr-modal { background:#fff; border-radius:20px; padding:36px 28px; max-width:380px; width:92%; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.2); }
+        .qr-modal h3 { font-size:18px; font-weight:800; color:#1f2937; margin-bottom:6px; }
+        .qr-modal .qr-amount { font-size:26px; font-weight:900; color:#13ec37; margin-bottom:18px; }
+        .qr-modal img { width:220px; height:220px; border-radius:12px; border:2px solid #e5e7eb; margin-bottom:16px; }
+        .qr-placeholder { width:220px; height:220px; background:#f3f4f6; border-radius:12px; margin:0 auto 16px; display:flex; align-items:center; justify-content:center; font-size:14px; color:#9ca3af; }
+        .qr-hint { font-size:13px; color:#6b7280; line-height:1.6; margin-bottom:20px; }
+        .qr-status { display:inline-flex; align-items:center; gap:8px; padding:10px 18px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px; font-size:13px; color:#4b5563; font-weight:600; margin-bottom:18px; }
+        .qr-spinner { width:14px; height:14px; border:2px solid #e5e7eb; border-top-color:#13ec37; border-radius:50%; animation:spin 0.8s linear infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        .btn-qr-cancel { padding:10px 22px; border:1.5px solid #e5e7eb; border-radius:10px; color:#6b7280; font-size:14px; font-weight:600; background:#fff; cursor:pointer; font-family:inherit; transition:all 0.2s; }
+        .btn-qr-cancel:hover { border-color:#ef4444; color:#ef4444; }
+
+        /* ── Customer form fields ── */
+        .customer-fields { margin-bottom:16px; display:flex; flex-direction:column; gap:10px; }
+        .field-group { display:flex; flex-direction:column; gap:5px; }
+        .field-group label { font-size:13px; font-weight:600; color:#374151; }
+        .field-input { padding:11px 14px; border:1.5px solid #e5e7eb; border-radius:10px; font-size:14px; font-family:inherit; color:#1f2937; background:#f9fafb; transition:all 0.2s; box-sizing:border-box; width:100%; }
+        .field-input:focus { outline:none; border-color:#13ec37; background:#fff; box-shadow:0 0 0 3px rgba(19,236,55,0.1); }
+        .field-input.error { border-color:#ef4444; background:#fef2f2; }
+
+        /* ── Error banner ── */
+        .booking-error { background:#fef2f2; border:1px solid #fca5a5; border-radius:10px; padding:12px 14px; color:#b91c1c; font-size:13px; font-weight:600; margin-bottom:12px; display:none; }
+        .booking-error.show { display:block; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+        </a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                <div class="icon-inner">
+                    <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                    <span id="cartBadge" class="cart-badge">0</span>
+                </div>
+            </a>
+            {% include '_profile_dropdown.html' %}
+        </div>
+    </header>
+
+    <main class="plot-detail-page container">
+        <a href="{% url 'veggie_plots' %}" class="back-link">← Back to Listings</a>
+
+        <div class="plot-grid">
+            <div class="plot-gallery">
+                <img class="main-image" src="{% static 'images/Veggie_Plots/plot_detail/vegetable.png' %}" alt="{{ plot.name }} {{ plot.code }}" />
+                <div class="thumbnail-list">
+                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/grass.png' %}" alt="Thumb 1" />
+                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/soil.png' %}" alt="Thumb 2" />
+                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/tree.png' %}" alt="Thumb 3" />
+                    <img class="thumbnail" src="{% static 'images/Veggie_Plots/plot_detail/vegetable_garden.png' %}" alt="Thumb 4" />
+                </div>
+            </div>
+
+            <div class="plot-info">
+                <h1 class="plot-title">{{ plot.name }} #{{ plot.code }}</h1>
+                <p class="plot-desc">{{ plot.description }}</p>
+
+                <!-- Plant cards — rendered from DB via Django template -->
+                <div class="suitable-plants" id="mainPlantRow">
+                    {% for plant in plants %}
+                        {% if forloop.counter <= 4 %}
+                        <div class="plant-card{% if forloop.first %} active{% endif %}" data-plant="{{ plant.name }}" data-days="{{ plant.grow_days }}">
+                            {% if plant.image %}<img src="{% static plant.image %}" alt="{{ plant.name }}">{% endif %}
+                            <span>{{ plant.name }}</span>
+                            <small class="plant-days">{{ plant.grow_days }} วัน</small>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    <button class="plant-more-btn" id="openPlantModal">เพิ่มเติม +{{ plants|length }}</button>
+                </div>
+
+                <!-- Plant modal (all plants) -->
+                <div class="plant-modal-overlay" id="plantModal">
+                    <div class="plant-modal-content">
+                        <div class="plant-modal-header">
+                            <h3>พืชที่ปลูกได้ทั้งหมด ({{ plants|length }} ชนิด)</h3>
+                            <button class="close-modal-btn" id="closePlantModal">&times;</button>
+                        </div>
+                        <div class="plant-modal-grid" id="allPlantsGrid">
+                            {% for plant in plants %}
+                            <div class="plant-card" data-plant="{{ plant.name }}" data-days="{{ plant.grow_days }}">
+                                {% if plant.image %}<img src="{% static plant.image %}" alt="{{ plant.name }}">{% endif %}
+                                <span>{{ plant.name }}</span>
+                                <small class="plant-days">{{ plant.grow_days }} วัน</small>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plot-specs">
+                    <div class="spec-item">
+                        <span class="spec-label">ขนาดแปลง</span>
+                        <span class="spec-value">{{ plot.size }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">สภาพแสง</span>
+                        <span class="spec-value">{{ plot.sun_type }}</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-label">ค่าเช่าแปลง</span>
+                        <span class="spec-value" style="color:var(--primary-green);font-weight:700;">
+                            {{ plot.price_per_day|price_fmt }}/วัน<br>
+                            <small style="font-weight:500;color:#6b7280;">ประมาณ ฿{% widthratio plot.price_per_day 1 30 %}/เดือน</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="booking-widget">
+                    <div class="booking-header">
+                        <h3>เลือกช่วงเวลาในการจอง</h3>
+                        <a href="#" class="more-link" id="openCalendarModal">เพิ่มเติม →</a>
+                    </div>
+
+                    <!-- Popup calendar -->
+                    <div class="calendar-modal-overlay" id="calendarModal" style="display: none;">
+                        <div class="calendar-modal-content">
+                            <div class="calendar-modal-header">
+                                <h3>เลือกวันเริ่มปลูก (ล่วงหน้าไม่เกิน 60 วัน)</h3>
+                                <button class="close-modal-btn" id="closeCalendarModal">&times;</button>
+                            </div>
+                            <div class="calendar-container">
+                                <div class="cal-header">
+                                    <button class="cal-nav" id="popupPrevMonth">&lt;</button>
+                                    <span class="cal-month" id="popupMonthYear"></span>
+                                    <button class="cal-nav" id="popupNextMonth">&gt;</button>
+                                </div>
+                                <div class="cal-weekdays">
+                                    <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                                </div>
+                                <div class="cal-days" id="popupCalendarDays"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main calendar -->
+                    <div class="calendar-container">
+                        <div class="cal-header">
+                            <button class="cal-nav" id="prevMonth">&lt;</button>
+                            <span class="cal-month" id="currentMonthYear"></span>
+                            <button class="cal-nav" id="nextMonth">&gt;</button>
+                        </div>
+                        <div class="cal-weekdays">
+                            <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+                        </div>
+                        <div class="cal-days" id="calendarDays"></div>
+                    </div>
+
+                    <div class="booking-summary">
+                        <p class="price-label" id="bookingDateRange">กรุณาเลือกพืชเพื่อดูช่วงเวลา</p>
+                        <div id="priceBreakdown" style="display:none;font-size:13px;color:#6b7280;margin-bottom:4px;line-height:1.7;">
+                            <span id="rentLine"></span><br>
+                            <span id="seedLine"></span><br>
+                            <span style="font-weight:600;color:#374151;">รวมทั้งสิ้น:</span>
+                        </div>
+                        <p class="price-total" id="bookingTotalPrice">฿0</p>
+
+                        <!-- Customer info fields (required) -->
+                        <div class="customer-fields">
+                            <div class="field-group">
+                                <label for="customerName">ชื่อ-นามสกุล *</label>
+                                <input type="text" id="customerName" class="field-input" placeholder="เช่น สมชาย ใจดี" maxlength="200" value="{{ user_prefill.name|default:'' }}">
+                            </div>
+                            <div class="field-group">
+                                <label for="customerPhone">เบอร์โทรศัพท์ *</label>
+                                <input type="tel" id="customerPhone" class="field-input" placeholder="เช่น 081-234-5678" maxlength="20" value="{{ user_prefill.phone|default:'' }}">
+                            </div>
+                        </div>
+
+                        <div class="booking-error" id="bookingError"></div>
+
+                        <!-- Hidden fields -->
+                        <input type="hidden" id="hiddenPlant" value="">
+                        <input type="hidden" id="hiddenStartDate" value="">
+
+                        <button type="button" class="btn-book" id="submitBookingBtn" disabled onclick="submitBooking()">จองแปลงนี้</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container footer-bottom">
+            <p>© 2024 Digital Garden. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- QR Payment Modal -->
+    <div class="qr-modal-overlay" id="qrModalOverlay">
+        <div class="qr-modal">
+            <h3>สแกน QR เพื่อชำระเงิน</h3>
+            <p class="qr-amount" id="qrAmount">฿0.00</p>
+            <div id="qrImageWrap">
+                <div class="qr-placeholder">กำลังโหลด QR…</div>
+            </div>
+            <p class="qr-hint">เปิดแอปธนาคารหรือ PromptPay แล้วสแกน QR Code<br>ระบบจะยืนยันการจองโดยอัตโนมัติหลังชำระเงิน</p>
+            <div class="qr-status" id="qrStatusText">
+                <div class="qr-spinner"></div>
+                <span>กำลังรอการชำระเงิน…</span>
+            </div>
+            <br>
+            <button class="btn-qr-cancel" onclick="cancelQR()">ยกเลิก</button>
+        </div>
+    </div>
+
+    {% csrf_token %}
+
+    <script>
+    // ── Data from Django ──────────────────────────────────────────────────────
+    const PLOT_ID        = {{ plot.id }};
+    const PRICE_PER_DAY  = parseFloat('{{ plot.price_per_day }}');
+    const plantData      = {{ plants_json|safe }};  // [{name, grow_days, seed_price, image}, ...]
+    const bookedRanges   = {{ booked_ranges_json|safe }};  // [{start:"YYYY-MM-DD", end:"YYYY-MM-DD"}, ...]
+
+    // Build lookup: name → {grow_days, seed_price}
+    const plantInfo = {};
+    plantData.forEach(p => { plantInfo[p.name] = { grow_days: p.grow_days, seed_price: p.seed_price || 0 }; });
+    // legacy alias
+    const plantGrowTime = {};
+    plantData.forEach(p => { plantGrowTime[p.name] = p.grow_days; });
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    const today = new Date(); today.setHours(0,0,0,0);
+    const maxDate = new Date(today); maxDate.setDate(today.getDate() + 60);
+
+    let selectedStartDate  = new Date(today);
+    let harvestDate        = null;
+    let currentPlant       = null;
+    let selectedPlantDays  = 0;
+    let mainMonth  = new Date(today.getFullYear(), today.getMonth(), 1);
+    let popupMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    let pollInterval       = null;
+
+    // ── Booked ranges as Date pairs ───────────────────────────────────────────
+    const bookedPairs = bookedRanges.map(r => ({
+        start: new Date(r.start + 'T00:00:00'),
+        end:   new Date(r.end   + 'T00:00:00'),
+    }));
+
+    function isBooked(date) {
+        return bookedPairs.some(r => date >= r.start && date <= r.end);
+    }
+
+    // ── Calendar ──────────────────────────────────────────────────────────────
+    const MONTH_NAMES = ["January","February","March","April","May","June",
+                         "July","August","September","October","November","December"];
+
+    function renderCalendar(container, monthDisplay, dispMonth, isPopup) {
+        container.innerHTML = '';
+        const y = dispMonth.getFullYear(), m = dispMonth.getMonth();
+        monthDisplay.textContent = `${MONTH_NAMES[m]} ${y}`;
+        const firstDay = new Date(y, m, 1).getDay();
+        const daysInMonth = new Date(y, m + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) container.appendChild(document.createElement('span'));
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const span = document.createElement('span');
+            span.textContent = day;
+            const d = new Date(y, m, day);
+
+            if (d < today || d > maxDate) {
+                span.className = 'inactive';
+            } else if (isBooked(d)) {
+                span.className = 'inactive';
+                span.style.background = '#fee2e2';
+                span.style.color = '#ef4444';
+                span.title = 'ถูกจองแล้ว';
+            } else {
+                span.addEventListener('click', () => {
+                    selectedStartDate = new Date(d);
+                    updateSummary();
+                    if (isPopup) document.getElementById('calendarModal').style.display = 'none';
+                });
+                if (harvestDate) {
+                    if (d >= selectedStartDate && d <= harvestDate) {
+                        span.className = 'selected';
+                        if (d.getTime() === selectedStartDate.getTime()) span.style.borderRadius = '8px 0 0 8px';
+                        if (d.getTime() === harvestDate.getTime())       span.style.borderRadius = '0 8px 8px 0';
+                    }
+                } else if (d.getTime() === selectedStartDate.getTime()) {
+                    span.className = 'selected';
+                    span.style.borderRadius = '8px';
+                }
+            }
+            container.appendChild(span);
+        }
+    }
+
+    function refreshCalendars() {
+        renderCalendar(document.getElementById('calendarDays'),      document.getElementById('currentMonthYear'), mainMonth,  false);
+        renderCalendar(document.getElementById('popupCalendarDays'), document.getElementById('popupMonthYear'),   popupMonth, true);
+    }
+
+    // ── Summary update ────────────────────────────────────────────────────────
+    function fmtDisplay(d) { return d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'}); }
+    function fmtDjango(d)  {
+        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    }
+
+    function fmtThaiPrice(n) {
+        return '฿' + Math.round(n).toLocaleString('th-TH');
+    }
+
+    function updateSummary(plantName) {
+        if (plantName !== undefined) currentPlant = plantName;
+        const dateRange     = document.getElementById('bookingDateRange');
+        const totalPrice    = document.getElementById('bookingTotalPrice');
+        const breakdown     = document.getElementById('priceBreakdown');
+        const submitBtn     = document.getElementById('submitBookingBtn');
+
+        if (currentPlant && plantInfo[currentPlant]) {
+            const info = plantInfo[currentPlant];
+            selectedPlantDays = info.grow_days;
+            harvestDate = new Date(selectedStartDate);
+            harvestDate.setDate(selectedStartDate.getDate() + selectedPlantDays);
+
+            const rentCost  = selectedPlantDays * PRICE_PER_DAY;
+            const seedCost  = info.seed_price;
+            const total     = rentCost + seedCost;
+
+            dateRange.textContent = `ปลูก: ${fmtDisplay(selectedStartDate)} → เก็บเกี่ยว: ${fmtDisplay(harvestDate)}`;
+            totalPrice.textContent = fmtThaiPrice(total);
+
+            document.getElementById('rentLine').textContent = `ค่าเช่าแปลง (${selectedPlantDays} วัน × ฿${PRICE_PER_DAY}/วัน): ${fmtThaiPrice(rentCost)}`;
+            document.getElementById('seedLine').textContent = `ค่าเมล็ดพันธุ์ (${currentPlant}): ${fmtThaiPrice(seedCost)}`;
+            breakdown.style.display = 'block';
+
+            document.getElementById('hiddenPlant').value     = currentPlant;
+            document.getElementById('hiddenStartDate').value = fmtDjango(selectedStartDate);
+            submitBtn.disabled = false;
+        } else {
+            harvestDate = null;
+            dateRange.textContent   = `วันเริ่ม: ${fmtDisplay(selectedStartDate)} (กรุณาเลือกพืช)`;
+            totalPrice.textContent  = '฿0';
+            breakdown.style.display = 'none';
+            document.getElementById('hiddenPlant').value     = '';
+            document.getElementById('hiddenStartDate').value = fmtDjango(selectedStartDate);
+            submitBtn.disabled = true;
+        }
+        refreshCalendars();
+    }
+
+    // ── Plant card selection (event delegation) ───────────────────────────────
+    document.body.addEventListener('click', function(e) {
+        const card = e.target.closest('.plant-card');
+        if (!card) return;
+        const plantName = card.dataset.plant;
+        // Sync active state across all cards (main row + modal)
+        document.querySelectorAll('.plant-card').forEach(c => {
+            c.classList.toggle('active', c.dataset.plant === plantName);
+        });
+        updateSummary(plantName);
+        // Close modal if the click came from inside it
+        const modal = document.getElementById('plantModal');
+        if (modal.contains(card)) modal.classList.remove('show');
+    });
+
+    // ── Thumbnail gallery ──────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function() {
+        const mainImg = document.querySelector('.main-image');
+        document.querySelectorAll('.thumbnail').forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                const s = this.src, a = this.alt;
+                this.src = mainImg.src; this.alt = mainImg.alt;
+                mainImg.src = s; mainImg.alt = a;
+            });
+        });
+
+        // Plant modal open/close
+        document.getElementById('openPlantModal').addEventListener('click', () => {
+            document.getElementById('plantModal').classList.add('show');
+        });
+        document.getElementById('closePlantModal').addEventListener('click', () => {
+            document.getElementById('plantModal').classList.remove('show');
+        });
+        document.getElementById('plantModal').addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('show');
+        });
+
+        // Calendar nav
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            mainMonth.setMonth(mainMonth.getMonth() - 1); refreshCalendars();
+        });
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            mainMonth.setMonth(mainMonth.getMonth() + 1); refreshCalendars();
+        });
+        document.getElementById('popupPrevMonth').addEventListener('click', () => {
+            popupMonth.setMonth(popupMonth.getMonth() - 1); refreshCalendars();
+        });
+        document.getElementById('popupNextMonth').addEventListener('click', () => {
+            popupMonth.setMonth(popupMonth.getMonth() + 1); refreshCalendars();
+        });
+        document.getElementById('openCalendarModal').addEventListener('click', function(e) {
+            e.preventDefault();
+            popupMonth = new Date(selectedStartDate.getFullYear(), selectedStartDate.getMonth(), 1);
+            refreshCalendars();
+            document.getElementById('calendarModal').style.display = 'flex';
+        });
+        document.getElementById('closeCalendarModal').addEventListener('click', () => {
+            document.getElementById('calendarModal').style.display = 'none';
+        });
+
+        updateSummary();
+    });
+
+    // ── CSRF helper ───────────────────────────────────────────────────────────
+    function getCookie(name) {
+        const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return v ? v.pop() : '';
+    }
+
+    // ── Submit booking via fetch ──────────────────────────────────────────────
+    function submitBooking() {
+        const customerName = document.getElementById('customerName').value.trim();
+        const phone        = document.getElementById('customerPhone').value.trim();
+        const plantName    = document.getElementById('hiddenPlant').value;
+        const startDate    = document.getElementById('hiddenStartDate').value;
+        const errorEl      = document.getElementById('bookingError');
+
+        // Basic client-side validation
+        if (!customerName) {
+            showError('กรุณากรอกชื่อ-นามสกุล'); return;
+        }
+        if (!phone) {
+            showError('กรุณากรอกเบอร์โทรศัพท์'); return;
+        }
+        if (!plantName) {
+            showError('กรุณาเลือกพืชที่ต้องการปลูก'); return;
+        }
+        if (!startDate) {
+            showError('กรุณาเลือกวันเริ่มปลูก'); return;
+        }
+
+        const btn = document.getElementById('submitBookingBtn');
+        btn.disabled = true;
+        btn.textContent = 'กำลังดำเนินการ…';
+        errorEl.classList.remove('show');
+
+        fetch('{% url "process_booking" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify({
+                plot_id:       PLOT_ID,
+                plant_name:    plantName,
+                start_date:    startDate,
+                customer_name: customerName,
+                phone:         phone,
+            }),
+        })
+        .then(r => r.json())
+        .then(data => {
+            btn.disabled = false;
+            btn.textContent = 'จองแปลงนี้';
+            if (data.error) {
+                showError(data.error);
+            } else {
+                openQRModal(data.booking_id, data.qr_image, data.amount);
+            }
+        })
+        .catch(() => {
+            btn.disabled = false;
+            btn.textContent = 'จองแปลงนี้';
+            showError('เกิดข้อผิดพลาด กรุณาลองอีกครั้ง');
+        });
+    }
+
+    function showError(msg) {
+        const el = document.getElementById('bookingError');
+        el.textContent = '⚠️ ' + msg;
+        el.classList.add('show');
+    }
+
+    // ── QR Modal ──────────────────────────────────────────────────────────────
+    function openQRModal(bookingId, qrImage, amount) {
+        document.getElementById('qrAmount').textContent = '฿' + amount.toLocaleString('en-US', {minimumFractionDigits:2});
+        const wrap = document.getElementById('qrImageWrap');
+        if (qrImage) {
+            wrap.innerHTML = `<img src="${qrImage}" alt="QR Code">`;
+        } else {
+            wrap.innerHTML = '<div class="qr-placeholder">ไม่สามารถโหลด QR ได้</div>';
+        }
+        document.getElementById('qrModalOverlay').classList.add('show');
+        startPolling(bookingId);
+    }
+
+    function cancelQR() {
+        clearInterval(pollInterval);
+        document.getElementById('qrModalOverlay').classList.remove('show');
+        document.getElementById('qrStatusText').innerHTML = '<div class="qr-spinner"></div><span>กำลังรอการชำระเงิน…</span>';
+    }
+
+    function startPolling(bookingId) {
+        pollInterval = setInterval(() => {
+            fetch(`/check-booking/${bookingId}/`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.status === 'paid') {
+                        clearInterval(pollInterval);
+                        document.getElementById('qrStatusText').innerHTML = '✅ ชำระเงินสำเร็จ! กำลังนำทาง…';
+                        setTimeout(() => {
+                            window.location.href = `/booking-success/${bookingId}/`;
+                        }, 1200);
+                    } else if (data.status === 'expired' || data.status === 'cancelled') {
+                        clearInterval(pollInterval);
+                        cancelQR();
+                        showError('การจองหมดอายุหรือถูกยกเลิก กรุณาลองใหม่');
+                    }
+                });
+        }, 3000);
+    }
+    </script>
+
+    {% include '_chat_widget.html' %}
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

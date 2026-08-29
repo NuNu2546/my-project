@@ -1,0 +1,97 @@
+{% extends 'staff/base.html' %}
+{% load static staff_extras %}
+
+{% block title %}ภาพรวม{% endblock %}
+{% block page_title %}ภาพรวม{% endblock %}
+{% block nav_overview %}active{% endblock %}
+
+{% block content %}
+
+<!-- ── Stat cards ──────────────────────────────────────── -->
+<div class="stat-grid">
+
+  <div class="stat-card accent-blue">
+    <span class="stat-label">ออเดอร์ใหม่วันนี้</span>
+    <span class="stat-value">{{ stats.orders_today }}</span>
+    <span class="stat-sub">รอจัดส่ง {{ stats.orders_pending_ship }} รายการ</span>
+  </div>
+
+  <div class="stat-card accent-green">
+    <span class="stat-label">ยอดขายวันนี้</span>
+    <span class="stat-value">฿{{ stats.revenue_today|floatformat:0 }}</span>
+    <span class="stat-sub">เดือนนี้ ฿{{ stats.revenue_month|floatformat:0 }}</span>
+  </div>
+
+  <div class="stat-card accent-yellow">
+    <span class="stat-label">สินค้าใกล้หมด</span>
+    <span class="stat-value">{{ stats.low_stock_count }}</span>
+    <span class="stat-sub">สต๊อก &lt; 5 ชิ้น</span>
+  </div>
+
+  <div class="stat-card accent-green">
+    <span class="stat-label">การจองที่ต้องดำเนินการ</span>
+    <span class="stat-value">{{ stats.bookings_action }}</span>
+    <span class="stat-sub">รอเก็บเกี่ยว / รอส่ง</span>
+  </div>
+
+  <div class="stat-card accent-blue">
+    <span class="stat-label">สินค้าหมดสต๊อก</span>
+    <span class="stat-value {% if stats.out_of_stock_count > 0 %}stock-zero{% endif %}">{{ stats.out_of_stock_count }}</span>
+    <span class="stat-sub">รายการ</span>
+  </div>
+
+</div>
+
+<!-- ── Recent orders ───────────────────────────────────── -->
+<div class="staff-table-wrap">
+  <div class="staff-table-header">
+    <h3>ออเดอร์ล่าสุด 10 รายการ</h3>
+    <a href="{% url 'staff_orders' %}" class="btn-staff btn-outline-staff btn-sm">ดูทั้งหมด →</a>
+  </div>
+  <table class="staff-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>ลูกค้า</th>
+        <th>เบอร์โทร</th>
+        <th>ยอด (฿)</th>
+        <th>สถานะ</th>
+        <th>วันที่</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in recent_orders %}
+      <tr>
+        <td class="nowrap">#{{ order.id }}</td>
+        <td>{{ order.customer_name }}</td>
+        <td>{{ order.phone }}</td>
+        <td class="text-right">{{ order.total|price_fmt }}</td>
+        <td>
+          {% if order.status == 'paid' %}
+            <span class="badge badge-green">ชำระแล้ว</span>
+          {% elif order.status == 'shipped' %}
+            <span class="badge badge-blue">จัดส่งแล้ว</span>
+          {% elif order.status == 'pending' %}
+            <span class="badge badge-yellow">รอชำระ</span>
+          {% elif order.status == 'delivered' %}
+            <span class="badge badge-green">จัดส่งสำเร็จ</span>
+          {% elif order.status == 'cancelled' or order.status == 'expired' or order.status == 'failed' %}
+            <span class="badge badge-red">{{ order.get_status_display }}</span>
+          {% else %}
+            <span class="badge badge-gray">{{ order.get_status_display }}</span>
+          {% endif %}
+        </td>
+        <td class="nowrap text-muted" style="font-size:12px">{{ order.created_at|date:"d/m/y H:i" }}</td>
+        <td>
+          <a href="{% url 'staff_order_detail' order.id %}" class="btn-staff btn-outline-staff btn-sm">ดู</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" style="text-align:center;padding:24px;color:var(--s-text-muted)">ยังไม่มีออเดอร์</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

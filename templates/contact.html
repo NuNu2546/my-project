@@ -1,0 +1,293 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Contact Us - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}">
+    <style>
+        /* contact info line inside card */
+        .contact-info-line {
+            font-size: 13px;
+            color: var(--contact-medium);
+            margin: -20px 0 24px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .contact-info-line a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .contact-info-line a:hover { text-decoration: underline; }
+
+        /* FAQ section */
+        .faq-section {
+            max-width: 760px;
+            margin: 0 auto 100px;
+            padding: 0 50px;
+        }
+        .faq-section h2 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--contact-dark);
+            margin-bottom: 32px;
+            text-align: center;
+        }
+        .faq-item {
+            border-bottom: 1px solid rgba(52,78,65,0.12);
+        }
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            text-align: left;
+            padding: 18px 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--contact-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+        .faq-question:hover { color: var(--primary-green); }
+        .faq-arrow {
+            font-size: 18px;
+            transition: transform 0.25s;
+            flex-shrink: 0;
+        }
+        .faq-item.open .faq-arrow { transform: rotate(180deg); }
+        .faq-answer {
+            display: none;
+            padding: 0 0 18px;
+            font-size: 14px;
+            color: var(--contact-medium);
+            line-height: 1.7;
+        }
+        .faq-item.open .faq-answer { display: block; }
+
+        @media (max-width: 768px) {
+            .faq-section { padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+        <header class="header">
+            <a href="{% url 'home' %}">
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+            </a>
+
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                    <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                        <span id="cartBadge" class="cart-badge">0</span>
+                    </div>
+                </a>
+
+                {% include '_profile_dropdown.html' %}
+            </div>
+        </header>
+
+        <main class="contact-page">
+
+            <section class="contact-heading container">
+                <h1 class="main-title">How can we help?</h1>
+                <p class="sub-title">Find the right team to help you with your needs.</p>
+            </section>
+
+            <section class="support-section container">
+                <div class="support-grid">
+
+                    <div class="support-card">
+                        <div class="card-icon-bg">
+                            <img src="{% static 'images/icon/Bag_green_icon.png' %}" alt="Product Icon" class="card-icon" />
+                        </div>
+                        <h3 class="card-title">Product & Order Support</h3>
+                        <p class="card-desc">ช่วยเหลือเกี่ยวกับคำสั่งซื้อที่มีอยู่ คำถามเกี่ยวกับสินค้า การจัดส่ง และการคืนสินค้า ให้บริการเวลา 09:00 – 17:00 น. วันจันทร์ – วันศุกร์</p>
+                        <p class="contact-info-line">📧 <a href="mailto:support@digitalgarden.co.th">support@digitalgarden.co.th</a></p>
+                        <p class="contact-info-line">📞 <a href="tel:+6621234567">02-123-4567</a></p>
+                        <div class="card-buttons">
+                            <a href="mailto:support@digitalgarden.co.th" class="btn-card-primary">Email Us</a>
+                            <a href="tel:+6621234567" class="btn-card-outline">Call Us</a>
+                        </div>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="card-icon-bg">
+                            <img src="{% static 'images/icon/Sales_icon.png' %}" alt="Sales Icon" class="card-icon" />
+                        </div>
+                        <h3 class="card-title">Sales & Partnership Inquiries</h3>
+                        <p class="card-desc">สำหรับการสั่งซื้อจำนวนมาก ความร่วมมือทางธุรกิจขององค์กร และคำถามเกี่ยวกับการขายทั่วไป เราจะตอบกลับภายใน 24 ชั่วโมง</p>
+                        <p class="contact-info-line">📧 <a href="mailto:sales@digitalgarden.co.th">sales@digitalgarden.co.th</a></p>
+                        <div class="card-buttons">
+                            <a href="mailto:sales@digitalgarden.co.th" class="btn-card-primary">Contact Sales</a>
+                        </div>
+                    </div>
+
+                    <div class="support-card">
+                        <div class="card-icon-bg">
+                            <img src="{% static 'images/icon/Vegetable_icon.png' %}" alt="Plot Icon" class="card-icon" />
+                        </div>
+                        <h3 class="card-title">Vegetable Plot Support</h3>
+                        <p class="card-desc">ช่วยเหลือเกี่ยวกับความพร้อมของแปลงปลูก ปัญหาในการจอง และคำถามเกี่ยวกับการเป็นสมาชิก </p>
+                        <p class="contact-info-line">📧 <a href="mailto:plots@digitalgarden.co.th">plots@digitalgarden.co.th</a></p>
+                        <div class="card-buttons">
+                            <a href="{% url 'veggie_plots' %}" class="btn-card-primary">Book Support</a>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="bottom-cta container">
+                <div class="divider"></div>
+                <h3 class="bottom-title">Looking for something else?</h3>
+                <p class="bottom-desc">Browse our FAQ for quick answers to common questions.</p>
+                <button class="btn-outline-large" onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">Visit FAQ</button>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="faq-section" id="faq">
+                <h2>คำถามที่พบบ่อย</h2>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        ฉันสามารถติดตามสถานะคำสั่งซื้อได้อย่างไร?
+                        <span class="faq-arrow">▾</span>
+                    </button>
+                    <div class="faq-answer">
+                        เข้าสู่ระบบแล้วไปที่เมนู "การซื้อของฉัน" ในไอคอนโปรไฟล์มุมบนขวา จากนั้นกดดูรายละเอียดคำสั่งซื้อที่ต้องการเพื่อตรวจสอบสถานะแบบเรียลไทม์
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        ใช้เวลากี่วันในการจัดส่ง?
+                        <span class="faq-arrow">▾</span>
+                    </button>
+                    <div class="faq-answer">
+                        คำสั่งซื้อในกรุงเทพฯ และปริมณฑลใช้เวลา 1–2 วันทำการ ส่วนต่างจังหวัดใช้เวลา 3–5 วันทำการ โดยนับจากวันที่ยืนยันการชำระเงิน
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        สามารถคืนสินค้าหรือขอเงินคืนได้ไหม?
+                        <span class="faq-arrow">▾</span>
+                    </button>
+                    <div class="faq-answer">
+                        รับคืนสินค้าภายใน 7 วันนับจากวันที่ได้รับ โดยสินค้าต้องอยู่ในสภาพสมบูรณ์ ยังไม่เปิดใช้งาน กรุณาติดต่อทีม Product & Order Support เพื่อดำเนินการ
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        การจองแปลงผักทำงานอย่างไร?
+                        <span class="faq-arrow">▾</span>
+                    </button>
+                    <div class="faq-answer">
+                        ไปที่หน้า <a href="{% url 'veggie_plots' %}" style="color:var(--primary-green);font-weight:600;">Veggie Plots</a> เลือกแปลงที่ต้องการ จากนั้นเลือกวันและระยะเวลาที่ต้องการจอง ระบบจะส่งการยืนยันทาง Email ทันทีหลังชำระเงิน
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Coins ที่ได้จากการซื้อสินค้าใช้ทำอะไรได้บ้าง?
+                        <span class="faq-arrow">▾</span>
+                    </button>
+                    <div class="faq-answer">
+                        Coins สะสมจากทุกการสั่งซื้อ สามารถนำไปแลกส่วนลดในการซื้อครั้งถัดไปได้ ดูยอด Coins ปัจจุบันได้ที่ไอคอนโปรไฟล์มุมบนขวา
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        ช่องทางการชำระเงินมีอะไรบ้าง?
+                        <span class="faq-arrow">▾</span>
+                    </button>
+                    <div class="faq-answer">
+                        รองรับการชำระเงินผ่านบัตรเครดิต/เดบิต, QR Code พร้อมเพย์, และการโอนเงินผ่านธนาคาร ทุกช่องทางได้รับการเข้ารหัสและปลอดภัย
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-column footer-brand">
+                        <div class="footer-logo">
+                            <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+                        </div>
+                        <p class="slogan">
+                            เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์
+                        </p>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Explore</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'shop' %}">สินค้าทั้งหมด</a></li>
+                            <li><a href="{% url 'veggie_plots' %}">จองแปลงผัก</a></li>
+                            <li><a href="{% url 'about' %}">เรื่องราวของเรา</a></li>
+                            <li><a href="#">บทความ</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'contact' %}">ติดต่อเรา</a></li>
+                            <li><a href="#faq" onclick="setTimeout(()=>document.getElementById('faq').scrollIntoView({behavior:'smooth'}),100)">คำถามที่พบบ่อย</a></li>
+                            <li><a href="mailto:support@digitalgarden.co.th">การจัดส่ง & คืนสินค้า</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4 class="footer-title">Stay Connected</h4>
+                        <p class="newsletter-text">
+                            ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา
+                        </p>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
+                            <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2024 Digital Garden. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        {% include '_chat_widget.html' %}
+        <script src="{% static 'js/script.js' %}"></script>
+        <script>
+        function toggleFaq(btn) {
+            const item = btn.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        }
+        </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+﻿{% load static staff_extras %}
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <title>Veggie Plots - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Veggie_Plots.css' %}">
+  </head>
+  <body>
+    <div class="veggie-plots">
+
+        <header class="header">
+            <a href="{% url 'home' %}">
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+            </a>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                    <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                        <span id="cartBadge" class="cart-badge">0</span>
+                    </div>
+                </a>
+                {% include '_profile_dropdown.html' %}
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="page-title">
+                <h1 class="heading-find-your">หาพื้นที่ปลูกที่ใช่สำหรับคุณ</h1>
+                <p style="color: var(--text-gray); margin-top: 10px;">เลือกจองแปลงผักที่เหมาะกับไลฟ์สไตล์ของคุณ พร้อมเริ่มปลูกได้ทันที</p>
+            </div>
+
+            <div class="plots-grid">
+                {% for item in plots_with_status %}
+                <div class="plot-card" onclick="window.location.href='{% url 'plot_detail' plot_id=item.plot.id %}'" style="cursor: pointer;">
+                    <div class="card-image">
+                        <img src="{% static item.plot.image %}" alt="{{ item.plot.name }} #{{ item.plot.code }}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                    </div>
+                    {% if item.is_available %}
+                        <div class="status-badge available">ว่าง</div>
+                    {% else %}
+                        <div class="status-badge" style="background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;">ไม่ว่าง ถึง {{ item.booked_until|date:"d/m/y" }}</div>
+                    {% endif %}
+                    <div class="card-content">
+                        <h3 class="heading-text">{{ item.plot.name }} #{{ item.plot.code }}</h3>
+                        <p class="desc-text">{{ item.plot.description }}</p>
+                        <div class="specs-row">
+                            <div class="spec-tag">📏 {{ item.plot.size }}</div>
+                            <div class="spec-tag">☀️ {{ item.plot.sun_type }}</div>
+                        </div>
+                        <div class="price-row">
+                            <span class="price">{{ item.plot.price_per_day|price_fmt }}</span><span class="unit">/วัน</span>
+                            <span style="font-size:12px;color:#9ca3af;margin-left:6px;">(ประมาณ ฿{% widthratio item.plot.price_per_day 1 30 %}/เดือน)</span>
+                        </div>
+                        <a href="{% url 'plot_detail' plot_id=item.plot.id %}" class="action-btn" style="display: flex; justify-content: center; align-items: center; text-decoration: none;" onclick="event.stopPropagation()">จองแปลงนี้</a>
+                    </div>
+                </div>
+                {% empty %}
+                <div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#6b7280;">
+                    <p style="font-size:48px;margin-bottom:16px;">🌿</p>
+                    <p style="font-size:18px;font-weight:700;">ยังไม่มีแปลงในระบบ</p>
+                    <p style="font-size:14px;margin-top:8px;">กรุณาติดต่อผู้ดูแลระบบเพื่อเพิ่มแปลง</p>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-column footer-brand">
+                        <div class="footer-logo">
+                            <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+                        </div>
+                        <p class="slogan">เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์</p>
+                    </div>
+                    <div class="footer-column">
+                        <h4 class="footer-title">Explore</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'shop' %}">สินค้าทั้งหมด</a></li>
+                            <li><a href="{% url 'veggie_plots' %}">จองแปลงผัก</a></li>
+                            <li><a href="{% url 'about' %}">เรื่องราวของเรา</a></li>
+                            <li><a href="#">บทความ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'contact' %}">ติดต่อเรา</a></li>
+                            <li><a href="{% url 'contact' %}#faq">คำถามที่พบบ่อย</a></li>
+                            <li><a href="mailto:support@digitalgarden.co.th">การจัดส่ง & คืนสินค้า</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4 class="footer-title">Stay Connected</h4>
+                        <p class="newsletter-text">ติดตามข่าวสารและเคล็ดลับการปลูกต้นไม้จากเรา</p>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="email" placeholder="อีเมลของคุณ" style="padding: 8px; border: 1px solid #ddd; border-radius: 6px; flex: 1;">
+                            <button style="background: var(--primary-green); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer;">Go</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>© 2024 Digital Garden. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+
+        {% include '_chat_widget.html' %}
+        <script src="{% static 'js/script.js' %}"></script>
+    </div>
+  </body>
+</html>

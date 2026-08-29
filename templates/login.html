@@ -1,0 +1,495 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>เข้าสู่ระบบ - Greenhearth</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <style>
+        /* ── Auth-local palette (deeper than site neon, matches forest video) ── */
+        :root {
+            --ag:      #2d6a4f;
+            --ag-dark: #1c5038;
+            --ag-glow: rgba(45,106,79,.13);
+        }
+
+        /* ── Reset for this page ── */
+        html, body { height: 100%; margin: 0; padding: 0; }
+        body { background: #fff; font-family: var(--font-main, 'Manrope', sans-serif); }
+
+        /* ── Split wrapper ── */
+        .auth-wrapper {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ══════════════════════
+           LEFT — video panel
+        ══════════════════════ */
+        .auth-left {
+            flex: 0 0 55%;
+            position: relative;
+            overflow: hidden;
+            background: #0d2818; /* fallback if video fails */
+        }
+
+        .auth-left-bg {
+            /* gradient fallback behind video */
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, #0d2818 0%, #1a4a2e 50%, #0f3320 100%);
+        }
+
+        .auth-bg-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .auth-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(14, 38, 22, 0.42);
+        }
+
+        /* back link — top left corner */
+        .auth-back {
+            position: absolute;
+            top: 24px;
+            left: 32px;
+            z-index: 10;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: rgba(255,255,255,0.80);
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            letter-spacing: .3px;
+            transition: color .2s;
+        }
+        .auth-back:hover { color: #fff; }
+        .auth-back svg { flex-shrink: 0; }
+
+        /* logo + tagline — bottom-left */
+        .auth-left-content {
+            position: absolute;
+            bottom: 52px;
+            left: 52px;
+            z-index: 10;
+        }
+        .auth-left-logo {
+            display: block;
+            margin-bottom: 20px;
+        }
+        .auth-left-logo img { height: 46px; filter: brightness(0) invert(1); }
+
+        .auth-tagline {
+            font-size: 26px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1.3;
+            letter-spacing: -.4px;
+            max-width: 340px;
+        }
+        .auth-tagline-sub {
+            margin-top: 10px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.68);
+            line-height: 1.6;
+            max-width: 300px;
+        }
+
+        /* ══════════════════════
+           RIGHT — form panel
+        ══════════════════════ */
+        .auth-right {
+            flex: 0 0 45%;
+            overflow-y: auto;
+            background: #fff;
+            display: flex;
+            align-items: flex-start;  /* flex-start + margin:auto = true centering + correct scroll */
+            justify-content: center;
+            padding: 0;
+        }
+
+        .auth-form-wrap {
+            width: 100%;
+            max-width: 360px;
+            margin: auto;        /* distributes space equally top/bottom when room is available */
+            padding: 44px 32px;  /* breathing room, equal top/bottom */
+        }
+
+        /* header */
+        .auth-form-title {
+            font-size: 28px;
+            font-weight: 900;
+            color: #111827;
+            margin-bottom: 6px;
+            letter-spacing: -.5px;
+        }
+        .auth-form-sub {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        /* error banner */
+        .auth-alert {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #b91c1c;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        .auth-alert svg { flex-shrink: 0; margin-top: 1px; }
+
+        /* form groups */
+        .form-group { margin-bottom: 18px; }
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: #374151;
+            margin-bottom: 7px;
+            letter-spacing: .1px;
+        }
+        .form-label .opt { font-weight: 400; color: #9ca3af; font-size: 12px; }
+
+        /* input with icon */
+        .input-wrap {
+            position: relative;
+        }
+        .input-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            border: 1.5px solid #dde5e0;
+            border-radius: 12px;
+            font-size: 14px;
+            font-family: inherit;
+            color: #111827;
+            background: #f7faf8;   /* green-tinted white, not blue-gray */
+            transition: border-color .2s, background .2s, box-shadow .2s;
+            box-sizing: border-box;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--ag);
+            background: #fff;
+            box-shadow: 0 0 0 3px var(--ag-glow);
+        }
+        .form-input.is-error {
+            border-color: #ef4444;
+            background: #fff;
+        }
+        /* password wrapper has eye button on right */
+        .input-wrap-pass .form-input {
+            padding-right: 44px;
+        }
+        .btn-eye {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            padding: 2px;
+            transition: color .2s;
+        }
+        .btn-eye:hover { color: #374151; }
+
+        .form-error {
+            font-size: 12px;
+            color: #ef4444;
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* remember + forgot row */
+        .form-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            margin-top: -4px;
+        }
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .checkbox-row input[type=checkbox] {
+            width: 15px; height: 15px;
+            accent-color: var(--ag);
+            cursor: pointer;
+        }
+        .checkbox-row label {
+            font-size: 13px;
+            color: #374151;
+            cursor: pointer;
+            user-select: none;
+        }
+        .link-forgot {
+            font-size: 13px;
+            color: #6b7280;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color .2s;
+        }
+        .link-forgot:hover { color: var(--ag); }
+
+        /* primary button */
+        .btn-auth {
+            width: 100%;
+            padding: 13px;
+            background: var(--ag);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            font-family: inherit;
+            cursor: pointer;
+            letter-spacing: .2px;
+            transition: background .2s, transform .15s, box-shadow .2s;
+        }
+        .btn-auth:hover {
+            background: var(--ag-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(45,106,79,.30);
+        }
+        .btn-auth:active { transform: none; box-shadow: none; }
+
+        /* footer links */
+        .auth-form-footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 13.5px;
+            color: #6b7280;
+        }
+        .auth-form-footer a {
+            color: var(--ag);
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .auth-form-footer a:hover { text-decoration: underline; }
+
+        .auth-divider {
+            border: none;
+            border-top: 1px solid #f3f4f6;
+            margin: 20px 0;
+        }
+
+        /* ══════════════════════
+           MOBILE — full screen form
+           with blurred video bg
+        ══════════════════════ */
+        @media (max-width: 768px) {
+            .auth-wrapper { flex-direction: column; height: auto; min-height: 100vh; }
+
+            .auth-left {
+                position: fixed;
+                inset: 0;
+                flex: none;
+                width: 100%; height: 100%;
+                z-index: 0;
+            }
+            .auth-bg-video { filter: blur(3px); transform: scale(1.05); }
+            .auth-overlay { background: rgba(14,38,22,.65); }
+            .auth-left-content { display: none; }
+            .auth-back {
+                /* move to top of form panel */
+                position: fixed;
+                top: 16px; left: 20px;
+                z-index: 20;
+            }
+
+            .auth-right {
+                position: relative;
+                z-index: 10;
+                flex: none;
+                width: 100%;
+                min-height: 100vh;
+                background: transparent;
+                padding: 80px 20px 48px;
+                align-items: flex-start;
+            }
+
+            .auth-form-wrap {
+                background: #fff;
+                border-radius: 24px;
+                padding: 32px 24px 28px;
+                box-shadow: 0 20px 60px rgba(0,0,0,.25);
+                max-width: 420px;
+                margin: 0 auto;
+            }
+
+            .auth-form-title { font-size: 24px; }
+        }
+
+        /* ── Reduced motion ── */
+        @media (prefers-reduced-motion: reduce) {
+            .auth-bg-video { animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+<div class="auth-wrapper">
+
+    <!-- ═══ LEFT — VIDEO PANEL ═══ -->
+    <div class="auth-left">
+        <div class="auth-left-bg"></div>
+
+        <video class="auth-bg-video"
+               autoplay muted loop playsinline
+               id="authVideo">
+            <source src="{% url 'serve_video' 'login-bg.mp4' %}" type="video/mp4">
+        </video>
+
+        <div class="auth-overlay"></div>
+
+        <a href="{% url 'home' %}" class="auth-back">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+            กลับหน้าแรก
+        </a>
+
+        <div class="auth-left-content">
+            <a href="{% url 'home' %}" class="auth-left-logo">
+                <img src="{% static 'images/logo.png' %}" alt="Greenhearth">
+            </a>
+            <p class="auth-tagline">ปลูกต้นไม้หนึ่งต้น<br>เปลี่ยนโลกได้หนึ่งครั้ง</p>
+            <p class="auth-tagline-sub">เข้าสู่ระบบเพื่อติดตามออเดอร์<br>และสะสม Coins ปลูกต้นไม้</p>
+        </div>
+
+    </div>
+
+    <!-- ═══ RIGHT — FORM PANEL ═══ -->
+    <div class="auth-right">
+        <div class="auth-form-wrap">
+
+            <h1 class="auth-form-title">เข้าสู่ระบบ</h1>
+            <p class="auth-form-sub">ยินดีต้อนรับกลับมา สู่ Greenhearth</p>
+
+            {% if error %}
+            <div class="auth-alert">
+                <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                </svg>
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form method="post" action="{% url 'login' %}{% if next %}?next={{ next }}{% endif %}" novalidate>
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label" for="email">อีเมล</label>
+                    <div class="input-wrap">
+                        <span class="input-icon">
+                            <svg width="17" height="17" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+                            </svg>
+                        </span>
+                        <input type="email" id="email" name="email" class="form-input"
+                               placeholder="example@email.com" required autofocus
+                               autocomplete="email">
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label class="form-label" for="password">รหัสผ่าน</label>
+                    <div class="input-wrap input-wrap-pass">
+                        <span class="input-icon">
+                            <svg width="17" height="17" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </span>
+                        <input type="password" id="password" name="password" class="form-input"
+                               placeholder="รหัสผ่าน" required autocomplete="current-password">
+                        <button type="button" class="btn-eye" onclick="togglePass('password','eyeLogin')" aria-label="แสดง/ซ่อนรหัสผ่าน">
+                            <svg id="eyeLogin" width="18" height="18" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember + Forgot -->
+                <div class="form-meta">
+                    <div class="checkbox-row">
+                        <input type="checkbox" id="remember" name="remember" value="1">
+                        <label for="remember">จำฉันไว้ในอุปกรณ์นี้</label>
+                    </div>
+                    <a href="#" class="link-forgot" onclick="event.preventDefault();alert('ฟีเจอร์นี้กำลังพัฒนา กรุณาติดต่อ support@greenhearth.co.th');">ลืมรหัสผ่าน?</a>
+                </div>
+
+                <button type="submit" class="btn-auth">เข้าสู่ระบบ</button>
+            </form>
+
+            <hr class="auth-divider">
+
+            <div class="auth-form-footer">
+                ยังไม่มีบัญชี? <a href="{% url 'register' %}{% if next %}?next={{ next }}{% endif %}">สมัครสมาชิกฟรี</a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    /* Toggle password visibility */
+    function togglePass(inputId, iconId) {
+        const inp = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        const isHidden = inp.type === 'password';
+        inp.type = isHidden ? 'text' : 'password';
+        icon.innerHTML = isHidden
+            ? '<path fill-rule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clip-rule="evenodd"/><path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"/>'
+            : '<path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>';
+    }
+
+    /* Force video play — handles browsers that block autoplay on first load */
+    const v = document.getElementById('authVideo');
+    if (v) {
+        const p = v.play();
+        if (p !== undefined) { p.catch(() => {}); }
+    }
+</script>
+</body>
+</html>

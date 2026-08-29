@@ -1,0 +1,526 @@
+﻿{% load static staff_extras %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ product.name }} - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/product_detail.css' %}" />
+    <style>
+        /* ── Review tab ── */
+        .review-summary { display:flex; gap:24px; align-items:flex-start; padding:20px 0; border-bottom:1px solid #f3f4f6; margin-bottom:20px; flex-wrap:wrap; }
+        .review-big-score { text-align:center; min-width:100px; }
+        .review-big-num { font-size:48px; font-weight:900; color:#1f2937; line-height:1; }
+        .review-big-stars { font-size:22px; color:#f59e0b; margin:4px 0; }
+        .review-big-count { font-size:13px; color:#6b7280; }
+        .review-dist { flex:1; min-width:200px; }
+        .dist-row { display:flex; align-items:center; gap:8px; margin-bottom:6px; font-size:13px; color:#4b5563; }
+        .dist-bar-track { flex:1; height:8px; background:#f3f4f6; border-radius:4px; overflow:hidden; }
+        .dist-bar-fill { height:100%; background:#f59e0b; border-radius:4px; }
+        .dist-n { min-width:24px; text-align:right; color:#9ca3af; }
+        .review-filters { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+        .filter-btn { padding:6px 14px; border:1.5px solid #e5e7eb; border-radius:20px; font-size:13px; font-weight:600; background:#fff; cursor:pointer; transition:all .15s; color:#4b5563; }
+        .filter-btn.active, .filter-btn:hover { border-color:#16a34a; color:#16a34a; background:#f0fdf4; }
+        .review-item { display:flex; gap:14px; padding:16px 0; border-bottom:1px solid #f9fafb; }
+        .review-avatar { width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg,#13ec37,#059669); color:#fff; font-size:16px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .review-body { flex:1; }
+        .review-head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
+        .review-name { font-weight:700; font-size:14px; color:#1f2937; }
+        .review-stars { color:#f59e0b; font-size:14px; }
+        .review-date { font-size:12px; color:#9ca3af; }
+        .review-badge { font-size:11px; background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; padding:2px 8px; border-radius:10px; font-weight:600; }
+        .review-comment { font-size:14px; color:#374151; line-height:1.6; margin-top:4px; }
+        .review-empty { text-align:center; padding:40px 20px; color:#9ca3af; }
+        .btn-load-more { display:block; margin:20px auto 0; padding:10px 28px; background:#fff; border:1.5px solid #e5e7eb; border-radius:10px; font-size:14px; font-weight:700; color:#4b5563; cursor:pointer; transition:all .15s; }
+        .btn-load-more:hover { border-color:#16a34a; color:#16a34a; }
+        /* ── Quick-view modal (related slider) ── */
+        #relatedModal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:8500; align-items:center; justify-content:center; }
+        #relatedModal .rmodal-content { background:#fff; border-radius:16px; padding:28px; width:90%; max-width:480px; position:relative; }
+        #relatedModal .rmodal-body { display:flex; gap:16px; align-items:center; }
+        #relatedModal .rmodal-img { width:120px; height:120px; object-fit:cover; border-radius:12px; flex-shrink:0; }
+        #relatedModal .rmodal-info { flex:1; }
+        #relatedModal .rmodal-name { font-size:16px; font-weight:800; color:#1f2937; margin-bottom:4px; }
+        #relatedModal .rmodal-price { font-size:20px; font-weight:900; color:#16a34a; margin-bottom:12px; }
+        #relatedModal .rmodal-qty { display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+        #relatedModal .rmodal-qty button { width:30px; height:30px; border:1.5px solid #d1d5db; border-radius:8px; background:#f9fafb; font-size:16px; cursor:pointer; }
+        #relatedModal .rmodal-qty input { width:44px; text-align:center; border:1.5px solid #d1d5db; border-radius:8px; padding:4px; font-size:14px; }
+        #relatedModal .rmodal-add { width:100%; padding:12px; background:linear-gradient(135deg,#13ec37,#10d131); color:#fff; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; }
+        #relatedModal .close-rmodal { position:absolute; top:12px; right:16px; font-size:22px; color:#9ca3af; background:none; border:none; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+
+        <header class="header">
+            <a href="{% url 'home' %}">
+                <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+            </a>
+
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                    <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                    <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                    <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                    <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                    <div class="icon-inner">
+                        <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                        <span id="cartBadge" class="cart-badge">0</span>
+                    </div>
+                </a>
+                {% include '_profile_dropdown.html' %}
+            </div>
+        </header>
+
+        <main class="main-content container">
+
+            <nav class="breadcrumbs">
+                <a href="{% url 'home' %}">หน้าแรก</a>
+                <span class="sep">/</span>
+                <a href="{% url 'shop' %}">ร้านค้า</a>
+                <span class="sep">/</span>
+                <span class="current">{{ product.name }}</span>
+            </nav>
+
+            <section class="product-hero">
+                <div class="product-gallery">
+                    <div class="main-image-frame">
+                        <img id="detailImage" src="{% static product.image %}" alt="{{ product.name }}" style="width:100%;height:100%;object-fit:cover;" />
+                    </div>
+                </div>
+
+                <div class="product-info">
+                    <h1 class="product-title">{{ product.name }}</h1>
+
+                    <div class="product-price-wrapper">
+                        <span class="price-current">{{ product.price|price_fmt }}</span>
+                        {% if product.is_in_stock %}
+                            {% if product.is_low_stock %}
+                                <span class="stock-status low">เหลือ {{ product.stock_quantity }} ชิ้น</span>
+                            {% else %}
+                                <span class="stock-status">In Stock</span>
+                            {% endif %}
+                        {% else %}
+                            <span class="stock-status out">สินค้าหมด</span>
+                        {% endif %}
+                    </div>
+
+                    {% if avg_rating %}
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+                        <span style="color:#f59e0b;font-size:15px;" id="heroStars"></span>
+                        <span style="font-size:13px;color:#6b7280;font-weight:600;">{{ avg_rating }} ({{ review_count }} รีวิว)</span>
+                    </div>
+                    {% endif %}
+
+                    <p class="product-desc">{{ product.description|truncatewords:40 }}</p>
+
+                    <div class="action-area">
+                        <div class="quantity-control">
+                            <button type="button" onclick="updateQty(-1)">-</button>
+                            <input type="number" id="qtyInput" value="1" min="1" max="{{ product.stock_quantity }}" readonly>
+                            <button type="button" onclick="updateQty(1)">+</button>
+                        </div>
+
+                        {% if product.is_in_stock %}
+                        <button class="btn btn-primary add-to-cart" id="mainAddBtn" onclick="addProductToCart()">
+                            Add to Cart
+                        </button>
+                        {% else %}
+                        <button class="btn btn-primary add-to-cart" disabled style="opacity:.45;cursor:not-allowed">
+                            สินค้าหมด
+                        </button>
+                        {% endif %}
+                    </div>
+
+                    <div class="product-tabs-wrapper">
+                        <div class="tabs-header">
+                            <div class="tab active" onclick="switchTab('desc')">รายละเอียด</div>
+                            <div class="tab" onclick="switchTab('reviews')">รีวิว {% if review_count %}({{ review_count }}){% endif %}</div>
+                        </div>
+
+                        <div id="content-desc" class="tab-content active">
+                            <div class="prose">{{ product.description|linebreaks }}</div>
+                        </div>
+
+                        <div id="content-reviews" class="tab-content" style="display:none;">
+                            <div class="reviews-container">
+                                {% if review_count %}
+                                <div class="review-summary">
+                                    <div class="review-big-score">
+                                        <div class="review-big-num">{{ avg_rating }}</div>
+                                        <div class="review-big-stars" id="summaryStars"></div>
+                                        <div class="review-big-count">{{ review_count }} รีวิว</div>
+                                    </div>
+                                    <div class="review-dist">
+                                        {% for row in rating_dist_list %}
+                                        <div class="dist-row">
+                                            <span>{{ row.star }}★</span>
+                                            <div class="dist-bar-track">
+                                                <div class="dist-bar-fill" style="width:{{ row.pct }}%"></div>
+                                            </div>
+                                            <span class="dist-n">{{ row.count }}</span>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <div class="review-filters">
+                                    <button class="filter-btn active" onclick="filterReviews(0, this)">ทั้งหมด</button>
+                                    <button class="filter-btn" onclick="filterReviews(5, this)">5 ★</button>
+                                    <button class="filter-btn" onclick="filterReviews(4, this)">4 ★</button>
+                                    <button class="filter-btn" onclick="filterReviews(3, this)">3 ★</button>
+                                    <button class="filter-btn" onclick="filterReviews(2, this)">2 ★</button>
+                                    <button class="filter-btn" onclick="filterReviews(1, this)">1 ★</button>
+                                </div>
+
+                                <div id="reviewList"></div>
+
+                                <button id="loadMoreBtn" class="btn-load-more" onclick="loadMoreReviews()" style="display:none;">โหลดเพิ่มเติม</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="related-products">
+                <div class="section-header" style="display:flex;justify-content:space-between;align-items:center;">
+                    <h2 class="section-title">สินค้าอื่นๆ ที่น่าสนใจ</h2>
+                    <div class="slider-nav">
+                        <button class="slider-btn prev-btn" onclick="scrollSlider(-1)" aria-label="Previous">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <button class="slider-btn next-btn" onclick="scrollSlider(1)" aria-label="Next">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="product-slider-container" id="relatedSlider">
+                    {% for item in related_products %}
+                    <div class="product-card slider-card" style="cursor:default;">
+                        <a href="{% url 'product_detail' item.id %}" class="card-image-wrapper" style="display:block;text-decoration:none;">
+                            <img src="{% static item.image %}" alt="{{ item.name }}" loading="lazy">
+                        </a>
+                        <div class="card-details">
+                            <h3 class="card-title">{{ item.name }}</h3>
+                            <p class="card-price">{{ item.price|price_fmt }}</p>
+                            {% if item.avg_rating %}
+                            <p style="font-size:12px;color:#f59e0b;margin-top:2px;">{{ item.avg_rating|floatformat:1 }}★ <span style="color:#9ca3af;">({{ item.review_count }})</span></p>
+                            {% endif %}
+                            {% if item.is_in_stock %}
+                            <button class="btn btn-primary" style="width:100%;margin-top:8px;padding:8px;font-size:13px;"
+                                onclick="openRelatedModal(event,'{{ item.id }}','{{ item.name|escapejs }}','{{ item.price }}','{% static item.image %}')">
+                                Add to Cart
+                            </button>
+                            {% else %}
+                            <button disabled style="width:100%;margin-top:8px;padding:8px;font-size:13px;opacity:.45;cursor:not-allowed;border:1px solid #d1d5db;border-radius:8px;background:#f9fafb;">สินค้าหมด</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                        <p class="no-data" style="min-width:100%;">ยังไม่มีสินค้าแนะนำในขณะนี้</p>
+                    {% endfor %}
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-content">
+                    <div class="footer-column footer-brand">
+                        <div class="footer-logo">
+                            <img src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+                        </div>
+                        <p class="slogan">เชื่อมต่อคุณกับธรรมชาติอีกครั้ง<br>ทีละต้น ทีละผลิตภัณฑ์</p>
+                    </div>
+                    <div class="footer-column">
+                        <h4 class="footer-title">Explore</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'shop' %}">สินค้าทั้งหมด</a></li>
+                            <li><a href="{% url 'veggie_plots' %}">จองแปลงผัก</a></li>
+                            <li><a href="{% url 'about' %}">เรื่องราวของเรา</a></li>
+                            <li><a href="#">บทความ</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4 class="footer-title">Support</h4>
+                        <ul class="footer-list">
+                            <li><a href="{% url 'contact' %}">ติดต่อเรา</a></li>
+                            <li><a href="{% url 'contact' %}#faq">คำถามที่พบบ่อย</a></li>
+                            <li><a href="mailto:support@digitalgarden.co.th">การจัดส่ง & คืนสินค้า</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom"><p>© 2024 Digital Garden. All rights reserved.</p></div>
+            </div>
+        </footer>
+
+        <!-- Related product quick-add modal -->
+        <div id="relatedModal">
+            <div class="rmodal-content">
+                <button class="close-rmodal" onclick="closeRelatedModal()">&times;</button>
+                <div class="rmodal-body">
+                    <img id="rmodalImg" class="rmodal-img" src="" alt="">
+                    <div class="rmodal-info">
+                        <p id="rmodalName" class="rmodal-name"></p>
+                        <p id="rmodalPrice" class="rmodal-price"></p>
+                        <div class="rmodal-qty">
+                            <button onclick="updateRQty(-1)">-</button>
+                            <input type="number" id="rmodalQty" value="1" readonly>
+                            <button onclick="updateRQty(1)">+</button>
+                        </div>
+                        <button class="rmodal-add" onclick="confirmRelatedAdd()">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include '_chat_widget.html' %}
+        <script src="{% static 'js/script.js' %}"></script>
+    </div>
+
+    <script>
+    /* ── Render star elements (avoids Django template syntax in style attrs) ── */
+    (function() {
+        var avg = parseFloat('{{ avg_rating|default:"0" }}');
+        function makeStars(el, n) {
+            if (!el || !n) return;
+            var s = '';
+            for (var i = 1; i <= 5; i++) s += i <= Math.round(n) ? '★' : '☆';
+            el.textContent = s;
+        }
+        makeStars(document.getElementById('heroStars'), avg);
+        makeStars(document.getElementById('summaryStars'), avg);
+    })();
+
+    /* ── Data from server ── */
+    var PRODUCT_ID   = '{{ product.id }}';
+    var PRODUCT_NAME = '{{ product.name|escapejs }}';
+    var PRODUCT_PRICE= parseFloat('{{ product.price }}');
+    var PRODUCT_IMG  = '{% static product.image %}';
+    var STOCK_MAX    = {{ product.stock_quantity }};
+    var REVIEWS_URL  = '{% url "product_reviews_api" product.id %}';
+
+    /* ── Quantity control (main product) ── */
+    function updateQty(change) {
+        var input = document.getElementById('qtyInput');
+        var val = parseInt(input.value) + change;
+        if (val < 1) val = 1;
+        if (STOCK_MAX > 0 && val > STOCK_MAX) { val = STOCK_MAX; }
+        input.value = val;
+    }
+
+    /* ── Add main product to cart with animation ── */
+    function addProductToCart() {
+        var qty = parseInt(document.getElementById('qtyInput').value) || 1;
+        if (STOCK_MAX > 0 && qty > STOCK_MAX) {
+            alert('สินค้ามีในสต๊อกแค่ ' + STOCK_MAX + ' ชิ้น');
+            return;
+        }
+        var imgEl = document.getElementById('detailImage');
+        flyToCart(imgEl, function() {
+            var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            var existing = cart.find(function(i) { return i.id === PRODUCT_ID; });
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                cart.push({ id: PRODUCT_ID, name: PRODUCT_NAME, price: PRODUCT_PRICE, image: PRODUCT_IMG, qty: qty });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartBadge();
+            var badge = document.getElementById('cartBadge');
+            if (badge) { badge.classList.remove('bump'); void badge.offsetWidth; badge.classList.add('bump'); }
+        });
+    }
+
+    /* ── Self-contained fly-to-cart animation ── */
+    function flyToCart(sourceEl, callback) {
+        var cartIcon = document.querySelector('.cart-btn-wrapper');
+        if (!cartIcon || !sourceEl) { if (callback) callback(); return; }
+        var startRect = sourceEl.getBoundingClientRect();
+        var endRect   = cartIcon.getBoundingClientRect();
+        if (!startRect.width || !startRect.height) { if (callback) callback(); return; }
+        var flyImg = document.createElement('img');
+        flyImg.src = sourceEl.src;
+        var destX = (endRect.left + endRect.width/2) - (startRect.left + startRect.width/2);
+        var destY = (endRect.top  + endRect.height/2) - (startRect.top  + startRect.height/2);
+        var scale = 40 / startRect.width;
+        flyImg.style.cssText =
+            'position:fixed;top:' + startRect.top + 'px;left:' + startRect.left + 'px;' +
+            'width:' + startRect.width + 'px;height:' + startRect.height + 'px;' +
+            'margin:0;padding:0;border-radius:50%;object-fit:cover;' +
+            'z-index:99999;pointer-events:none;opacity:1;' +
+            'transition:transform .75s cubic-bezier(.4,0,.2,1),opacity .75s ease;' +
+            'transform-origin:center center;';
+        document.body.appendChild(flyImg);
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                flyImg.style.transform = 'translate(' + destX + 'px,' + destY + 'px) scale(' + scale + ')';
+                flyImg.style.opacity = '0';
+            });
+        });
+        setTimeout(function() {
+            if (flyImg.parentNode) flyImg.parentNode.removeChild(flyImg);
+            if (callback) callback();
+        }, 900);
+    }
+
+    /* ── Tab switching ── */
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(function(el) { el.style.display = 'none'; });
+        document.querySelectorAll('.tab').forEach(function(el) { el.classList.remove('active'); });
+        if (tabName === 'desc') {
+            document.getElementById('content-desc').style.display = 'block';
+            document.querySelector('.tab:nth-child(1)').classList.add('active');
+        } else {
+            document.getElementById('content-reviews').style.display = 'block';
+            document.querySelector('.tab:nth-child(2)').classList.add('active');
+            if (!reviewsLoaded) loadReviews(0, currentStar);
+        }
+    }
+
+    /* ── Reviews ── */
+    var reviewsLoaded   = false;
+    var currentStar     = 0;
+    var currentOffset   = 0;
+    var currentTotal    = 0;
+
+    function starsHtml(n) {
+        var s = '';
+        for (var i = 1; i <= 5; i++) s += i <= n ? '★' : '☆';
+        return s;
+    }
+
+    function renderReviews(reviews, append) {
+        var list = document.getElementById('reviewList');
+        if (!append) list.innerHTML = '';
+        if (reviews.length === 0 && !append) {
+            list.innerHTML = '<div class="review-empty">ยังไม่มีรีวิวสำหรับสินค้านี้</div>';
+            return;
+        }
+        reviews.forEach(function(r) {
+            var div = document.createElement('div');
+            div.className = 'review-item';
+            div.innerHTML =
+                '<div class="review-avatar">' + r.name.charAt(0).toUpperCase() + '</div>' +
+                '<div class="review-body">' +
+                  '<div class="review-head">' +
+                    '<span class="review-name">' + escHtml(r.name) + '</span>' +
+                    '<span class="review-stars">' + starsHtml(r.rating) + '</span>' +
+                    '<span class="review-date">' + r.date + '</span>' +
+                    '<span class="review-badge">ซื้อสินค้าจริง</span>' +
+                  '</div>' +
+                  (r.comment ? '<p class="review-comment">' + escHtml(r.comment) + '</p>' : '') +
+                '</div>';
+            list.appendChild(div);
+        });
+    }
+
+    function escHtml(str) {
+        return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function loadReviews(offset, star) {
+        var url  = REVIEWS_URL + '?offset=' + offset + '&star=' + star;
+        var list = document.getElementById('reviewList');
+        var skelTimer = null;
+
+        if (offset === 0) {
+            skelTimer = setTimeout(function () {
+                list.innerHTML = [1,2,3].map(function () {
+                    return '<div style="padding:16px 0;border-bottom:1px solid #e5e7eb">' +
+                        '<span class="skeleton skel-line w30" style="margin-bottom:10px"></span>' +
+                        '<span class="skeleton skel-line w100"></span>' +
+                        '<span class="skeleton skel-line w70"></span>' +
+                    '</div>';
+                }).join('');
+            }, 200);
+        }
+
+        fetch(url)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            clearTimeout(skelTimer);
+            currentOffset = offset + data.reviews.length;
+            currentTotal  = data.total;
+            renderReviews(data.reviews, offset > 0);
+            reviewsLoaded = true;
+            var btn = document.getElementById('loadMoreBtn');
+            btn.style.display = currentOffset < currentTotal ? 'block' : 'none';
+        })
+        .catch(function() { clearTimeout(skelTimer); });
+    }
+
+    function filterReviews(star, btn) {
+        currentStar = star;
+        reviewsLoaded = false;
+        document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        loadReviews(0, star);
+    }
+
+    function loadMoreReviews() {
+        loadReviews(currentOffset, currentStar);
+    }
+
+    /* ── Related product quick-add modal ── */
+    var _rProduct = {};
+
+    function openRelatedModal(e, id, name, price, img) {
+        e.preventDefault();
+        _rProduct = { id: id, name: name, price: parseFloat(price), image: img, qty: 1 };
+        document.getElementById('rmodalImg').src  = img;
+        document.getElementById('rmodalName').textContent  = name;
+        const pNum = parseFloat(price);
+        document.getElementById('rmodalPrice').textContent = '฿' + (Number.isInteger(pNum) ? pNum.toLocaleString('th-TH') : pNum.toLocaleString('th-TH', {minimumFractionDigits:2}));
+        document.getElementById('rmodalQty').value = 1;
+        var m = document.getElementById('relatedModal');
+        m.style.display = 'flex';
+    }
+
+    function closeRelatedModal() {
+        document.getElementById('relatedModal').style.display = 'none';
+    }
+
+    function updateRQty(d) {
+        var inp = document.getElementById('rmodalQty');
+        var v = parseInt(inp.value) + d;
+        if (v < 1) v = 1;
+        inp.value = v;
+        _rProduct.qty = v;
+    }
+
+    function confirmRelatedAdd() {
+        var imgEl = document.getElementById('rmodalImg');
+        closeRelatedModal();
+        flyToCart(imgEl, function() {
+            var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            var existing = cart.find(function(i) { return i.id === _rProduct.id; });
+            if (existing) { existing.qty += _rProduct.qty; }
+            else { cart.push({ id: _rProduct.id, name: _rProduct.name, price: _rProduct.price, image: _rProduct.image, qty: _rProduct.qty }); }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartBadge();
+            var badge = document.getElementById('cartBadge');
+            if (badge) { badge.classList.remove('bump'); void badge.offsetWidth; badge.classList.add('bump'); }
+        });
+    }
+
+    document.getElementById('relatedModal').addEventListener('click', function(e) {
+        if (e.target === this) closeRelatedModal();
+    });
+
+    /* ── Scroll slider ── */
+    function scrollSlider(direction) {
+        document.getElementById('relatedSlider').scrollBy({ left: 300 * direction, behavior: 'smooth' });
+    }
+    </script>
+</body>
+</html>

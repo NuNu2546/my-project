@@ -1,0 +1,250 @@
+{% extends 'staff/base.html' %}
+{% load static staff_extras %}
+
+{% block title %}การจอง #{{ booking.id }}{% endblock %}
+{% block page_title %}การจอง #{{ booking.id }}{% endblock %}
+{% block nav_bookings %}active{% endblock %}
+
+{% block content %}
+
+<div style="margin-bottom:16px">
+  <a href="{% url 'staff_bookings' %}" class="btn-staff btn-outline-staff btn-sm">← กลับ</a>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start">
+
+  <!-- ═══ LEFT ═══════════════════════════════════════════ -->
+  <div style="display:flex;flex-direction:column;gap:20px">
+
+    <!-- Basic info -->
+    <div class="staff-table-wrap">
+      <div class="staff-table-header">
+        <h3>ข้อมูลการจอง</h3>
+        <span style="font-size:12px;color:var(--s-text-muted)">จองเมื่อ {{ booking.created_at|date:"d M Y H:i" }}</span>
+      </div>
+      <div style="padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:14px">
+        <div><span class="text-muted">ลูกค้า:</span> <strong>{{ booking.customer_name }}</strong></div>
+        <div><span class="text-muted">เบอร์โทร:</span> {{ booking.phone }}</div>
+        <div><span class="text-muted">แปลง:</span> {{ booking.plot.code }} — {{ booking.plot.name }}</div>
+        <div><span class="text-muted">พืช:</span> {{ booking.plant.name }} ({{ booking.plant.grow_days }} วัน)</div>
+        <div><span class="text-muted">วันเริ่มปลูก:</span> {{ booking.start_date|date:"d M Y" }}</div>
+        <div><span class="text-muted">วันคาดเก็บเกี่ยว:</span> {{ booking.harvest_date|date:"d M Y" }}</div>
+        <div><span class="text-muted">ราคารวม:</span> <strong>{{ booking.total_price|price_fmt }}</strong></div>
+        <div><span class="text-muted">Charge ID:</span> <code style="font-size:11px">{{ booking.charge_id|default:"—" }}</code></div>
+        {% if booking.harvest_weight %}
+        <div><span class="text-muted">น้ำหนักผลผลิต:</span> {{ booking.harvest_weight }} กก.</div>
+        {% endif %}
+        {% if booking.pickup_deadline %}
+        <div><span class="text-muted">วันสุดท้ายรับ:</span> {{ booking.pickup_deadline|date:"d M Y" }}</div>
+        {% endif %}
+        {% if booking.delivery_method %}
+        <div>
+          <span class="text-muted">วิธีรับ:</span>
+          {% if booking.delivery_method == 'pickup' %}🏡 มารับเองที่สวน
+          {% else %}📦 จัดส่งถึงบ้าน{% endif %}
+        </div>
+        {% endif %}
+        {% if booking.shipping_address %}
+        <div style="grid-column:1/-1">
+          <span class="text-muted">ที่อยู่จัดส่ง:</span> {{ booking.shipping_address }}
+        </div>
+        {% endif %}
+        {% if booking.tracking_number %}
+        <div>
+          <span class="text-muted">เลขพัสดุ:</span> <strong>{{ booking.tracking_number }}</strong>
+          {% if booking.shipping_carrier %} ({{ booking.get_shipping_carrier_display }}){% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="staff-table-wrap">
+      <div class="staff-table-header"><h3>ประวัติสถานะ</h3></div>
+      <div style="padding:20px 24px">
+        <div class="timeline">
+          {% for h in booking.history.all %}
+          <div class="tl-item {% if forloop.last %}current{% else %}done{% endif %}">
+            <div class="tl-dot"></div>
+            <div class="tl-label">{{ h.get_status_display }}</div>
+            <div class="tl-time">{{ h.created_at|date:"d M Y H:i" }}</div>
+            {% if h.staff %}<div class="tl-staff">โดย {{ h.staff.get_full_name|default:h.staff.username }}</div>{% endif %}
+            {% if h.note %}<div class="tl-note">{{ h.note }}</div>{% endif %}
+          </div>
+          {% empty %}
+          <div class="text-muted" style="font-size:13px">ยังไม่มีประวัติ</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /left -->
+
+  <!-- ═══ RIGHT ══════════════════════════════════════════ -->
+  <div>
+    <div class="staff-table-wrap">
+      <div class="staff-table-header"><h3>สถานะและดำเนินการ</h3></div>
+      <div style="padding:18px 20px">
+
+        <!-- Current status -->
+        <div style="margin-bottom:16px">
+          {% include 'staff/_booking_status_badge.html' with status=booking.status %}
+          <span style="font-size:13px;margin-left:6px;color:var(--s-text-muted)">{{ booking.get_status_display }}</span>
+        </div>
+
+        <!-- Action buttons — step by step -->
+        <div style="display:flex;flex-direction:column;gap:8px">
+
+          {% if booking.status == 'paid' %}
+          <form method="post" action="{% url 'staff_booking_action' booking.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="growing">
+            <button type="submit" class="btn-staff btn-primary-staff" style="width:100%">🌱 เริ่มกำลังปลูก</button>
+          </form>
+          {% endif %}
+
+          {% if booking.status == 'growing' %}
+          <form method="post" action="{% url 'staff_booking_action' booking.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="ready">
+            <button type="submit" class="btn-staff btn-primary-staff" style="width:100%">🌾 พร้อมเก็บเกี่ยว</button>
+          </form>
+          {% endif %}
+
+          {% if booking.status == 'ready_to_harvest' %}
+          <button type="button" class="btn-staff btn-primary-staff" style="width:100%" onclick="openHarvestModal()">
+            ✂️ บันทึกเก็บเกี่ยวแล้ว
+          </button>
+          {% endif %}
+
+          {% if booking.status == 'harvested' %}
+          <form method="post" action="{% url 'staff_booking_action' booking.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="pickup">
+            <button type="submit" class="btn-staff btn-outline-staff" style="width:100%">🏡 ลูกค้ามารับที่สวน</button>
+          </form>
+          <form method="post" action="{% url 'staff_booking_action' booking.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="preparing">
+            <button type="submit" class="btn-staff btn-primary-staff" style="width:100%">📦 เริ่มแพ็คเพื่อส่ง</button>
+          </form>
+          {% endif %}
+
+          {% if booking.status == 'awaiting_shipping_payment' %}
+          <form method="post" action="{% url 'staff_booking_action' booking.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="preparing">
+            <button type="submit" class="btn-staff btn-primary-staff" style="width:100%">📦 เริ่มแพ็คสินค้า</button>
+          </form>
+          {% endif %}
+
+          {% if booking.status == 'preparing' %}
+          <button type="button" class="btn-staff btn-primary-staff" style="width:100%" onclick="openShipModal()">
+            🚚 บันทึกจัดส่งแล้ว
+          </button>
+          {% endif %}
+
+          {% if booking.status == 'shipped' %}
+          <form method="post" action="{% url 'staff_booking_action' booking.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delivered">
+            <button type="submit" class="btn-staff btn-primary-staff" style="width:100%">✅ ลูกค้าได้รับแล้ว</button>
+          </form>
+          {% endif %}
+
+          {% if booking.status == 'delivered' or booking.status == 'ready_for_pickup' %}
+          <form method="post" action="{% url 'staff_booking_action' booking.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="completed">
+            <button type="submit" class="btn-staff btn-primary-staff" style="width:100%">🏁 ปิดการจอง (เสร็จสิ้น)</button>
+          </form>
+          {% endif %}
+
+        </div><!-- /actions -->
+
+        <!-- Note input shared across action forms -->
+        <div style="margin-top:16px;border-top:1px solid var(--s-border);padding-top:14px">
+          <label style="font-size:12px;font-weight:700;color:var(--s-text-muted);display:block;margin-bottom:5px">
+            หมายเหตุ (บันทึกในประวัติ)
+          </label>
+          <input type="text" id="actionNote" placeholder="เช่น น้ำหนัก 2.5 กก." style="width:100%;padding:8px 10px;border:1px solid var(--s-border);border-radius:7px;font-size:13px;font-family:inherit">
+          <div style="font-size:11px;color:var(--s-text-muted);margin-top:4px">* ใส่ก่อนกดปุ่มดำเนินการ</div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /right -->
+
+</div><!-- /grid -->
+
+<!-- ── Harvest modal ─────────────────────────────────── -->
+<div class="staff-modal-overlay" id="harvestOverlay">
+  <div class="staff-modal">
+    <div class="modal-title">✂️ บันทึกเก็บเกี่ยวแล้ว</div>
+    <form method="post" action="{% url 'staff_booking_action' booking.id %}">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="harvested">
+      <div class="form-row">
+        <label>น้ำหนักผลผลิต (กก.) — ไม่บังคับ</label>
+        <input type="number" name="harvest_weight" step="0.01" min="0" placeholder="เช่น 2.50">
+      </div>
+      <div class="form-row">
+        <label>หมายเหตุ</label>
+        <input type="text" name="note" placeholder="เช่น เก็บเกี่ยวพร้อมจัดส่ง">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-staff btn-outline-staff" onclick="closeHarvestModal()">ยกเลิก</button>
+        <button type="submit" class="btn-staff btn-primary-staff">บันทึก</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ── Ship modal ─────────────────────────────────────── -->
+<div class="staff-modal-overlay" id="shipOverlay">
+  <div class="staff-modal">
+    <div class="modal-title">🚚 บันทึกการจัดส่ง</div>
+    <form method="post" action="{% url 'staff_booking_action' booking.id %}">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="shipped">
+      <div class="form-row">
+        <label>เลขพัสดุ *</label>
+        <input type="text" name="tracking_number" required placeholder="เช่น KEX1234567890TH">
+      </div>
+      <div class="form-row">
+        <label>บริษัทขนส่ง</label>
+        <select name="shipping_carrier">
+          <option value="">— เลือก —</option>
+          {% for val, label in carrier_choices %}
+          <option value="{{ val }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-row">
+        <label>หมายเหตุ</label>
+        <input type="text" name="note" placeholder="เช่น ส่ง Kerry รอบเช้า">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-staff btn-outline-staff" onclick="closeShipModal()">ยกเลิก</button>
+        <button type="submit" class="btn-staff btn-primary-staff">บันทึก</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function openHarvestModal()  { document.getElementById('harvestOverlay').classList.add('open'); }
+function closeHarvestModal() { document.getElementById('harvestOverlay').classList.remove('open'); }
+function openShipModal()     { document.getElementById('shipOverlay').classList.add('open'); }
+function closeShipModal()    { document.getElementById('shipOverlay').classList.remove('open'); }
+
+['harvestOverlay', 'shipOverlay'].forEach(function(id) {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+});
+</script>
+{% endblock %}

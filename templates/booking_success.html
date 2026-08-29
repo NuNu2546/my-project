@@ -1,0 +1,151 @@
+﻿{% load static staff_extras %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จองสำเร็จ #{{ booking.id }} - Digital Garden</title>
+    <link rel="stylesheet" href="{% static 'css/globals.css' %}">
+    <style>
+        .success-page { background: #f6f8f6; min-height: calc(100vh - 80px); padding: 48px 20px 80px; }
+        .success-container { max-width: 520px; margin: 0 auto; }
+
+        .success-card { background: #fff; border-radius: 20px; padding: 40px 36px; box-shadow: 0 4px 24px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; }
+
+        .success-icon { font-size: 56px; text-align: center; margin-bottom: 12px; }
+        .success-title { font-size: 24px; font-weight: 900; color: #1f2937; text-align: center; margin-bottom: 6px; }
+        .success-sub { font-size: 14px; color: #6b7280; text-align: center; margin-bottom: 8px; }
+        .booking-num { text-align: center; font-size: 13px; color: #9ca3af; margin-bottom: 28px; }
+        .booking-num strong { color: #13ec37; }
+
+        /* Status badge */
+        .status-wrap { display: flex; justify-content: center; margin-bottom: 24px; }
+        .sb { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 700; }
+        .sb-paid { background: rgba(19,236,55,0.12); color: #047857; border: 1px solid rgba(19,236,55,0.3); }
+        .sb-pending { background: rgba(251,191,36,0.12); color: #92400e; border: 1px solid rgba(251,191,36,0.4); }
+
+        /* Detail grid */
+        .details { background: #f9fafb; border-radius: 14px; padding: 22px; margin-bottom: 28px; }
+        .detail-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; font-size: 14px; }
+        .detail-row:last-child { margin-bottom: 0; }
+        .d-label { color: #6b7280; font-weight: 600; white-space: nowrap; }
+        .d-value { color: #1f2937; font-weight: 700; text-align: right; }
+        .divider { border: none; border-top: 1px solid #e5e7eb; margin: 12px 0; }
+        .total-row .d-label, .total-row .d-value { font-size: 16px; color: #1f2937; }
+        .total-row .d-value { color: #13ec37; font-size: 20px; }
+
+        /* Action buttons */
+        .action-buttons { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        .btn-track { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 20px; background: linear-gradient(135deg,#13ec37,#10d131); color: #fff; border-radius: 12px; font-size: 15px; font-weight: 800; text-decoration: none; transition: all 0.2s; }
+        .btn-track:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(19,236,55,0.3); color: #fff; }
+        .btn-myorders { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border: 1.5px solid #e5e7eb; color: #4b5563; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; transition: all 0.2s; }
+        .btn-myorders:hover { border-color: #13ec37; color: #059669; }
+        .back-shop { display: block; text-align: center; font-size: 13px; color: #9ca3af; text-decoration: none; font-weight: 600; }
+        .back-shop:hover { color: #6b7280; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="{% url 'home' %}">
+            <img class="logo" src="{% static 'images/logo.png' %}" alt="Digital Garden Logo" />
+        </a>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                <li><a href="{% url 'shop' %}" class="nav-link">Shop</a></li>
+                <li><a href="{% url 'veggie_plots' %}" class="nav-link">Veggie Plots</a></li>
+                <li><a href="{% url 'about' %}" class="nav-link">About</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <a href="{% url 'cart' %}" class="icon-btn cart-btn-wrapper" aria-label="View Cart">
+                <div class="icon-inner">
+                    <img class="icon-img" src="{% static 'images/icon/Bag_white_icon.png' %}" alt="Cart" />
+                    <span id="cartBadge" class="cart-badge">0</span>
+                </div>
+            </a>
+            {% include '_profile_dropdown.html' %}
+        </div>
+    </header>
+
+    <main class="success-page">
+        <div class="success-container">
+            <div class="success-card">
+                <div class="success-icon">🌱</div>
+                <h1 class="success-title">ยืนยันการจองสำเร็จ!</h1>
+                <p class="success-sub">ขอบคุณที่ไว้วางใจ Digital Garden</p>
+                <p class="booking-num">เลขการจอง <strong>#{{ booking.id }}</strong></p>
+
+                <div class="status-wrap">
+                    <span class="sb sb-{{ booking.status }}">
+                        ✅ {{ booking.get_status_display }}
+                    </span>
+                </div>
+
+                <div class="details">
+                    <div class="detail-row">
+                        <span class="d-label">แปลง</span>
+                        <span class="d-value">{{ booking.plot.name }} #{{ booking.plot.code }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">พืชที่ปลูก</span>
+                        <span class="d-value">{{ booking.plant.name }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">ระยะเวลา</span>
+                        <span class="d-value">{{ booking.plant.grow_days }} วัน</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">วันเริ่มปลูก</span>
+                        <span class="d-value">{{ booking.start_date|date:"d M Y" }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">คาดว่าเก็บเกี่ยว</span>
+                        <span class="d-value">{{ booking.harvest_date|date:"d M Y" }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">ชื่อลูกค้า</span>
+                        <span class="d-value">{{ booking.customer_name }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">เบอร์โทร</span>
+                        <span class="d-value">{{ booking.phone }}</span>
+                    </div>
+                    <hr class="divider">
+                    <div class="detail-row total-row">
+                        <span class="d-label">ราคารวม</span>
+                        <span class="d-value">{{ booking.total_price|price_fmt }}</span>
+                    </div>
+                </div>
+
+                {% if coins_earned %}
+                <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #bbf7d0;border-radius:12px;padding:16px 20px;text-align:center;margin-bottom:20px;">
+                    <span style="font-size:22px;">🌿</span>
+                    <p style="margin:6px 0 0;font-size:15px;font-weight:700;color:#166534;">คุณได้รับ <strong>{{ coins_earned }} coins</strong> จากการจองนี้!</p>
+                    <p style="font-size:12px;color:#6b7280;margin:4px 0 0;">นำไปบริจาคปลูกต้นไม้ได้ที่หน้า Home</p>
+                </div>
+                {% endif %}
+
+                <div class="action-buttons">
+                    <a href="{% url 'booking_track_detail' booking_id=booking.id %}" class="btn-track">🌿 ดูรายละเอียดการจอง</a>
+                    <a href="{% url 'my_orders' %}" class="btn-myorders">🛍️ การซื้อของฉัน</a>
+                </div>
+
+                <a href="{% url 'veggie_plots' %}" class="back-shop">← กลับไปแปลงผัก</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <p>© 2024 Digital Garden. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    {% include '_chat_widget.html' %}
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

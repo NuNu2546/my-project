@@ -1,0 +1,298 @@
+{% extends 'staff/base.html' %}
+{% load static staff_extras %}
+
+{% block title %}ออเดอร์ #{{ order.id }}{% endblock %}
+{% block page_title %}ออเดอร์ #{{ order.id }}{% endblock %}
+{% block nav_orders %}active{% endblock %}
+
+{% block content %}
+
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+  <a href="{% url 'staff_orders' %}" class="btn-staff btn-outline-staff btn-sm no-print">← กลับ</a>
+  <a href="{% url 'staff_packing_slip' order.id %}" target="_blank"
+     class="btn-staff btn-outline-staff btn-sm no-print">🖨️ ใบจัดของ</a>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start">
+
+  <!-- ═══ LEFT ═══════════════════════════════════════════ -->
+  <div style="display:flex;flex-direction:column;gap:20px">
+
+    <!-- Customer info -->
+    <div class="staff-table-wrap">
+      <div class="staff-table-header">
+        <h3>ข้อมูลลูกค้า</h3>
+        <span style="font-size:12px;color:var(--s-text-muted)">สั่งเมื่อ {{ order.created_at|date:"d M Y H:i" }}</span>
+      </div>
+      <div style="padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:14px">
+        <div><span class="text-muted">ชื่อ:</span> <strong>{{ order.customer_name }}</strong></div>
+        <div><span class="text-muted">เบอร์โทร:</span> {{ order.phone }}</div>
+        <div style="grid-column:1/-1">
+          <span class="text-muted">ที่อยู่จัดส่ง:</span>
+          <span id="addressText">{{ order.address|default:"—" }}</span>
+          {% if order.address %}
+          <button class="copy-btn no-print" onclick="copyAddress()" id="copyBtn" title="คัดลอกที่อยู่">📋 คัดลอก</button>
+          {% endif %}
+        </div>
+        <div><span class="text-muted">Charge ID:</span> <code style="font-size:11px">{{ order.charge_id|default:"—" }}</code></div>
+        {% if order.tracking_number %}
+        <div><span class="text-muted">เลขพัสดุ:</span> <strong>{{ order.tracking_number }}</strong>
+          {% if order.shipping_carrier %} ({{ order.get_shipping_carrier_display }}){% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Items -->
+    <div class="staff-table-wrap">
+      <div class="staff-table-header"><h3>รายการสินค้า</h3></div>
+      <table class="staff-table">
+        <thead>
+          <tr><th></th><th>สินค้า</th><th class="text-right">ราคา</th><th class="text-right">จำนวน</th><th class="text-right">รวม</th></tr>
+        </thead>
+        <tbody>
+          {% for row in items_with_img %}
+          <tr>
+            <td style="width:48px">
+              {% if row.image %}
+              <img src="{% static row.image %}" style="width:40px;height:40px;object-fit:contain;border-radius:6px;border:1px solid var(--s-border);background:#f8fafc" onerror="this.style.opacity=.2">
+              {% endif %}
+            </td>
+            <td>{{ row.item.product_name }}</td>
+            <td class="text-right">{{ row.item.price|price_fmt }}</td>
+            <td class="text-right">{{ row.item.quantity }}</td>
+            <td class="text-right">{{ row.item.price|price_fmt }}</td>
+          </tr>
+          {% endfor %}
+          <tr style="font-weight:700;background:#f8fafc">
+            <td colspan="4" class="text-right">ยอดรวมทั้งหมด</td>
+            <td class="text-right">{{ order.total|price_fmt }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Timeline -->
+    <div class="staff-table-wrap">
+      <div class="staff-table-header"><h3>ประวัติสถานะ</h3></div>
+      <div style="padding:20px 24px">
+        <div class="timeline">
+          {% for h in order.history.all %}
+          <div class="tl-item {% if forloop.last %}current{% else %}done{% endif %}">
+            <div class="tl-dot"></div>
+            <div class="tl-label">{{ h.get_status_display }}</div>
+            <div class="tl-time">{{ h.created_at|date:"d M Y H:i" }}</div>
+            {% if h.staff %}<div class="tl-staff">โดย {{ h.staff.get_full_name|default:h.staff.username }}</div>{% endif %}
+            {% if h.note %}<div class="tl-note">{{ h.note }}</div>{% endif %}
+          </div>
+          {% empty %}
+          <div class="text-muted" style="font-size:13px">ยังไม่มีประวัติ</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock movements -->
+    {% if movements %}
+    <div class="staff-table-wrap">
+      <div class="staff-table-header"><h3>ความเคลื่อนไหวสต๊อก</h3></div>
+      <table class="staff-table">
+        <thead><tr><th>สินค้า</th><th>เหตุผล</th><th class="text-right">จำนวน</th><th>วันที่</th></tr></thead>
+        <tbody>
+          {% for m in movements %}
+          <tr>
+            <td>{{ m.product.name }}</td>
+            <td>{{ m.get_reason_display }}</td>
+            <td class="text-right {% if m.change > 0 %}stock-ok{% else %}stock-zero{% endif %}" style="font-weight:700">
+              {% if m.change > 0 %}+{% endif %}{{ m.change }}
+            </td>
+            <td style="font-size:12px" class="text-muted">{{ m.created_at|date:"d/m/y H:i" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+
+  </div><!-- /left -->
+
+  <!-- ═══ RIGHT ══════════════════════════════════════════ -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+
+    <!-- Current status + actions -->
+    <div class="staff-table-wrap">
+      <div class="staff-table-header"><h3>สถานะและดำเนินการ</h3></div>
+      <div style="padding:18px 20px">
+
+        <!-- Status badge -->
+        <div style="margin-bottom:16px">
+          {% if order.status == 'paid' %}<span class="badge badge-green" style="font-size:14px;padding:5px 14px">ชำระแล้ว — รอจัดส่ง</span>
+          {% elif order.status == 'in_transit' %}<span class="badge badge-blue" style="font-size:14px;padding:5px 14px">กำลังแพ็คสินค้า</span>
+          {% elif order.status == 'shipped' %}<span class="badge badge-blue" style="font-size:14px;padding:5px 14px">จัดส่งแล้ว</span>
+          {% elif order.status == 'pending' %}<span class="badge badge-yellow" style="font-size:14px;padding:5px 14px">รอชำระเงิน</span>
+          {% elif order.status == 'delivered' %}<span class="badge badge-green" style="font-size:14px;padding:5px 14px">จัดส่งสำเร็จ</span>
+          {% else %}<span class="badge badge-gray" style="font-size:14px;padding:5px 14px">{{ order.get_status_display }}</span>
+          {% endif %}
+        </div>
+
+        <!-- Quick action buttons -->
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px">
+          {% if order.status == 'paid' %}
+          <form method="post" action="{% url 'staff_order_action' order.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="preparing">
+            <button type="submit" class="btn-staff btn-primary-staff" style="width:100%">
+              📦 เริ่มเตรียมสินค้า
+            </button>
+          </form>
+          {% endif %}
+
+          {% if order.status == 'paid' or order.status == 'in_transit' %}
+          <button type="button" class="btn-staff btn-primary-staff" style="width:100%" onclick="openShipModal()">
+            🚚 บันทึกจัดส่งแล้ว
+          </button>
+          {% endif %}
+
+          {% if order.status == 'shipped' or order.status == 'in_transit' %}
+          <form method="post" action="{% url 'staff_order_action' order.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delivered">
+            <button type="submit" class="btn-staff btn-primary-staff" style="width:100%">
+              ✅ จัดส่งสำเร็จ
+            </button>
+          </form>
+          {% endif %}
+
+          {% if order.status != 'delivered' and order.status != 'cancelled' and order.status != 'expired' and order.status != 'failed' %}
+          <form method="post" action="{% url 'staff_order_action' order.id %}"
+                onsubmit="return confirm('ต้องการยกเลิกออเดอร์นี้ใช่ไหม?')">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="cancel">
+            <button type="submit" class="btn-staff btn-danger-staff btn-sm" style="width:100%">
+              ยกเลิกออเดอร์
+            </button>
+          </form>
+          {% endif %}
+        </div>
+
+        <!-- Manual status update (full control) -->
+        <details style="border-top:1px solid var(--s-border);padding-top:14px">
+          <summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--s-text-muted);user-select:none">
+            ⚙️ แก้ไขสถานะด้วยตนเอง
+          </summary>
+          <form method="post" action="{% url 'staff_order_update_status' order.id %}" style="margin-top:12px">
+            {% csrf_token %}
+            <div class="form-row">
+              <label>สถานะ</label>
+              <select name="status">
+                {% for val, label in status_choices %}
+                <option value="{{ val }}" {% if order.status == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-row">
+              <label>เลขพัสดุ</label>
+              <input type="text" name="tracking_number" value="{{ order.tracking_number }}">
+            </div>
+            <div class="form-row">
+              <label>ขนส่ง</label>
+              <select name="shipping_carrier">
+                <option value="">— เลือก —</option>
+                {% for val, label in carrier_choices %}
+                <option value="{{ val }}" {% if order.shipping_carrier == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="form-row">
+              <label>หมายเหตุในประวัติ</label>
+              <input type="text" name="note" placeholder="เช่น ลูกค้าขอเปลี่ยนที่อยู่">
+            </div>
+            <button type="submit" class="btn-staff btn-primary-staff btn-sm" style="width:100%">บันทึก</button>
+          </form>
+        </details>
+
+      </div>
+    </div>
+
+    <!-- Staff note -->
+    <div class="staff-table-wrap">
+      <div class="staff-table-header"><h3>🔒 หมายเหตุภายใน</h3></div>
+      <div style="padding:14px 20px">
+        <form method="post" action="{% url 'staff_order_update_status' order.id %}">
+          {% csrf_token %}
+          <!-- Keep current status / tracking when saving note -->
+          <input type="hidden" name="status" value="{{ order.status }}">
+          <input type="hidden" name="tracking_number" value="{{ order.tracking_number }}">
+          <input type="hidden" name="shipping_carrier" value="{{ order.shipping_carrier }}">
+          <textarea name="staff_note" rows="4" style="width:100%;border:1px solid var(--s-border);border-radius:7px;padding:8px 10px;font-size:13px;font-family:inherit;resize:vertical"
+            placeholder="หมายเหตุสำหรับทีม staff เท่านั้น (ลูกค้าไม่เห็น)">{{ order.staff_note }}</textarea>
+          <button type="submit" class="btn-staff btn-outline-staff btn-sm" style="margin-top:8px;width:100%">💾 บันทึกหมายเหตุ</button>
+        </form>
+      </div>
+    </div>
+
+  </div><!-- /right -->
+
+</div><!-- /grid -->
+
+<!-- ── Ship modal ─────────────────────────────────────── -->
+<div class="staff-modal-overlay" id="shipOverlay">
+  <div class="staff-modal">
+    <div class="modal-title">🚚 บันทึกการจัดส่ง</div>
+    <form method="post" action="{% url 'staff_order_action' order.id %}">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="ship">
+      <div class="form-row">
+        <label>เลขพัสดุ *</label>
+        <input type="text" name="tracking_number" required placeholder="เช่น KEX1234567890TH"
+               value="{{ order.tracking_number }}">
+      </div>
+      <div class="form-row">
+        <label>บริษัทขนส่ง</label>
+        <select name="shipping_carrier">
+          <option value="">— เลือก —</option>
+          {% for val, label in carrier_choices %}
+          <option value="{{ val }}" {% if order.shipping_carrier == val %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-row">
+        <label>หมายเหตุ (บันทึกในประวัติ)</label>
+        <input type="text" name="note" placeholder="เช่น ส่ง Kerry รอบเช้า">
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-staff btn-outline-staff" onclick="closeShipModal()">ยกเลิก</button>
+        <button type="submit" class="btn-staff btn-primary-staff">บันทึก</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function openShipModal()  { document.getElementById('shipOverlay').classList.add('open'); }
+function closeShipModal() { document.getElementById('shipOverlay').classList.remove('open'); }
+document.getElementById('shipOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeShipModal();
+});
+
+function copyAddress() {
+  var text = document.getElementById('addressText').textContent.trim();
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = '✅ คัดลอกแล้ว';
+    setTimeout(function() { btn.textContent = '📋 คัดลอก'; }, 2000);
+  }).catch(function() {
+    // Fallback
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  });
+}
+</script>
+{% endblock %}
